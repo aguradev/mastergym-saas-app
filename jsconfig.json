@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+      "paths": {
+        "@/*": ["./resources/js/Pages/*"]
+      }
+    },
+    "exclude": ["node_modules", "dist"]
+  }
