@@ -1,6 +1,8 @@
 import "./bootstrap";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
+import PrimeVue from "primevue/config";
+import primevue_preset from "./Preset/primevue_preset";
 
 createInertiaApp({
     resolve: (name) => {
@@ -8,10 +10,14 @@ createInertiaApp({
         return pages[`./Pages/${name}.vue`];
     },
     setup({ el, App, props, plugin }) {
-        createApp({
+        return createApp({
             render: () => h(App, props),
         })
             .use(plugin)
+            .use(PrimeVue, {
+                unstyled: true,
+                pt: primevue_preset,
+            })
             .mount(el);
     },
 });

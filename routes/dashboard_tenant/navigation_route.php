@@ -7,7 +7,7 @@ use Inertia\Inertia;
 
 Route::prefix("dashboard")->group(function () {
     Route::get("/", function () {
-        return Inertia::render("views/dashboard/mainDashboard", [
+        return Inertia::render("views/dashboard/vendor_page/MainMenu", [
             "vendor__name" => tenant("vendor_name")
         ]);
     });
