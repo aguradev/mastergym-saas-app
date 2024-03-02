@@ -6,6 +6,15 @@ export default {
         "./resources/**/*.vue",
     ],
     theme: {
+        fontFamily: {
+            sans: ["Inter", "sans-serif"],
+        },
+        fontWeight: {
+            normal: "400",
+            medium: "500",
+            semibold: "600",
+            bold: 700,
+        },
         extend: {
             colors: {
                 "primary-50": "rgb(var(--primary-50))",
