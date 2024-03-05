@@ -17,3 +17,8 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix("dashboard")->group(function () {
+    Route::get("/", fn () => Inertia::render("views/dashboard/mainplatform_page/MainMenu"))->name('main.dashboard');
+    Route::get("/subscription", fn () => Inertia::render("views/dashboard/mainplatform_page/Subscription_page"))->name('main.dashboard.subscription');
+});

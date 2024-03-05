@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "node:url";
 import laravel from "laravel-vite-plugin";
 import vue from "@vitejs/plugin-vue";
+import path from "path";
 
 export default defineConfig({
     plugins: [
@@ -16,6 +17,7 @@ export default defineConfig({
             "@": fileURLToPath(
                 new URL("./resources/js/Pages", import.meta.url),
             ),
+            "ziggy-js": path.resolve("vendor/tightenco/ziggy"),
         },
     },
 });

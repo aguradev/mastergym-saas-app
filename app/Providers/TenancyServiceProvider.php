@@ -12,6 +12,8 @@ use Stancl\Tenancy\Events;
 use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -99,6 +101,9 @@ class TenancyServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::$onFail = function ($e, $request, $next) {
+            return abort(404);
+        };
         $this->bootEvents();
         $this->mapRoutes();
 

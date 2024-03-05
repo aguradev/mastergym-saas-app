@@ -23,6 +23,7 @@
     "dependencies": {
         "@inertiajs/vue3": "^1.0.15",
         "@vitejs/plugin-vue": "^5.0.4",
+        "pinia": "^2.1.7",
         "primeicons": "^6.0.1",
         "primevue": "^3.49.1",
         "vite-plugin-eslint": "^1.8.1",
