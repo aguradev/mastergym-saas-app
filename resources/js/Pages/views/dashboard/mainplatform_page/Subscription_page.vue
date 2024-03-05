@@ -1,52 +1,19 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted } from 'vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
-const navigationMenuItem = reactive([
-    {
-        separator: true
-    },
-    {
-        label: "Menus",
-        items: [
-            {
-                "icon": "pi pi-home",
-                label: "Dashboard",
-                link: route('main.dashboard')
-            },
-            {
-                "icon": "pi pi-users",
-                label: "Subscriptions",
-                link: route('main.dashboard.subscription')
-            },
-            {
-                "icon": "pi pi-building",
-                label: "Vendor Lists"
-            }
-        ]
-    },
-    {
-        label: "Users",
-        items: [
-            {
-                "icon": "pi pi-users",
-                "label": "Owner Vendor"
-            },
-            {
-                "icon": "pi pi-users",
-                "label": "Staff Vendor"
-            },
-            {
-                "icon": "pi pi-users",
-                "label": "User Member Vendor"
-            }
-        ]
-    },
-    {
-        separator: true
-    }
-])
+import { useNavMainPlatform } from '@/stores/navigation_menu_item';
+import { storeToRefs } from 'pinia';
+
+const getNavMainPlatform = useNavMainPlatform()
+const { navigationMenuItem } = storeToRefs(getNavMainPlatform)
+
+
+onMounted(() => {
+    getNavMainPlatform.updateMenusItemActive(route(route().current()))
+})
+
 </script>
 
 <template>
@@ -56,7 +23,7 @@ const navigationMenuItem = reactive([
     <DashboardLayout :menu-items="navigationMenuItem">
         <template #main_content>
             <section>
-                <div>Halaman Subcription</div>
+                <h3 class="font-bold text-2xl">Subscription</h3>
             </section>
         </template>
     </DashboardLayout>

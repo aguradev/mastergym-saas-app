@@ -9,8 +9,6 @@ import { createPinia } from "pinia";
 
 const appName = import.meta.env.VITE_APP_NAME;
 
-console.log(appName);
-
 createInertiaApp({
     title: (title) => `${appName} - ${title}`,
     resolve: (name) => {
@@ -22,7 +20,8 @@ createInertiaApp({
         const app = createApp({
             render: () => h(App, props),
         });
-        app.use(plugin, ZiggyVue, pinia)
+        app.use(plugin, ZiggyVue)
+            .use(pinia)
             .use(PrimeVue, {
                 unstyled: true,
                 pt: primevue_preset,

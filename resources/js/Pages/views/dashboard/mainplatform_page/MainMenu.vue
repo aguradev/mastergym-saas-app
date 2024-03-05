@@ -1,56 +1,24 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted } from 'vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import { useNavMainPlatform } from '@/stores/navigation_menu_item';
+import { storeToRefs } from 'pinia';
 
-const navigationMenuItem = reactive([
-    {
-        separator: true
-    },
-    {
-        label: "Menus",
-        items: [
-            {
-                "icon": "pi pi-home",
-                label: "Dashboard"
-            },
-            {
-                "icon": "pi pi-users",
-                label: "Subscriptions"
-            },
-            {
-                "icon": "pi pi-building",
-                label: "Vendor Lists"
-            }
-        ]
-    },
-    {
-        label: "Users",
-        items: [
-            {
-                "icon": "pi pi-users",
-                "label": "Owner Vendor"
-            },
-            {
-                "icon": "pi pi-users",
-                "label": "Staff Vendor"
-            },
-            {
-                "icon": "pi pi-users",
-                "label": "User Member Vendor"
-            }
-        ]
-    },
-    {
-        separator: true
-    }
-])
+const getNavMainPlatform = useNavMainPlatform()
+const { navigationMenuItem } = storeToRefs(getNavMainPlatform)
+
+
+onMounted(() => {
+    getNavMainPlatform.updateMenusItemActive(route(route().current()))
+})
+
 </script>
 
 <template>
     <DashboardLayout :menu-items="navigationMenuItem">
         <template #main_content>
             <section>
-                <div>Hello Admin</div>
+                <h3 class="font-bold text-2xl">Overview</h3>
             </section>
         </template>
     </DashboardLayout>
