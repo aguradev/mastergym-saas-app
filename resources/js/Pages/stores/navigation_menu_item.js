@@ -34,6 +34,11 @@ export const useNavMainPlatform = defineStore(
                         is_active: false,
                     },
                     {
+                        icon: "pi pi-money-bill",
+                        label: "Transactions",
+                        is_active: false,
+                    },
+                    {
                         icon: "pi pi-cog",
                         label: "Setting",
                         is_active: false,

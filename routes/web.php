@@ -14,11 +14,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get("/", fn () => to_route('main.dashboard'));
 
 Route::prefix("dashboard")->group(function () {
-    Route::get("/", fn () => Inertia::render("views/dashboard/mainplatform_page/MainMenu"))->name('main.dashboard');
-    Route::get("/subscription", fn () => Inertia::render("views/dashboard/mainplatform_page/Subscription_page"))->name('main.dashboard.subscription');
+    require_once __DIR__ . "/dashboard_main_platform/navigation_route.php";
 });

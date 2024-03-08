@@ -19,7 +19,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     {
         return [
             "id",
-            "vendor_name"
+            "vendor",
         ];
     }
 }

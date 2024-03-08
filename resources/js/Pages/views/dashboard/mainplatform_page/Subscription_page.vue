@@ -20,10 +20,10 @@ onMounted(() => {
 
     <Head title="Subscription" />
 
-    <DashboardLayout :menu-items="navigationMenuItem">
+    <DashboardLayout :menu-items="navigationMenuItem" titleNav="Subscription">
         <template #main_content>
             <section>
-                <h3 class="font-bold text-2xl">Subscription</h3>
+
             </section>
         </template>
     </DashboardLayout>
