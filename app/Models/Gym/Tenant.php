@@ -13,7 +13,7 @@ use Stancl\Tenancy\Database\Concerns\HasDomains;
 
 class Tenant extends BaseTenant implements TenantWithDatabase
 {
-    use HasDatabase, HasDomains, HasUuids, HasFactory;
+    use HasDatabase, HasDomains, HasUuids;
 
     public static function getCustomColumns(): array
     {
@@ -21,5 +21,10 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             "id",
             "vendor",
         ];
+    }
+
+    public static function getDataColumn(): string
+    {
+        return "vendor";
     }
 }

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Models\Auth\CentralCredential;
 use App\Models\Auth\Credential;
+use App\Models\Auth\TenantCredential;
 use App\Models\Gym\Tenant;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Route;

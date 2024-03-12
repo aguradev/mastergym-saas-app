@@ -5,9 +5,9 @@ namespace Database\Factories\Auth;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Auth\Credential>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Auth\TenantCredential>
  */
-class CredentialFactory extends Factory
+class TenantCredentialFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,6 @@ class CredentialFactory extends Factory
     public function definition(): array
     {
         return [
-            "name" => fake()->name(),
             "email" => fake()->email(),
             "password" => fake()->password()
         ];
