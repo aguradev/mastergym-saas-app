@@ -1,13 +1,13 @@
 <script setup>
 import Divider from 'primevue/divider';
-import Card from '@/elements/card/main_card.vue';
+import Card from '@/elements/card/DefaultCard.vue';
 import Badge from 'primevue/badge';
 import Button from 'primevue/button';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useNavMainPlatform } from '@/stores/navigation_menu_item';
 import { storeToRefs } from 'pinia';
 import { Head } from '@inertiajs/vue3';
@@ -17,18 +17,9 @@ const { navigationMenuItem } = storeToRefs(getNavMainPlatform)
 const props = defineProps(["tenant_latests"]);
 const tenantLatests = ref([])
 
-const addNumberInTenantLatests = computed(() => {
-    if (tenantLatests.value.length > 0) {
-        return tenantLatests.value.map((item, index) => {
-            return item = { no: index + 1, ...item }
-        })
-    }
-})
-
 onMounted(() => {
     getNavMainPlatform.updateMenusItemActive(route(route().current()))
-    tenantLatests.value = [...props.tenant_latests]
-    console.log(addNumberInTenantLatests.value)
+    tenantLatests.value = [...props.tenant_latests] || []
 })
 
 </script>
@@ -76,7 +67,7 @@ figure {
                                         <i class="pi pi-users"></i>
                                     </div>
                                     <div class="content__caption">
-                                        <h4 class="title__content">Owner Joined</h4>
+                                        <h4 class="title__content">Owner Tenant</h4>
                                         <p class="subtitle__content">14</p>
                                     </div>
                                     <div class="px-4">
@@ -88,7 +79,7 @@ figure {
                                         <i class="pi pi-building"></i>
                                     </div>
                                     <div class="content__caption">
-                                        <h4 class="title__content">GYM vendor</h4>
+                                        <h4 class="title__content">Tenant Collection</h4>
                                         <p class="subtitle__content">20</p>
                                     </div>
                                     <div class="px-4">
@@ -114,15 +105,14 @@ figure {
                         </template>
 
                         <template #card__content>
-                            <DataTable :value="addNumberInTenantLatests" :pt="{
-        bodyrow: 'odd:bg-primary-950 even:bg-primary-900',
+                            <DataTable tableStyle="border-collapse:collapse;" :value="tenantLatests" :pt="{
+        bodyrow: 'bg-transparent last:border-none border-b border-primary-700',
         column: {
-            headercell: 'p-4 bg-surface-800',
-            headercontent: 'text-center',
-            bodycell: 'p-5 text-center',
+            headercell: 'p-4',
+            headercontent: 'text-left font-[300] tracking-wide text-white/50',
+            bodycell: 'p-5',
         }
     }">
-                                <Column field="no" header="No" bodyClass="bg-transparent" />
                                 <Column field="vendor" header="Vendor" />
                                 <Column field="domain" header="Domain" />
                             </DataTable>
@@ -133,7 +123,13 @@ figure {
                 <div class="min-w-[40%]">
                     <Card>
                         <template #card__title>
-                            <h3 class="mb-6">Latest Transactions</h3>
+                            <div class="flex items-center justify-between mb-6">
+                                <h3>Latest Transactions</h3>
+                                <Button
+                                    :pt="{ root: 'bg-primary-900 px-4 text-base py-2 rounded-lg text-white hover:bg-primary-700' }">
+                                    <a href="#" class="font-bold">View all</a>
+                                </Button>
+                            </div>
                         </template>
 
                         <template #card__content>
@@ -168,13 +164,6 @@ figure {
                                         <Badge value="Pending" severity="info" class="w-[16%]" />
                                     </figcaption>
                                 </figure>
-                            </div>
-
-                            <div class="mt-6">
-                                <Button
-                                    :pt="{ root: 'bg-primary-900 px-5 py-3 rounded-lg text-white hover:bg-primary-700' }">
-                                    <a href="#" class="font-bold">More detail</a>
-                                </Button>
                             </div>
                         </template>
                     </Card>

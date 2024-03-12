@@ -63,7 +63,7 @@ const props = defineProps({
         }">
             <template #start>
                 <header class="flex px-8 pt-10">
-                    <span class="text-2xl font-bold text-white">SaaS GYM</span>
+                    <span class="text-2xl font-bold text-white">GymMaster</span>
                 </header>
             </template>
 
@@ -78,7 +78,7 @@ const props = defineProps({
                     <i :class="`${item.icon} `"></i>
                     <span :class="{ 'font-[500]': item.is_active }" class="font-[300] tracking-wide">{{
             item.label
-                        }}</span>
+        }}</span>
                 </a>
             </template>
         </Menu>

@@ -14,6 +14,8 @@ class NavigationController extends Controller
     {
         $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->get()->select(["vendor", "domain"]);
 
+        Debugbar::info("tenantLatest : {$TenantLatest}");
+
         return Inertia::render("views/dashboard/mainplatform_page/MainMenu", [
             "tenant_latests" => $TenantLatest
         ]);
