@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'central-web',
+        'passwords' => 'central_crendentials',
     ],
 
     /*
@@ -36,10 +36,14 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'central-web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'CentralUsers',
         ],
+        'tenant-web' => [
+            'driver' => 'session',
+            'provider' => 'TenantUsers'
+        ]
     ],
 
     /*
@@ -60,11 +64,14 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'CentralUsers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Auth\Credential::class,
+            'model' => App\Models\Auth\CentralCredential::class,
         ],
-
+        'TenantUsers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Auth\TenantCredential::class,
+        ]
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -91,8 +98,8 @@ return [
     */
 
     'passwords' => [
-        'credentials' => [
-            'provider' => 'credentials',
+        'central_credentials' => [
+            'provider' => 'central_credentials',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

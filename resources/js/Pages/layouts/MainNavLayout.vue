@@ -18,12 +18,12 @@
                     class="pl-3 min-w-[55px]"
                 >
                     <img
-                        src="https://shorturl.at/CHMS9"
+                        src="icon/gym_logo.jpg"
                         alt="fb logo"
                         class="w-[50px]"
                     />
                 </Link>
-                <h1 class="mx-2">Gym Master</h1>
+                <h1 class="mx-2 text-black">Gym Master</h1>
             </div>
             <div
                 id="NavCenter"
@@ -57,7 +57,9 @@
                 <Link
                     href="/"
                     class="flex-1"
-                    ><Button label="Register"
+                    ><Button
+                        label="Register"
+                        severity="success"
                 /></Link>
 
                 <Link

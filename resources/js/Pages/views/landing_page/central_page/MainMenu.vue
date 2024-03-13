@@ -6,6 +6,6 @@
 <template>
     <MainNavLayout>
         <Head title="Main Landing Page" />
-        <h1></h1>
+        <h1>Test</h1>
     </MainNavLayout>
 </template>
