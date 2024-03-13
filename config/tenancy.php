@@ -16,9 +16,9 @@ return [
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
     'central_domains' => [
+        env("APP_URL", "127.0.0.1"),
         '127.0.0.1',
         'localhost',
-        'http://membership-management-gym-saas.test'
     ],
 
     /**
@@ -51,7 +51,7 @@ return [
          * Tenant database names are created like this:
          * prefix + tenant_id + suffix.
          */
-        'prefix' => 'tenant',
+        'prefix' => 'gym-vendor-',
         'suffix' => '',
 
         /**

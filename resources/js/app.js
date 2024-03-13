@@ -6,10 +6,9 @@ import PrimeVue from "primevue/config";
 import primevue_preset from "./Preset/primevue_preset";
 import "primeicons/primeicons.css";
 import { createPinia } from "pinia";
+import ToastService from "primevue/toastservice";
 
 const appName = import.meta.env.VITE_APP_NAME;
-
-console.log(appName);
 
 createInertiaApp({
     title: (title) => `${appName} - ${title}`,
@@ -22,7 +21,9 @@ createInertiaApp({
         const app = createApp({
             render: () => h(App, props),
         });
-        app.use(plugin, ZiggyVue, pinia)
+        app.use(plugin, ZiggyVue)
+            .use(pinia)
+            .use(ToastService)
             .use(PrimeVue, {
                 unstyled: true,
                 pt: primevue_preset,
