@@ -14,8 +14,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('main')->group(function () {
+    Route::get("/", fn () => Inertia::render("views/landing_page/mainplatform_page/MainMenu"))->name('main.dashboard');
 });
 
 Route::prefix("dashboard")->group(function () {
