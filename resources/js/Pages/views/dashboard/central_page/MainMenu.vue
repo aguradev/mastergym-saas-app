@@ -13,12 +13,13 @@ import { storeToRefs } from 'pinia';
 import { Head } from '@inertiajs/vue3';
 
 const getNavMainPlatform = useNavMainPlatform()
+const { updateMenusItemActive } = getNavMainPlatform
 const { navigationMenuItem } = storeToRefs(getNavMainPlatform)
 const props = defineProps(["tenant_latests"]);
 const tenantLatests = ref([])
 
 onMounted(() => {
-    getNavMainPlatform.updateMenusItemActive(route(route().current()))
+    updateMenusItemActive(route(route().current()))
     tenantLatests.value = [...props.tenant_latests] || []
 })
 

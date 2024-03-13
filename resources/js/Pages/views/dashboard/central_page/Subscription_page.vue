@@ -7,11 +7,12 @@ import { useNavMainPlatform } from '@/stores/navigation_menu_item';
 import { storeToRefs } from 'pinia';
 
 const getNavMainPlatform = useNavMainPlatform()
+const { updateMenusItemActive } = getNavMainPlatform
 const { navigationMenuItem } = storeToRefs(getNavMainPlatform)
 
 
 onMounted(() => {
-    getNavMainPlatform.updateMenusItemActive(route(route().current()))
+    updateMenusItemActive(route(route().current()))
 })
 
 </script>

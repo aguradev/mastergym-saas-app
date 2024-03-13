@@ -25,6 +25,6 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     public static function getDataColumn(): string
     {
-        return "vendor";
+        return "data";
     }
 }

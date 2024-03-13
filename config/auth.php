@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'central-web',
         'passwords' => 'central_crendentials',
     ],
 
@@ -36,7 +36,7 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'central-web' => [
             'driver' => 'session',
             'provider' => 'CentralUsers',
         ],

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainPlatform\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,8 +15,14 @@ use Inertia\Inertia;
 |
 */
 
-Route::get("/", fn () => to_route('main.dashboard'));
 
 Route::prefix("dashboard")->group(function () {
-    require_once __DIR__ . "/dashboard_main_platform/navigation_route.php";
+    Route::middleware(["redirectAuth:central-web"])->controller(AuthController::class)->group(function () {
+        route::get("/login", "AuthPage")->name("login");
+        route::post("/login", "Authenticable")->name("auth.submit");
+    });
+
+    Route::middleware(["auth"])->group(function () {
+        require_once __DIR__ . "/dashboard_central/navigation_route.php";
+    });
 });
