@@ -18,7 +18,7 @@
                     class="pl-3 min-w-[55px]"
                 >
                     <img
-                        src="icon/gym_logo.jpg"
+                        src="@public/images/icon/gym_logo.jpg"
                         alt="fb logo"
                         class="w-[50px]"
                     />

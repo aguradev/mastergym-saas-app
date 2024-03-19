@@ -1,8 +1,16 @@
 {
-    "compilerOptions": {
-      "paths": {
-        "@/*": ["./resources/js/Pages/*"]
-      }
-    },
-    "exclude": ["node_modules", "dist"]
-  }
+  "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "./resources/js/Pages/*"
+      ],
+      "@public/*": [
+        "./public/*"
+      ],
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
