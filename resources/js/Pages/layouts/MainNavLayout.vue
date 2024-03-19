@@ -1,13 +1,31 @@
 <script setup>
     import { Link } from '@inertiajs/vue3';
     import Button from 'primevue/button';
+    import GymIcon from '/public/storage/images/icon/gymlogo.png';
+
+    import { ref } from 'vue';
+
+    const isOpen = ref(false);
+
+    const menus = [
+        { name: 'Home', link: '/' },
+        { name: 'Pricing', link: '/about' },
+        { name: 'Contact', link: '/contact' },
+        { name: 'About', link: '/pricing' },
+    ];
+
+    const showSidebar = ref(false);
+
+    const toggleSidebar = () => {
+        showSidebar.value = !showSidebar.value;
+    };
 </script>
 
 <template>
     <main>
         <header
             id="MainNav"
-            class="nfixed z-50 w-full flex items-center justify-between h-[56px] bg-white shadow-sm border-b"
+            class="fixed z-50 w-full flex items-center justify-between h-[70px] bg-white shadow-sm border-b"
         >
             <div
                 id="NavLeft"
@@ -21,54 +39,103 @@
                         src="@public/images/icon/gym_logo.jpg"
                         alt="fb logo"
                         class="w-[50px]"
+                        :src="GymIcon"
+                        alt="gym logo"
+                        class="w-[70px]"
                     />
                 </Link>
-                <h1 class="mx-2 text-black">Gym Master</h1>
+                <h1 class="mx-2 text-black text-lg">Gym Master</h1>
             </div>
             <div
                 id="NavCenter"
                 class="hidden lg:flex items-center ml-5 justify-center w-8/12 max-w-[600px]"
             >
                 <Link
-                    href="/"
-                    class="flex items-center justify-center h-[48px] p-1 hover:bg-[#f2f2f2] w-full rounded-lg mx-1 cursor-pointer"
-                    >Home</Link
-                >
-                <Link
-                    href="/about"
-                    class="flex items-center justify-center h-[48px] p-1 hover:bg-[#f2f2f2] w-full rounded-lg mx-1 cursor-pointer"
-                    >About</Link
-                >
-                <Link
-                    href="/contact"
-                    class="flex items-center justify-center h-[48px] p-1 hover:bg-[#f2f2f2] w-full rounded-lg mx-1 cursor-pointer"
-                    >Contact</Link
-                >
-                <Link
-                    href="/contact"
-                    class="flex items-center justify-center h-[48px] p-1 hover:bg-[#f2f2f2] w-full rounded-lg mx-1 cursor-pointer"
-                    >Pricing</Link
+                    v-for="item in menus"
+                    :href="item.link"
+                    class="flex items-center text-black justify-center h-[48px] p-1 hover:bg-[#f2f2f2] w-full rounded-lg mx-1 cursor-pointer"
+                    >{{ item.name }}</Link
                 >
             </div>
             <div
                 id="NavRight"
-                class="flex justify-end w-2/12 mr-4"
+                class="hidden lg:flex w-2/12 mr-6 justify-evenly"
             >
                 <Link
                     href="/"
-                    class="flex-1"
+                    class="flex"
                     ><Button
-                        label="Register"
+                        :pt="{ root: '!bg-cyan-700 !border-transparent' }"
+                        :ptOptions="{ mergeProps: true }"
+                        label="SIGN-UP"
                         severity="success"
                 /></Link>
 
                 <Link
                     href="/"
-                    class="flex-1"
+                    class="flex w-30"
                     ><Button
-                        label="Login"
+                        label="LOGIN"
                         severity="info"
                 /></Link>
+            </div>
+            <div class="block sm:hidden self-end pb-3 pr-3">
+                <Button
+                    @click="toggleSidebar"
+                    :pt="{ root: '!bg-cyan-700 !border-transparent !rounded-3xl' }"
+                    :ptOptions="{ mergeProps: true }"
+                    type="button"
+                    icon="pi pi-ellipsis-v"
+                />
+            </div>
+            <div
+                v-show="showSidebar"
+                class="absolute bg-white w-[100%] min-h-[40px] mt-[260px]"
+            >
+                <!-- <div
+                    id="navLeft"
+                    class="w-10/12 flex-row text-black p-2 mt-[0px]"
+                >
+                    <div
+                        id="icon"
+                        class="flex items-center justify-starts"
+                    >
+                        <Link
+                            href="/"
+                            class="min-w-[55px]"
+                        >
+                            <img
+                                :src="GymIcon"
+                                alt="gym logo"
+                                class="w-[70px]"
+                            />
+                        </Link>
+                        <h1 class="mx-2 text-black text-lg">Gym Master</h1>
+                    </div> -->
+                <div
+                    id="Menu"
+                    class="inline-block h-[200px]"
+                >
+                    <Link
+                        v-for="item in menus"
+                        :href="item.link"
+                        class="flex items-center text-black justify-start h-[48px] p-1 pl-5 hover:bg-[#f2f2f2] w-full rounded-lg mx-1 cursor-pointer"
+                        >{{ item.name }}</Link
+                    >
+                </div>
+                <!-- </div>
+                <div
+                    id="navRight"
+                    class="w-2/12 self-center"
+                >
+                    <Button
+                        @click="toggleSidebar"
+                        :pt="{ root: '!bg-cyan-700 !border-transparent !rounded-3xl' }"
+                        :ptOptions="{ mergeProps: true }"
+                        type="button"
+                        icon="pi pi-ellipsis-v"
+                    />
+                </div> -->
             </div>
         </header>
         <article>
