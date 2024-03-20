@@ -1,7 +1,7 @@
 <script setup>
     import { Link } from '@inertiajs/vue3';
     import Button from 'primevue/button';
-    import GymIcon from '/public/storage/images/icon/gymlogo.png';
+    import GymIcon from '/public/storage/images/icon/gym.png';
 
     import { ref } from 'vue';
 
@@ -36,12 +36,9 @@
                     class="pl-3 min-w-[55px]"
                 >
                     <img
-                        src="@public/images/icon/gym_logo.jpg"
-                        alt="fb logo"
-                        class="w-[50px]"
                         :src="GymIcon"
                         alt="gym logo"
-                        class="w-[70px]"
+                        class="w-[55px]"
                     />
                 </Link>
                 <h1 class="mx-2 text-black text-lg">Gym Master</h1>
@@ -90,28 +87,8 @@
             </div>
             <div
                 v-show="showSidebar"
-                class="absolute bg-white w-[100%] min-h-[40px] mt-[260px]"
+                class="absolute bg-white w-[100%] min-h-[40px] mt-[390px]"
             >
-                <!-- <div
-                    id="navLeft"
-                    class="w-10/12 flex-row text-black p-2 mt-[0px]"
-                >
-                    <div
-                        id="icon"
-                        class="flex items-center justify-starts"
-                    >
-                        <Link
-                            href="/"
-                            class="min-w-[55px]"
-                        >
-                            <img
-                                :src="GymIcon"
-                                alt="gym logo"
-                                class="w-[70px]"
-                            />
-                        </Link>
-                        <h1 class="mx-2 text-black text-lg">Gym Master</h1>
-                    </div> -->
                 <div
                     id="Menu"
                     class="inline-block h-[200px]"
@@ -123,19 +100,27 @@
                         >{{ item.name }}</Link
                     >
                 </div>
-                <!-- </div>
                 <div
-                    id="navRight"
-                    class="w-2/12 self-center"
+                    id="NavRight"
+                    class="flex-row ml-5 h-[120px] justify-evenly"
                 >
-                    <Button
-                        @click="toggleSidebar"
-                        :pt="{ root: '!bg-cyan-700 !border-transparent !rounded-3xl' }"
-                        :ptOptions="{ mergeProps: true }"
-                        type="button"
-                        icon="pi pi-ellipsis-v"
-                    />
-                </div> -->
+                    <Link
+                        href="/"
+                        class="flex"
+                        ><Button
+                            label="LOGIN"
+                            severity="info"
+                    /></Link>
+                    <Link
+                        href="/"
+                        class="flex my-3"
+                        ><Button
+                            :pt="{ root: '!bg-cyan-700 !border-transparent' }"
+                            :ptOptions="{ mergeProps: true }"
+                            label="SIGN-UP"
+                            severity="success"
+                    /></Link>
+                </div>
             </div>
         </header>
         <article>
