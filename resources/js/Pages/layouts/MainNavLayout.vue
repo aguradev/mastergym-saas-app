@@ -29,7 +29,7 @@
         >
             <div
                 id="NavLeft"
-                class="flex items-center justify-starts"
+                class="flex items-center justify-starts md:ml-20"
             >
                 <Link
                     href="/"
@@ -41,7 +41,7 @@
                         class="w-[55px]"
                     />
                 </Link>
-                <h1 class="mx-2 text-black text-lg">Gym Master</h1>
+                <h1 class="mx-2 text-black font-black text-[15pt]">Gym Master</h1>
             </div>
             <div
                 id="NavCenter"
@@ -56,11 +56,9 @@
             </div>
             <div
                 id="NavRight"
-                class="hidden lg:flex w-2/12 mr-6 justify-evenly"
+                class="hidden lg:flex w-2/12 mr-6 justify-center gap-2"
             >
-                <Link
-                    href="/"
-                    class="flex"
+                <Link href="/"
                     ><Button
                         :pt="{ root: '!bg-cyan-700 !border-transparent' }"
                         :ptOptions="{ mergeProps: true }"
@@ -68,9 +66,7 @@
                         severity="success"
                 /></Link>
 
-                <Link
-                    href="/"
-                    class="flex w-30"
+                <Link href="/"
                     ><Button
                         label="LOGIN"
                         severity="info"

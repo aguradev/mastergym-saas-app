@@ -2,7 +2,7 @@
     import { Head } from '@inertiajs/vue3';
     import MainNavLayout from '@/layouts/MainNavLayout.vue';
     import Banner from './Banner.vue';
-    import Button from 'primevue/button';
+    import Features from './Features.vue';
 
     import { ref } from 'vue';
 </script>
@@ -12,5 +12,6 @@
         <Head title="Main Landing Page" />
         <div class="bg-cyan-500 h-[70px]"></div>
         <Banner />
+        <Features />
     </MainNavLayout>
 </template>
