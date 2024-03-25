@@ -23,6 +23,7 @@ Route::prefix("dashboard")->group(function () {
     });
 
     Route::middleware(["auth"])->group(function () {
+        Route::post("/logout", [AuthController::class, 'Logout'])->name("dashboard.logout");
         require_once __DIR__ . "/dashboard_central/navigation_route.php";
     });
 });

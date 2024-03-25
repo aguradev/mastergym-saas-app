@@ -1,5 +1,17 @@
 <script setup>
 import Menu from 'primevue/menu';
+import MenuDropdown from "@/elements/dropdownToggle/Index.vue";
+import { useMenuUser } from '@/stores/menu_dropdown_user';
+import { router } from '@inertiajs/vue3';
+
+const storeMenuUser = useMenuUser();
+const { menuItem } = storeMenuUser;
+
+const logoutEvent = () => {
+    router.visit(menuItem[0]?.items[0]?.link, {
+        method: "post",
+    })
+}
 
 const props = defineProps({
     titleNav: {
@@ -89,14 +101,25 @@ const props = defineProps({
                     <h3 class="text-2xl font-bold">{{ props.titleNav }}</h3>
                 </div>
 
-                <div class="user__account">
-                    <div class="overflow-hidden rounded-full w-9 h-9">
-                        <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
-                            class="object-cover w-full h-full" alt="image">
-                    </div>
-                    <span class="text-base">Admin</span>
-                </div>
+                <MenuDropdown :dropdownLists="menuItem">
+                    <template #button_content>
+                        <div class="user__account">
+                            <div class="overflow-hidden rounded-full w-9 h-9">
+                                <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
+                                    class="object-cover w-full h-full" alt="image">
+                            </div>
+                            <span class="text-base">Admin</span>
+                        </div>
+                    </template>
+
+                    <template #item_template>
+                        <form @submit.prevent="logoutEvent">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </template>
+                </MenuDropdown>
             </nav>
+
             <div class="mt-8">
                 <slot name="main_content" />
             </div>

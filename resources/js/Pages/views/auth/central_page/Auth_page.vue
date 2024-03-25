@@ -6,7 +6,6 @@ import Button from 'primevue/button';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 
-
 const toast = useToast();
 const buttonSubmit = ref(null);
 
@@ -17,7 +16,7 @@ const formAuth = useForm({
 
 const errorMessages = reactive({
     errorCredential: null,
-    validationMessage: []
+    validationMessage: {}
 })
 
 const submitLogin = () => {
@@ -27,13 +26,21 @@ const submitLogin = () => {
         },
         onError: () => {
             formAuth.reset();
-            errorMessages.errorCredential = formAuth.errors.message
-            toast.add({
-                severity: "error",
-                summary: "Info",
-                detail: errorMessages.errorCredential,
-                life: 5000
+            let { errorCredential, validationMessage } = errorMessages
+            errorCredential = formAuth.errors?.message
+            Object.assign(validationMessage, {
+                username: formAuth.errors?.username,
+                password: formAuth.errors.password
             })
+
+            if (errorCredential) {
+                toast.add({
+                    severity: "error",
+                    summary: "Info",
+                    detail: errorCredential,
+                    life: 5000
+                })
+            }
         }
     })
 }
@@ -68,11 +75,17 @@ const submitLogin = () => {
                     <label for="usernameEmailInput">Email</label>
                     <InputElement v-model:inputValue="formAuth.username" inputType="text" inputId="usernameEmailInput"
                         inputPlaceholder="example@gmail.com" />
+                    <span class="text-danger-300" v-if="errorMessages.validationMessage.username">
+                        {{ errorMessages.validationMessage.username }}
+                    </span>
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="passwordInput">Password</label>
                     <InputElement v-model:inputValue="formAuth.password" inputType="password" inputId="password"
                         inputPlaceholder="password" />
+                    <span class="text-danger-300" v-if="errorMessages.validationMessage.password">
+                        {{ errorMessages.validationMessage.password }}
+                    </span>
                 </div>
             </div>
 
