@@ -18,16 +18,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $tenant = Tenant::where("vendor", "bagas")->first();
-
-        // $tenant->run(function () {
-        //     TenantCredential::factory(3)->create();
-        // });
+        Tenant::factory(3)->create();
 
         CentralCredential::factory(1)->create([
             "username" => "admin",
             "email" => "admin@localhost.com",
-            "password" => Hash::make("admin123")
+            "password" => Hash::make("adminganteng23")
         ]);
     }
 }

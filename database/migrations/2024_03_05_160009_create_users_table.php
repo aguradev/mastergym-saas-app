@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('central_users', function (Blueprint $table) {
             $table->uuid("id")->primary();
+            $table->foreignUuid("credential_id")->references("id")->on("central_credentials");
             $table->string("first_name");
             $table->string("last_name");
             $table->string("profile_url")->default("profile.png");

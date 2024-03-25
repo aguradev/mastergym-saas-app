@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('tenant_credentials', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignUuid("user_id")->references("id")->on("tenant_users");
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
