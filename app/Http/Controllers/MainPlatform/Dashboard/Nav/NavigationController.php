@@ -14,10 +14,14 @@ class NavigationController extends Controller
     {
 
         $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->get()->select(["vendor", "domain"]);
+        $TenantCount = Tenant::count();
+
+        Debugbar::debug($TenantCount);
 
         Debugbar::debug("tenantLatest : {$TenantLatest}");
-        return Inertia::render("views/dashboard/central_page/MainMenu", [
-            "tenant_latests" => $TenantLatest
+        return Inertia::render("views/dashboard/central_page/main_page", [
+            "tenantLatest" => $TenantLatest,
+            "tenantCount" => $TenantCount
         ]);
     }
 

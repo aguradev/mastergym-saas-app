@@ -15,6 +15,8 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains, HasUuids, HasFactory;
 
+    public $timestamps = false;
+
     public static function getCustomColumns(): array
     {
         return [

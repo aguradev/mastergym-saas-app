@@ -1,6 +1,6 @@
 <script setup>
 import Menu from 'primevue/menu';
-import MenuDropdown from "@/elements/dropdownToggle/Index.vue";
+import MenuDropdown from "@/elements/dropdownToggle/index.vue";
 import { useMenuUser } from '@/stores/menu_dropdown_user';
 import { router } from '@inertiajs/vue3';
 
