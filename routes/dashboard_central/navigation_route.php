@@ -5,6 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get("/", fn () => "Hello world");
 Route::controller(NavigationController::class)->group(function () {
-    Route::get("/", "DashboardPage")->name('main.dashboard');
-    Route::get("/subscription", "SubscriptionPage")->name('main.dashboard.subscription');
+    Route::get("/", "DashboardPage")->name('central-dashboard.main');
+    Route::get("/subscription", "SubscriptionPage")->name('central-dashboard.subscriptions');
 });

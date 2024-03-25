@@ -14,13 +14,13 @@ export const useNavMainPlatform = defineStore(
                     {
                         icon: "pi pi-chart-pie",
                         label: "Dashboard",
-                        link: route("main.dashboard"),
+                        link: route("central-dashboard.main"),
                         is_active: false,
                     },
                     {
                         icon: "pi pi-users",
                         label: "Subscription",
-                        link: route("main.dashboard.subscription"),
+                        link: route("central-dashboard.subscriptions"),
                         is_active: false,
                     },
                     {

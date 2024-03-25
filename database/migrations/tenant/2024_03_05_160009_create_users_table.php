@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tenant_credentials', function (Blueprint $table) {
+        Schema::create('tenant_users', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignUuid("user_id")->references("id")->on("tenant_users");
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string("first_name");
+            $table->string("last_name");
+            $table->string("profile_url")->default("profile.png");
+            $table->string("bio");
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tenant_credentials');
+        Schema::dropIfExists('tenant_users');
     }
 };

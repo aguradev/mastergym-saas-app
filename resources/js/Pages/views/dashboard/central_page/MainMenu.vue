@@ -32,10 +32,6 @@ onMounted(() => {
     }, 0)
 })
 
-onUnmounted(() => {
-    removeAllItem(0)
-})
-
 </script>
 
 <style scoped>
