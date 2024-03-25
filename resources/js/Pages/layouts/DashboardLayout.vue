@@ -113,9 +113,7 @@ const props = defineProps({
                     </template>
 
                     <template #item_template>
-                        <form @submit.prevent="logoutEvent">
-                            <button type="submit">Logout</button>
-                        </form>
+                        <button type="button" @click="logoutEvent">Logout</button>
                     </template>
                 </MenuDropdown>
             </nav>

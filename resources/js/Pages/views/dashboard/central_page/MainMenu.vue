@@ -19,18 +19,21 @@ import { storeToRefs } from 'pinia';
 const getNavMainPlatform = useNavMainPlatform();
 const storeMenuUser = useMenuUser();
 
-const { setMenuItem } = storeMenuUser;
+const { setMenuItem, removeAllItem } = storeMenuUser;
 const { updateMenusItemActive } = getNavMainPlatform;
 const { navigationMenuItem } = storeToRefs(getNavMainPlatform);
-
-setMenuItem({
-    label: "Logout",
-    link: "/dashboard/logout"
-}, 0)
 
 onMounted(() => {
     updateMenusItemActive(route(route().current()))
     tenantLatests.value = [...props.tenant_latests] || []
+    setMenuItem({
+        label: "Logout",
+        link: "/dashboard/logout"
+    }, 0)
+})
+
+onUnmounted(() => {
+    removeAllItem(0)
 })
 
 </script>

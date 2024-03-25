@@ -13,5 +13,9 @@ export const useMenuUser = defineStore("menu_user_central", () => {
         menuItem[pos].items = [...menuItem[pos].items, item];
     };
 
+    const removeAllItem = (pos) => {
+        menuItem[pos].items.splice(0, menuItem[pos].items.length);
+    };
+
     return { menuItem, setMenuItem };
 });
