@@ -3,16 +3,20 @@
 namespace App\Observers\CentralDomain;
 
 use App\Models\Gym\Tenant;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Support\Facades\Log;
 
-class TenantObserver
+class TenantObserver implements ShouldHandleEventsAfterCommit
 {
     /**
      * Handle the Tenant "created" event.
      */
+    public function creating(Tenant $tenant): void
+    {
+        $tenant->created_at = now();
+    }
     public function created(Tenant $tenant): void
     {
-
         $tenant->domains()->create([
             "domain" => fake()->domainName() . ".localhost"
         ]);
