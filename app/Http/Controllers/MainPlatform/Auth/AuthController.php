@@ -16,6 +16,11 @@ class AuthController extends Controller
 
     public function Authenticable(Request $request)
     {
+        $request->validate([
+            "username" => "required|email",
+            "password" => "required"
+        ]);
+
         $formRequest = $request->all();
 
         $authenticationAttemp = Auth::guard("central-web")->attempt([
@@ -30,7 +35,18 @@ class AuthController extends Controller
         }
 
         return redirect()->back()->withErrors([
-            "message" => "credentials is incorrect"
+            "message" => "Credentials is incorrect"
         ]);
+    }
+
+    public function Logout(Request $request)
+    {
+        Auth::guard("central-web")->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return to_route("login");
     }
 }

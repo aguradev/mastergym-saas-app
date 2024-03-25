@@ -7,16 +7,26 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 
-import { onMounted, ref } from 'vue';
-import { useNavMainPlatform } from '@/stores/navigation_menu_item';
-import { storeToRefs } from 'pinia';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
-
-const getNavMainPlatform = useNavMainPlatform()
-const { updateMenusItemActive } = getNavMainPlatform
-const { navigationMenuItem } = storeToRefs(getNavMainPlatform)
 const props = defineProps(["tenant_latests"]);
 const tenantLatests = ref([])
+
+import { useNavMainPlatform } from "@/stores/navigation_menu_item";
+import { useMenuUser } from "@/stores/menu_dropdown_user";
+import { storeToRefs } from 'pinia';
+
+const getNavMainPlatform = useNavMainPlatform();
+const storeMenuUser = useMenuUser();
+
+const { setMenuItem } = storeMenuUser;
+const { updateMenusItemActive } = getNavMainPlatform;
+const { navigationMenuItem } = storeToRefs(getNavMainPlatform);
+
+setMenuItem({
+    label: "Logout",
+    link: "/dashboard/logout"
+}, 0)
 
 onMounted(() => {
     updateMenusItemActive(route(route().current()))
