@@ -17,12 +17,25 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     public $timestamps = false;
 
+    protected static function booted(): void
+    {
+        static::creating(function (Tenant $tenant) {
+            $tenant->created_at = now();
+        });
+
+        static::updating(function (Tenant $tenant) {
+            $tenant->updated_at = now();
+        });
+    }
+
     public static function getCustomColumns(): array
     {
         return [
             "id",
             "vendor",
-            "email"
+            "email",
+            "created_at",
+            "updated_at"
         ];
     }
 
