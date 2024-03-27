@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tenant_users', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignUuid("credential_id")->references("id")->on("tenant_credentials");
+            $table->foreignUuid("credential_id")->unique()->references("id")->on("tenant_credentials");
             $table->string("first_name");
             $table->string("last_name");
             $table->string("profile_url")->default("profile.png");
