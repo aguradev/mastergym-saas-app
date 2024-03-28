@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\CentralRolesEnum;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Authorization\Role as AuthorizationRole;
@@ -16,7 +17,7 @@ class RoleSeeder extends Seeder
         AuthorizationRole::truncate();
 
         $createRole = AuthorizationRole::create(
-            ["name" => "Super admin"]
+            ["name" => CentralRolesEnum::SUPERADMIN->value]
         );
 
         if ($createRole) {
