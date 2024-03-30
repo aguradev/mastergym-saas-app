@@ -60,7 +60,7 @@
             >
                 <Link href="/"
                     ><Button
-                        :pt="{ root: '!bg-cyan-700 !border-transparent' }"
+                        :pt="{ root: '!bg-cyan-700 !border-transparent md:shrink-0' }"
                         :ptOptions="{ mergeProps: true }"
                         label="SIGN-UP"
                         severity="success"
