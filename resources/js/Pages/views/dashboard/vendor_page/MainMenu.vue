@@ -3,7 +3,7 @@ import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import { reactive } from 'vue';
 
 const props = defineProps({
-    vendor__name: String,
+    vendor: String,
 })
 </script>
 
@@ -11,7 +11,7 @@ const props = defineProps({
     <DashboardLayout :menu-items="menuItems">
         <template #main_content>
             <section>
-                <div>Hello world {{ props.vendor__name }}</div>
+                <div>Hello world {{ props.vendor }}</div>
             </section>
         </template>
     </DashboardLayout>

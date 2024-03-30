@@ -31,7 +31,7 @@ class AuthController extends Controller
         if ($authenticationAttemp) {
             $request->session()->regenerate();
 
-            return redirect()->route("main.dashboard");
+            return to_route("central-dashboard.main");
         }
 
         return redirect()->back()->withErrors([

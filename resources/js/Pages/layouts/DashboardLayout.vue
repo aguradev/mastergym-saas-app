@@ -1,6 +1,6 @@
 <script setup>
 import Menu from 'primevue/menu';
-import MenuDropdown from "@/elements/dropdownToggle/Index.vue";
+import MenuDropdown from "@/elements/dropdownToggle/index.vue";
 import { useMenuUser } from '@/stores/menu_dropdown_user';
 import { router } from '@inertiajs/vue3';
 
@@ -113,9 +113,7 @@ const props = defineProps({
                     </template>
 
                     <template #item_template>
-                        <form @submit.prevent="logoutEvent">
-                            <button type="submit">Logout</button>
-                        </form>
+                        <button type="button" @click="logoutEvent">Logout</button>
                     </template>
                 </MenuDropdown>
             </nav>

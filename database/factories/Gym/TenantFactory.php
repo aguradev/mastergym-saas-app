@@ -17,7 +17,8 @@ class TenantFactory extends Factory
     public function definition(): array
     {
         return [
-            "vendor_name" => fake()->company()
+            "vendor" => fake()->company(),
+            "email" => fake()->email()
         ];
     }
 }
