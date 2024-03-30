@@ -30,7 +30,7 @@ export const useNavMainPlatform = defineStore(
                     },
                     {
                         icon: "pi pi-users",
-                        label: "Users",
+                        label: "User Management",
                         is_active: false,
                     },
                     {

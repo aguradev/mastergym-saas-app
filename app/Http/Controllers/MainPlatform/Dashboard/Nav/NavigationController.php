@@ -19,7 +19,6 @@ class NavigationController extends Controller
     }
     public function DashboardPage()
     {
-        Debugbar::debug($this->credentialService->getUserAuth());
         $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->get()->select(["vendor", "domain"]);
         $TenantCount = Tenant::count();
 
