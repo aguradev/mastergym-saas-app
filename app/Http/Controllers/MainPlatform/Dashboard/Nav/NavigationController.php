@@ -23,6 +23,7 @@ class NavigationController extends Controller
         $TenantCount = Tenant::count();
 
         Debugbar::debug($TenantCount);
+        Debugbar::debug($this->credentialService->getUserAuth());
 
         Debugbar::debug("tenantLatest : {$TenantLatest}");
         return Inertia::render("views/dashboard/central_page/main_page", [

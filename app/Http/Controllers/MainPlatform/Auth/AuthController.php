@@ -17,14 +17,14 @@ class AuthController extends Controller
     public function Authenticable(Request $request)
     {
         $request->validate([
-            "username" => "required|email",
+            "email" => "required|email",
             "password" => "required"
         ]);
 
         $formRequest = $request->all();
 
         $authenticationAttemp = Auth::guard("central-web")->attempt([
-            "email" => $formRequest["username"],
+            "email" => $formRequest["email"],
             "password" => $formRequest["password"]
         ]);
 

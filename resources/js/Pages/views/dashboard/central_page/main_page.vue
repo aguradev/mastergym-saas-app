@@ -19,20 +19,12 @@ const tenantLatests = ref([...tenantLatest])
 
 const getNavMainPlatform = useNavMainPlatform();
 const storeMenuUser = useMenuUser();
-const { setMenuItem, removeAllItem } = storeMenuUser;
+const { setMenuItem } = storeMenuUser;
 const { updateMenusItemActive } = getNavMainPlatform;
 const { navigationMenuItem } = storeToRefs(getNavMainPlatform);
 
 onMounted(() => {
     updateMenusItemActive(route(route().current()))
-    setMenuItem({
-        label: "Logout",
-        link: route("central-dashboard.logout")
-    }, 0)
-})
-
-onUnmounted(() => {
-    removeAllItem(0);
 })
 
 </script>

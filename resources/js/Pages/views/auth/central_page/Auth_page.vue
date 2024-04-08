@@ -1,7 +1,8 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
-import { reactive, ref } from 'vue';
-import InputElement from '@/elements/input/DefaultInput.vue';
+import { onMounted, reactive, ref, watch } from 'vue';
+import InputElement from '@/elements/input/InputText.vue';
+import InputPassword from '@/elements/input/InputPassword.vue';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
@@ -10,7 +11,7 @@ const toast = useToast();
 const buttonSubmit = ref(null);
 
 const formAuth = useForm({
-    username: null,
+    email: null,
     password: null,
 })
 
@@ -25,15 +26,18 @@ const submitLogin = () => {
             formAuth.reset();
         },
         onError: () => {
-            formAuth.reset();
             let { errorCredential, validationMessage } = errorMessages
             errorCredential = formAuth.errors?.message
             Object.assign(validationMessage, {
-                username: formAuth.errors?.username,
-                password: formAuth.errors.password
+                email: formAuth.errors?.email,
+                password: formAuth.errors?.password
             })
 
+            formAuth.password = null;
+
             if (errorCredential) {
+                formAuth.reset();
+
                 toast.add({
                     severity: "error",
                     summary: "Info",
@@ -73,16 +77,16 @@ const submitLogin = () => {
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col gap-2">
                     <label for="usernameEmailInput">Email</label>
-                    <InputElement v-model:inputValue="formAuth.username" inputType="text" inputId="usernameEmailInput"
+                    <InputElement v-model:inputValue="formAuth.email" inputType="text" inputId="usernameEmailInput"
                         inputPlaceholder="example@gmail.com" />
-                    <span class="text-danger-300" v-if="errorMessages.validationMessage.username">
-                        {{ errorMessages.validationMessage.username }}
+                    <span class="text-danger-300" v-if="errorMessages.validationMessage.email">
+                        {{ errorMessages.validationMessage.email }}
                     </span>
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="passwordInput">Password</label>
-                    <InputElement v-model:inputValue="formAuth.password" inputType="password" inputId="password"
-                        inputPlaceholder="password" />
+                    <InputPassword v-model:inputValue="formAuth.password" inputId="password" inputPlaceholder="password"
+                        :toggleMask="true" />
                     <span class="text-danger-300" v-if="errorMessages.validationMessage.password">
                         {{ errorMessages.validationMessage.password }}
                     </span>

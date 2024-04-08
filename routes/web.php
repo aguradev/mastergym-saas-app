@@ -22,7 +22,7 @@ Route::prefix("dashboard")->group(function () {
         route::post("/login", "Authenticable")->name("auth.submit");
     });
 
-    Route::middleware(["auth"])->group(function () {
+    Route::middleware(["auth", "role:Super admin|Admin,central-web"])->group(function () {
         Route::post("/logout", [AuthController::class, 'Logout'])->name("central-dashboard.logout");
         require_once __DIR__ . "/dashboard_central/navigation_route.php";
     });
