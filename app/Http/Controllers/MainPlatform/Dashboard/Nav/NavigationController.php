@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MainPlatform\Dashboard\Nav;
 
 use App\CentralServices\User\Services\Interfaces\CredentialInterface as CredentialService;
 use App\Http\Controllers\Controller;
+use App\Models\CentralModel\TenantPlanFeature;
 use App\Models\Gym\Tenant;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,8 @@ class NavigationController extends Controller
 
     public function SubscriptionPage()
     {
-        return Inertia::render("views/dashboard/central_page/Subscription_page");
+        $planFeatures = Inertia::lazy(fn () => TenantPlanFeature::limit(5)->get());
+
+        return Inertia::render("views/dashboard/central_page/Subscription_page", compact('planFeatures'));
     }
 }

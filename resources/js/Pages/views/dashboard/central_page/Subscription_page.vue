@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, defineAsyncComponent, ref, watch } from 'vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 
 import { useNavMainPlatform } from '@/stores/navigation_menu_item';
 import { storeToRefs } from 'pinia';
