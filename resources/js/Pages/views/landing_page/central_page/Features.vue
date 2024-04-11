@@ -2,16 +2,16 @@
     import Card from 'primevue/card';
 
     const cards = [
-        { title: 'Membership', content: 'we provide prices that is suited for any level of services, ensuring that you will have many suitable options' },
-        { title: 'Personal Trainer', content: 'we provide prices that is suited for any level of services, ensuring that you will have many suitable options' },
-        { title: 'Equipment', content: 'we provide prices that is suited for any level of services, ensuring that you will have many suitable options' },
-        { title: 'Payment', content: 'we provide prices that is suited for any level of services, ensuring that you will have many suitable options' },
+        { title: 'Subscription', content: 'we provide prices that is suited for any level of services, ensuring that you will have many suitable options' },
+        { title: 'Easy to Maintain', content: 'we provide prices that is suited for any level of services, ensuring that you will have many suitable options' },
+        { title: 'Customisable', content: 'we provide prices that is suited for any level of services, ensuring that you will have many suitable options' },
+        { title: 'Certified', content: 'we provide prices that is suited for any level of services, ensuring that you will have many suitable options' },
     ];
 </script>
 
 <template>
-    <div class="bg-white text-black py-[50px] flex flex-col items-center">
-        <h1 class="text-[40px] px-10">We Provide Every Features That Your Gym Ever Need!</h1>
+    <div class="bg-gray-50 text-black py-[50px] flex flex-col items-center">
+        <h1 class="text-[50px] px-10 font-medium">We Provide Every Features That Your Gym Ever Need!</h1>
         <div
             id="dashboard"
             class="grid place-items-center w-[100%] mb-10 mt-20"

@@ -1,14 +1,20 @@
-<script setup></script>
+<script setup>
+    import GymIcon from '/public/storage/images/icon/gym.png';
+</script>
 <template>
     <section class="py-10 bg-gray-50 sm:pt-16 lg:pt-24">
         <div class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
             <div class="grid grid-cols-2 md:col-span-3 lg:grid-cols-6 gap-y-16 gap-x-12">
                 <div class="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
-                    <img
-                        class="w-auto h-9"
-                        src="https://cdn.rareblocks.xyz/collection/celebration/images/logo.svg"
-                        alt=""
-                    />
+                    <div>
+                        <img
+                            :src="GymIcon"
+                            alt="gym logo"
+                            class="w-[60px] inline"
+                        />
+
+                        <p class="text-black inline ml-3 text-2xl font-medium align-middle">Gym Master</p>
+                    </div>
 
                     <p class="text-base leading-relaxed text-gray-600 mt-7">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
 
@@ -226,7 +232,7 @@
 
             <hr class="mt-16 mb-10 border-gray-200" />
 
-            <p class="text-sm text-center text-gray-600">© Copyright 2021, All Rights Reserved by Postcraft</p>
+            <p class="text-sm text-center text-gray-600">© Copyright 2024, All Rights Reserved by Gym Master</p>
         </div>
     </section>
 </template>

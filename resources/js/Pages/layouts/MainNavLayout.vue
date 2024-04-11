@@ -8,10 +8,10 @@
     const isOpen = ref(false);
 
     const menus = [
-        { name: 'Home', link: '/' },
-        { name: 'Pricing', link: '/about' },
-        { name: 'Contact', link: '/contact' },
-        { name: 'About', link: '/pricing' },
+        { name: 'HOME', link: '/' },
+        { name: 'PRICING', link: '#pricing' },
+        { name: 'CONTACT', link: '/contact' },
+        { name: 'ABOUT', link: '/pricing' },
     ];
 
     const showSidebar = ref(false);
@@ -25,7 +25,7 @@
     <main>
         <header
             id="MainNav"
-            class="fixed z-50 w-full flex items-center justify-between h-[70px] bg-white shadow-sm border-b"
+            class="fixed z-50 w-full flex items-center justify-between h-[70px] bg-gray-50 shadow-sm border-b"
         >
             <div
                 id="NavLeft"
@@ -50,7 +50,7 @@
                 <Link
                     v-for="item in menus"
                     :href="item.link"
-                    class="flex items-center text-black justify-center h-[48px] p-1 hover:bg-[#f2f2f2] w-full rounded-lg mx-1 cursor-pointer"
+                    class="flex items-center text-gray-600 font-semibold justify-center h-[60px] p-1 hover:bg-[#f2f2f2] w-full rounded-lg mx-1 cursor-pointer"
                     >{{ item.name }}</Link
                 >
             </div>
