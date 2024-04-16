@@ -58,7 +58,7 @@
                 id="NavRight"
                 class="hidden lg:flex w-2/12 mr-6 justify-center gap-2"
             >
-                <Link href="/"
+                <Link href="/signup"
                     ><Button
                         :pt="{ root: '!bg-cyan-700 !border-transparent md:shrink-0' }"
                         :ptOptions="{ mergeProps: true }"
@@ -66,7 +66,7 @@
                         severity="success"
                 /></Link>
 
-                <Link href="/"
+                <Link href="/login"
                     ><Button
                         label="LOGIN"
                         severity="info"
@@ -101,14 +101,14 @@
                     class="flex-row ml-5 h-[120px] justify-evenly"
                 >
                     <Link
-                        href="/"
+                        href="/login"
                         class="flex"
                         ><Button
                             label="LOGIN"
                             severity="info"
                     /></Link>
                     <Link
-                        href="/"
+                        href="/signup"
                         class="flex my-3"
                         ><Button
                             :pt="{ root: '!bg-cyan-700 !border-transparent' }"

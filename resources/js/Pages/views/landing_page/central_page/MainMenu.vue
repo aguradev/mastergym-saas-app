@@ -13,7 +13,7 @@
 <template>
     <MainNavLayout>
         <Head title="Main Landing Page" />
-        <div class="bg-cyan-500 h-[70px]"></div>
+        <!-- <div class="bg-cyan-500 h-[70px]"></div> -->
         <Banner />
         <Features />
         <Integrity />

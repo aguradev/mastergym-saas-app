@@ -17,6 +17,10 @@ use Inertia\Inertia;
 
 
 Route::get("/", fn () => Inertia::render("views/landing_page/central_page/MainMenu"))->name('main.dashboard');
+Route::get("/signup", fn () => Inertia::render("views/landing_page/central_page/SignUp"))->name('main.signup');
+Route::get("/login", fn () => Inertia::render("views/landing_page/central_page/Login"))->name('main.login');
+Route::get("/setuptenant", fn () => Inertia::render("views/landing_page/central_page/SetupTenant"))->name('main.setuptenant');
+Route::get("/checkouttenant", fn () => Inertia::render("views/landing_page/central_page/CheckoutTenant"))->name('main.checkouttenant');
 
 
 Route::prefix("dashboard")->group(function () {

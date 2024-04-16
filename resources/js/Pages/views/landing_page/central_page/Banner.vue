@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-    <div>
+    <div class="pt-10">
         <div class="md:flex bg-gray-50 first-letter p-10 mb-[-1px] md:max-xl:py-20 md:max-xl:px-40 xl:px-[250px] xl:py-[100px]">
             <div class="md:max-xl:max-w-[700px] xl:w-[180%] mb-10 md:mb-0 mt-10">
                 <img src="/public/storage/images/svg/undraw_fitness_tracker_3033.svg" />
