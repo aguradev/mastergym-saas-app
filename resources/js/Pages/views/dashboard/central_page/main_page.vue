@@ -59,7 +59,7 @@ figure {
 
     <DashboardLayout :menu-items="navigationMenuItem" titleNav="Overview">
         <template #main_content>
-            <section class="flex gap-x-6">
+            <section class="flex p-8 gap-x-4">
                 <div class="min-w-[60%] flex flex-col gap-y-8">
                     <Card>
                         <template #card__title>

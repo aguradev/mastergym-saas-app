@@ -35,7 +35,13 @@ class NavigationController extends Controller
 
     public function SubscriptionPage()
     {
-        $planFeatures = Inertia::lazy(fn () => TenantPlanFeature::limit(5)->get());
+
+        $planFeatures = Inertia::lazy(function () {
+            $planFeaturesQuery = TenantPlanFeature::paginate(5);
+            $planFeaturesQuery->withPath("/dashboard/subscription?tab=FeaturesTable");
+
+            return $planFeaturesQuery;
+        });
 
         return Inertia::render("views/dashboard/central_page/Subscription_page", compact('planFeatures'));
     }

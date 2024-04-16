@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted, defineAsyncComponent, ref, watch } from 'vue';
+import { onMounted, defineAsyncComponent, ref, watch, computed } from 'vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, Link } from '@inertiajs/vue3';
 
 import { useNavMainPlatform } from '@/stores/navigation_menu_item';
 import { storeToRefs } from 'pinia';
@@ -27,21 +27,33 @@ const FeaturesPage = defineAsyncComponent({
 })
 
 const tabsContent = ref([
-    { title: "Analiytics", content: AnaliyticsPage, isActive: true },
-    { title: "Plans Table", content: PlanTable, isActive: false },
-    { title: "Features Table", content: FeaturesPage, isActive: false }
+    { title: "Analiytics", paramTab: "analiytics", content: AnaliyticsPage, isActive: true },
+    { title: "Plans Table", paramTab: "planTable", content: PlanTable, isActive: false },
+    { title: "Features Table", paramTab: "FeaturesTable", content: FeaturesPage, isActive: false }
 ])
 
 const contentTabActive = ref(0)
 
+const loadTabContentActive = computed(() => {
+    const loadParamTab = localStorage.getItem("subscription_tab_active")
+    return tabsContent.value.findIndex((item) => loadParamTab === item.paramTab);
+})
+
 onMounted(() => {
     updateMenusItemActive(route(route().current()))
+
+    const getStorageTabActive = loadTabContentActive
+
+    if (getStorageTabActive.value >= 0) {
+        contentTabActive.value = getStorageTabActive.value
+    }
 })
 
 watch(contentTabActive, (stateNow, prevState) => {
     if (prevState) {
         tabsContent.value[prevState].isActive = false
     }
+    localStorage.setItem("subscription_tab_active", tabsContent.value[stateNow].paramTab)
     tabsContent.value[stateNow].isActive = true
 })
 
@@ -88,19 +100,22 @@ watch(contentTabActive, (stateNow, prevState) => {
                         ]
                     }),
                     content: {
-                        class: ['bg-transparent py-5 border-0']
+                        class: ['bg-transparent py-0 border-0']
                     }
                 }
             }" v-model:activeIndex="contentTabActive">
 
-                <TabPanel v-for="(tab) in tabsContent" :key="tab.title" :header="tab.title">
+                <TabPanel v-for="(tab) in tabsContent" :key="tab.title">
+                    <template #header>
+                        <p>{{ tab.title }}</p>
+                    </template>
                     <Suspense v-if="tab.isActive">
                         <template #default>
                             <component :is="tab.content"></component>
                         </template>
 
                         <template #fallback>
-                            <div>
+                            <div class="p-8">
                                 loading...
                             </div>
                         </template>

@@ -5,8 +5,12 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Badge from 'primevue/badge';
 import Dropdown from 'primevue/dropdown';
+import { router } from '@inertiajs/vue3';
 
-await new Promise((res) => setTimeout(res, 1000))
+async function replaceRoute() {
+    router.replace(`/dashboard/subscription?tab=planTable`)
+    await new Promise((res) => setTimeout(res, 1000))
+}
 
 const dataSubscriptions = ref([
     {
@@ -62,6 +66,8 @@ const subscriptionActions = reactive(["Delete", "Edit", "Disabled"])
 const formatCurrency = (price) => {
     return price.toLocaleString('id-ID', { style: "currency", currency: "IDR" })
 }
+
+await replaceRoute()
 
 onMounted(() => console.log('hello world'))
 
