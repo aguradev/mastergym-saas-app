@@ -6,6 +6,7 @@ import Column from 'primevue/column';
 import Badge from 'primevue/badge';
 import Dropdown from 'primevue/dropdown';
 import { router } from '@inertiajs/vue3';
+import ActionLists from '@/elements/ulLists/ActionLists.vue';
 
 async function replaceRoute() {
     router.replace(`/dashboard/subscription?tab=planTable`)
@@ -76,61 +77,49 @@ onMounted(() => console.log('hello world'))
 <template>
     <section class="table_subscriptions">
 
-        <Card>
-            <template #card__title>Tables</template>
-            <template #card__content>
-                <DataTable :value="dataSubscriptions" :pt="{
-                    bodyrow: 'bg-transparent last:border-none border-b border-primary-700',
-                    column: {
-                        headercell: 'py-6 px-4 border-b border-primary-600',
-                        headercontent: 'text-left font-[300] tracking-wide text-white/50',
-                        bodycell: 'p-5',
-                    }
-                }">
-                    <Column header="No">
-                        <template #body="slotProps">
-                            <div>{{ slotProps.data.id }}</div>
-                        </template>
-                    </Column>
-                    <Column header="Plans">
-                        <template #body="slotProps">
-                            <div>{{ slotProps.data.plan }}</div>
-                        </template>
-                    </Column>
-                    <Column header="Prices">
-                        <template #body="slotProps">
-                            <div>{{ formatCurrency(slotProps.data.price) }}</div>
-                        </template>
-                    </Column>
-                    <Column header="Features">
-                        <template #body="slotProps">
-                            <ul>
-                                <li v-for="item in slotProps.data.features" class="mb-3">{{ item }}</li>
-                            </ul>
-                        </template>
-                    </Column>
-                    <Column header="Types">
-                        <template #body="slotProps">
-                            <Badge :value="slotProps.data.typePlan"
-                                :severity="slotProps.data.typePlan === 'Monthly' ? `success` : `info`">
-                            </Badge>
-                        </template>
-                    </Column>
-                    <Column header="Actions">
-                        <template #body="slotProps">
-                            <Dropdown placeholder="Action" :options="subscriptionActions">
-                                <template #value="slotProps">
-                                    <div v-if="slotProps.value">
-                                        {{ slotProps.value }}
-                                    </div>
-                                    <div v-else>{{ slotProps.placeholder }}</div>
-                                </template>
-                            </Dropdown>
-                        </template>
-                    </Column>
-                </DataTable>
-            </template>
-        </Card>
+        <DataTable :value="dataSubscriptions" :pt="{
+            bodyrow: 'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
+            column: {
+                headercell: 'py-6 px-12 border-b border-primary-600',
+                headercontent: 'text-left font-[300] tracking-wide text-white/50',
+                bodycell: 'px-12 py-6 text-base',
+            }
+        }">
+            <Column header="No">
+                <template #body="slotProps">
+                    <div>{{ slotProps.data.id }}</div>
+                </template>
+            </Column>
+            <Column header="Plans">
+                <template #body="slotProps">
+                    <div>{{ slotProps.data.plan }}</div>
+                </template>
+            </Column>
+            <Column header="Prices">
+                <template #body="slotProps">
+                    <div>{{ formatCurrency(slotProps.data.price) }}</div>
+                </template>
+            </Column>
+            <Column header="Features">
+                <template #body="slotProps">
+                    <ul>
+                        <li v-for="item in slotProps.data.features" class="mb-3">{{ item }}</li>
+                    </ul>
+                </template>
+            </Column>
+            <Column header="Types">
+                <template #body="slotProps">
+                    <Badge :value="slotProps.data.typePlan"
+                        :severity="slotProps.data.typePlan === 'Monthly' ? `success` : `info`">
+                    </Badge>
+                </template>
+            </Column>
+            <Column header="Actions">
+                <template #body="slotProps">
+                    <ActionLists />
+                </template>
+            </Column>
+        </DataTable>
 
     </section>
 </template>

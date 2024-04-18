@@ -8,7 +8,6 @@ import { storeToRefs } from 'pinia';
 
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel'
-import Button from 'primevue/button'
 
 const getNavMainPlatform = useNavMainPlatform()
 const { updateMenusItemActive } = getNavMainPlatform

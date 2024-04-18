@@ -58,11 +58,11 @@ await refreshLoading();
 
         <div v-if="!!featurePlanData.data.length">
             <DataTable :value="featurePlanData.data" :pt="{
-                bodyrow: 'bg-transparent last:border-none border-b border-primary-700',
+                bodyrow: 'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
                 column: {
                     headercell: 'py-6 px-12 border-b border-primary-600',
                     headercontent: 'text-left font-[300] tracking-wide text-white/50',
-                    bodycell: 'px-12 py-6 text-lg',
+                    bodycell: 'px-12 py-6 text-base',
                 }
             }">
                 <Column header="No">
