@@ -59,8 +59,6 @@ module.exports = {
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        -webkit-print-color-adjust: exact;
-        color-adjust: exact;
         background-repeat: no-repeat;
         padding-top: 0.5rem;
         padding-right: 2.5rem;
