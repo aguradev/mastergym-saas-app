@@ -1,10 +1,13 @@
 <script setup>
-import { ref, onMounted, watch, toRef, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
-import Card from '@/elements/card/DefaultCard.vue';
+import Dialog from 'primevue/dialog';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import TablePagination from '@/elements/pagination/TablePagination.vue'
+import TablePagination from '@/elements/pagination/TablePagination.vue';
+import ActionLists from '@/elements/ulLists/ActionLists.vue';
+import FeaturePlanInput from '@/components/centralPages/dashboard/subscription/form/FeaturePlanForm.vue';
+import PrimaryButton from '@/elements/button/PrimaryButton.vue';
 const featurePlanData = reactive({
     data: [],
     links: [],
@@ -16,6 +19,7 @@ const featurePlanData = reactive({
     per_page: 0
 })
 const page = usePage()
+const featureDialogVisible = ref(false)
 
 
 async function refreshLoading() {
@@ -45,6 +49,7 @@ onMounted(async () => {
     featurePlanData.data = [...data]
     featurePlanData.per_page = per_page
     featurePlanData.next_page_url = next_page_url
+    featurePlanData.last_page_url = last_page_url
     featurePlanData.total_page = total
     featurePlanData.current_page = current_page
     featurePlanData.links = [...links]
@@ -55,6 +60,45 @@ await refreshLoading();
 </script>
 <template>
     <section>
+        <Dialog v-model:visible="featureDialogVisible" :style="{
+            width: '40rem',
+        }" :pt="{
+            header: {
+                class: ['flex items-center justify-between', 'shrink-0', 'p-6', 'border-t-0', 'rounded-tl-lg', 'rounded-tr-lg', 'bg-prmary-0 dark:bg-primary-800', 'text-surface-700 dark:text-surface-0/80']
+            },
+            content: ({ state, instance }) => ({
+                class: [
+                    // Spacing
+                    'px-6',
+                    'pb-8',
+                    'pt-0',
+                    // Shape
+                    {
+                        grow: state.maximized,
+                        'rounded-bl-lg': !instance.$slots.footer,
+                        'rounded-br-lg': !instance.$slots.footer
+                    },
+                    // Colors
+                    'bg-primary-0 dark:bg-primary-800',
+                    'text-surface-700 dark:text-surface-0/80',
+                    // Misc
+                    'overflow-y-auto'
+                ]
+            }),
+            footer: {
+                class: ['flex items-center justify-end', 'shrink-0', 'text-right', 'gap-2', 'px-6', 'pb-6', 'border-t-0', 'rounded-b-lg', 'bg-primary-0 dark:bg-primary-800', 'text-surface-700 dark:text-surface-0/80']
+            },
+            mask: {
+                class: 'bg-primary-900/70 px-6',
+            }
+        }" modal header="Feature Create">
+            <FeaturePlanInput />
+        </Dialog>
+
+        <div class="p-6">
+            <PrimaryButton type="button" label="Add" icon="pi pi-external-link"
+                @click-event="() => featureDialogVisible = true" />
+        </div>
 
         <div v-if="!!featurePlanData.data.length">
             <DataTable :value="featurePlanData.data" :pt="{
@@ -86,9 +130,17 @@ await refreshLoading();
                         <div>{{ slotProps.data.updated_at ?? '-' }}</div>
                     </template>
                 </Column>
+                <Column header="Action">
+                    <template #body="slotProps">
+                        <ActionLists />
+                    </template>
+                </Column>
             </DataTable>
 
             <TablePagination :links="featurePlanData.links" />
+        </div>
+        <div v-else>
+            <p>No Features Plan</p>
         </div>
     </section>
 </template>
