@@ -4,7 +4,7 @@ namespace App\Http\Controllers\MainPlatform\Dashboard\Subscriptions;
 
 use App\CentralServices\SubscriptionPlan\Services\Interfaces\FeaturePlanInterface;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\CentralRequest\CreateFeaturePlanRequest;
 
 class FeaturePlanController extends Controller
 {
@@ -14,10 +14,9 @@ class FeaturePlanController extends Controller
     {
         $this->FeaturePlanServices = $featurePlan;
     }
-    public function CreateFeaturePlan(Request $request)
+    public function CreateFeaturePlan(CreateFeaturePlanRequest $request)
     {
-        // $this->FeaturePlanServices->CreateFeaturePlanHandler($request);
-
-        return to_route('central-dashboard.subscriptions');
+        $this->FeaturePlanServices->CreateFeaturePlanHandler($request);
+        return redirect()->back();
     }
 }

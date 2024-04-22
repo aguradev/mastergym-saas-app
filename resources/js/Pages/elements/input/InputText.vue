@@ -1,8 +1,6 @@
 <script setup>
-
 import InputText from 'primevue/inputtext';
-import { toRef, toRefs } from 'vue';
-
+import { ref, toRef, toRefs, watch } from 'vue';
 const emit = defineEmits(["update:inputValue", "inputRef"]);
 
 const props = defineProps({
@@ -19,15 +17,18 @@ const {
     inputType,
     inputPlaceholder,
     inputName,
+    invalid
 } = props;
 
-const valRef = toRef(inputValue)
+console.log(invalid)
+
+const refVal = toRef(inputValue)
 
 </script>
 
 <template>
-    <InputText v-model="valRef" :id="inputId" :type="inputType" :placeholder="inputPlaceholder" :name="inputName"
-        @input="(event) => emit('update:inputValue', event.target.value)" :pt="{
+    <InputText :value="refVal" v-model="refVal" :id="inputId" :type="inputType" :placeholder="inputPlaceholder"
+        :name="inputName" @input="(event) => emit('update:inputValue', event.target.value)" :pt="{
             root: ({ props, context, parent }) => {
                 return {
                     class: [
@@ -35,8 +36,10 @@ const valRef = toRef(inputValue)
                         {
                             'focus:outline-none': !context.disabled
                         },
+                        // Invalid State
+                        { 'border border-red-500 dark:border-red-400': props.invalid },
                     ]
                 }
             }
-        }" />
+        }" :invalid="invalid" />
 </template>

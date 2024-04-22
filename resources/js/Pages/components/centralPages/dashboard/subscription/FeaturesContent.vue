@@ -8,6 +8,7 @@ import TablePagination from '@/elements/pagination/TablePagination.vue';
 import ActionLists from '@/elements/ulLists/ActionLists.vue';
 import FeaturePlanInput from '@/components/centralPages/dashboard/subscription/form/FeaturePlanForm.vue';
 import PrimaryButton from '@/elements/button/PrimaryButton.vue';
+
 const featurePlanData = reactive({
     data: [],
     links: [],
@@ -18,9 +19,10 @@ const featurePlanData = reactive({
     total_page: 0,
     per_page: 0
 })
+
 const page = usePage()
 const featureDialogVisible = ref(false)
-
+const validationFormFeatures = reactive({})
 
 async function refreshLoading() {
     const { tab, page } = route().params
@@ -41,6 +43,14 @@ async function loadFetchFeaturePlans() {
         } else {
             reject("no features plan data")
         }
+    })
+}
+
+function handlerCreateFeature(form) {
+    form.post(route("plan_feature.create"), {
+        onSuccess: () => {
+            featureDialogVisible.value = false;
+        },
     })
 }
 
@@ -92,7 +102,8 @@ await refreshLoading();
                 class: 'bg-primary-900/70 px-6',
             }
         }" modal header="Feature Create">
-            <FeaturePlanInput />
+            <FeaturePlanInput @action-feature-form="handlerCreateFeature"
+                :validation-messages="validationFormFeatures" />
         </Dialog>
 
         <div class="p-6">
