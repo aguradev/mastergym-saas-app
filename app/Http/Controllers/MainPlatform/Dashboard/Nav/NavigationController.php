@@ -27,7 +27,7 @@ class NavigationController extends Controller
         Debugbar::debug($this->credentialService->getUserAuth());
 
         Debugbar::debug("tenantLatest : {$TenantLatest}");
-        return Inertia::render("views/dashboard/central_page/main_page", [
+        return Inertia::render("views/dashboard/central_page/Main_page", [
             "tenantLatest" => $TenantLatest,
             "tenantCount" => $TenantCount
         ]);
@@ -35,14 +35,6 @@ class NavigationController extends Controller
 
     public function SubscriptionPage()
     {
-
-        $planFeatures = Inertia::lazy(function () {
-            $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->paginate(10);
-            $planFeaturesQuery->withPath("/dashboard/subscription?tab=FeaturesTable");
-
-            return $planFeaturesQuery;
-        });
-
-        return Inertia::render("views/dashboard/central_page/Subscription_page", compact('planFeatures'));
+        return Inertia::render("views/dashboard/central_page/subscription_page/Index");
     }
 }
