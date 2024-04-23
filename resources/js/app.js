@@ -1,7 +1,7 @@
 import "./bootstrap";
 import { createApp, h } from "vue";
 import { ZiggyVue } from "ziggy-js";
-import { createInertiaApp } from "@inertiajs/vue3";
+import { createInertiaApp, usePage } from "@inertiajs/vue3";
 import PrimeVue from "primevue/config";
 import primevue_preset from "./Preset/primevue_preset";
 import "primeicons/primeicons.css";

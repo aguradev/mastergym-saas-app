@@ -2,15 +2,18 @@
 import SubscriptionsLayout from '@/layouts/SubscriptionsLayout.vue';
 import Dialog from 'primevue/dialog';
 import FeaturePlanInput from '@/components/centralPages/dashboard/subscription/form/FeaturePlanForm.vue';
-import { defineAsyncComponent, ref } from 'vue';
-import { Link, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import FeaturesContent from '@/components/centralPages/dashboard/subscription/FeaturesContent.vue';
+import { router } from '@inertiajs/vue3';
 import PrimaryButton from '@/elements/button/PrimaryButton.vue';
-
+import TablePagination from '@/elements/pagination/TablePagination.vue';
 const featureDialogVisible = ref(false)
 
-const FeatureContent = defineAsyncComponent({
-    loader: () => import('@/components/centralPages/dashboard/subscription/FeaturesContent.vue')
+const props = defineProps({
+    planFeaturesQuery: Object
 })
+
+const { planFeaturesQuery } = props
 
 function handlerCreateFeature(form) {
     form.post(route("plan_feature.create"), {
@@ -21,7 +24,11 @@ function handlerCreateFeature(form) {
     })
 }
 
-const routeModalCreate = route('plan_feature.modal-create')
+function handlerPaginationFeature(page) {
+    router.get(route('plan_feature.table'), {
+        page: page
+    })
+}
 
 </script>
 
@@ -67,18 +74,11 @@ const routeModalCreate = route('plan_feature.modal-create')
             <PrimaryButton label="Add Feature" icon="pi pi-plus" @click-event="() => featureDialogVisible = true" />
         </div>
 
-        <Suspense>
-            <template #default>
-                <section class="pb-12">
-                    <FeatureContent />
-                </section>
-            </template>
-
-            <template #fallback>
-                <div>
-                    Loading...
-                </div>
-            </template>
-        </Suspense>
+        <section class="pb-12">
+            <FeaturesContent :featurePlanDatas="planFeaturesQuery" />
+            <div v-if="!!planFeaturesQuery.data.length">
+                <TablePagination :pagination="planFeaturesQuery" @load-page="handlerPaginationFeature" />
+            </div>
+        </section>
     </SubscriptionsLayout>
 </template>

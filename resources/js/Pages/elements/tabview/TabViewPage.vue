@@ -1,5 +1,6 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+const page = usePage();
 
 const props = defineProps({
     'tabUrl': Array

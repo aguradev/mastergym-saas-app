@@ -1,12 +1,9 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
-import { router, usePage } from '@inertiajs/vue3';
+import { reactive } from 'vue';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import TablePagination from '@/elements/pagination/TablePagination.vue';
 import ActionLists from '@/elements/ulLists/ActionLists.vue';
-
 
 const featurePlanData = reactive({
     data: [],
@@ -19,40 +16,18 @@ const featurePlanData = reactive({
     per_page: 0
 })
 
-const page = usePage()
-
-
-async function refreshLoading() {
-    await new Promise((res) => {
-        setTimeout(() => res(true), 1000)
-    })
-}
-
-async function loadFetchFeaturePlans() {
-    return await new Promise((res, reject) => {
-        const { planFeaturesQuery } = page.props
-        if (planFeaturesQuery !== undefined) {
-            res(planFeaturesQuery)
-        } else {
-            reject("no features plan data")
-        }
-    })
-}
-
-
-
-onMounted(async () => {
-    const { data, links, current_page, per_page, total, next_page_url, last_page_url } = await loadFetchFeaturePlans()
-    featurePlanData.data = [...data]
-    featurePlanData.per_page = per_page
-    featurePlanData.next_page_url = next_page_url
-    featurePlanData.last_page_url = last_page_url
-    featurePlanData.total_page = total
-    featurePlanData.current_page = current_page
-    featurePlanData.links = [...links]
+const props = defineProps({
+    featurePlanDatas: Object
 })
 
-await refreshLoading();
+const { data, links, current_page, per_page, total, next_page_url, last_page_url } = props.featurePlanDatas
+featurePlanData.data = [...data]
+featurePlanData.per_page = per_page
+featurePlanData.next_page_url = next_page_url
+featurePlanData.last_page_url = last_page_url
+featurePlanData.total_page = total
+featurePlanData.current_page = current_page
+featurePlanData.links = [...links]
 
 </script>
 <template>
@@ -93,8 +68,6 @@ await refreshLoading();
                     </template>
                 </Column>
             </DataTable>
-
-            <TablePagination :links="featurePlanData.links" />
         </div>
         <div v-else>
             <p>No Features Plan</p>
