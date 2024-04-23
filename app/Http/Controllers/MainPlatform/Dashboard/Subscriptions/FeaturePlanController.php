@@ -16,7 +16,7 @@ class FeaturePlanController extends Controller
     }
     public function CreateFeaturePlan(CreateFeaturePlanRequest $request)
     {
-        $this->FeaturePlanServices->CreateFeaturePlanHandler($request);
-        return redirect()->back();
+        $this->FeaturePlanServices->CreateFeaturePlanHandler($request->items);
+        return to_route('central-dashboard.subscriptions');
     }
 }

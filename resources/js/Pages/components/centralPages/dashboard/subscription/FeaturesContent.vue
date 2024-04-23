@@ -48,7 +48,7 @@ async function loadFetchFeaturePlans() {
 
 function handlerCreateFeature(form) {
     form.post(route("plan_feature.create"), {
-        onSuccess: () => {
+        onSuccess: async () => {
             featureDialogVisible.value = false;
         },
     })
@@ -69,7 +69,7 @@ await refreshLoading();
 
 </script>
 <template>
-    <section>
+    <section class="pb-12">
         <Dialog v-model:visible="featureDialogVisible" :style="{
             width: '40rem',
         }" :pt="{

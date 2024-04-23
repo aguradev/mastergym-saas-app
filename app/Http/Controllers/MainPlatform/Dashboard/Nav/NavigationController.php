@@ -37,7 +37,7 @@ class NavigationController extends Controller
     {
 
         $planFeatures = Inertia::lazy(function () {
-            $planFeaturesQuery = TenantPlanFeature::paginate(5);
+            $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->paginate(10);
             $planFeaturesQuery->withPath("/dashboard/subscription?tab=FeaturesTable");
 
             return $planFeaturesQuery;

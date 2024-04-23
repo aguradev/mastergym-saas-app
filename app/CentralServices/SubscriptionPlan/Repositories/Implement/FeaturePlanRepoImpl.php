@@ -16,6 +16,9 @@ class FeaturePlanRepoImpl implements FeaturePlanInterface
 
     public function CreatePlanFeature($request)
     {
-        return $this->FeaturePlanModel::create($request);
+        return $this->FeaturePlanModel::create([
+            "name" => $request,
+            "created_at" => now()
+        ]);
     }
 }

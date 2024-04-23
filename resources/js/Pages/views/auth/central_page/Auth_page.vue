@@ -22,9 +22,6 @@ const errorMessages = reactive({
 
 const submitLogin = () => {
     formAuth.post('/dashboard/login', {
-        onSuccess: () => {
-            formAuth.reset();
-        },
         onError: () => {
             let { errorCredential, validationMessage } = errorMessages
             errorCredential = formAuth.errors?.message

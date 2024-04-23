@@ -21,13 +21,13 @@ const replaceLinks = computed(() => {
     @apply relative mt-10;
 
     .pagination_lists {
-        @apply flex gap-x-8 justify-center items-center rounded-md;
+        @apply flex gap-x-5 justify-center items-center rounded-md;
 
         .pagination_link {
-            @apply text-lg;
+            @apply text-lg w-12 h-12 bg-transparent flex items-center justify-center rounded-full;
 
             &.active {
-                @apply bg-primary-600 w-12 h-12 flex items-center justify-center rounded-full;
+                @apply bg-primary-600;
             }
         }
     }

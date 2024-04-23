@@ -20,8 +20,6 @@ const {
     invalid
 } = props;
 
-console.log(invalid)
-
 const refVal = toRef(inputValue)
 
 </script>
