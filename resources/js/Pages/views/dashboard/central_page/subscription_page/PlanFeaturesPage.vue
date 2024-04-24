@@ -1,14 +1,14 @@
 <script setup>
+import { ref } from 'vue';
+import { router } from '@inertiajs/vue3';
 import SubscriptionsLayout from '@/layouts/SubscriptionsLayout.vue';
 import Dialog from 'primevue/dialog';
 import FeaturePlanInput from '@/components/centralPages/dashboard/subscription/form/FeaturePlanForm.vue';
-import { ref, toRefs } from 'vue';
 import FeaturesContent from '@/components/centralPages/dashboard/subscription/FeaturesContent.vue';
-import { router, usePage } from '@inertiajs/vue3';
 import PrimaryButton from '@/elements/button/PrimaryButton.vue';
 import TablePagination from '@/elements/pagination/TablePagination.vue';
-const featureDialogVisible = ref(false)
 
+const featureDialogVisible = ref(false)
 const props = defineProps({
     planFeaturesQuery: Object
 })
