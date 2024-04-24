@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import SubscriptionsLayout from '@/layouts/SubscriptionsLayout.vue';
 import Dialog from 'primevue/dialog';
-import FeaturePlanInput from '@/components/centralPages/dashboard/subscription/form/FeaturePlanForm.vue';
+import FeaturePlanForms from '@/components/centralPages/dashboard/subscription/forms/FeaturePlanForm.vue';
 import FeaturesContent from '@/components/centralPages/dashboard/subscription/FeaturesContent.vue';
 import PrimaryButton from '@/elements/button/PrimaryButton.vue';
 import TablePagination from '@/elements/pagination/TablePagination.vue';
@@ -67,7 +67,7 @@ function handlerPaginationFeature(page) {
                 class: 'bg-primary-900/70 px-6',
             }
         }" modal header="Feature Create">
-            <FeaturePlanInput @action-feature-form="handlerCreateFeature"
+            <FeaturePlanForms @action-feature-form="handlerCreateFeature"
                 :validation-messages="validationFormFeatures" />
         </Dialog>
 
