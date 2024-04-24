@@ -17,7 +17,7 @@ const linkPageNumbers = computed(() => {
 
 <style scoped>
 .pagination {
-    @apply relative;
+    @apply relative flex gap-x-12;
 
     .pagination_lists {
         @apply flex gap-x-5 justify-center items-center rounded-md;
@@ -30,38 +30,47 @@ const linkPageNumbers = computed(() => {
                 @apply bg-primary-600;
             }
         }
+
+        .btn_arrow {
+            @apply text-lg w-12 h-12 bg-transparent flex items-center justify-center rounded-full;
+        }
     }
 }
 </style>
 
 <template>
-    <div class="flex items-center justify-center mt-10 gap-x-12">
-
-        <div>{{ total }} items</div>
+    <div class="flex items-center justify-center gap-x-14">
 
         <nav class="pagination">
             <ul class="pagination_lists">
                 <li class="pagination_item" v-if="current_page > 1">
-                    <button type="button" class="pagination_link" @click="emits('loadPage', 1)">
+                    <button type="button" class="btn_arrow" @click="emits('loadPage', 1)">
                         <i class="pi pi-angle-double-left"></i>
                     </button>
                 </li>
                 <li class="pagination_item" v-if="current_page > 1">
-                    <button type="button" class="pagination_link" @click="emits('loadPage', current_page - 1)">
+                    <button type="button" class="btn_arrow" @click="emits('loadPage', current_page - 1)">
                         <i class="pi pi-angle-left"></i>
                     </button>
                 </li>
+            </ul>
+
+            <ul class="pagination_lists">
                 <li class="pagination_item" v-for="(link, index) in linkPageNumbers" :key="index">
-                    <button type="button" class="pagination_link" :class="{ active: link.active }">{{ link.label
+                    <button type="button" class="pagination_link" :class="{ active: link.active }"
+                        @click="emits('loadPage', parseInt(link.label))">{{ link.label
                         }}</button>
                 </li>
+            </ul>
+
+            <ul class="pagination_lists">
                 <li class="pagination_item" v-if="current_page < last_page">
-                    <button type="button" class="pagination_link" @click="emits('loadPage', current_page + 1)">
+                    <button type="button" class="btn_arrow" @click="emits('loadPage', current_page + 1)">
                         <i class="pi pi-angle-right"></i>
                     </button>
                 </li>
                 <li class="pagination_item" v-if="current_page < last_page">
-                    <button type="button" class="pagination_link" @click="emits('loadPage', last_page)">
+                    <button type="button" class="btn_arrow" @click="emits('loadPage', last_page)">
                         <i class="pi pi-angle-double-right"></i>
                     </button>
                 </li>

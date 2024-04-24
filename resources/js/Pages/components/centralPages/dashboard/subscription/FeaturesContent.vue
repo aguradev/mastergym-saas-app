@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -20,14 +20,20 @@ const props = defineProps({
     featurePlanDatas: Object
 })
 
-const { data, links, current_page, per_page, total, next_page_url, last_page_url } = props.featurePlanDatas
-featurePlanData.data = [...data]
-featurePlanData.per_page = per_page
-featurePlanData.next_page_url = next_page_url
-featurePlanData.last_page_url = last_page_url
-featurePlanData.total_page = total
-featurePlanData.current_page = current_page
-featurePlanData.links = [...links]
+onMounted(() => {
+    const { data, links, current_page, per_page, total, next_page_url, last_page_url } = props.featurePlanDatas
+    featurePlanData.data = [...data]
+    featurePlanData.per_page = per_page
+    featurePlanData.next_page_url = next_page_url
+    featurePlanData.last_page_url = last_page_url
+    featurePlanData.total_page = total
+    featurePlanData.current_page = current_page
+    featurePlanData.links = [...links]
+})
+
+function setRouteUrl(id) {
+    return route('plan_feature.edit-form', { tenantPlanFeature: id })
+}
 
 </script>
 <template>
@@ -64,7 +70,7 @@ featurePlanData.links = [...links]
                 </Column>
                 <Column header="Action">
                     <template #body="slotProps">
-                        <ActionLists />
+                        <ActionLists :editRoute="setRouteUrl(slotProps.data.id)" />
                     </template>
                 </Column>
             </DataTable>

@@ -1,5 +1,6 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 const page = usePage();
 
 const props = defineProps({
@@ -7,7 +8,10 @@ const props = defineProps({
 })
 
 const { tabUrl } = props;
-const checkCurrentRoute = window.location.href
+const checkCurrentRoute = computed(() => {
+    const splitUrl = window.location.href.split("?")
+    return splitUrl.length > 1 ? splitUrl[0] : window.location.href
+});
 
 </script>
 
@@ -46,8 +50,9 @@ const checkCurrentRoute = window.location.href
     <nav class="tab_nav">
         <ul class="nav_lists">
             <li v-for="(tab, i) in tabUrl" :key="i" class="nav_item_tab"
-                :class="{ 'active': checkCurrentRoute == tab.url }">
-                <Link :href="tab.url" class="nav_link" :class="{ 'active': checkCurrentRoute == tab.url }">{{ tab.title
+                :class="{ 'active': checkCurrentRoute === tab.url }">
+                <Link :href="tab.url" class="nav_link" :class="{ 'active': checkCurrentRoute === tab.url }">{{
+                    tab.title
                 }}</Link>
             </li>
         </ul>

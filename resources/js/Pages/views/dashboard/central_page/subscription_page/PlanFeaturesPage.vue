@@ -2,9 +2,9 @@
 import SubscriptionsLayout from '@/layouts/SubscriptionsLayout.vue';
 import Dialog from 'primevue/dialog';
 import FeaturePlanInput from '@/components/centralPages/dashboard/subscription/form/FeaturePlanForm.vue';
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 import FeaturesContent from '@/components/centralPages/dashboard/subscription/FeaturesContent.vue';
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import PrimaryButton from '@/elements/button/PrimaryButton.vue';
 import TablePagination from '@/elements/pagination/TablePagination.vue';
 const featureDialogVisible = ref(false)
@@ -12,8 +12,7 @@ const featureDialogVisible = ref(false)
 const props = defineProps({
     planFeaturesQuery: Object
 })
-
-const { planFeaturesQuery } = props
+const planFeaturesQuery = ref(props.planFeaturesQuery)
 
 function handlerCreateFeature(form) {
     form.post(route("plan_feature.create"), {
@@ -25,8 +24,10 @@ function handlerCreateFeature(form) {
 }
 
 function handlerPaginationFeature(page) {
-    router.get(route('plan_feature.table'), {
+    return router.get(route('plan_feature.table'), {
         page: page
+    }, {
+        preserveScroll: true,
     })
 }
 

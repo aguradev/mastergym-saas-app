@@ -13,7 +13,7 @@ Route::prefix("subscriptions")->group(function () {
 
     Route::controller(FeaturePlanController::class)->prefix("plan-feature")->group(function () {
         Route::get("/", 'FeaturePlanTable')->name('plan_feature.table');
-        Route::get("/create-modal", 'CreateModal')->name('plan_feature.modal-create');
+        Route::get('/{tenantPlanFeature}/edit-form', 'editForm')->name('plan_feature.edit-form');
         Route::post("/", 'CreateFeaturePlan')->name("plan_feature.create");
     });
 });

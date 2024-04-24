@@ -1,10 +1,8 @@
 <script setup>
 import 'primeicons/primeicons.css'
-
+import { Link } from '@inertiajs/vue3';
 const props = defineProps({
-    links: {
-        type: Array
-    }
+    editRoute: String
 })
 </script>
 
@@ -25,19 +23,19 @@ const props = defineProps({
 <template>
     <ul class="action_lists">
         <li class="action_item">
-            <a href="#" class="action_link">
-                <i class="pi pi-eye"></i>
-            </a>
+            <Link href="#" class="action_link">
+            <i class="pi pi-eye"></i>
+            </Link>
         </li>
         <li class="action_item">
-            <a href="#" class="action_link">
-                <i class="pi pi-pencil"></i>
-            </a>
+            <Link :href="editRoute" class="action_link" preserve-state>
+            <i class="pi pi-pencil"></i>
+            </Link>
         </li>
         <li class="action_item">
-            <a href="#" class="action_link">
-                <i class="pi pi-trash"></i>
-            </a>
+            <Link href="#" class="action_link">
+            <i class="pi pi-trash"></i>
+            </Link>
         </li>
     </ul>
 </template>

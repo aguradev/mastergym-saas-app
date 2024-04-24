@@ -18,7 +18,7 @@ class FeaturePlanController extends Controller
     }
     public function FeaturePlanTable()
     {
-        $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->paginate(5);
+        $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->paginate(8);
 
         return Inertia::render('views/dashboard/central_page/subscription_page/PlanFeaturesPage', compact('planFeaturesQuery'));
     }
@@ -28,5 +28,10 @@ class FeaturePlanController extends Controller
         $this->FeaturePlanServices->CreateFeaturePlanHandler($request->items);
 
         return redirect()->back();
+    }
+
+    public function EditForm(TenantPlanFeature $tenantPlanFeature)
+    {
+        dd($tenantPlanFeature);
     }
 }
