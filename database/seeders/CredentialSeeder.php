@@ -16,6 +16,9 @@ class CredentialSeeder extends Seeder
      */
     public function run(): void
     {
+        CentralCredential::truncate();
+        User::truncate();
+
         try {
             DB::beginTransaction();
 

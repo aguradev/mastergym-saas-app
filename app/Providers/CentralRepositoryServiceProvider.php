@@ -23,5 +23,9 @@ class CentralRepositoryServiceProvider extends ServiceProvider
             \App\CentralServices\User\Repositories\Interfaces\CredentialInterface::class,
             \App\CentralServices\User\Repositories\Implement\CredentialRepoImpl::class
         );
+        $this->app->bind(
+            \App\CentralServices\SubscriptionPlan\Repositories\Interfaces\FeaturePlanInterface::class,
+            \App\CentralServices\SubscriptionPlan\Repositories\Implement\FeaturePlanRepoImpl::class,
+        );
     }
 }

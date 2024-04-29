@@ -5,7 +5,12 @@ export const useMenuUser = defineStore("menu_user_central", () => {
     const menuItem = reactive([
         {
             label: "Options",
-            items: [],
+            items: [
+                {
+                    label: "Logout",
+                    link: route("central-dashboard.logout"),
+                },
+            ],
         },
     ]);
 

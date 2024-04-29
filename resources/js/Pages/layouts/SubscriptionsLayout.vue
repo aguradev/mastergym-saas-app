@@ -1,40 +1,32 @@
 <script setup>
 import { onMounted } from 'vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
-import { Head } from '@inertiajs/vue3';
 
 import { useNavMainPlatform } from '@/stores/navigation_menu_item';
 import { storeToRefs } from 'pinia';
-
-import Card from '@/elements/card/DefaultCard.vue';
+import TabViewPage from '@/elements/tabview/TabViewPage.vue';
+import { useSubscriptionTabs } from '@/stores/subscriptions_tabs';
 
 const getNavMainPlatform = useNavMainPlatform()
+const getSubscriptionTab = useSubscriptionTabs();
+
+const { tabContents } = getSubscriptionTab;
 const { updateMenusItemActive } = getNavMainPlatform
 const { navigationMenuItem } = storeToRefs(getNavMainPlatform)
 
-
 onMounted(() => {
-    updateMenusItemActive(route(route().current()))
+    updateMenusItemActive(route('central-dashboard.subscriptions'))
 })
-
 </script>
 
 <template>
 
-    <Head title="Subscription" />
-
     <DashboardLayout :menu-items="navigationMenuItem" titleNav="Subscription Management">
         <template #main_content>
-            <section class="table_subscriptions">
 
-                <Card>
-                    <template #card__title>Tables</template>
-                    <template #card__content>
+            <TabViewPage :tabUrl="tabContents" />
+            <slot />
 
-                    </template>
-                </Card>
-
-            </section>
         </template>
     </DashboardLayout>
 </template>

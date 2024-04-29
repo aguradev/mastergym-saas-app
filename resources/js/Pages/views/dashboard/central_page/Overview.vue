@@ -19,20 +19,12 @@ const tenantLatests = ref([...tenantLatest])
 
 const getNavMainPlatform = useNavMainPlatform();
 const storeMenuUser = useMenuUser();
-const { setMenuItem, removeAllItem } = storeMenuUser;
+const { setMenuItem } = storeMenuUser;
 const { updateMenusItemActive } = getNavMainPlatform;
 const { navigationMenuItem } = storeToRefs(getNavMainPlatform);
 
 onMounted(() => {
     updateMenusItemActive(route(route().current()))
-    setMenuItem({
-        label: "Logout",
-        link: route("central-dashboard.logout")
-    }, 0)
-})
-
-onUnmounted(() => {
-    removeAllItem(0);
 })
 
 </script>
@@ -67,7 +59,7 @@ figure {
 
     <DashboardLayout :menu-items="navigationMenuItem" titleNav="Overview">
         <template #main_content>
-            <section class="flex gap-x-6">
+            <section class="flex p-8 gap-x-4">
                 <div class="min-w-[60%] flex flex-col gap-y-8">
                     <Card>
                         <template #card__title>

@@ -23,5 +23,9 @@ class CentralServicesServiceProvider extends ServiceProvider
             \App\CentralServices\User\Services\Interfaces\CredentialInterface::class,
             \App\CentralServices\User\Services\Implement\CredentialServiceImpl::class
         );
+        $this->app->bind(
+            \App\CentralServices\SubscriptionPlan\Services\Interfaces\FeaturePlanInterface::class,
+            \App\CentralServices\SubscriptionPlan\Services\Implement\FeaturePlanServiceImpl::class,
+        );
     }
 }

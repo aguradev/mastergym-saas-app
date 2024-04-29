@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CentralModel\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
