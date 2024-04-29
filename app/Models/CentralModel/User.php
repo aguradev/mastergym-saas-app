@@ -12,6 +12,8 @@ class User extends Model
     use HasFactory, HasRoles, HasUuids;
 
     protected $table = "central_users";
+    protected $guard_name = "central-web";
+    protected $with = ["Roles"];
     protected $fillable = [
         "first_name",
         "last_name",

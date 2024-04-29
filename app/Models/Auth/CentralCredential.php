@@ -15,6 +15,7 @@ class CentralCredential extends Authenticatable
     use HasFactory, HasUuids, HasApiTokens, Notifiable;
 
     protected $keyType = "string";
+    protected $with = ["User"];
     protected $fillable = [
         "username",
         "email",
@@ -25,7 +26,6 @@ class CentralCredential extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    protected $with = ["User"];
 
     public function User()
     {

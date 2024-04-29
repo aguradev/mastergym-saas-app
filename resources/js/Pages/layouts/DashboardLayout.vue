@@ -46,7 +46,7 @@ const props = defineProps({
 
 <style scoped>
 .main {
-    @apply p-12 bg-primary-900
+    @apply bg-primary-900
 }
 
 .sub__menu__header {
@@ -67,15 +67,15 @@ const props = defineProps({
     <div class="flex w-full min-h-screen">
 
         <Menu :model="props.menuItems" :pt="{
-            root: 'bg-primary-800 w-72 border-none rounded-none',
+            root: 'border-r border-primary-600 w-72 rounded-none',
             start: 'sticky top-0 left-0',
             submenuheader: 'mt-[2rem] mb-3 px-4 font-bold px-8 text-lg',
             content: 'dark:bg-transparent;',
             menu: 'sticky top-20 left-0 flex flex-col gap-y-3'
         }">
             <template #start>
-                <header class="flex px-8 pt-10">
-                    <span class="text-2xl font-bold text-white">GymMaster</span>
+                <header class="flex justify-center px-8 pt-10">
+                    <div class="text-2xl font-bold text-white">GymMaster</div>
                 </header>
             </template>
 
@@ -89,14 +89,14 @@ const props = defineProps({
                     :class="{ 'active': item.is_active }">
                     <i :class="`${item.icon} `"></i>
                     <span :class="{ 'font-[500]': item.is_active }" class="font-[300] tracking-wide">{{
-            item.label
-        }}</span>
+                        item.label
+                    }}</span>
                 </a>
             </template>
         </Menu>
 
         <main class="flex-1 main">
-            <nav class="flex items-center justify-between">
+            <nav class="flex items-center justify-between p-8">
                 <div class="heading">
                     <h3 class="text-2xl font-bold">{{ props.titleNav }}</h3>
                 </div>
@@ -118,7 +118,7 @@ const props = defineProps({
                 </MenuDropdown>
             </nav>
 
-            <div class="mt-8">
+            <div>
                 <slot name="main_content" />
             </div>
         </main>

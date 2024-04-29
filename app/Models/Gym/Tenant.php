@@ -21,7 +21,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     {
         return [
             "id",
-            "vendor",
+            "name",
             "email",
             "created_at",
             "updated_at"

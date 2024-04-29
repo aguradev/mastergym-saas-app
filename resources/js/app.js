@@ -1,7 +1,7 @@
 import "./bootstrap";
 import { createApp, h } from "vue";
 import { ZiggyVue } from "ziggy-js";
-import { createInertiaApp } from "@inertiajs/vue3";
+import { createInertiaApp, usePage } from "@inertiajs/vue3";
 import PrimeVue from "primevue/config";
 import primevue_preset from "./Preset/primevue_preset";
 import "primeicons/primeicons.css";
@@ -12,6 +12,7 @@ import ConfirmationService from "primevue/confirmationservice";
 const appName = import.meta.env.VITE_APP_NAME;
 
 createInertiaApp({
+    progress: false,
     title: (title) => `${appName} - ${title}`,
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
