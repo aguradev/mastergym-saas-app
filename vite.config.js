@@ -16,6 +16,7 @@ export default defineConfig({
         alias: {
             '@': fileURLToPath(new URL('./resources/js/Pages', import.meta.url)),
             '@public': fileURLToPath(new URL('./public', import.meta.url)),
+            '@dashboardCentralPageComponents': fileURLToPath(new URL('./resources/js/Pages/components/centralPages/dashboard', import.meta.url)),
             'ziggy-js': path.resolve('vendor/tightenco/ziggy'),
         },
     },

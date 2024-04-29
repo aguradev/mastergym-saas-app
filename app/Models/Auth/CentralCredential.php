@@ -2,6 +2,7 @@
 
 namespace App\Models\Auth;
 
+use App\Models\CentralModel\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,4 +25,10 @@ class CentralCredential extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    protected $with = ["User"];
+
+    public function User()
+    {
+        return $this->hasOne(User::class, "credential_id", "id");
+    }
 }

@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('central_users', function (Blueprint $table) {
             $table->uuid("id")->primary();
+            $table->foreignUuid("credential_id")->unique()->references("id")->on("central_credentials");
             $table->string("first_name");
             $table->string("last_name");
             $table->string("profile_url")->default("profile.png");
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('central_users');
     }
 };
