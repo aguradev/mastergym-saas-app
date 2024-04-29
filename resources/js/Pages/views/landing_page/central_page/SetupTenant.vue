@@ -3,7 +3,7 @@
     import { Head } from '@inertiajs/vue3';
 
     import MainNavLayout from '@/layouts/MainNavLayout.vue';
-    import UploadImage from './UploadImage.vue';
+    import UploadImage from './component/UploadImage.vue';
 
     import FileUpload from 'primevue/fileupload';
     import { useToast } from 'primevue/usetoast';
@@ -20,7 +20,7 @@
         <Head title="Setting Up Your App" />
     </MainNavLayout>
     <!-- component -->
-    <div class="h-screen md:flex">
+    <div class="h-screen md:flex w-full">
         <div class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-900 to-blue-500 i justify-around items-center hidden">
             <div>
                 <h1 class="text-white font-bold text-4xl font-sans">Gym Master</h1>
@@ -37,13 +37,13 @@
             <div class="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
             <div class="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
         </div>
-        <div class="flex md:w-1/2 overflow-scroll justify-center py-5 h-full pt-[0px]items-center bg-white">
-            <form class="bg-white w-[800px] px-20">
+        <div class="flex w-1/2 overflow-scroll overflow-x-hidden justify-center py-5 h-full pt-[0px]items-center bg-white">
+            <form class="bg-white w-full h-min px-20">
                 <h1 class="text-gray-800 font-bold text-2xl mt-20 mb-1">Lets Setup Your Account!</h1>
                 <p class="text-sm font-normal text-gray-600 mb-7">Setting Up Your Gym Configuration!</p>
 
                 <div class="-mx-3 flex flex-wrap">
-                    <div class="w-full px-3 sm:w-4/5">
+                    <div class="w-full px-3">
                         <div class="mb-5">
                             <label
                                 for="gName"
@@ -60,7 +60,7 @@
                             />
                         </div>
                     </div>
-                    <div class="w-full px-3 sm:w-1/5">
+                    <!-- <div class="w-full px-3 sm:w-1/5">
                         <div class="mb-5">
                             <label
                                 for="lName"
@@ -69,7 +69,7 @@
                                 Logo
                             </label>
                             <input type="file" />
-                            <!-- <FileUpload
+                            <FileUpload
                                 mode="basic"
                                 name="demo[]"
                                 url="/api/upload"
@@ -85,9 +85,9 @@
                                     },
                                 }"
                                 :ptOptions="{ mergeProps: true }"
-                            /> -->
+                            /> 
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="-mx-3 flex flex-wrap">
                     <div class="w-full px-3 sm:w-1/2">
