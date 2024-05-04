@@ -13,6 +13,7 @@ const props = defineProps({
 const featurePlanDatas = toRef(props, 'featurePlanDatas')
 
 </script>
+
 <template>
     <section class="pb-12">
         <div v-if="!!featurePlanDatas.data.length">

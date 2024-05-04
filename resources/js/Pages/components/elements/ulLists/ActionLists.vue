@@ -1,6 +1,7 @@
 <script setup>
 import 'primeicons/primeicons.css'
 import { Link } from '@inertiajs/vue3';
+
 const props = defineProps({
     editRoute: String
 })
