@@ -6,6 +6,7 @@ use App\CentralServices\SubscriptionPlan\Services\Interfaces\FeaturePlanInterfac
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CentralRequest\CreateFeaturePlanRequest;
 use App\Models\CentralModel\TenantPlanFeature;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class FeaturePlanController extends Controller
@@ -23,15 +24,10 @@ class FeaturePlanController extends Controller
         return Inertia::render('views/dashboard/central_page/subscription_page/featuresPlanPage/Index', compact('planFeaturesQuery'));
     }
 
-    public function FeaturePlanCreateForm()
-    {
-        return Inertia::render('views/dashboard/central_page/subscription_page/featuresPlanPage/createForm');
-    }
-
     public function CreateFeaturePlan(CreateFeaturePlanRequest $request)
     {
         $this->FeaturePlanServices->CreateFeaturePlanHandler($request->items);
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Successfully');
     }
 
     public function EditForm(TenantPlanFeature $tenantPlanFeature)
