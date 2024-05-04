@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref, toRef, toRefs, watch } from 'vue';
+import { toRef } from 'vue';
 import { route } from 'ziggy-js'
 
 import DataTable from 'primevue/datatable';
@@ -11,7 +11,9 @@ const props = defineProps({
 })
 
 const featurePlanDatas = toRef(props, 'featurePlanDatas')
-
+const getNumberColumn = (current_page, per_page, index) => {
+    return (current_page - 1) * per_page + (index + 1)
+}
 </script>
 
 <template>
@@ -27,9 +29,10 @@ const featurePlanDatas = toRef(props, 'featurePlanDatas')
             }">
                 <Column header="No">
                     <template #body="slotProps">
-                        <div>{{ (featurePlanDatas.current_page - 1) * featurePlanDatas.per_page +
-                            (slotProps.index +
-                                1) }}
+                        <div>
+                            {{ getNumberColumn(featurePlanDatas.current_page, featurePlanDatas.per_page,
+                                slotProps.index)
+                            }}
                         </div>
                     </template>
                 </Column>
