@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from 'vue';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import ActionLists from '@/elements/ulLists/ActionLists.vue';
+import ActionLists from '@/components/elements/ulLists/ActionLists.vue';
 
 const featurePlanData = reactive({
     data: [],

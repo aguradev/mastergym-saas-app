@@ -1,12 +1,12 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import Card from '@/elements/card/DefaultCard.vue';
+import Card from '@/components/elements/card/DefaultCard.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Badge from 'primevue/badge';
 import Dropdown from 'primevue/dropdown';
 import { router } from '@inertiajs/vue3';
-import ActionLists from '@/elements/ulLists/ActionLists.vue';
+import ActionLists from '@/components/elements/ulLists/ActionLists.vue';
 
 async function replaceRoute() {
     router.replace(`/dashboard/subscription?tab=planTable`)

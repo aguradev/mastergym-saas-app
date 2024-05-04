@@ -1,11 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
-import SubscriptionsLayout from '@/layouts/SubscriptionsLayout.vue';
+import SubscriptionsLayout from '@/components/layouts/SubscriptionsLayout.vue';
 import Dialog from 'primevue/dialog';
 import FeaturesContent from '@/components/centralPages/dashboard/subscription/FeaturesContent.vue';
-import PrimaryButton from '@/elements/button/PrimaryButton.vue';
-import TablePagination from '@/elements/pagination/TablePagination.vue';
+import PrimaryButton from '@/components/elements/button/PrimaryButton.vue';
+import TablePagination from '@/components/elements/pagination/TablePagination.vue';
 
 const props = defineProps({
     planFeaturesQuery: Object
