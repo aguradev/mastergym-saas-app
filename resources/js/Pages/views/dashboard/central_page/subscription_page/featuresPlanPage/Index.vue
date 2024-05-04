@@ -1,11 +1,11 @@
 <script setup>
-import { ref, toRef, watch } from 'vue';
+import { provide, ref, toRef, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import SubscriptionsLayout from '@/components/layouts/SubscriptionsLayout.vue';
 import TablePagination from '@/components/elements/pagination/TablePagination.vue';
 import PrimaryButton from '@/components/elements/button/PrimaryButton.vue';
-import CreateForm from './createForm.vue';
+import CreateForm from '@/views/dashboard/central_page/subscription_page/featuresPlanPage/CreateForm.vue';
 import FeaturesContent from '@/components/centralPages/dashboard/subscription/FeaturesContent.vue';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
@@ -37,12 +37,13 @@ watch(() => page.props.flash?.message, (val) => {
     })
 })
 
+provide('visibleModal', openModal)
 </script>
 
 <template>
     <SubscriptionsLayout>
         <Toast />
-        <CreateForm :open-modal="openModal" @closeModal="() => openModal = false" v-if="openModal" />
+        <CreateForm />
 
         <div class="p-6">
             <PrimaryButton icon="pi pi-plus" label="Add Feature" @click-event="() => openModal = true" />

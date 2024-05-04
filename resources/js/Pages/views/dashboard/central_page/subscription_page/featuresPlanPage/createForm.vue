@@ -1,41 +1,25 @@
 <script setup>
-import { onUnmounted, reactive, toRef, toRefs, watch, watchEffect } from 'vue'
+import { inject } from 'vue'
 import { route } from 'ziggy-js';
 import Dialog from 'primevue/dialog';
-import { router } from '@inertiajs/vue3';
 import FeaturePlanForms from '@/components/centralPages/dashboard/subscription/forms/FeaturePlanForm.vue';
 
-const props = defineProps({
-    openModal: Boolean
-})
-
-const state = reactive({
-    statusModal: props.openModal
-})
-
-const { statusModal } = toRefs(state)
-
+const visible = inject('visibleModal')
 const emits = defineEmits(["closeModal"])
 
 function handlerCreateFeature(form) {
     form.post(route("plan_feature.create"), {
         onSuccess: () => {
-            statusModal.value = false;
+            visible.value = false;
         },
         preserveState: true
     })
 }
 
-watchEffect(() => {
-    if (!statusModal.value) {
-        emits("closeModal", statusModal.value)
-    }
-})
-
 </script>
 
 <template>
-    <Dialog v-model:visible="statusModal" :style="{
+    <Dialog v-model:visible="visible" :style="{
         width: '40rem',
     }" :pt="{
         header: {
