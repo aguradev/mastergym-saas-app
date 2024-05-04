@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, toRef } from "vue";
 
 const props = defineProps({
     pagination: "object"
@@ -7,8 +7,9 @@ const props = defineProps({
 
 const emits = defineEmits(["loadPage"])
 
-const { pagination } = props;
-const { total, current_page, last_page, links } = pagination;
+const pagination = toRef(props, 'pagination');
+
+const { total, current_page, last_page, links } = pagination.value;
 
 const linkPageNumbers = computed(() => {
     return links.filter((item) => parseInt(item.label));

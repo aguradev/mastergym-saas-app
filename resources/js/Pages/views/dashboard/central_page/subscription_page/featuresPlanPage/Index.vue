@@ -1,14 +1,18 @@
 <script setup>
-import { ref, toRef } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { ref, toRef, watch } from 'vue';
+import { router, usePage } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import SubscriptionsLayout from '@/components/layouts/SubscriptionsLayout.vue';
 import TablePagination from '@/components/elements/pagination/TablePagination.vue';
 import PrimaryButton from '@/components/elements/button/PrimaryButton.vue';
 import CreateForm from './createForm.vue';
 import FeaturesContent from '@/components/centralPages/dashboard/subscription/FeaturesContent.vue';
+import { useToast } from 'primevue/usetoast';
+import Toast from 'primevue/toast';
 
 const openModal = ref(false);
+const page = usePage();
+const toast = useToast();
 
 const props = defineProps({
     planFeaturesQuery: Object
@@ -24,15 +28,20 @@ function handlerPaginationFeature(page) {
     })
 }
 
-function setRouteUrl(id) {
-    return route('plan_feature.edit-form', { tenantPlanFeature: id })
-}
+watch(() => page.props.flash?.message, (val) => {
+    toast.add({
+        severity: "success",
+        summary: "info",
+        detail: val,
+        life: 3000
+    })
+})
 
 </script>
 
 <template>
     <SubscriptionsLayout>
-        {{ $page.props.flash?.message }}
+        <Toast />
         <CreateForm :open-modal="openModal" @closeModal="() => openModal = false" v-if="openModal" />
 
         <div class="p-6">

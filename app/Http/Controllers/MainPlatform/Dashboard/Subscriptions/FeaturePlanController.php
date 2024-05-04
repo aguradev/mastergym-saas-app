@@ -27,7 +27,7 @@ class FeaturePlanController extends Controller
     public function CreateFeaturePlan(CreateFeaturePlanRequest $request)
     {
         $this->FeaturePlanServices->CreateFeaturePlanHandler($request->items);
-        return redirect()->back()->with('message', 'Successfully');
+        return redirect()->back()->with('message', 'Feature created');
     }
 
     public function EditForm(TenantPlanFeature $tenantPlanFeature)
