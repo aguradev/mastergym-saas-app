@@ -1,5 +1,5 @@
 <script setup>
-import SubscriptionsLayout from "@/layouts/SubscriptionsLayout.vue";
+import SubscriptionsLayout from "@/components/layouts/SubscriptionsLayout.vue";
 import { Head } from '@inertiajs/vue3';
 </script>
 

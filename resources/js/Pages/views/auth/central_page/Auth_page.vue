@@ -1,8 +1,8 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
 import { onMounted, reactive, ref, watch } from 'vue';
-import InputElement from '@/elements/input/InputText.vue';
-import InputPassword from '@/elements/input/InputPassword.vue';
+import InputElement from '@/components/elements/input/InputText.vue';
+import InputPassword from '@/components/elements/input/InputPassword.vue';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';

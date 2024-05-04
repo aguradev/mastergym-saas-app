@@ -1,6 +1,6 @@
 <script setup>
-import InputText from '@/elements/input/InputText.vue';
-import PrimaryButton from '@/elements/button/PrimaryButton.vue';
+import InputText from '@/components/elements/input/InputText.vue';
+import PrimaryButton from '@/components/elements/button/PrimaryButton.vue';
 import { onMounted, reactive, ref, toRef, toRefs, watch, watchEffect } from 'vue'
 import { router, useForm } from '@inertiajs/vue3';
 

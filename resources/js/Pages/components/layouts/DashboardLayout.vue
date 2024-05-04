@@ -1,6 +1,6 @@
 <script setup>
 import Menu from 'primevue/menu';
-import MenuDropdown from "@/elements/dropdownToggle/index.vue";
+import MenuDropdown from "@/components/elements/dropdownToggle/index.vue";
 import { useMenuUser } from '@/stores/menu_dropdown_user';
 import { router } from '@inertiajs/vue3';
 
@@ -90,7 +90,7 @@ const props = defineProps({
                     <i :class="`${item.icon} `"></i>
                     <span :class="{ 'font-[500]': item.is_active }" class="font-[300] tracking-wide">{{
                         item.label
-                    }}</span>
+                        }}</span>
                 </a>
             </template>
         </Menu>

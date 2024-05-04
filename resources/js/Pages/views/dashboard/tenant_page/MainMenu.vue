@@ -1,5 +1,5 @@
 <script setup>
-import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import DashboardLayout from '@/components/layouts/DashboardLayout.vue';
 import { reactive } from 'vue';
 
 const props = defineProps({

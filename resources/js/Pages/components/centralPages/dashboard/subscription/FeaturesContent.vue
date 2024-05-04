@@ -1,45 +1,25 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
+import { toRef } from 'vue';
+import { route } from 'ziggy-js'
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import ActionLists from '@/elements/ulLists/ActionLists.vue';
-
-const featurePlanData = reactive({
-    data: [],
-    links: [],
-    current_page: 0,
-    next_page_url: null,
-    prev_page_url: null,
-    last_page_url: null,
-    total_page: 0,
-    per_page: 0
-})
+import ActionLists from '@/components/elements/ulLists/ActionLists.vue';
 
 const props = defineProps({
     featurePlanDatas: Object
 })
 
-onMounted(() => {
-    const { data, links, current_page, per_page, total, next_page_url, last_page_url } = props.featurePlanDatas
-    featurePlanData.data = [...data]
-    featurePlanData.per_page = per_page
-    featurePlanData.next_page_url = next_page_url
-    featurePlanData.last_page_url = last_page_url
-    featurePlanData.total_page = total
-    featurePlanData.current_page = current_page
-    featurePlanData.links = [...links]
-})
-
-function setRouteUrl(id) {
-    return route('plan_feature.edit-form', { tenantPlanFeature: id })
+const featurePlanDatas = toRef(props, 'featurePlanDatas')
+const getNumberColumn = (current_page, per_page, index) => {
+    return (current_page - 1) * per_page + (index + 1)
 }
-
 </script>
+
 <template>
     <section class="pb-12">
-        <div v-if="!!featurePlanData.data.length">
-            <DataTable :value="featurePlanData.data" :pt="{
+        <div v-if="!!featurePlanDatas.data.length">
+            <DataTable :value="featurePlanDatas.data" :pt="{
                 bodyrow: 'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
                 column: {
                     headercell: 'py-6 px-12 border-b border-primary-600',
@@ -49,7 +29,10 @@ function setRouteUrl(id) {
             }">
                 <Column header="No">
                     <template #body="slotProps">
-                        <div>{{ (featurePlanData.current_page - 1) * featurePlanData.per_page + (slotProps.index + 1) }}
+                        <div>
+                            {{ getNumberColumn(featurePlanDatas.current_page, featurePlanDatas.per_page,
+                                slotProps.index)
+                            }}
                         </div>
                     </template>
                 </Column>
@@ -70,7 +53,8 @@ function setRouteUrl(id) {
                 </Column>
                 <Column header="Action">
                     <template #body="slotProps">
-                        <ActionLists :editRoute="setRouteUrl(slotProps.data.id)" />
+                        <ActionLists
+                            :editRoute="route('plan_feature.edit-form', { tenantPlanFeature: slotProps.data.id })" />
                     </template>
                 </Column>
             </DataTable>

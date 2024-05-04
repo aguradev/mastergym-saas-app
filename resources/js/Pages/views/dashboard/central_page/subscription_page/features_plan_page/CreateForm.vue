@@ -1,28 +1,25 @@
 <script setup>
-import { toRefs } from 'vue'
+import { inject } from 'vue'
+import { route } from 'ziggy-js';
 import Dialog from 'primevue/dialog';
 import FeaturePlanForms from '@/components/centralPages/dashboard/subscription/forms/FeaturePlanForm.vue';
 
-const props = defineProps({
-    openModal: {
-        type: Boolean,
-        default: false
-    }
-})
-
-const { openModal } = toRefs(props)
+const visible = inject('visibleModal')
+const emits = defineEmits(["closeModal"])
 
 function handlerCreateFeature(form) {
     form.post(route("plan_feature.create"), {
         onSuccess: () => {
-            router.visit(route('plan_feature.table'));
+            visible.value = false;
         },
+        preserveState: true
     })
 }
+
 </script>
 
 <template>
-    <Dialog v-model:visible="openModal" :style="{
+    <Dialog v-model:visible="visible" :style="{
         width: '40rem',
     }" :pt="{
         header: {
