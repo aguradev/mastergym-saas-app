@@ -1,8 +1,7 @@
 <script setup>
-import { ref } from 'vue';
+import { toRef } from 'vue';
 import { router } from '@inertiajs/vue3';
 import SubscriptionsLayout from '@/components/layouts/SubscriptionsLayout.vue';
-import Dialog from 'primevue/dialog';
 import FeaturesContent from '@/components/centralPages/dashboard/subscription/FeaturesContent.vue';
 import PrimaryButton from '@/components/elements/button/PrimaryButton.vue';
 import TablePagination from '@/components/elements/pagination/TablePagination.vue';
@@ -10,7 +9,7 @@ import TablePagination from '@/components/elements/pagination/TablePagination.vu
 const props = defineProps({
     planFeaturesQuery: Object
 })
-const planFeaturesQuery = ref(props.planFeaturesQuery)
+const planFeaturesQuery = toRef(() => props.planFeaturesQuery)
 
 function handlerPaginationFeature(page) {
     return router.get(route('plan_feature.table'), {
@@ -30,9 +29,8 @@ function handlerPaginationFeature(page) {
 
         <section class="pb-12">
             <FeaturesContent :featurePlanDatas="planFeaturesQuery" />
-            <div v-if="!!planFeaturesQuery.data.length">
-                <TablePagination :pagination="planFeaturesQuery" @load-page="handlerPaginationFeature" />
-            </div>
+            <TablePagination v-if="!!planFeaturesQuery.data.length" :pagination="planFeaturesQuery"
+                @load-page="handlerPaginationFeature" />
         </section>
     </SubscriptionsLayout>
 </template>
