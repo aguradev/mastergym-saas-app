@@ -2,9 +2,9 @@
     "compilerOptions": {
       "paths": {
         "@pages/*": ["./resources/js/Pages/*"],
-        "@components/" : ["./resources/js/Components/*"],
-        "@layouts/" : ["./resources/js/Layouts/*"],
-        "@stores/" : ["./resources/js/Stores/*"],
+        "@components/*" : ["./resources/js/Components/*"],
+        "@layouts/*" : ["./resources/js/Layouts/*"],
+        "@stores/*" : ["./resources/js/Stores/*"],
         "ziggy-js": ["./vendor/tightenco/ziggy"]
       }
     },
