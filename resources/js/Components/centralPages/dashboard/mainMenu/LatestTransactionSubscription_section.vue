@@ -1,5 +1,5 @@
 <script setup>
-import Card from '@/components/elements/card/DefaultCard.vue';
+import Card from '@components/elements/card/DefaultCard.vue';
 import Badge from 'primevue/badge';
 import Button from 'primevue/button';
 </script>

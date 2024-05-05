@@ -2,7 +2,7 @@
 import { inject } from 'vue'
 import { route } from 'ziggy-js';
 import Dialog from 'primevue/dialog';
-import FeaturePlanForms from '@/components/centralPages/dashboard/subscription/forms/FeaturePlanForm.vue';
+import FeaturePlanForms from '@components/centralPages/dashboard/subscription/forms/FeaturePlanForm.vue';
 
 const visible = inject('visibleModal')
 const emits = defineEmits(["closeModal"])

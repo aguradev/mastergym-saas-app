@@ -27,7 +27,7 @@ class NavigationController extends Controller
         Debugbar::debug($this->credentialService->getUserAuth());
 
         Debugbar::debug("tenantLatest : {$TenantLatest}");
-        return Inertia::render("views/dashboard/central_page/Overview", [
+        return Inertia::render("dashboard/central_page/Overview", [
             "tenantLatest" => $TenantLatest,
             "tenantCount" => $TenantCount
         ]);
@@ -35,6 +35,6 @@ class NavigationController extends Controller
 
     public function SubscriptionPage()
     {
-        return Inertia::render("views/dashboard/central_page/subscription_page/Index");
+        return Inertia::render("dashboard/central_page/subscription_page/Index");
     }
 }

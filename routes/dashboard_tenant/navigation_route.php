@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get("/", function () {
-    return Inertia::render("views/dashboard/tenant_page/MainMenu", [
+    return Inertia::render("dashboard/tenant_page/MainMenu", [
         "vendor" => tenant("vendor")
     ]);
 });

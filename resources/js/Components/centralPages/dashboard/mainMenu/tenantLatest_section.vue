@@ -1,5 +1,5 @@
 <script setup>
-import Card from '@/components/elements/card/DefaultCard.vue';
+import Card from '@components/elements/card/DefaultCard.vue';
 import { ref, defineAsyncComponent, toRefs } from "vue";
 
 const props = defineProps(["dataTenants"])
@@ -14,7 +14,7 @@ const tenantLatestColumns = ref([{
 }])
 
 const asyncTables = defineAsyncComponent({
-    loader: () => import("@/components/elements/tables/index.vue"),
+    loader: () => import("@components/elements/tables/index.vue"),
 })
 
 </script>

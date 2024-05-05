@@ -1,11 +1,11 @@
 <script setup>
 import { onMounted } from 'vue';
-import DashboardLayout from '@/components/layouts/DashboardLayout.vue';
+import DashboardLayout from '@layouts/DashboardLayout.vue';
 
-import { useNavMainPlatform } from '@/stores/navigation_menu_item';
+import { useNavMainPlatform } from '@stores/navigation_menu_item';
 import { storeToRefs } from 'pinia';
-import TabViewPage from '@/components/elements/tabview/TabViewPage.vue';
-import { useSubscriptionTabs } from '@/stores/subscriptions_tabs';
+import TabViewPage from '@components/elements/tabview/TabViewPage.vue';
+import { useSubscriptionTabs } from '@stores/subscriptions_tabs';
 import { Head } from '@inertiajs/vue3';
 
 const getNavMainPlatform = useNavMainPlatform()

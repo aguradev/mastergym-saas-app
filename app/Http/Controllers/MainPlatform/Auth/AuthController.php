@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function AuthPage()
     {
-        return Inertia::render("views/auth/central_page/Auth_page");
+        return Inertia::render("auth/central_page/Auth_page");
     }
 
     public function Authenticable(Request $request)

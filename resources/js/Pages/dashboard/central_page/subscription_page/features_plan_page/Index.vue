@@ -2,11 +2,11 @@
 import { provide, ref, toRef, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
-import SubscriptionsLayout from '@/components/layouts/SubscriptionsLayout.vue';
-import TablePagination from '@/components/elements/pagination/TablePagination.vue';
-import PrimaryButton from '@/components/elements/button/PrimaryButton.vue';
-import CreateForm from '@/views/dashboard/central_page/subscription_page/featuresPlanPage/CreateForm.vue';
-import FeaturesContent from '@/components/centralPages/dashboard/subscription/FeaturesContent.vue';
+import SubscriptionsLayout from '@layouts/SubscriptionsLayout.vue';
+import TablePagination from '@components/elements/pagination/TablePagination.vue';
+import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
+import CreateForm from '@pages/dashboard/central_page/subscription_page/features_plan_page/CreateForm.vue';
+import FeaturesContent from '@components/centralPages/dashboard/subscription/FeaturesContent.vue';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
 
