@@ -13,6 +13,7 @@ import Toast from 'primevue/toast';
 const openModal = ref(false);
 const page = usePage();
 const toast = useToast();
+provide('visibleModal', openModal)
 
 const props = defineProps({
     planFeaturesQuery: Object
@@ -37,7 +38,7 @@ watch(() => page.props.flash?.message, (val) => {
     })
 })
 
-provide('visibleModal', openModal)
+
 </script>
 
 <template>
