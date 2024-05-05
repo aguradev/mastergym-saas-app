@@ -7,9 +7,9 @@ const props = defineProps({
 
 const emits = defineEmits(["loadPage"])
 
-const pagination = toRef(props, 'pagination');
+const paginationRef = toRef(props, 'pagination');
 
-const { total, current_page, last_page, links } = pagination.value;
+const { total, current_page, last_page, links } = paginationRef.value;
 
 const linkPageNumbers = computed(() => {
     return links.filter((item) => parseInt(item.label));

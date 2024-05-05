@@ -1,5 +1,5 @@
 <script setup>
-import { toRef } from 'vue';
+import { ref, toRef, watch } from 'vue';
 import { route } from 'ziggy-js'
 
 import DataTable from 'primevue/datatable';
@@ -10,6 +10,8 @@ import { router } from '@inertiajs/vue3';
 const props = defineProps({
     featurePlanDatas: Object
 })
+
+const selectedCheckboxFeature = ref([]);
 
 const featurePlanDatas = toRef(props, 'featurePlanDatas')
 
@@ -24,15 +26,22 @@ const deleteFeaturePlanHandler = (id) => {
         onBefore: () => {
             confirm("are you sure delete features ? ")
         },
-        preserveState: true,
+        onFinish: () => {
+            selectedCheckboxFeature.value = [];
+        },
         preserveScroll: true
     })
 }
+
+watch(selectedCheckboxFeature, (newState) => {
+    console.log(newState);
+})
 
 </script>
 
 <template>
     <section class="pb-12">
+
         <div v-if="!!featurePlanDatas.data.length">
             <DataTable :value="featurePlanDatas.data" :pt="{
                 bodyrow: 'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
@@ -42,6 +51,12 @@ const deleteFeaturePlanHandler = (id) => {
                     bodycell: 'px-12 py-6 text-base',
                 }
             }">
+                <Column header="">
+                    <template #body="slotProps">
+                        <input type="checkbox" v-model="selectedCheckboxFeature" :value="slotProps.data.id"
+                            class="block rounded-md size-4" :id="`checkbox-${slotProps.data.id}`" />
+                    </template>
+                </Column>
                 <Column header="No">
                     <template #body="slotProps">
                         <div>
