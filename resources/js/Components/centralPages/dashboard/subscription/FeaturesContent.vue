@@ -13,7 +13,7 @@ const props = defineProps({
 
 const selectedCheckboxFeature = ref([]);
 
-const featurePlanDatas = toRef(props, 'featurePlanDatas')
+const featurePlanDatas = toRef(() => props.featurePlanDatas)
 
 const getNumberColumn = (current_page, per_page, index) => {
     return (current_page - 1) * per_page + (index + 1)
