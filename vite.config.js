@@ -23,6 +23,9 @@ export default defineConfig({
             "@layouts": fileURLToPath(
                 new URL("./resources/js/Layouts", import.meta.url),
             ),
+            "@stores": fileURLToPath(
+                new URL("./resources/js/Stores", import.meta.url),
+            ),
             "@dashboardCentralPageComponents": fileURLToPath(
                 new URL(
                     "./resources/js/Components/centralPages/dashboard",
