@@ -22,10 +22,11 @@ const props = defineProps({
 const planFeaturesQuery = toRef(props, 'planFeaturesQuery')
 
 function handlerPaginationFeature(page) {
-    return router.get(route('plan_feature.table'), {
+    router.get(route('plan_feature.table'), {
         page: page
     }, {
         preserveScroll: true,
+        preserveState: true
     })
 }
 

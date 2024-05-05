@@ -9,10 +9,8 @@ const emits = defineEmits(["loadPage"])
 
 const paginationRef = toRef(props, 'pagination');
 
-const { total, current_page, last_page, links } = paginationRef.value;
-
 const linkPageNumbers = computed(() => {
-    return links.filter((item) => parseInt(item.label));
+    return paginationRef.value.links.filter((item) => parseInt(item.label));
 })
 </script>
 
@@ -44,13 +42,13 @@ const linkPageNumbers = computed(() => {
 
         <nav class="pagination">
             <ul class="pagination_lists">
-                <li class="pagination_item" v-if="current_page > 1">
+                <li class="pagination_item" v-if="paginationRef.current_page > 1">
                     <button type="button" class="btn_arrow" @click="emits('loadPage', 1)">
                         <i class="pi pi-angle-double-left"></i>
                     </button>
                 </li>
-                <li class="pagination_item" v-if="current_page > 1">
-                    <button type="button" class="btn_arrow" @click="emits('loadPage', current_page - 1)">
+                <li class="pagination_item" v-if="paginationRef.current_page > 1">
+                    <button type="button" class="btn_arrow" @click="emits('loadPage', paginationRef.current_page - 1)">
                         <i class="pi pi-angle-left"></i>
                     </button>
                 </li>
@@ -65,13 +63,13 @@ const linkPageNumbers = computed(() => {
             </ul>
 
             <ul class="pagination_lists">
-                <li class="pagination_item" v-if="current_page < last_page">
-                    <button type="button" class="btn_arrow" @click="emits('loadPage', current_page + 1)">
+                <li class="pagination_item" v-if="paginationRef.current_page < paginationRef.last_page">
+                    <button type="button" class="btn_arrow" @click="emits('loadPage', paginationRef.current_page + 1)">
                         <i class="pi pi-angle-right"></i>
                     </button>
                 </li>
-                <li class="pagination_item" v-if="current_page < last_page">
-                    <button type="button" class="btn_arrow" @click="emits('loadPage', last_page)">
+                <li class="pagination_item" v-if="paginationRef.current_page < paginationRef.last_page">
+                    <button type="button" class="btn_arrow" @click="emits('loadPage', paginationRef.last_page)">
                         <i class="pi pi-angle-double-right"></i>
                     </button>
                 </li>
