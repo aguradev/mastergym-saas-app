@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref, defineAsyncComponent, onUnmounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
-import { useNavMainPlatform } from "@/stores/navigation_menu_item";
-import { useMenuUser } from "@/stores/menu_dropdown_user";
+import { useNavMainPlatform } from "@stores/navigation_menu_item";
+import { useMenuUser } from "@stores/menu_dropdown_user";
 import { storeToRefs } from 'pinia';
 import Divider from 'primevue/divider';
 import Card from '@components/elements/card/DefaultCard.vue';
