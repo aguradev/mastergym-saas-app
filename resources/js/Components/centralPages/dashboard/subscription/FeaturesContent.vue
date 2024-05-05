@@ -6,6 +6,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ActionLists from '@components/elements/ulLists/ActionLists.vue';
 import { router } from '@inertiajs/vue3';
+import NotFound from '@components/ui/cta/NotFound.vue';
 
 const props = defineProps({
     featurePlanDatas: Object
@@ -90,7 +91,11 @@ watch(selectedCheckboxFeature, (newState) => {
             </DataTable>
         </div>
         <div v-else>
-            <p>No Features Plan</p>
+            <NotFound caption="No features found">
+                <template #header>
+                    <h1 class="font-bold text-center mb-14 text-9xl">404</h1>
+                </template>
+            </NotFound>
         </div>
     </section>
 </template>
