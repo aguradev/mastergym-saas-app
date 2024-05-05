@@ -6,7 +6,9 @@ use App\CentralServices\SubscriptionPlan\Services\Interfaces\FeaturePlanInterfac
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CentralRequest\CreateFeaturePlanRequest;
 use App\Models\CentralModel\TenantPlanFeature;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class FeaturePlanController extends Controller
@@ -26,8 +28,28 @@ class FeaturePlanController extends Controller
 
     public function CreateFeaturePlan(CreateFeaturePlanRequest $request)
     {
-        $this->FeaturePlanServices->CreateFeaturePlanHandler($request->items);
-        return redirect()->back()->with('message', 'Feature created');
+        try {
+            $this->FeaturePlanServices->CreateFeaturePlanHandler($request->items);
+            return redirect()->back()->with('message_success', 'Success create features plan');
+        } catch (\Throwable $err) {
+            Log::error($err);
+            return redirect()->back()->with("message_error", "Failed create features plan");
+        }
+    }
+
+    public function DeleteFeature(TenantPlanFeature $tenantPlanFeature)
+    {
+        try {
+            $isDeleted = $this->FeaturePlanServices->DeleteFeaturePlanHandler($tenantPlanFeature->id);
+
+            if (!$isDeleted) {
+                throw new Exception("Failed to delete features plan");
+            }
+            return redirect()->back()->with('message_success', 'Feature Deleted');
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->with("message_error", "Failed delete feature");
+        }
     }
 
     public function EditForm(TenantPlanFeature $tenantPlanFeature)

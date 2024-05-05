@@ -14,6 +14,11 @@ class FeaturePlanRepoImpl implements FeaturePlanInterface
         $this->FeaturePlanModel = $planFeature;
     }
 
+    public function DeletePlanFeature($id)
+    {
+        return $this->FeaturePlanModel::find($id)->delete();
+    }
+
     public function CreatePlanFeature($request)
     {
         return $this->FeaturePlanModel::create([

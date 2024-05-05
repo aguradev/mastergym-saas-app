@@ -5,15 +5,30 @@ import { route } from 'ziggy-js'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ActionLists from '@components/elements/ulLists/ActionLists.vue';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     featurePlanDatas: Object
 })
 
 const featurePlanDatas = toRef(props, 'featurePlanDatas')
+
 const getNumberColumn = (current_page, per_page, index) => {
     return (current_page - 1) * per_page + (index + 1)
 }
+
+const deleteFeaturePlanHandler = (id) => {
+    router.delete(route('plan_feature.delete', {
+        tenantPlanFeature: id
+    }), {
+        onBefore: () => {
+            confirm("are you sure delete features ? ")
+        },
+        preserveState: true,
+        preserveScroll: true
+    })
+}
+
 </script>
 
 <template>
@@ -53,7 +68,7 @@ const getNumberColumn = (current_page, per_page, index) => {
                 </Column>
                 <Column header="Action">
                     <template #body="slotProps">
-                        <ActionLists
+                        <ActionLists @deleteEvent="deleteFeaturePlanHandler(slotProps.data.id)"
                             :editRoute="route('plan_feature.edit-form', { tenantPlanFeature: slotProps.data.id })" />
                     </template>
                 </Column>
