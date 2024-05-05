@@ -6,7 +6,7 @@ import { useMenuUser } from "@/stores/menu_dropdown_user";
 import { storeToRefs } from 'pinia';
 import Divider from 'primevue/divider';
 import Card from '@/components/elements/card/DefaultCard.vue';
-import DashboardLayout from '@/components/layouts/DashboardLayout.vue';
+import DashboardLayout from '@layouts/DashboardLayout.vue';
 import TenantLatestSection from '@dashboardCentralPageComponents/mainMenu/tenantLatest_section.vue';
 import LatestTransactionSubscriptionSection from '@dashboardCentralPageComponents/mainMenu/LatestTransactionSubscription_section.vue';
 

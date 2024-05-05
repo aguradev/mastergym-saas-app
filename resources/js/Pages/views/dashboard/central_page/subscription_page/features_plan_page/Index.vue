@@ -2,7 +2,7 @@
 import { provide, ref, toRef, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
-import SubscriptionsLayout from '@/components/layouts/SubscriptionsLayout.vue';
+import SubscriptionsLayout from '@layouts/SubscriptionsLayout.vue';
 import TablePagination from '@/components/elements/pagination/TablePagination.vue';
 import PrimaryButton from '@/components/elements/button/PrimaryButton.vue';
 import CreateForm from '@/views/dashboard/central_page/subscription_page/featuresPlanPage/CreateForm.vue';
