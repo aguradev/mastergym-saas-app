@@ -41,11 +41,6 @@ watchEffect(() => {
     }
 })
 
-// watch(() => page.props.flash?.message_success, (val) => {
-
-// })
-
-
 </script>
 
 <template>
