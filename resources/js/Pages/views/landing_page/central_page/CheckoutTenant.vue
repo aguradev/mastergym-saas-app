@@ -1,7 +1,7 @@
 <script setup>
     import { ref } from 'vue';
     import { Head } from '@inertiajs/vue3';
-    import MainNavLayout from '@/layouts/MainNavLayout.vue';
+    import MainNavLayout from '@layouts/MainNavLayout.vue';
 </script>
 
 <style scoped>
@@ -18,7 +18,7 @@ module.exports = {
         -moz-appearance: none;
         appearance: none;
         -webkit-print-color-adjust: exact;
-        color-adjust: exact;
+        print-color-adjust: exact;
         display: inline-block;
         vertical-align: middle;
         background-origin: border-box;

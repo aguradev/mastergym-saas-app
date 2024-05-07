@@ -2,7 +2,7 @@
     import { ref } from 'vue';
     import { Head } from '@inertiajs/vue3';
 
-    import MainNavLayout from '@/layouts/MainNavLayout.vue';
+    import MainNavLayout from '@layouts/MainNavLayout.vue';
     import UploadImage from './component/UploadImage.vue';
 
     import FileUpload from 'primevue/fileupload';
@@ -38,7 +38,10 @@
             <div class="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
         </div>
         <div class="flex w-1/2 overflow-scroll overflow-x-hidden justify-center py-5 h-full pt-[0px]items-center bg-white">
-            <form class="bg-white w-full h-min px-20">
+            <form
+                @submit.prevent="submit"
+                class="bg-white w-full h-min px-20"
+            >
                 <h1 class="text-gray-800 font-bold text-2xl mt-20 mb-1">Lets Setup Your Account!</h1>
                 <p class="text-sm font-normal text-gray-600 mb-7">Setting Up Your Gym Configuration!</p>
 
