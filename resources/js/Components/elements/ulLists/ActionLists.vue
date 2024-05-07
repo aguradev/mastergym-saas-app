@@ -7,7 +7,11 @@ const props = defineProps({
     deleteRoute: String
 })
 
-const emits = defineEmits(["deleteEvent"])
+const emits = defineEmits(["deleteEvent", "detailEvent"])
+
+function detailEventHandler(e) {
+    emits('detailEvent')
+}
 </script>
 
 <style scoped>
@@ -27,9 +31,9 @@ const emits = defineEmits(["deleteEvent"])
 <template>
     <ul class="action_lists">
         <li class="action_item">
-            <Link href="#" class="action_link">
-            <i class="pi pi-eye"></i>
-            </Link>
+            <button type="button" class="action_link" @click="detailEventHandler">
+                <i class="pi pi-eye"></i>
+            </button>
         </li>
         <li class="action_item">
             <Link :href="editRoute" class="action_link" preserve-state>

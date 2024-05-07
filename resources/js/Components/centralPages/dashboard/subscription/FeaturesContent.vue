@@ -7,17 +7,23 @@ import Column from 'primevue/column';
 import ActionLists from '@components/elements/ulLists/ActionLists.vue';
 import { router } from '@inertiajs/vue3';
 import NotFound from '@components/ui/cta/NotFound.vue';
+import FeatureDetail from '@pages/dashboard/central_page/subscription_page/features_plan_page/FeatureDetail.vue';
 
 const props = defineProps({
     featurePlanDatas: Object
 })
 
 const selectedCheckboxFeature = ref([]);
+const featureDetailModal = ref(false)
 
 const featurePlanDatas = toRef(() => props.featurePlanDatas)
 
 const getNumberColumn = (current_page, per_page, index) => {
     return (current_page - 1) * per_page + (index + 1)
+}
+
+const detailEventActive = () => {
+    featureDetailModal.value = true
 }
 
 const deleteFeaturePlanHandler = (id) => {
@@ -85,7 +91,8 @@ watch(selectedCheckboxFeature, (newState) => {
                 <Column header="Action">
                     <template #body="slotProps">
                         <ActionLists @deleteEvent="deleteFeaturePlanHandler(slotProps.data.id)"
-                            :editRoute="route('plan_feature.edit-form', { tenantPlanFeature: slotProps.data.id })" />
+                            :editRoute="route('plan_feature.edit-form', { tenantPlanFeature: slotProps.data.id })"
+                            @detailEvent="detailEventActive" />
                     </template>
                 </Column>
             </DataTable>
@@ -98,4 +105,21 @@ watch(selectedCheckboxFeature, (newState) => {
             </NotFound>
         </div>
     </section>
+
+    <transition name="scaleIn">
+        <FeatureDetail :modal-visible="featureDetailModal" v-if="featureDetailModal"
+            @close-feature-detail="() => featureDetailModal = false" />
+    </transition>
 </template>
+
+<style scoped>
+.scaleIn-enter-active,
+.scaleIn-leave-active {
+    @apply duration-500;
+}
+
+.scaleIn-enter-from,
+.scaleIn-leave-to {
+    @apply scale-90 opacity-0;
+}
+</style>
