@@ -1,21 +1,23 @@
 <script setup>
-import { ref, toRef, watch } from 'vue';
+import { defineAsyncComponent, ref, toRef, watch } from 'vue';
 import { route } from 'ziggy-js'
 
+import Modal from '@components/ui/modal/Index.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ActionLists from '@components/elements/ulLists/ActionLists.vue';
 import { router } from '@inertiajs/vue3';
 import NotFound from '@components/ui/cta/NotFound.vue';
-import FeatureDetail from '@pages/dashboard/central_page/subscription_page/features_plan_page/FeatureDetail.vue';
 
 const props = defineProps({
     featurePlanDatas: Object
 })
-
 const selectedCheckboxFeature = ref([]);
 const featureDetailModal = ref(false)
 const featureDetailId = ref(null);
+const LazyFeatureDetail = defineAsyncComponent({
+    loader: () => import('@pages/dashboard/central_page/subscription_page/features_plan_page/FeatureDetail.vue')
+})
 
 const featurePlanDatas = toRef(() => props.featurePlanDatas)
 
@@ -23,7 +25,7 @@ const getNumberColumn = (current_page, per_page, index) => {
     return (current_page - 1) * per_page + (index + 1)
 }
 
-const detailEventActive = (id) => {
+const openFeatureDetailModal = (id) => {
     featureDetailModal.value = true
     featureDetailId.value = id;
 }
@@ -99,7 +101,7 @@ watch(selectedCheckboxFeature, (newState) => {
                     <template #body="slotProps">
                         <ActionLists @deleteEvent="deleteFeaturePlanHandler(slotProps.data.id)"
                             :editRoute="route('plan_feature.edit-form', { tenantPlanFeature: slotProps.data.id })"
-                            @detailEvent="detailEventActive(slotProps.data.id)" />
+                            @detailEvent="openFeatureDetailModal(slotProps.data.id)" />
                     </template>
                 </Column>
             </DataTable>
@@ -114,8 +116,15 @@ watch(selectedCheckboxFeature, (newState) => {
     </section>
 
     <transition name="scaleIn">
-        <FeatureDetail :modal-visible="featureDetailModal" v-if="featureDetailModal"
-            @close-feature-detail="closeFeatureDetailHandler" :id="featureDetailId" />
+        <Modal title="Feature Detail" @closeFeatureDetail="closeFeatureDetailHandler" v-if="featureDetailModal">
+            <Suspense>
+                <LazyFeatureDetail :id="featureDetailId" />
+
+                <template #fallback>
+                    Loading...
+                </template>
+            </Suspense>
+        </Modal>
     </transition>
 </template>
 
