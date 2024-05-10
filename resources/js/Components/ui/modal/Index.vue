@@ -1,5 +1,5 @@
 <script setup>
-import { toRefs, onMounted, onUnmounted } from 'vue';
+import { toRefs, onMounted, onUnmounted, watch } from 'vue';
 
 const props = defineProps({
     title: String,
@@ -9,36 +9,40 @@ const props = defineProps({
 const { title, modalVisible } = toRefs(props);
 const emits = defineEmits(["closeModal"])
 
-onMounted(() => {
-    document.body.classList.add("overflow-hidden");
-})
 
-onUnmounted(() => {
-    document.body.classList.remove("overflow-hidden")
+watch(() => modalVisible.value, (newVal, prevVal) => {
+    if (!newVal) {
+        document.body.classList.remove("overflow-hidden");
+        return;
+    }
+
+    document.body.classList.add("overflow-hidden")
 })
 
 </script>
 
 <template>
-    <transition name="scaleIn">
-        <div class="fixed top-0 left-0 w-full h-full grid place-content-center bg-primary-800/60 z-[99] px-8"
-            v-if="modalVisible">
-            <div class="p-8 border rounded-lg bg-primary-700 border-surface-500 w-[400px] lg:min-w-[800px]">
-                <div class="flex items-center justify-between mb-5">
-                    <h3 class="text-2xl font-semibold">{{ title }}</h3>
-                    <button type="button" @click="$emit('closeModal')">x</button>
-                </div>
+    <div class="fixed top-0 left-0 grid w-full h-full px-8 place-content-center bg-primary-800/60" v-if="modalVisible">
+    </div>
 
-                <slot />
+    <transition name="scaleIn">
+        <div class="p-8 border rounded-lg bg-primary-700 border-surface-500 z-[99] min-w-[400px] sm:min-w-[600px] md:min-w-[800px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            v-if="modalVisible">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-2xl font-semibold">{{ title }}</h3>
+                <button type="button" @click="$emit('closeModal')">x</button>
             </div>
+
+            <slot />
         </div>
     </transition>
+
 </template>
 
 <style scoped>
 .scaleIn-enter-active,
 .scaleIn-leave-active {
-    @apply duration-500;
+    @apply duration-200;
 }
 
 .scaleIn-enter-from,
