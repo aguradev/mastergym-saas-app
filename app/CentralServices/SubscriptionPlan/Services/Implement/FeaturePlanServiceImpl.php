@@ -19,6 +19,11 @@ class FeaturePlanServiceImpl implements FeaturePlanInterface
         $this->featurePlanRepos = $featurePlan;
     }
 
+    public function DeleteFeaturePlanHandler(string $id)
+    {
+        return $this->featurePlanRepos->DeletePlanFeature($id);
+    }
+
     public function CreateFeaturePlanHandler(array $requestItems)
     {
         try {

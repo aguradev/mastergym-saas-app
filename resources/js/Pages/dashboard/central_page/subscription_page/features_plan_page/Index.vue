@@ -1,5 +1,5 @@
 <script setup>
-import { provide, ref, toRef, watch } from 'vue';
+import { provide, ref, toRef, watch, watchEffect } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import SubscriptionsLayout from '@layouts/SubscriptionsLayout.vue';
@@ -9,6 +9,7 @@ import CreateForm from '@pages/dashboard/central_page/subscription_page/features
 import FeaturesContent from '@components/centralPages/dashboard/subscription/FeaturesContent.vue';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
+
 
 const openModal = ref(false);
 const page = usePage();
@@ -22,22 +23,24 @@ const props = defineProps({
 const planFeaturesQuery = toRef(props, 'planFeaturesQuery')
 
 function handlerPaginationFeature(page) {
-    return router.get(route('plan_feature.table'), {
+    router.get(route('plan_feature.table'), {
         page: page
     }, {
         preserveScroll: true,
+        preserveState: true
     })
 }
 
-watch(() => page.props.flash?.message, (val) => {
-    toast.add({
-        severity: "success",
-        summary: "info",
-        detail: val,
-        life: 3000
-    })
+watchEffect(() => {
+    if (page.props.flash?.message_success) {
+        toast.add({
+            severity: "success",
+            summary: "info",
+            detail: page.props.flash?.message_success,
+            life: 3000
+        })
+    }
 })
-
 
 </script>
 
