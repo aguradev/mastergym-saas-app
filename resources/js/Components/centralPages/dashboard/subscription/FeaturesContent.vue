@@ -116,8 +116,7 @@ watch(selectedCheckboxFeature, (newState) => {
     </section>
 
     <transition name="scaleIn">
-        <Modal title="Feature Detail" @closeFeatureDetail="closeFeatureDetailHandler"
-            :modalVisible="featureDetailModal">
+        <Modal title="Feature Detail" @closeModal="closeFeatureDetailHandler" :modalVisible="featureDetailModal">
             <Suspense>
                 <LazyFeatureDetail :id="featureDetailId" />
 

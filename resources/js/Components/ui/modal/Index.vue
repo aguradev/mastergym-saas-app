@@ -7,7 +7,7 @@ const props = defineProps({
 })
 
 const { title, modalVisible } = toRefs(props);
-const emits = defineEmits(["closeFeatureDetail"])
+const emits = defineEmits(["closeModal"])
 
 onMounted(() => {
     document.body.classList.add("overflow-hidden");
@@ -26,7 +26,7 @@ onUnmounted(() => {
             <div class="p-8 border rounded-lg bg-primary-700 border-surface-500 w-[400px] lg:min-w-[800px]">
                 <div class="flex items-center justify-between mb-5">
                     <h3 class="text-2xl font-semibold">{{ title }}</h3>
-                    <button type="button" @click="$emit('closeFeatureDetail')">x</button>
+                    <button type="button" @click="$emit('closeModal')">x</button>
                 </div>
 
                 <slot />
