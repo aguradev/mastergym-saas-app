@@ -22,7 +22,7 @@ watch(() => modalVisible.value, (newVal, prevVal) => {
 </script>
 
 <template>
-    <div class="fixed top-0 left-0 grid w-full h-full px-8 place-content-center bg-primary-900/70g" v-if="modalVisible">
+    <div class="fixed top-0 left-0 grid w-full h-full px-8 place-content-center bg-primary-900/70" v-if="modalVisible">
     </div>
 
     <transition name="scaleIn">
