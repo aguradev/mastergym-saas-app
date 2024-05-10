@@ -28,6 +28,11 @@ const detailEventActive = (id) => {
     featureDetailId.value = id;
 }
 
+const closeFeatureDetailHandler = () => {
+    featureDetailModal.value = false
+    featureDetailId.value = null;
+}
+
 const deleteFeaturePlanHandler = (id) => {
     router.delete(route('plan_feature.delete', {
         tenantPlanFeature: id
@@ -110,7 +115,7 @@ watch(selectedCheckboxFeature, (newState) => {
 
     <transition name="scaleIn">
         <FeatureDetail :modal-visible="featureDetailModal" v-if="featureDetailModal"
-            @close-feature-detail="() => featureDetailModal = false" :id="featureDetailId" />
+            @close-feature-detail="closeFeatureDetailHandler" :id="featureDetailId" />
     </transition>
 </template>
 
