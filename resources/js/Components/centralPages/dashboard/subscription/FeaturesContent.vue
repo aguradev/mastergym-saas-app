@@ -15,6 +15,7 @@ const props = defineProps({
 
 const selectedCheckboxFeature = ref([]);
 const featureDetailModal = ref(false)
+const featureDetailId = ref(null);
 
 const featurePlanDatas = toRef(() => props.featurePlanDatas)
 
@@ -22,8 +23,9 @@ const getNumberColumn = (current_page, per_page, index) => {
     return (current_page - 1) * per_page + (index + 1)
 }
 
-const detailEventActive = () => {
+const detailEventActive = (id) => {
     featureDetailModal.value = true
+    featureDetailId.value = id;
 }
 
 const deleteFeaturePlanHandler = (id) => {
@@ -92,7 +94,7 @@ watch(selectedCheckboxFeature, (newState) => {
                     <template #body="slotProps">
                         <ActionLists @deleteEvent="deleteFeaturePlanHandler(slotProps.data.id)"
                             :editRoute="route('plan_feature.edit-form', { tenantPlanFeature: slotProps.data.id })"
-                            @detailEvent="detailEventActive" />
+                            @detailEvent="detailEventActive(slotProps.data.id)" />
                     </template>
                 </Column>
             </DataTable>
@@ -108,7 +110,7 @@ watch(selectedCheckboxFeature, (newState) => {
 
     <transition name="scaleIn">
         <FeatureDetail :modal-visible="featureDetailModal" v-if="featureDetailModal"
-            @close-feature-detail="() => featureDetailModal = false" />
+            @close-feature-detail="() => featureDetailModal = false" :id="featureDetailId" />
     </transition>
 </template>
 

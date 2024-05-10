@@ -1,16 +1,36 @@
 <script setup>
-import { toRefs, onMounted, onUnmounted } from 'vue';
+import { router } from '@inertiajs/vue3';
+import { toRefs, onMounted, onUnmounted, ref } from 'vue';
+import { route } from 'ziggy-js';
 
 const props = defineProps({
-    featureDataDetail: Object,
-    modalVisible: Boolean
+    modalVisible: Boolean,
+    id: String
 })
 
-const { featureDataDetail, modalVisible } = toRefs(props);
+const { modalVisible, id } = toRefs(props);
 const emits = defineEmits(["closeFeatureDetail"])
+const featureDataDetail = ref([]);
+
+async function fetchFeatureDetail() {
+    const res = await fetch(route('plan_feature.json.detail', {
+        tenantPlanFeature: id.value
+    }), {
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+
+    if (res.ok) {
+        const data = await res.json();
+        featureDataDetail.value = { ...data.results };
+    }
+}
 
 onMounted(() => {
-    document.body.classList.add("overflow-hidden")
+    document.body.classList.add("overflow-hidden");
+    fetchFeatureDetail();
 })
 
 onUnmounted(() => {
@@ -26,7 +46,12 @@ onUnmounted(() => {
                 <h3 class="text-2xl font-semibold">Feature Detail</h3>
                 <button type="button" @click="$emit('closeFeatureDetail')">x</button>
             </div>
-            <slot />
+
+            <div>
+                <h4>Name:</h4>
+                <p>{{ featureDataDetail.name }}</p>
+            </div>
+
         </div>
     </div>
 </template>

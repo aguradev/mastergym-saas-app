@@ -8,6 +8,7 @@ use App\Http\Requests\CentralRequest\CreateFeaturePlanRequest;
 use App\Models\CentralModel\TenantPlanFeature;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -24,6 +25,16 @@ class FeaturePlanController extends Controller
         $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->paginate(8);
 
         return Inertia::render('dashboard/central_page/subscription_page/features_plan_page/Index', compact('planFeaturesQuery'));
+    }
+
+    public function featurePlanDetail(TenantPlanFeature $tenantPlanFeature)
+    {
+        return response()->json([
+            "status" => "Get Data Feature Plan Detail",
+            "results" => $tenantPlanFeature
+        ])->withHeaders([
+            "Content-Type" => "application/json",
+        ])->setStatusCode(Response::HTTP_OK);
     }
 
     public function CreateFeaturePlan(CreateFeaturePlanRequest $request)
