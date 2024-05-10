@@ -22,14 +22,16 @@ class CreateFeaturePlanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'items.*.input_feature' => "required|string"
+            'items.*.input_feature' => "required|string|min:6|unique:tenant_plan_features,name"
         ];
     }
 
     public function messages(): array
     {
         return [
-            'items.*.input_feature.required' => 'Feature input required!'
+            'items.*.input_feature.required' => 'Feature input required!',
+            'items.*.input_feature.min' => 'Minimum 6 word!',
+            'items.*.input_feature.unique' => 'Feature plan already exists!'
         ];
     }
 }
