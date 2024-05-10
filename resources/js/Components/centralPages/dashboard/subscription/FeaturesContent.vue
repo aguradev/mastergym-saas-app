@@ -8,6 +8,9 @@ import Column from 'primevue/column';
 import ActionLists from '@components/elements/ulLists/ActionLists.vue';
 import { router } from '@inertiajs/vue3';
 import NotFound from '@components/ui/cta/NotFound.vue';
+const LazyFeatureDetail = defineAsyncComponent({
+    loader: () => import('@pages/dashboard/central_page/subscription_page/features_plan_page/FeatureDetail.vue')
+})
 
 const props = defineProps({
     featurePlanDatas: Object
@@ -15,9 +18,6 @@ const props = defineProps({
 const selectedCheckboxFeature = ref([]);
 const featureDetailModal = ref(false)
 const featureDetailId = ref(null);
-const LazyFeatureDetail = defineAsyncComponent({
-    loader: () => import('@pages/dashboard/central_page/subscription_page/features_plan_page/FeatureDetail.vue')
-})
 
 const featurePlanDatas = toRef(() => props.featurePlanDatas)
 
@@ -115,15 +115,14 @@ watch(selectedCheckboxFeature, (newState) => {
         </div>
     </section>
 
-    <transition name="scaleIn">
-        <Modal title="Feature Detail" @closeModal="closeFeatureDetailHandler" :modalVisible="featureDetailModal">
-            <Suspense>
-                <LazyFeatureDetail :id="featureDetailId" />
 
-                <template #fallback>
-                    Loading...
-                </template>
-            </Suspense>
-        </Modal>
-    </transition>
+    <Modal title="Feature Detail" @closeModal="closeFeatureDetailHandler" :modalVisible="featureDetailModal">
+        <Suspense>
+            <LazyFeatureDetail :id="featureDetailId" />
+            <template #fallback>
+                Loading...
+            </template>
+        </Suspense>
+    </Modal>
+
 </template>
