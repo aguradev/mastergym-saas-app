@@ -3,14 +3,16 @@ import 'primeicons/primeicons.css'
 import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
-    editRoute: String,
     deleteRoute: String
 })
 
-const emits = defineEmits(["deleteEvent", "detailEvent"])
+const emits = defineEmits(["deleteEvent", "detailEvent", "editEvent"])
 
 function detailEventHandler(e) {
     emits('detailEvent')
+}
+function editEventHandler(e) {
+    emits('editEvent')
 }
 </script>
 
@@ -36,9 +38,9 @@ function detailEventHandler(e) {
             </button>
         </li>
         <li class="action_item">
-            <Link :href="editRoute" class="action_link" preserve-state>
-            <i class="pi pi-pencil"></i>
-            </Link>
+            <button type="button" class="action_link" @click="editEventHandler">
+                <i class="pi pi-pencil"></i>
+            </button>
         </li>
         <li class="action_item">
             <Link as="button" class="!py-[10px] action_link" @click="$emit('deleteEvent')">

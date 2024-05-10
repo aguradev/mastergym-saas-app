@@ -17,6 +17,7 @@ const props = defineProps({
 })
 const selectedCheckboxFeature = ref([]);
 const featureDetailModal = ref(false)
+const featureEditFormModal = ref(false)
 const featureDetailId = ref(null);
 
 const featurePlanDatas = toRef(() => props.featurePlanDatas)
@@ -30,8 +31,18 @@ const openFeatureDetailModal = (id) => {
     featureDetailId.value = id;
 }
 
+const openFeatureEditModal = (id) => {
+    featureEditFormModal.value = true
+    featureDetailId.value = id;
+}
+
 const closeFeatureDetailHandler = () => {
     featureDetailModal.value = false
+    featureDetailId.value = null;
+}
+
+const closeFeatureEditHandler = () => {
+    featureEditFormModal.value = false
     featureDetailId.value = null;
 }
 
@@ -100,7 +111,7 @@ watch(selectedCheckboxFeature, (newState) => {
                 <Column header="Action">
                     <template #body="slotProps">
                         <ActionLists @deleteEvent="deleteFeaturePlanHandler(slotProps.data.id)"
-                            :editRoute="route('plan_feature.edit-form', { tenantPlanFeature: slotProps.data.id })"
+                            @editEvent="openFeatureEditModal(slotProps.data.id)"
                             @detailEvent="openFeatureDetailModal(slotProps.data.id)" />
                     </template>
                 </Column>
@@ -124,5 +135,15 @@ watch(selectedCheckboxFeature, (newState) => {
             </template>
         </Suspense>
     </Modal>
+
+    <Modal title="Edit Form" @closeModal="closeFeatureEditHandler" :modalVisible="featureEditFormModal">
+        <Suspense>
+            <LazyFeatureDetail :id="featureDetailId" />
+            <template #fallback>
+                Loading...
+            </template>
+        </Suspense>
+    </Modal>
+
 
 </template>
