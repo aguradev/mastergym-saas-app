@@ -13,6 +13,11 @@ const getSubscriptionTab = useSubscriptionTabs();
 
 const { tabContents } = getSubscriptionTab;
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform)
+
+onMounted(() => {
+    menuItemActive.value = navigationMenuItem.value[1]?.items[1]
+})
+
 </script>
 
 <template>

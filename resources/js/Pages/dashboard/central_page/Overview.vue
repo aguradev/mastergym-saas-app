@@ -21,6 +21,10 @@ const getNavMainPlatform = useNavMainPlatform();
 const storeMenuUser = useMenuUser();
 const { isMenuItemActive } = storeMenuUser;
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform);
+
+onMounted(() => {
+    menuItemActive.value = navigationMenuItem.value[1]?.items[0]
+})
 </script>
 
 <style scoped>

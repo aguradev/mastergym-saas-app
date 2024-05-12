@@ -1,9 +1,10 @@
 <script setup>
 import Menu from 'primevue/menu';
 import MenuDropdown from "@components/elements/dropdownToggle/index.vue";
+import DashboardSidebar from '@components/ui/sidebar/DashboardSidebar.vue';
 import { useMenuUser } from '@stores/menu_dropdown_user';
 import { router } from '@inertiajs/vue3';
-import { toRef } from 'vue';
+import { toRef, toRefs } from 'vue';
 
 const storeMenuUser = useMenuUser();
 const { menuItem } = storeMenuUser;
@@ -46,9 +47,7 @@ const props = defineProps({
     }
 })
 
-const menuItemSelected = toRef(() => props.menuItemActive)
-
-
+const { menuItems, menuItemActive } = toRefs(props)
 </script>
 
 <style scoped>
@@ -73,7 +72,9 @@ const menuItemSelected = toRef(() => props.menuItemActive)
 
     <div class="flex w-full min-h-screen">
 
-        <Menu :model="props.menuItems" :pt="{
+        <DashboardSidebar :menuNav="menuItems" :menu-nav-activated="menuItemActive" />
+
+        <!-- <Menu :model="props.menuItems" :pt="{
             root: 'border-r border-primary-600 w-72 rounded-none',
             start: 'sticky top-0 left-0',
             submenuheader: 'mt-[2rem] mb-3 px-4 font-bold px-8 text-lg',
@@ -86,11 +87,11 @@ const menuItemSelected = toRef(() => props.menuItemActive)
                 </header>
             </template>
 
-            <template #submenuheader="{ item }" class="mt-5">
+<template #submenuheader="{ item }" class="mt-5">
                 <span class="text-surface-500">{{ item.label }}</span>
             </template>
 
-            <template #item="{ item, props }">
+<template #item="{ item, props }">
                 <a v-ripple v-bind="props.action" :href="item.link"
                     class="flex items-center px-8 text-base gap-x-5 hover:text-white dark:text-white/35"
                     :class="{ 'active': item == menuItemSelected }">
@@ -100,9 +101,9 @@ const menuItemSelected = toRef(() => props.menuItemActive)
                         }}</span>
                 </a>
             </template>
-        </Menu>
+</Menu> -->
 
-        <main class="flex-1 main">
+        <main class="flex-1 main ml-72">
             <nav class="flex items-center justify-between p-8">
                 <div class="heading">
                     <h3 class="text-2xl font-bold">{{ props.titleNav }}</h3>
