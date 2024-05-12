@@ -23,7 +23,13 @@ class FeaturePlanController extends Controller
     }
     public function FeaturePlanTable()
     {
-        $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->paginate(8);
+        $planFeaturesQuery = TenantPlanFeature::orderByRaw("
+        CASE
+        WHEN (SELECT MAX(created_at) FROM tenant_plan_features where tpf.created_at is not null) > (SELECT MAX(updated_at) FROM tenant_plan_features where tpf.updated_at is not null) THEN created_at
+        WHEN (SELECT MAX(created_at) FROM tenant_plan_features where tpf.created_at is not null) < (SELECT MAX(updated_at) FROM tenant_plan_features where tpf.updated_at is not null) THEN updated_at
+		else created_at
+        end DESC
+        ")->paginate(8);
 
         return Inertia::render('dashboard/central_page/subscription_page/features_plan_page/Index', compact('planFeaturesQuery'));
     }
