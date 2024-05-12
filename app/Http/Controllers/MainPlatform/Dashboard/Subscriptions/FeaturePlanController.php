@@ -66,10 +66,12 @@ class FeaturePlanController extends Controller
 
     public function UpdateFeature(TenantPlanFeature $tenantPlanFeature, EditFeaturePlanRequest $request)
     {
-        $tenantPlanFeature->update([
-            'name' => $request->input_feature,
-            'updated_at' => now()
-        ]);
+        $updateFeatureHandler = $this->FeaturePlanServices->UpdateFeaturePlanHandler($request->all());
+
+        if (!$updateFeatureHandler) {
+            return redirect()->back()->with('message_error', 'Feature plan failed update');
+        }
+
         return redirect()->back()->with('message_success', 'Feature plan updated');
     }
 }

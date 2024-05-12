@@ -40,6 +40,14 @@ watchEffect(() => {
             life: 3000
         })
     }
+    if (page.props.flash?.message_error) {
+        toast.add({
+            severity: "error",
+            summary: "info",
+            detail: page.props.flash?.message_error,
+            life: 3000
+        })
+    }
 })
 
 </script>
