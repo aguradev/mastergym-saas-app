@@ -26,6 +26,9 @@ export default defineConfig({
             "@stores": fileURLToPath(
                 new URL("./resources/js/Stores", import.meta.url),
             ),
+            "@lib": fileURLToPath(
+                new URL("./resources/js/Lib", import.meta.url),
+            ),
             "@dashboardCentralPageComponents": fileURLToPath(
                 new URL(
                     "./resources/js/Components/centralPages/dashboard",

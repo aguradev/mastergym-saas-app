@@ -15,7 +15,7 @@ Route::prefix("subscriptions")->group(function () {
         Route::get("/", 'FeaturePlanTable')->name('plan_feature.table');
         Route::get('api/{tenantPlanFeature}', 'featurePlanDetail')->name('plan_feature.json.detail')->middleware('redirect_json_access');
         Route::delete('{tenantPlanFeature}', 'DeleteFeature')->name('plan_feature.delete');
-        Route::get('/{tenantPlanFeature}/edit-form', 'EditForm')->name('plan_feature.edit-form');
+        Route::put('/{tenantPlanFeature}/edit-form', 'UpdateFeature')->name('plan_feature.update');
         Route::post("/", 'CreateFeaturePlan')->name("plan_feature.create");
     });
 });

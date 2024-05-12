@@ -1,6 +1,7 @@
 <script setup>
 import { toRefs, onMounted, onUnmounted, ref } from 'vue';
 import { route } from 'ziggy-js';
+import axiosHttp from '@lib/axios';
 
 const props = defineProps({
     id: String
@@ -11,17 +12,12 @@ const featureDataDetail = ref(null);
 
 async function fetchFeatureDetail() {
     try {
-        const res = await fetch(route('plan_feature.json.detail', {
+        const res = await axiosHttp.get(route('plan_feature.json.detail', {
             tenantPlanFeature: id.value
-        }), {
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
+        }))
 
-        if (res.ok) {
-            const data = await res.json();
+        if (res.status == 200) {
+            const data = await res.data;
             featureDataDetail.value = { ...data.results };
         }
     } catch (e) {

@@ -11,6 +11,9 @@ import NotFound from '@components/ui/cta/NotFound.vue';
 const LazyFeatureDetail = defineAsyncComponent({
     loader: () => import('@pages/dashboard/central_page/subscription_page/features_plan_page/FeatureDetail.vue')
 })
+const LazyFeatureEditForm = defineAsyncComponent({
+    loader: () => import('@pages/dashboard/central_page/subscription_page/features_plan_page/EditForm.vue')
+})
 
 const props = defineProps({
     featurePlanDatas: Object
@@ -105,7 +108,7 @@ watch(selectedCheckboxFeature, (newState) => {
                 </Column>
                 <Column header="Updated At">
                     <template #body="slotProps">
-                        <div>{{ slotProps.data.updated_at ?? '-' }}</div>
+                        <div>{{ slotProps.data.updated_at ? slotProps.data.updated_at_diff_human : '-' }}</div>
                     </template>
                 </Column>
                 <Column header="Action">
@@ -138,7 +141,7 @@ watch(selectedCheckboxFeature, (newState) => {
 
     <Modal title="Edit Form" @closeModal="closeFeatureEditHandler" :modalVisible="featureEditFormModal">
         <Suspense>
-            <LazyFeatureDetail :id="featureDetailId" />
+            <LazyFeatureEditForm :id="featureDetailId" @closeModal="closeFeatureEditHandler" />
             <template #fallback>
                 Loading...
             </template>

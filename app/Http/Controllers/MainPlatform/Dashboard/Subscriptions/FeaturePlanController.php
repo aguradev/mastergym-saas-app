@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MainPlatform\Dashboard\Subscriptions;
 use App\CentralServices\SubscriptionPlan\Services\Interfaces\FeaturePlanInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CentralRequest\CreateFeaturePlanRequest;
+use App\Http\Requests\CentralRequest\EditFeaturePlanRequest;
 use App\Models\CentralModel\TenantPlanFeature;
 use Exception;
 use Illuminate\Http\Request;
@@ -63,8 +64,12 @@ class FeaturePlanController extends Controller
         }
     }
 
-    public function EditForm(TenantPlanFeature $tenantPlanFeature)
+    public function UpdateFeature(TenantPlanFeature $tenantPlanFeature, EditFeaturePlanRequest $request)
     {
-        dd($tenantPlanFeature);
+        $tenantPlanFeature->update([
+            'name' => $request->input_feature,
+            'updated_at' => now()
+        ]);
+        return redirect()->back()->with('message_success', 'Feature plan updated');
     }
 }

@@ -17,7 +17,7 @@ const { menuNav, menuNavActivated } = toRefs(props);
 
         <nav class="flex flex-col flex-1 gap-y-8">
             <Link v-for="(menu, j) in menuNav[1]?.items" :key="j" :href="menu.link"
-                class="flex items-center px-6 font-[500] text-base text-primary-400 hover:text-surface-400 transition text-nowrap"
+                class="flex items-center px-8 font-[500] text-base text-primary-400 hover:text-surface-400 transition text-nowrap"
                 :class="{ 'text-surface-400 font-semibold': menuNavActivated === menu }">
             <i :class="menu.icon" class="mr-3"></i>
             <span>{{ menu.label }}</span>
