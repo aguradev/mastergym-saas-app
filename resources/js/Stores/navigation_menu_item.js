@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 
 export const useNavMainPlatform = defineStore("dashboard_nav", () => {
     const navigationMenuItem = reactive([
@@ -13,33 +13,27 @@ export const useNavMainPlatform = defineStore("dashboard_nav", () => {
                     icon: "pi pi-chart-pie",
                     label: "Dashboard",
                     link: route("central-dashboard.main"),
-                    is_active: false,
                 },
                 {
                     icon: "pi pi-users",
                     label: "Subscription",
                     link: route("central-dashboard.subscriptions"),
-                    is_active: false,
                 },
                 {
                     icon: "pi pi-building",
                     label: "Vendor",
-                    is_active: false,
                 },
                 {
                     icon: "pi pi-users",
                     label: "User Management",
-                    is_active: false,
                 },
                 {
                     icon: "pi pi-money-bill",
                     label: "Transactions",
-                    is_active: false,
                 },
                 {
                     icon: "pi pi-cog",
                     label: "Setting",
-                    is_active: false,
                 },
             ],
         },
@@ -48,33 +42,22 @@ export const useNavMainPlatform = defineStore("dashboard_nav", () => {
         },
     ]);
 
+    const menuItemActive = ref(navigationMenuItem[1]?.items[0]);
+
     const findNavigationMenuData = computed(() => {
         return navigationMenuItem.find((item) => {
             return item.label == "Menus";
         });
     });
 
-    const resetToFalseAllNavigation = computed(() => {
-        return findNavigationMenuData.value.items.map(
-            (item) => (item.is_active = false),
-        );
-    });
-
-    const updateMenusItemActive = (route_url) => {
-        const findPositionRouteName = findNavigationMenuData.value.items.find(
-            (item) => {
-                return item.link.includes(route_url);
-            },
-        );
-
-        resetToFalseAllNavigation;
-
-        findPositionRouteName.is_active = true;
+    const isMenuItemActivated = (item) => {
+        return item === menuItemActive.value;
     };
 
     return {
         navigationMenuItem,
         findNavigationMenuData,
-        updateMenusItemActive,
+        menuItemActive,
+        isMenuItemActivated,
     };
 });

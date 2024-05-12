@@ -3,6 +3,7 @@ import Menu from 'primevue/menu';
 import MenuDropdown from "@components/elements/dropdownToggle/index.vue";
 import { useMenuUser } from '@stores/menu_dropdown_user';
 import { router } from '@inertiajs/vue3';
+import { toRef } from 'vue';
 
 const storeMenuUser = useMenuUser();
 const { menuItem } = storeMenuUser;
@@ -14,6 +15,9 @@ const logoutEvent = () => {
 }
 
 const props = defineProps({
+    menuItemActive: {
+        type: Object
+    },
     titleNav: {
         type: String,
         default: ""
@@ -41,6 +45,9 @@ const props = defineProps({
         ]
     }
 })
+
+const menuItemSelected = toRef(() => props.menuItemActive)
+
 
 </script>
 
@@ -86,7 +93,7 @@ const props = defineProps({
             <template #item="{ item, props }">
                 <a v-ripple v-bind="props.action" :href="item.link"
                     class="flex items-center px-8 text-base gap-x-5 hover:text-white dark:text-white/35"
-                    :class="{ 'active': item.is_active }">
+                    :class="{ 'active': item == menuItemSelected }">
                     <i :class="`${item.icon} `"></i>
                     <span :class="{ 'font-[500]': item.is_active }" class="font-[300] tracking-wide">{{
                         item.label

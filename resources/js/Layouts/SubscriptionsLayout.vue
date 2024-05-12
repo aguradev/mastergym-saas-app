@@ -12,19 +12,15 @@ const getNavMainPlatform = useNavMainPlatform()
 const getSubscriptionTab = useSubscriptionTabs();
 
 const { tabContents } = getSubscriptionTab;
-const { updateMenusItemActive } = getNavMainPlatform
-const { navigationMenuItem } = storeToRefs(getNavMainPlatform)
-
-onMounted(() => {
-    updateMenusItemActive(route('central-dashboard.subscriptions'))
-})
+const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform)
 </script>
 
 <template>
 
     <Head title="Subscription Management" />
 
-    <DashboardLayout :menu-items="navigationMenuItem" titleNav="Subscription Management">
+    <DashboardLayout :menu-items="navigationMenuItem" :menu-item-active="menuItemActive"
+        titleNav="Subscription Management">
         <template #main_content>
 
             <TabViewPage :tabUrl="tabContents" />
