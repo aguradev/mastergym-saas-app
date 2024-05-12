@@ -19,7 +19,7 @@ use Inertia\Inertia;
 Route::prefix("dashboard")->group(function () {
     Route::middleware(["redirectAuth:central-web"])->controller(AuthController::class)->group(function () {
         route::get("/login", "AuthPage")->name("login");
-        route::post("/login", "Authenticable")->name("auth.submit");
+        route::post("/login", "Authenticable")->name("auth.submit")->middleware(["throttle:central_auth"]);
     });
 
     Route::middleware(["auth", "role:Super admin|Admin,central-web"])->group(function () {
