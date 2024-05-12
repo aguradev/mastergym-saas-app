@@ -20,7 +20,7 @@ class NavigationController extends Controller
     }
     public function DashboardPage()
     {
-        $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->get()->select(["vendor", "domain"]);
+        $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->get()->select(["name", "domain"]);
         $TenantCount = Tenant::count();
 
         Debugbar::debug($TenantCount);
