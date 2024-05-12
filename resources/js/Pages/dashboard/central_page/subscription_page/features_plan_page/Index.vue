@@ -1,5 +1,5 @@
 <script setup>
-import { provide, ref, toRef, watch, watchEffect } from 'vue';
+import { provide, ref, toRef } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import SubscriptionsLayout from '@layouts/SubscriptionsLayout.vue';
@@ -7,13 +7,9 @@ import TablePagination from '@components/elements/pagination/TablePagination.vue
 import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
 import CreateForm from '@pages/dashboard/central_page/subscription_page/features_plan_page/CreateForm.vue';
 import FeaturesContent from '@components/centralPages/dashboard/subscription/FeaturesContent.vue';
-import { useToast } from 'primevue/usetoast';
-import Toast from 'primevue/toast';
-
 
 const openModal = ref(false);
-const page = usePage();
-const toast = useToast();
+
 provide('visibleModal', openModal)
 
 const props = defineProps({
@@ -31,30 +27,10 @@ function handlerPaginationFeature(page) {
     })
 }
 
-watchEffect(() => {
-    if (page.props.flash?.message_success) {
-        toast.add({
-            severity: "success",
-            summary: "info",
-            detail: page.props.flash?.message_success,
-            life: 3000
-        })
-    }
-    if (page.props.flash?.message_error) {
-        toast.add({
-            severity: "error",
-            summary: "info",
-            detail: page.props.flash?.message_error,
-            life: 3000
-        })
-    }
-})
-
 </script>
 
 <template>
     <SubscriptionsLayout>
-        <Toast />
         <CreateForm />
 
         <div class="p-6">
