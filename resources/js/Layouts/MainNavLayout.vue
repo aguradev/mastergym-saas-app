@@ -10,8 +10,8 @@
     const menus = [
         { name: 'HOME', link: '/' },
         { name: 'PRICING', link: '#pricing' },
-        { name: 'CONTACT', link: '/contact' },
-        { name: 'ABOUT', link: '/pricing' },
+        { name: 'CONTACT', link: '#footer' },
+        { name: 'ABOUT', link: '/about' },
     ];
 
     const showSidebar = ref(false);
@@ -20,6 +20,12 @@
         showSidebar.value = !showSidebar.value;
     };
 </script>
+
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
 
 <template>
     <main>

@@ -5,6 +5,7 @@
     import Features from './Features.vue';
     import Integrity from './Integrity.vue';
     import Pricing from './Pricing.vue';
+    import Testimonials from './Testimonials.vue';
     import Footer from './Footer.vue';
 
     import { ref } from 'vue';
@@ -18,6 +19,7 @@
         <Features />
         <Integrity />
         <Pricing />
+        <Testimonials />
         <Footer />
     </MainNavLayout>
 </template>
