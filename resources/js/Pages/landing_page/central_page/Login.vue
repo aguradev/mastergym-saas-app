@@ -1,12 +1,13 @@
 <script setup>
     import { ref } from 'vue';
     import { Head } from '@inertiajs/vue3';
-    import MainNavLayout from '@layouts/MainNavLayout.vue';
+    import MainNavLayout from '@layouts/LandingPageLayout.vue';
 </script>
 <template>
     <MainNavLayout>
-        <Head title="Sign-Up" />
+        <Head title="Login" />
     </MainNavLayout>
+
     <!-- component -->
     <div class="h-screen md:flex">
         <div class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-900 to-blue-500 i justify-around items-center hidden">
@@ -30,19 +31,9 @@
                 @submit.prevent="submit"
                 class="bg-white w-[600px] px-20"
             >
-                <h1 class="text-gray-800 font-bold text-2xl mb-1 mt-20">Register Your Account!</h1>
-                <p class="text-sm font-normal text-gray-600 mb-7">The first of few simple steps to get your app running!</p>
-                <div class="w-full">
-                    <div class="mb-5">
-                        <input
-                            type="text"
-                            name="fName"
-                            id="fName"
-                            placeholder="Full Name"
-                            class="w-full rounded-md border-2 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        />
-                    </div>
-                </div>
+                <h1 class="text-gray-800 font-bold text-4xl mb-1 text-center">Login</h1>
+                <p class="text-sm font-normal text-gray-600 mb-7 text-center">Welcome back!</p>
+
                 <div class="w-full">
                     <div class="mb-5">
                         <input
@@ -58,10 +49,10 @@
                     <div class="mb-5">
                         <input
                             type="text"
-                            name="email"
-                            id="email"
-                            placeholder="Email Address"
-                            class="w-full rounded-md border-2 border-[lightgray] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            name="Email"
+                            id="Email"
+                            placeholder="Email"
+                            class="w-full rounded-md border-2 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                         />
                     </div>
                 </div>
@@ -69,31 +60,20 @@
                     <div class="mb-5">
                         <input
                             type="password"
-                            name="pass"
-                            id="pass"
+                            name="Password"
+                            id="Password"
                             placeholder="Password"
-                            class="w-full rounded-md border-2 border-[lightgray] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            class="w-full rounded-md border-2 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                         />
                     </div>
                 </div>
-                <div class="w-full">
-                    <div class="mb-5">
-                        <input
-                            type="Password"
-                            name="cPass"
-                            id="cPass"
-                            placeholder="Confirmation Password"
-                            class="w-full rounded-md border-2 border-[lightgray] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        />
-                    </div>
-                </div>
-                <div class="text-black pt-5 text-center">
+                <div class="text-black pt-7 text-center">
                     <p>
-                        Already have an account?
+                        Not a member yet?
                         <a
                             class="font-medium text-blue-600"
-                            href="/login"
-                            >Login Here!</a
+                            href="/signup"
+                            >Register Here!</a
                         >
                     </p>
                 </div>
@@ -101,8 +81,9 @@
                     type="submit"
                     class="block w-full bg-indigo-600 mt-2 py-4 rounded-2xl text-white font-semibold mb-2 tracking-wider"
                 >
-                    CREATE YOUR ACCOUNT
+                    LOGIN
                 </button>
+                <span class="text-sm ml-2 hover:text-blue-500 text-black cursor-pointer">Forgot Password ?</span>
             </form>
         </div>
     </div>

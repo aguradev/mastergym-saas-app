@@ -1,7 +1,7 @@
 <script setup>
     import { ref } from 'vue';
     import { Head } from '@inertiajs/vue3';
-    import MainNavLayout from '@layouts/MainNavLayout.vue';
+    import MainNavLayout from '@layouts/LandingPageLayout.vue';
 </script>
 
 <style scoped></style>

@@ -16,13 +16,13 @@ use Inertia\Inertia;
 */
 
 
-Route::get("/", fn () => Inertia::render("views/landing_page/central_page/MainMenu"))->name('central.landingPage');
-Route::get("/about", fn () => Inertia::render("views/landing_page/central_page/About"))->name('central.about');
+Route::get("/", fn () => Inertia::render("landing_page/central_page/MainMenu"))->name('central.landingPage');
+Route::get("/about", fn () => Inertia::render("landing_page/central_page/About"))->name('central.about');
 
-Route::get("/signup", fn () => Inertia::render("views/landing_page/central_page/SignUp"))->name('central.signup');
-Route::get("/login", fn () => Inertia::render("views/landing_page/central_page/Login"))->name('central.login');
-Route::get("/setuptenant", fn () => Inertia::render("views/landing_page/central_page/SetupTenant"))->name('central.setuptenant');
-Route::get("/checkouttenant", fn () => Inertia::render("views/landing_page/central_page/CheckoutTenant"))->name('central.checkouttenant');
+Route::get("/signup", fn () => Inertia::render("landing_page/central_page/SignUp"))->name('central.signup');
+Route::get("/login", fn () => Inertia::render("landing_page/central_page/Login"))->name('central.login');
+Route::get("/setuptenant", fn () => Inertia::render("landing_page/central_page/SetupTenant"))->name('central.setuptenant');
+Route::get("/checkouttenant", fn () => Inertia::render("landing_page/central_page/CheckoutTenant"))->name('central.checkouttenant');
 
 
 Route::prefix("dashboard")->group(function () {

@@ -2,8 +2,8 @@
     import { ref } from 'vue';
     import { Head } from '@inertiajs/vue3';
 
-    import MainNavLayout from '@layouts/MainNavLayout.vue';
-    import UploadImage from './component/UploadImage.vue';
+    import MainNavLayout from '@layouts/LandingPageLayout.vue';
+    import UploadImage from '@components/centralPages/landingPage/UploadImage.vue';
 
     import FileUpload from 'primevue/fileupload';
     import { useToast } from 'primevue/usetoast';
