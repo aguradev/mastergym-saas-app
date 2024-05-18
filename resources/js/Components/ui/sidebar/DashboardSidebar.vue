@@ -1,18 +1,36 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { toRefs } from 'vue';
+import { onMounted, onUnmounted, toRefs, ref } from 'vue';
 const props = defineProps({
     menuNav: Array,
     menuNavActivated: Object,
 })
 
 const { menuNav, menuNavActivated } = toRefs(props);
+const sidebarRef = ref(true)
+
+function visibleSidebar(e) {
+    if (window.innerWidth > 600) {
+        sidebarRef.value = true
+    } else {
+        sidebarRef.value = false
+    }
+}
+
+onMounted(() => {
+    window.addEventListener("resize", visibleSidebar)
+})
+
+onUnmounted(() => {
+    window.removeEventListener("resize", visibleSidebar)
+})
 
 </script>
 
 <template>
     <aside
-        class="fixed top-0 z-[99] bg-primary-900 h-full left-0 flex flex-col border-r top-50 border-primary-600 min-w-72">
+        class="fixed top-0 z-[99] bg-primary-900 h-full left-0 flex flex-col border-r top-50 border-primary-600 min-w-72"
+        v-if="sidebarRef">
         <div class="p-12 text-2xl font-bold text-center text-nowrap">Master Gym</div>
 
         <nav class="flex flex-col flex-1 gap-y-8">
