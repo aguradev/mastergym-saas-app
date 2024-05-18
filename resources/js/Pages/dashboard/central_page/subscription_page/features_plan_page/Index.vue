@@ -33,7 +33,7 @@ function handlerPaginationFeature(page) {
     <SubscriptionsLayout>
         <CreateForm />
 
-        <div class="p-6">
+        <div class="p-8">
             <PrimaryButton icon="pi pi-plus" label="Add Feature" @click-event="() => openModal = true" />
         </div>
 

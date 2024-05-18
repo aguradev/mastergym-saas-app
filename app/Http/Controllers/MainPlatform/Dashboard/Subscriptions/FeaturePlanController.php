@@ -34,6 +34,18 @@ class FeaturePlanController extends Controller
         return Inertia::render('dashboard/central_page/subscription_page/features_plan_page/Index', compact('planFeaturesQuery'));
     }
 
+    public function AllFeaturePlan()
+    {
+        $data = TenantPlanFeature::toBase()->get();
+
+        return response()->json([
+            "status" => "Get All Feature Plan",
+            "results" => $data,
+        ])->withHeaders([
+            "Content-Type" => "application/json",
+        ])->setStatusCode(Response::HTTP_OK);
+    }
+
     public function featurePlanDetail(TenantPlanFeature $tenantPlanFeature)
     {
         return response()->json([

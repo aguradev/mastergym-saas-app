@@ -30,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('central_auth', function (Request $request) {
-            return Limit::perMinute(3)->by($request->input('email') ?: $request->ip())->response(function () {
+            return Limit::perMinute(4)->by($request->ip())->response(function () {
                 return redirect()->back()->with("message_error", "Too Many Login, please wait 1 minutes");
             });
         });

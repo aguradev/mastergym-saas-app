@@ -9,7 +9,7 @@ const props = defineProps({
 })
 
 const { id } = toRefs(props);
-const errorMessages = ref({})
+const errorMessages = ref(null)
 
 const form = useForm({
     id: null,
@@ -41,7 +41,7 @@ function featureUpdateHandler() {
             emits('closeModal')
         },
         onError: (error) => {
-            errorMessages.value = { ...error }
+            errorMessages.value = error
         }
     })
 }
@@ -51,13 +51,13 @@ await fetchFeatureDetail();
 </script>
 
 <template>
-    <form action="#" autocomplete="off" @submit.prevent="featureUpdateHandler">
+    <form action="#" autocomplete="off" @submit.prevent="featureUpdateHandler" v-if="form.id">
         <div class="flex flex-col mb-6">
             <label for="feature__name" class="block mb-2 font-[500]">Feature name</label>
             <InputText id="feature__name" inputType="text" placeholder="input feature name" inputName="input_feature"
-                v-model:inputValue="form.input_feature" :invalid="errorMessages.input_feature ? true : false" />
+                v-model:inputValue="form.input_feature" :invalid="errorMessages?.input_feature ? true : false" />
             <span class="mt-3 text-danger-300" v-if="errorMessages">
-                {{ errorMessages.input_feature }}
+                {{ errorMessages?.input_feature }}
             </span>
         </div>
 
