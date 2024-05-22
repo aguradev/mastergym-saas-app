@@ -16,6 +16,7 @@ const form = useForm({
 
 const { title, price_per_month, price_per_year, features } = toRefs(form)
 const featureLists = ref(null)
+const loadingForm = ref(true);
 
 async function fetchingFeatures() {
     try {
@@ -27,6 +28,8 @@ async function fetchingFeatures() {
 
     } catch (err) {
         console.log(err)
+    } finally {
+        loadingForm.value = false
     }
 }
 
@@ -41,11 +44,14 @@ watch(() => features.value, (val) => {
 
 <template>
     <section class="plan_tenant_create_form">
-        <form>
+        <div v-if="loadingForm">
+            Loading...
+        </div>
+        <form v-if="!loadingForm">
             <div class="inline-flex flex-col w-full mb-5 gap-y-3" v-if="featureLists">
                 <label for="feature" class="block">Features</label>
                 <MultiSelect v-model="features" :options="featureLists.results" optionLabel="name"
-                    placeholder="Select Features" max-selected-labels="4" />
+                    placeholder="Select Features" max-selected-labels="4" filter />
             </div>
             <div class="inline-flex flex-col w-full mb-5 gap-y-3">
                 <label for="title" class="block">Title</label>

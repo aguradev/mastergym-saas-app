@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CentralRequest\CreateFeaturePlanRequest;
 use App\Http\Requests\CentralRequest\EditFeaturePlanRequest;
 use App\Models\CentralModel\TenantPlanFeature;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,13 +24,7 @@ class FeaturePlanController extends Controller
     }
     public function FeaturePlanTable()
     {
-        $planFeaturesQuery = TenantPlanFeature::orderByRaw("
-        CASE
-        WHEN (SELECT MAX(created_at) FROM tenant_plan_features where tpf.created_at is not null) > (SELECT MAX(updated_at) FROM tenant_plan_features where tpf.updated_at is not null) THEN created_at
-        WHEN (SELECT MAX(created_at) FROM tenant_plan_features where tpf.created_at is not null) < (SELECT MAX(updated_at) FROM tenant_plan_features where tpf.updated_at is not null) THEN updated_at
-		else created_at
-        end DESC
-        ")->paginate(8);
+        $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->orderBy("name", "asc")->paginate(8);
 
         return Inertia::render('dashboard/central_page/subscription_page/features_plan_page/Index', compact('planFeaturesQuery'));
     }
@@ -72,12 +67,9 @@ class FeaturePlanController extends Controller
         try {
             $isDeleted = $this->FeaturePlanServices->DeleteFeaturePlanHandler($tenantPlanFeature->id);
 
-            if (!$isDeleted) {
-                throw new Exception("Failed to delete features plan");
-            }
             return redirect()->back()->with('message_success', 'Feature Deleted');
         } catch (\Throwable $th) {
-            Log::error($th);
+            Debugbar::debug($th);
             return redirect()->back()->with("message_error", "Failed delete feature");
         }
     }

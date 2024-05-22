@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import SubscriptionsLayout from '@layouts/SubscriptionsLayout.vue';
+import PlanTenantsLayout from '@layouts/PlanTenantsLayout.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ActionLists from '@components/elements/ulLists/ActionLists.vue';
@@ -66,7 +66,7 @@ const formatCurrency = (price) => {
 </script>
 
 <template>
-    <SubscriptionsLayout>
+    <PlanTenantsLayout>
         <section class="p-8">
             <PrimaryButton icon="pi pi-plus" label="Add Plan Subscription"
                 @click-event="() => createModalVisible = true" />
@@ -120,7 +120,7 @@ const formatCurrency = (price) => {
 
         </section>
 
-    </SubscriptionsLayout>
+    </PlanTenantsLayout>
 
     <Modal title="Create tenant subscription plan" :modal-visible="createModalVisible"
         @close-modal="() => createModalVisible = false">

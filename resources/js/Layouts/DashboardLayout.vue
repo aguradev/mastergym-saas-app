@@ -4,7 +4,7 @@ import MenuDropdown from "@components/elements/dropdownToggle/index.vue";
 import DashboardSidebar from '@components/ui/sidebar/DashboardSidebar.vue';
 import { useMenuUser } from '@stores/menu_dropdown_user';
 import { router } from '@inertiajs/vue3';
-import { toRef, toRefs } from 'vue';
+import { onMounted, provide, ref, toRef, toRefs } from 'vue';
 
 const storeMenuUser = useMenuUser();
 const { menuItem } = storeMenuUser;
@@ -46,8 +46,11 @@ const props = defineProps({
         ]
     }
 })
-
+const mainSection = ref(null)
 const { menuItems, menuItemActive } = toRefs(props)
+
+provide("mainSection", mainSection)
+
 </script>
 
 <style scoped>
@@ -74,36 +77,7 @@ const { menuItems, menuItemActive } = toRefs(props)
 
         <DashboardSidebar :menuNav="menuItems" :menu-nav-activated="menuItemActive" />
 
-        <!-- <Menu :model="props.menuItems" :pt="{
-            root: 'border-r border-primary-600 w-72 rounded-none',
-            start: 'sticky top-0 left-0',
-            submenuheader: 'mt-[2rem] mb-3 px-4 font-bold px-8 text-lg',
-            content: 'dark:bg-transparent;',
-            menu: 'sticky top-20 left-0 flex flex-col gap-y-3'
-        }">
-            <template #start>
-                <header class="flex justify-center px-8 pt-10">
-                    <div class="text-2xl font-bold text-white">GymMaster</div>
-                </header>
-            </template>
-
-<template #submenuheader="{ item }" class="mt-5">
-                <span class="text-surface-500">{{ item.label }}</span>
-            </template>
-
-<template #item="{ item, props }">
-                <a v-ripple v-bind="props.action" :href="item.link"
-                    class="flex items-center px-8 text-base gap-x-5 hover:text-white dark:text-white/35"
-                    :class="{ 'active': item == menuItemSelected }">
-                    <i :class="`${item.icon} `"></i>
-                    <span :class="{ 'font-[500]': item.is_active }" class="font-[300] tracking-wide">{{
-                        item.label
-                        }}</span>
-                </a>
-            </template>
-</Menu> -->
-
-        <main class="flex-1 main ml-72">
+        <main class="flex-1 transition-all duration-300 ease delay-[400] main ml-72" ref="mainSection">
             <nav class="flex items-center justify-between p-8">
                 <div class="heading">
                     <h3 class="text-2xl font-bold">{{ props.titleNav }}</h3>

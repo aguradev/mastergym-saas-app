@@ -45,10 +45,9 @@ watchEffect(() => {
 
 <template>
 
-    <Head title="Subscription Management" />
+    <Head title="Plan Tenants" />
 
-    <DashboardLayout :menu-items="navigationMenuItem" :menu-item-active="menuItemActive"
-        titleNav="Subscription Management">
+    <DashboardLayout :menu-items="navigationMenuItem" :menu-item-active="menuItemActive" titleNav="Plan Tenants">
         <template #main_content>
             <Toast />
             <TabViewPage :tabUrl="tabContents" />

@@ -529,7 +529,7 @@ export default {
 
             //Color
             "text-primary-700 dark:text-white/80",
-            "bg-primary-0 dark:bg-primary-700",
+            "bg-primary-0 dark:bg-primary-800",
             "border-primary-200 dark:border-primary-700",
             "placeholder:text-primary-400 dark:placeholder:text-primary-500",
 

@@ -53,9 +53,7 @@ const deleteFeaturePlanHandler = (id) => {
     router.delete(route('plan_feature.delete', {
         tenantPlanFeature: id
     }), {
-        onBefore: () => {
-            confirm("are you sure delete features ? ")
-        },
+        onBefore: () => confirm("are you sure delete features ? "),
         onFinish: () => {
             selectedCheckboxFeature.value = [];
         },

@@ -2,7 +2,7 @@
 import { provide, ref, toRef } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
-import SubscriptionsLayout from '@layouts/SubscriptionsLayout.vue';
+import PlanTenantsLayout from '@layouts/PlanTenantsLayout.vue';
 import TablePagination from '@components/elements/pagination/TablePagination.vue';
 import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
 import CreateForm from '@pages/dashboard/central_page/subscription_page/features_plan_page/CreateForm.vue';
@@ -30,7 +30,7 @@ function handlerPaginationFeature(page) {
 </script>
 
 <template>
-    <SubscriptionsLayout>
+    <PlanTenantsLayout>
         <CreateForm />
 
         <div class="p-8">
@@ -42,5 +42,5 @@ function handlerPaginationFeature(page) {
             <TablePagination v-if="!!planFeaturesQuery.data.length" :pagination="planFeaturesQuery"
                 @load-page="handlerPaginationFeature" />
         </section>
-    </SubscriptionsLayout>
+    </PlanTenantsLayout>
 </template>

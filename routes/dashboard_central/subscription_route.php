@@ -5,7 +5,7 @@ use App\Http\Controllers\MainPlatform\Dashboard\Subscriptions\TenantPlanControll
 use Illuminate\Support\Facades\Route;
 
 
-Route::prefix("subscriptions")->group(function () {
+Route::prefix("plan-tenants")->group(function () {
 
     Route::controller(TenantPlanController::class)->prefix('plan-tenant')->group(function () {
         Route::get("/", 'PlanTablePage')->name('plan_tenant.table');

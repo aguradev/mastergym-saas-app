@@ -13,7 +13,7 @@ class TenantPlanFeature extends Model
     use HasFactory, HasUuids;
     public $timestamps = false;
 
-    protected $table = "tenant_plan_features as tpf";
+    protected $table = "tenant_plan_features";
     protected $fillable = [
         "name",
         "created_at",
