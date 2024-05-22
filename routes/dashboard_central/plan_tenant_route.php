@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix("plan")->group(function () {
-    Route::get('/', [NavigationController::class, 'PlanOverviewMenu'])->name("plan.overview");
+    Route::get('/overview', [NavigationController::class, 'PlanOverviewMenu'])->name("plan.overview");
 
-    Route::controller(TenantPlanController::class)->prefix('lists')->group(function () {
+    Route::controller(TenantPlanController::class)->prefix('pricing')->group(function () {
         Route::get("/", 'PlanTablePage')->name('plan_tenant.table');
     });
 
