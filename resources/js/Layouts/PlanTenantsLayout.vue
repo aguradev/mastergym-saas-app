@@ -5,7 +5,7 @@ import DashboardLayout from '@layouts/DashboardLayout.vue';
 import { useNavMainPlatform } from '@stores/navigation_menu_item';
 import { storeToRefs } from 'pinia';
 import TabViewPage from '@components/elements/tabview/TabViewPage.vue';
-import { useSubscriptionTabs } from '@stores/subscriptions_tabs';
+import { usePlanMenus } from '@stores/plan_menus';
 import { Head, usePage } from '@inertiajs/vue3';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
@@ -13,9 +13,9 @@ import Toast from 'primevue/toast';
 const toast = useToast();
 const page = usePage();
 const getNavMainPlatform = useNavMainPlatform()
-const getSubscriptionTab = useSubscriptionTabs();
+const getPlanMenus = usePlanMenus();
 
-const { tabContents } = getSubscriptionTab;
+const { tabContents } = getPlanMenus;
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform)
 
 onMounted(() => {

@@ -33,7 +33,7 @@ class NavigationController extends Controller
         ]);
     }
 
-    public function SubscriptionPage()
+    public function PlanOverviewMenu()
     {
         return Inertia::render("dashboard/central_page/subscription_page/Index");
     }

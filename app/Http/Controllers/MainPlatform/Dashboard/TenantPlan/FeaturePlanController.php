@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\MainPlatform\Dashboard\Subscriptions;
+namespace App\Http\Controllers\MainPlatform\Dashboard\TenantPlan;
 
 use App\CentralServices\SubscriptionPlan\Services\Interfaces\FeaturePlanInterface;
 use App\Http\Controllers\Controller;
