@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\MainPlatform\Dashboard\Subscriptions;
+namespace App\Http\Controllers\MainPlatform\Dashboard\TenantPlan;
 
 use App\CentralServices\SubscriptionPlan\Services\Interfaces\FeaturePlanInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CentralRequest\CreateFeaturePlanRequest;
+use App\Http\Requests\CentralRequest\EditFeaturePlanRequest;
 use App\Models\CentralModel\TenantPlanFeature;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,9 +24,21 @@ class FeaturePlanController extends Controller
     }
     public function FeaturePlanTable()
     {
-        $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->paginate(8);
+        $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->orderBy("name", "asc")->paginate(8);
 
         return Inertia::render('dashboard/central_page/subscription_page/features_plan_page/Index', compact('planFeaturesQuery'));
+    }
+
+    public function AllFeaturePlan()
+    {
+        $data = TenantPlanFeature::toBase()->get();
+
+        return response()->json([
+            "status" => "Get All Feature Plan",
+            "results" => $data,
+        ])->withHeaders([
+            "Content-Type" => "application/json",
+        ])->setStatusCode(Response::HTTP_OK);
     }
 
     public function featurePlanDetail(TenantPlanFeature $tenantPlanFeature)
@@ -53,18 +67,21 @@ class FeaturePlanController extends Controller
         try {
             $isDeleted = $this->FeaturePlanServices->DeleteFeaturePlanHandler($tenantPlanFeature->id);
 
-            if (!$isDeleted) {
-                throw new Exception("Failed to delete features plan");
-            }
             return redirect()->back()->with('message_success', 'Feature Deleted');
         } catch (\Throwable $th) {
-            Log::error($th);
+            Debugbar::debug($th);
             return redirect()->back()->with("message_error", "Failed delete feature");
         }
     }
 
-    public function EditForm(TenantPlanFeature $tenantPlanFeature)
+    public function UpdateFeature(TenantPlanFeature $tenantPlanFeature, EditFeaturePlanRequest $request)
     {
-        dd($tenantPlanFeature);
+        $updateFeatureHandler = $this->FeaturePlanServices->UpdateFeaturePlanHandler($request->all());
+
+        if (!$updateFeatureHandler) {
+            return redirect()->back()->with('message_error', 'Feature plan failed update');
+        }
+
+        return redirect()->back()->with('message_success', 'Feature plan updated');
     }
 }

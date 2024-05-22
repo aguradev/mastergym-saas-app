@@ -5,6 +5,7 @@
         "@components/*" : ["./resources/js/Components/*"],
         "@layouts/*" : ["./resources/js/Layouts/*"],
         "@stores/*" : ["./resources/js/Stores/*"],
+        "@lib/*": ["./resources/js/Lib/*"],
         "ziggy-js": ["./vendor/tightenco/ziggy"]
       }
     },

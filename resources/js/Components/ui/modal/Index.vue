@@ -22,11 +22,12 @@ watch(() => modalVisible.value, (newVal, prevVal) => {
 </script>
 
 <template>
-    <div class="fixed top-0 left-0 grid w-full h-full px-8 place-content-center bg-primary-900/70" v-if="modalVisible">
+    <div class="fixed z-[99] top-0 left-0 grid w-full h-full px-8 place-content-center bg-primary-900/70"
+        v-if="modalVisible">
     </div>
 
     <transition name="scaleIn">
-        <div class="p-8 border rounded-lg bg-primary-700 border-surface-500 z-[99] min-w-[400px] sm:min-w-[600px] md:min-w-[800px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        <div class="p-8 border rounded-lg bg-primary-800 border-surface-500 z-[99] min-w-[400px] sm:min-w-[600px] md:min-w-[800px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             v-if="modalVisible">
             <div class="flex items-center justify-between mb-5">
                 <h3 class="text-2xl font-semibold">{{ title }}</h3>

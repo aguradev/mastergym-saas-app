@@ -6,4 +6,5 @@ interface FeaturePlanInterface
 {
     public function CreateFeaturePlanHandler(array $requestItems);
     public function DeleteFeaturePlanHandler(string $id);
+    public function UpdateFeaturePlanHandler(array $request);
 }

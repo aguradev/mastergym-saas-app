@@ -20,7 +20,7 @@ class TenantPlanFeature extends Model
         "updated_at"
     ];
 
-    protected $appends = ["created_at_diff_human", "date_created_format", "date_updated_format"];
+    protected $appends = ["created_at_diff_human", "updated_at_diff_human", "date_created_format", "date_updated_format"];
 
     public function SubscriptionPlans()
     {
@@ -30,6 +30,10 @@ class TenantPlanFeature extends Model
     public function getCreatedAtDiffHumanAttribute()
     {
         return Carbon::parse($this->attributes["created_at"])->diffForHumans();
+    }
+    public function getUpdatedAtDiffHumanAttribute()
+    {
+        return Carbon::parse($this->attributes["updated_at"])->diffForHumans();
     }
 
     public function getDateCreatedFormatAttribute()
