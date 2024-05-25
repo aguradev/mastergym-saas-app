@@ -5,9 +5,8 @@
 <template>
     <div
         id="testimonials"
-        class="bg-white text-black min-h-10"
+        class="bg-white text-black min-h-10 flex md:flex"
     >
-        <h1>Here is why Gyms Loves Us!</h1>
-        <div class="testimonies"></div>
+        <div class="testimonies bg-blue-600 w-1/4 h-10">testi</div>
     </div>
 </template>

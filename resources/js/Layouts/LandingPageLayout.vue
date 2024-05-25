@@ -89,7 +89,7 @@
             </div>
             <div
                 v-show="showSidebar"
-                class="absolute bg-white w-[100%] min-h-[40px] mt-[390px]"
+                class="absolute bg-white w-[100%] min-h-[40px] mt-[390px] flex-column"
             >
                 <div
                     id="Menu"
