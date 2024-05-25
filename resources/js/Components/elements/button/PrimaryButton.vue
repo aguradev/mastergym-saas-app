@@ -3,7 +3,7 @@ import Button from 'primevue/button';
 import { onMounted } from 'vue'
 
 const props = defineProps([
-    "label", "type", "icon", "classBtn"
+    "label", "type", "icon", "classBtn", 'disabled'
 ])
 
 const { label, type, icon, classBtn } = props

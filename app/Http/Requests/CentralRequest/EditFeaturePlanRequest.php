@@ -3,8 +3,9 @@
 namespace App\Http\Requests\CentralRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CreateFeaturePlanRequest extends FormRequest
+class EditFeaturePlanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +23,16 @@ class CreateFeaturePlanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'items.*.input_feature' => "required|string|min:6|unique:tenant_plan_features,name"
+            'input_feature' => ["required", "min:6", "unique:tenant_plan_features,name," . request()->id]
         ];
     }
 
     public function messages(): array
     {
         return [
-            'items.*.input_feature.required' => 'Feature input required!',
-            'items.*.input_feature.min' => 'Minimum 6 word!',
-            'items.*.input_feature.unique' => 'Feature plan already exists!'
+            'input_feature.required' => 'Feature input required!',
+            'input_feature.min' => 'Minimum 6 word!',
+            'input_feature.unique' => 'Feature plan already exists!'
         ];
     }
 }

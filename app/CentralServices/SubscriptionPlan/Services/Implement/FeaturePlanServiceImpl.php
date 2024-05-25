@@ -19,6 +19,25 @@ class FeaturePlanServiceImpl implements FeaturePlanInterface
         $this->featurePlanRepos = $featurePlan;
     }
 
+    public function DeleteFeaturePlanHandler(string $id)
+    {
+        return $this->featurePlanRepos->DeletePlanFeature($id);
+    }
+
+    public function UpdateFeaturePlanHandler(array $request)
+    {
+        try {
+            $updateFeature = $this->featurePlanRepos->UpdatePlanFeature($request, $request["id"]);
+            if (!$updateFeature) {
+                throw new Exception("Failed update feature plan");
+            }
+            return true;
+        } catch (\Throwable $th) {
+            log::error($th);
+            return false;
+        }
+    }
+
     public function CreateFeaturePlanHandler(array $requestItems)
     {
         try {

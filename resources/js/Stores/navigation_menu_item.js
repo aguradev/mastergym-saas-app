@@ -1,82 +1,63 @@
 import { defineStore } from "pinia";
-import { computed, reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 
-export const useNavMainPlatform = defineStore(
-    "navigation_main_platform",
-    () => {
-        const navigationMenuItem = reactive([
-            {
-                separator: true,
-            },
-            {
-                label: "Menus",
-                items: [
-                    {
-                        icon: "pi pi-chart-pie",
-                        label: "Dashboard",
-                        link: route("central-dashboard.main"),
-                        is_active: false,
-                    },
-                    {
-                        icon: "pi pi-users",
-                        label: "Subscription",
-                        link: route("central-dashboard.subscriptions"),
-                        is_active: false,
-                    },
-                    {
-                        icon: "pi pi-building",
-                        label: "Vendor",
-                        is_active: false,
-                    },
-                    {
-                        icon: "pi pi-users",
-                        label: "User Management",
-                        is_active: false,
-                    },
-                    {
-                        icon: "pi pi-money-bill",
-                        label: "Transactions",
-                        is_active: false,
-                    },
-                    {
-                        icon: "pi pi-cog",
-                        label: "Setting",
-                        is_active: false,
-                    },
-                ],
-            },
-            {
-                separator: true,
-            },
-        ]);
+export const useNavMainPlatform = defineStore("dashboard_nav", () => {
+    const navigationMenuItem = reactive([
+        {
+            separator: true,
+        },
+        {
+            label: "Menus",
+            items: [
+                {
+                    icon: "pi pi-chart-pie",
+                    label: "Dashboard",
+                    link: route("central-dashboard.main"),
+                },
+                {
+                    icon: "pi pi-users",
+                    label: "Plan Tenants",
+                    link: route("plan.overview"),
+                },
+                {
+                    icon: "pi pi-building",
+                    label: "Tenants",
+                },
+                {
+                    icon: "pi pi-users",
+                    label: "Subscription Tenants",
+                },
+                {
+                    icon: "pi pi-money-bill",
+                    label: "Transactions",
+                },
+                {
+                    icon: "pi pi-cog",
+                    label: "Setting",
+                },
+            ],
+        },
+        {
+            separator: true,
+        },
+    ]);
 
-        const findNavigationMenuData = computed(() => {
-            return navigationMenuItem.find((item) => {
-                return item.label == "Menus";
-            });
+    const menuItemActive = ref(navigationMenuItem[1]?.items[0]);
+
+    const findNavigationMenuData = computed(() => {
+        return navigationMenuItem.find((item) => {
+            return item.label == "Menus";
         });
+    });
 
-        const resetToFalseAllNavigation = computed(() => {
-            return findNavigationMenuData.value.items.map(
-                (item) => (item.is_active = false),
-            );
-        });
+    const isMenuItemActivated = (item) => {
+        return item === menuItemActive.value;
+    };
 
-        const updateMenusItemActive = (route_url) => {
-            const findPositionRouteName =
-                findNavigationMenuData.value.items.find((item) => {
-                    return item.link.includes(route_url);
-                });
-
-            resetToFalseAllNavigation;
-
-            findPositionRouteName.is_active = true;
-        };
-
-        return {
-            navigationMenuItem,
-            findNavigationMenuData,
-            updateMenusItemActive,
-        };
-    },
-);
+    return {
+        navigationMenuItem,
+        findNavigationMenuData,
+        menuItemActive,
+        isMenuItemActivated,
+    };
+});

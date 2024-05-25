@@ -14,6 +14,19 @@ class FeaturePlanRepoImpl implements FeaturePlanInterface
         $this->FeaturePlanModel = $planFeature;
     }
 
+    public function UpdatePlanFeature($request, $id)
+    {
+        return $this->FeaturePlanModel->whereId($id)->update([
+            "name" => $request['input_feature'],
+            "updated_at" => now()
+        ]);
+    }
+
+    public function DeletePlanFeature($id)
+    {
+        return $this->FeaturePlanModel::where("id", $id)->first()->delete();
+    }
+
     public function CreatePlanFeature($request)
     {
         return $this->FeaturePlanModel::create([

@@ -1,6 +1,6 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3';
-import { onMounted, reactive, ref, watch } from 'vue';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { onMounted, reactive, ref, watchEffect } from 'vue';
 import InputElement from '@components/elements/input/InputText.vue';
 import InputPassword from '@components/elements/input/InputPassword.vue';
 import Button from 'primevue/button';
@@ -9,6 +9,7 @@ import { useToast } from 'primevue/usetoast';
 
 const toast = useToast();
 const buttonSubmit = ref(null);
+const page = usePage();
 
 const formAuth = useForm({
     email: null,
@@ -33,8 +34,6 @@ const submitLogin = () => {
             formAuth.password = null;
 
             if (errorCredential) {
-                formAuth.reset();
-
                 toast.add({
                     severity: "error",
                     summary: "Info",
@@ -45,6 +44,19 @@ const submitLogin = () => {
         }
     })
 }
+
+watchEffect(() => {
+    formAuth.password = null;
+
+    if (page.props.flash?.message_error) {
+        toast.add({
+            severity: "error",
+            summary: "info",
+            detail: page.props.flash?.message_error,
+            life: 3000
+        })
+    }
+})
 </script>
 
 <style scoped>
