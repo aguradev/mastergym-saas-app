@@ -16,7 +16,7 @@ class SubscriptionPlanRepoImpl implements SubscriptionPlanInterface
 
     public function GetAllSubscriptionPlans()
     {
-        return $this->TenantSubscriptionModel::all();
+        return $this->TenantSubscriptionModel::with('PlanFeatures')->get();
     }
 
     public function CreateSubscriptionPlan($request)
