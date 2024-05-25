@@ -24,6 +24,10 @@ Route::get("/login", fn () => Inertia::render("landing_page/central_page/Login")
 Route::get("/setuptenant", fn () => Inertia::render("landing_page/central_page/SetupTenant"))->name('central.setuptenant');
 Route::get("/checkouttenant", fn () => Inertia::render("landing_page/central_page/CheckoutTenant"))->name('central.checkouttenant');
 
+Route::prefix("tenant")->group(function () {
+    Route::get("/landing", fn () => Inertia::render("landing_page/tenant_page/TenantHome"))->name('tenant.landingpage');
+});
+
 
 Route::prefix("dashboard")->group(function () {
     Route::middleware(["redirectAuth:central-web"])->controller(AuthController::class)->group(function () {
