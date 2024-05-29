@@ -3,20 +3,24 @@
 namespace App\Observers\CentralDomain;
 
 use App\Models\CentralModel\TenantSubscriptionPlan;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class SubscriptionPlanObsever
+class SubscriptionPlanObsever implements ShouldHandleEventsAfterCommit
 {
     /**
      * Handle the TenantSubscriptionPlan "created" event.
      */
     public function creating(TenantSubscriptionPlan $tenantSubscriptionPlan): void
     {
+        $tenantSubscriptionPlan->plan_version = 1;
+        $tenantSubscriptionPlan->status = "ACTIVE";
         $tenantSubscriptionPlan->created_at = now();
+
+        $tenantSubscriptionPlan->save();
     }
 
     public function created(TenantSubscriptionPlan $tenantSubscriptionPlan): void
     {
-        //
     }
 
     /**

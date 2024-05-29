@@ -16,11 +16,13 @@ class TenantSubscriptionPlan extends Model
         "name",
         "price_per_year",
         "price_per_month",
+        "plan_version",
+        "status",
         "created_at",
         "updated_at"
     ];
 
-    public function PlanFeatrues()
+    public function PlanFeatures()
     {
         return $this->belongsToMany(TenantPlanFeature::class, "tenant_subscription_plan_has_features", "subscription_plan_id", "feature_plan_id");
     }

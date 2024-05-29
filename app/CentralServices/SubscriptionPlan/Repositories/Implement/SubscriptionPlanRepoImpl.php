@@ -19,8 +19,13 @@ class SubscriptionPlanRepoImpl implements SubscriptionPlanInterface
         return $this->TenantSubscriptionModel::with('PlanFeatures')->get();
     }
 
-    public function CreateSubscriptionPlan($request)
+    public function CreateSubscriptionPlan(array $request)
     {
-        return $this->TenantSubscriptionModel::create($request);
+        return TenantSubscriptionPlan::create($request);
+    }
+
+    public function AddSubscriptionFeatureInPlan($request, TenantSubscriptionPlan $tenantSubscriptionPlan)
+    {
+        return $tenantSubscriptionPlan->PlanFeatures()->sync($request);
     }
 }

@@ -7,55 +7,9 @@ import ActionLists from '@components/elements/ulLists/ActionLists.vue';
 import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
 import Modal from '@components/ui/modal/Index.vue';
 import CreateForm from '@pages/dashboard/central_page/subscription_page/tenant_plan_page/CreateForm.vue';
+import NotFound from '@components/ui/cta/NotFound.vue';
 
-const dataSubscriptions = ref([
-    {
-        id: 1,
-        plan: "Silver plan",
-        features: [
-            "100 Member",
-            "5 Plan subscription"
-        ],
-        price: 50000,
-        typePlan: "Monthly"
-    },
-    {
-        id: 2,
-        plan: "Gold plan",
-        features: [
-            "100 Member",
-            "5 Plan subscription",
-            "PT Management"
-        ],
-        price: 1500000,
-        typePlan: "Monthly"
-    },
-    {
-        id: 3,
-        plan: "Platinum plan",
-        features: [
-            "100 Member",
-            "5 Plan subscription",
-            "PT Management",
-            "Open Class Mentoring"
-        ],
-        price: 2000000,
-        typePlan: "Yearly"
-    },
-    {
-        id: 4,
-        plan: "Ultimate plan",
-        features: [
-            "500 Member",
-            "5 Plan subscription",
-            "PT Management",
-            "Open Class Mentoring",
-            "Gym Stuff Management"
-        ],
-        price: 5000000,
-        typePlan: "Yearly"
-    },
-])
+const dataSubscriptions = ref([])
 
 const createModalVisible = ref(false)
 
@@ -72,7 +26,9 @@ const formatCurrency = (price) => {
                 @click-event="() => createModalVisible = true" />
         </section>
 
-        <section class="table_subscriptions">
+        <NotFound caption="Tenant plan is empty" v-if="dataSubscriptions.length <= 0" />
+
+        <section class="table_subscriptions" v-if="dataSubscriptions.length > 0">
 
             <DataTable :value="dataSubscriptions" :pt="{
                 bodyrow: 'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',

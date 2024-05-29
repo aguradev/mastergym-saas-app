@@ -11,6 +11,7 @@ Route::prefix("plan")->group(function () {
 
     Route::controller(TenantPlanController::class)->prefix('pricing')->group(function () {
         Route::get("/", 'PlanTablePage')->name('plan_tenant.table');
+        Route::post("/", 'CreatePlanTenant')->name('plan_tenant.create');
     });
 
     Route::controller(FeaturePlanController::class)->prefix("features")->group(function () {
