@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('tenant_subscription_plan', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->string("name")->unique();
+            $table->string("name");
             $table->decimal("price_per_year", 10, 2);
             $table->decimal("price_per_month", 10, 2);
+            $table->integer("plan_version");
+            $table->enum("status", ["ACTIVE", "ARCHIVE", "DEACTIVED"]);
             $table->timestamps();
         });
     }
