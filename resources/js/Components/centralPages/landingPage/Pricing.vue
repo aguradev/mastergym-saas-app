@@ -17,7 +17,7 @@
             class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"
         >
             <div class="max-w-2xl mx-auto text-center">
-                <h2 class="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">Pricing & Plans</h2>
+                <h2 class="text-5xl font-bold leading-tight text-gray-600 sm:text-4xl lg:text-6xl">Pricing & Plans</h2>
                 <p class="max-w-md mx-auto mt-4 text-base leading-relaxed text-gray-600">Here is lists of our pricing depending on what you need, either monthly or yearly</p>
             </div>
 

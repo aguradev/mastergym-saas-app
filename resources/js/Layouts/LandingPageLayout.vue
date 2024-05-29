@@ -47,7 +47,7 @@
                         class="w-[55px]"
                     />
                 </Link>
-                <h1 class="mx-2 text-black font-black text-[15pt]">Gym Master</h1>
+                <h1 class="mx-4 text-gray-600 font-medium text-xl">Gym Master</h1>
             </div>
             <div
                 id="NavCenter"
@@ -70,12 +70,6 @@
                         :ptOptions="{ mergeProps: true }"
                         label="SIGN-UP"
                         severity="success"
-                /></Link>
-
-                <Link href="/login"
-                    ><Button
-                        label="LOGIN"
-                        severity="info"
                 /></Link>
             </div>
             <div class="block sm:hidden self-end pb-3 pr-3">

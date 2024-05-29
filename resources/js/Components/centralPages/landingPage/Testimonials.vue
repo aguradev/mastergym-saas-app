@@ -3,20 +3,12 @@
 </script>
 
 <template>
-    <!-- <div
-        id="testimonials"
-        class="bg-white text-black min-h-10 flex md:flex"
-    >
-        <div class="testimonies bg-blue-600 w-1/4 h-10">testi</div>
-    </div> -->
-    <!-- component -->
-
-    <div class="min-w-screen min-h-screen bg-gray-50 flex items-center justify-center py-5">
-        <div class="w-full bg-white border-t border-b border-gray-200 px-5 py-16 md:py-24 text-gray-800">
+    <div class="min-w-screen min-h-screen flex items-center justify-center">
+        <div class="w-full px-5 bg-gray-50 py-16 md:py-24 text-gray-800">
             <div class="w-full max-w-6xl mx-auto">
                 <div class="text-center max-w-xl mx-auto">
-                    <h1 class="text-6xl md:text-7xl font-bold mb-5 text-gray-600">What people <br />are saying.</h1>
-                    <h3 class="text-xl mb-5 font-light">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
+                    <h1 class="text-5xl md:text-7xl font-bold mb-5 text-gray-600">What people <br />are saying.</h1>
+                    <h3 class="text-xl mb-5 font-light">From the people that have tried our awesome services!</h3>
                     <div class="text-center mb-10">
                         <span class="inline-block w-1 h-1 rounded-full bg-indigo-500 ml-1"></span>
                         <span class="inline-block w-3 h-1 rounded-full bg-indigo-500 ml-1"></span>
