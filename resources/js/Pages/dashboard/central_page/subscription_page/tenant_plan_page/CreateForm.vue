@@ -9,9 +9,9 @@ import { onMounted, ref, toRefs, watch } from 'vue';
 import { route } from 'ziggy-js'
 
 const form = useForm({
-    title: null,
-    price_per_month: null,
-    price_per_year: null,
+    title: "",
+    price_per_month: "",
+    price_per_year: "",
     features: null
 })
 
@@ -20,7 +20,11 @@ const featureLists = ref(null)
 const loadingForm = ref(true);
 
 function submitHandler() {
-    form.post(route('plan_tenant.create'));
+    form.post(route('plan_tenant.create'), {
+        onSuccess: () => {
+            form.reset();
+        }
+    });
 }
 
 async function fetchingFeatures() {

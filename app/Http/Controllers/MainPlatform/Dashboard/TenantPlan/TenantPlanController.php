@@ -19,7 +19,9 @@ class TenantPlanController extends Controller
 
     public function PlanTablePage()
     {
-        return Inertia::render('dashboard/central_page/subscription_page/tenant_plan_page/Index');
+        $getTenantPlanData = $this->subscriptionPlanService->GetAllSubscriptionPlans();
+
+        return Inertia::render('dashboard/central_page/subscription_page/tenant_plan_page/Index', compact('getTenantPlanData'));
     }
 
     public function CreatePlanTenant(CreateTenantPlanRequest $request)

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, toRef } from 'vue'
 import PlanTenantsLayout from '@layouts/PlanTenantsLayout.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -9,12 +9,15 @@ import Modal from '@components/ui/modal/Index.vue';
 import CreateForm from '@pages/dashboard/central_page/subscription_page/tenant_plan_page/CreateForm.vue';
 import NotFound from '@components/ui/cta/NotFound.vue';
 
-const dataSubscriptions = ref([])
+const props = defineProps({
+    "getTenantPlanData": Array
+});
 
+const dataSubscriptions = toRef(() => props.getTenantPlanData)
 const createModalVisible = ref(false)
 
 const formatCurrency = (price) => {
-    return price.toLocaleString('id-ID', { style: "currency", currency: "IDR" })
+    return new Intl.NumberFormat("ID", { style: "currency", currency: "IDR" }).format(price);
 }
 
 </script>
@@ -38,33 +41,27 @@ const formatCurrency = (price) => {
                     bodycell: 'px-12 py-6 text-base',
                 }
             }">
-                <Column header="No">
-                    <template #body="slotProps">
-                        <div>{{ slotProps.data.id }}</div>
-                    </template>
-                </Column>
                 <Column header="Plans">
                     <template #body="slotProps">
-                        <div>{{ slotProps.data.plan }}</div>
+                        <div>{{ slotProps.data.name }}</div>
                     </template>
                 </Column>
-                <Column header="Prices">
+                <Column header="Price">
                     <template #body="slotProps">
-                        <div>{{ formatCurrency(slotProps.data.price) }}</div>
-                    </template>
-                </Column>
-                <Column header="Features">
-                    <template #body="slotProps">
-                        <ul>
-                            <li v-for="item in slotProps.data.features" class="mb-3">{{ item }}</li>
+                        <ul class="flex flex-col gap-y-4">
+                            <li>{{ formatCurrency(slotProps.data.price_per_month) }}</li>
+                            <li>{{ formatCurrency(slotProps.data.price_per_year) }}</li>
                         </ul>
                     </template>
                 </Column>
-                <Column header="Types">
+                <Column header="Feature count">
                     <template #body="slotProps">
-                        <Badge :value="slotProps.data.typePlan"
-                            :severity="slotProps.data.typePlan === 'Monthly' ? `success` : `info`">
-                        </Badge>
+                        <div>{{ slotProps.data.plan_features.length }} Features</div>
+                    </template>
+                </Column>
+                <Column header="Version">
+                    <template #body="slotProps">
+                        <div> v.{{ slotProps.data.plan_version }}</div>
                     </template>
                 </Column>
                 <Column header="Actions">
