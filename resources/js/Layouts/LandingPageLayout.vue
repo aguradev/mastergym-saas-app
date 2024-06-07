@@ -83,11 +83,11 @@
             </div>
             <div
                 v-show="showSidebar"
-                class="absolute bg-white w-[100%] min-h-[40px] mt-[390px] flex-column"
+                class="absolute bg-gray-50 w-[100%] min-h-[40px] mt-[340px] pt-3 flex-column shadow-lg"
             >
                 <div
                     id="Menu"
-                    class="inline-block h-[200px]"
+                    class="inline-block w-full border-box h-[200px]"
                 >
                     <Link
                         v-for="item in menus"
@@ -98,15 +98,8 @@
                 </div>
                 <div
                     id="NavRight"
-                    class="flex-row ml-5 h-[120px] justify-evenly"
+                    class="flex-row ml-5 h-[60px] justify-evenly"
                 >
-                    <Link
-                        href="/login"
-                        class="flex"
-                        ><Button
-                            label="LOGIN"
-                            severity="info"
-                    /></Link>
                     <Link
                         href="/signup"
                         class="flex my-3"

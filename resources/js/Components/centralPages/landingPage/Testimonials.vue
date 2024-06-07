@@ -3,8 +3,8 @@
 </script>
 
 <template>
-    <div class="min-w-screen min-h-screen flex items-center justify-center">
-        <div class="w-full px-5 bg-gray-50 py-16 md:py-24 text-gray-800">
+    <div class="min-w-screen min-h-screen flex items-center justify-center bg-gray-50">
+        <div class="w-full px-5 py-16 md:py-24 text-gray-800">
             <div class="w-full max-w-6xl mx-auto">
                 <div class="text-center max-w-xl mx-auto">
                     <h1 class="text-5xl md:text-7xl font-bold mb-5 text-gray-600">What people <br />are saying.</h1>
