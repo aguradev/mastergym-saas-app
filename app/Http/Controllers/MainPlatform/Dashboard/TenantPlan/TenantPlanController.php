@@ -6,6 +6,7 @@ use App\CentralServices\SubscriptionPlan\Services\Interfaces\SubscriptionPlanInt
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CentralRequest\CreateTenantPlanRequest;
 use App\Models\CentralModel\TenantSubscriptionPlan;
+use App\Models\Gym\Tenant;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
