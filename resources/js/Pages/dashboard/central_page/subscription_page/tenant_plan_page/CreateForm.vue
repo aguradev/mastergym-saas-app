@@ -18,7 +18,6 @@ const form = useForm({
 const { title, price_per_month, price_per_year, features } = toRefs(form)
 const featureLists = ref(null)
 const loadingForm = ref(true);
-
 function submitHandler() {
     form.post(route('plan_tenant.create'), {
         onSuccess: () => {

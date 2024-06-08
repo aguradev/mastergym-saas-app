@@ -1,13 +1,20 @@
 <script setup>
-import { onMounted, reactive, ref, toRef } from 'vue'
+import { defineAsyncComponent, onMounted, reactive, ref, toRef } from 'vue'
 import PlanTenantsLayout from '@layouts/PlanTenantsLayout.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ActionLists from '@components/elements/ulLists/ActionLists.vue';
 import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
 import Modal from '@components/ui/modal/Index.vue';
+import ModalSidebar from "@components/ui/sidebar/ModalSidebar.vue";
 import CreateForm from '@pages/dashboard/central_page/subscription_page/tenant_plan_page/CreateForm.vue';
 import NotFound from '@components/ui/cta/NotFound.vue';
+import FormatCurrency from '@lib/Currency';
+import LoadingSkeleton from '@components/ui/loading/Skeleton.vue'
+
+const LazyPlanDetail = defineAsyncComponent({
+    loader: () => import("./PlanDetail.vue")
+})
 
 const props = defineProps({
     "getTenantPlanData": Array
@@ -15,9 +22,12 @@ const props = defineProps({
 
 const dataSubscriptions = toRef(() => props.getTenantPlanData)
 const createModalVisible = ref(false)
+const detailModalVisible = ref(false)
+const tenantPlanId = ref(null)
 
-const formatCurrency = (price) => {
-    return new Intl.NumberFormat("ID", { style: "currency", currency: "IDR" }).format(price);
+const openDetailPlan = (id) => {
+    detailModalVisible.value = true;
+    tenantPlanId.value = id;
 }
 
 </script>
@@ -49,8 +59,8 @@ const formatCurrency = (price) => {
                 <Column header="Price">
                     <template #body="slotProps">
                         <ul class="flex flex-col gap-y-4">
-                            <li>{{ formatCurrency(slotProps.data.price_per_month) }}</li>
-                            <li>{{ formatCurrency(slotProps.data.price_per_year) }}</li>
+                            <li>{{ FormatCurrency(slotProps.data.price_per_month) }}</li>
+                            <li>{{ FormatCurrency(slotProps.data.price_per_year) }}</li>
                         </ul>
                     </template>
                 </Column>
@@ -66,7 +76,7 @@ const formatCurrency = (price) => {
                 </Column>
                 <Column header="Actions">
                     <template #body="slotProps">
-                        <ActionLists />
+                        <ActionLists @detailEvent="openDetailPlan(slotProps.data.id)" />
                     </template>
                 </Column>
             </DataTable>
@@ -74,6 +84,19 @@ const formatCurrency = (price) => {
         </section>
 
     </PlanTenantsLayout>
+
+    <ModalSidebar :modal-visible="detailModalVisible" title="Plan detail" @close-modal="() => {
+        detailModalVisible = false
+        tenantPlanId.value = null
+    }">
+        <Suspense>
+            <LazyPlanDetail :id="tenantPlanId" />
+
+            <template #fallback>
+                <LoadingSkeleton />
+            </template>
+        </Suspense>
+    </ModalSidebar>
 
     <Modal title="Create tenant subscription plan" :modal-visible="createModalVisible"
         @close-modal="() => createModalVisible = false">

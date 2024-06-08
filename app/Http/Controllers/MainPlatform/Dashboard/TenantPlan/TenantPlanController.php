@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MainPlatform\Dashboard\TenantPlan;
 use App\CentralServices\SubscriptionPlan\Services\Interfaces\SubscriptionPlanInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CentralRequest\CreateTenantPlanRequest;
+use App\Models\CentralModel\TenantSubscriptionPlan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -33,5 +34,11 @@ class TenantPlanController extends Controller
         }
 
         return redirect()->back()->with("message_success", "Successfully create plan");
+    }
+
+    public function GetPlanDetail(TenantSubscriptionPlan $planTenant)
+    {
+        $planTenant->load("PlanFeatures");
+        return response()->json($planTenant)->setStatusCode(200);
     }
 }

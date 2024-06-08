@@ -33,7 +33,7 @@ class CreateTenantPlanRequest extends FormRequest
     {
         return [
             "features" => [
-                "required" => "features is required"
+                "required" => "Features is required"
             ],
             "title" => [
                 "required" => "Title is required",
