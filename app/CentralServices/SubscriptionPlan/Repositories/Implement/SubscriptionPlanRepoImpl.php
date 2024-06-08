@@ -2,8 +2,9 @@
 
 namespace App\CentralServices\SubscriptionPlan\Repositories\Implement;
 
-use App\CentralServices\SubscriptionPlan\Repositories\Interfaces\SubscriptionPlanInterface;
+use Illuminate\Support\Str;
 use App\Models\CentralModel\TenantSubscriptionPlan;
+use App\CentralServices\SubscriptionPlan\Repositories\Interfaces\SubscriptionPlanInterface;
 
 class SubscriptionPlanRepoImpl implements SubscriptionPlanInterface
 {
@@ -26,6 +27,6 @@ class SubscriptionPlanRepoImpl implements SubscriptionPlanInterface
 
     public function AddSubscriptionFeatureInPlan($request, TenantSubscriptionPlan $tenantSubscriptionPlan)
     {
-        return $tenantSubscriptionPlan->PlanFeatures()->sync($request);
+        return $tenantSubscriptionPlan->PlanFeatures()->syncWithPivotValues($request, ["id" => Str::uuid()], false);
     }
 }

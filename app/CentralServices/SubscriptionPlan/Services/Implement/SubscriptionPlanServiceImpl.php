@@ -2,12 +2,13 @@
 
 namespace App\CentralServices\SubscriptionPlan\Services\Implement;
 
-use App\CentralServices\SubscriptionPlan\Repositories\Interfaces\SubscriptionPlanInterface as SubscriptionPlanInterfaceRepo;
-use App\CentralServices\SubscriptionPlan\Services\Interfaces\SubscriptionPlanInterface;
-use Barryvdh\Debugbar\Facades\Debugbar as FacadesDebugbar;
-use DebugBar\DebugBar;
 use Exception;
+use DebugBar\DebugBar;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\Debugbar\Facades\Debugbar as FacadesDebugbar;
+use App\CentralServices\SubscriptionPlan\Services\Interfaces\SubscriptionPlanInterface;
+use App\CentralServices\SubscriptionPlan\Repositories\Interfaces\SubscriptionPlanInterface as SubscriptionPlanInterfaceRepo;
 
 class SubscriptionPlanServiceImpl implements SubscriptionPlanInterface
 {
@@ -39,7 +40,9 @@ class SubscriptionPlanServiceImpl implements SubscriptionPlanInterface
 
             $featuresId = collect($request["features"])->pluck("id");
 
-            $addFeatures = $this->SubscriptionPlanRepo->AddSubscriptionFeatureInPlan($featuresId, $createPlanTenant);
+            foreach ($featuresId as $id) {
+                $addFeatures = $this->SubscriptionPlanRepo->AddSubscriptionFeatureInPlan($id, $createPlanTenant);
+            }
 
             if (!$addFeatures) {
                 throw new Exception("error when create plan tenant");
