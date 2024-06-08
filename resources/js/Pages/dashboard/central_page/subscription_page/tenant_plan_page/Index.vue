@@ -23,6 +23,10 @@ const LazyPlanDetail = defineAsyncComponent({
     loader: () => import("./PlanDetail.vue"),
 });
 
+const LazyNewVersionPlan = defineAsyncComponent({
+    loader: () => import("./NewVersionForm.vue"),
+});
+
 const props = defineProps({
     getTenantPlanData: Array,
 });
@@ -155,7 +159,9 @@ watch(
                         @new-version-event="changeDetailToFormSuspense"
                     />
                 </div>
-                <div v-else></div>
+                <div v-else>
+                    <LazyNewVersionPlan :id="tenantPlanId" />
+                </div>
             </template>
 
             <template #fallback>
