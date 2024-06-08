@@ -54,7 +54,7 @@ watch(
         if (newState) {
             setTimeout(() => {
                 refreshDetailTenantSuspense.value = false;
-            }, 1000);
+            }, 500);
         }
     },
 );

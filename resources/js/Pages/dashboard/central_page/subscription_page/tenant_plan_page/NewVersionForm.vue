@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import axiosHttp from "@lib/axios";
-import InputText from "@components/elements/input/InputText.vue";
+import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 
 const props = defineProps({
     id: String,
@@ -50,12 +50,13 @@ console.log(planDetails.value);
                 <label for="title" class="block">Select version</label>
                 <select class="px-4 py-3 rounded-lg bg-primary-700">
                     <option value="#">-- Select version --</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option :value="planDetails.id">
+                        v.{{ planDetails.plan_version }}
+                    </option>
                 </select>
+            </div>
+            <div>
+                <PrimaryButton label="Load" />
             </div>
         </form>
     </section>
