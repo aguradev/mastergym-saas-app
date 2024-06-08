@@ -12,7 +12,6 @@ class SubscriptionPlanObsever implements ShouldHandleEventsAfterCommit
      */
     public function creating(TenantSubscriptionPlan $tenantSubscriptionPlan): void
     {
-        $tenantSubscriptionPlan->plan_version = 1;
         $tenantSubscriptionPlan->status = "ACTIVE";
         $tenantSubscriptionPlan->created_at = now();
 

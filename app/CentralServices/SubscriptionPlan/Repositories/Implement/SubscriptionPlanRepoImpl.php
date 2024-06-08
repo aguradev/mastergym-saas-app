@@ -5,6 +5,7 @@ namespace App\CentralServices\SubscriptionPlan\Repositories\Implement;
 use Illuminate\Support\Str;
 use App\Models\CentralModel\TenantSubscriptionPlan;
 use App\CentralServices\SubscriptionPlan\Repositories\Interfaces\SubscriptionPlanInterface;
+use App\Models\CentralModel\TenantPlanVersion;
 
 class SubscriptionPlanRepoImpl implements SubscriptionPlanInterface
 {
@@ -17,7 +18,9 @@ class SubscriptionPlanRepoImpl implements SubscriptionPlanInterface
 
     public function GetAllSubscriptionPlans()
     {
-        return $this->TenantSubscriptionModel::with('PlanFeatures')->get();
+        return $this->TenantSubscriptionModel::with(["TenantVersionLatest" => function ($query) {
+            $query->withCount("PlanFeatures");
+        }])->get();
     }
 
     public function CreateSubscriptionPlan(array $request)
@@ -25,8 +28,13 @@ class SubscriptionPlanRepoImpl implements SubscriptionPlanInterface
         return TenantSubscriptionPlan::create($request);
     }
 
-    public function AddSubscriptionFeatureInPlan($request, TenantSubscriptionPlan $tenantSubscriptionPlan)
+    public function CreateSubscriptionPlanVersion(array $request, TenantSubscriptionPlan $tenantSubscriptionPlan)
     {
-        return $tenantSubscriptionPlan->PlanFeatures()->syncWithPivotValues($request, ["id" => Str::uuid()], false);
+        return $tenantSubscriptionPlan->TenantLogVersions()->create($request);
+    }
+
+    public function AddSubscriptionFeatureInPlan($request, TenantPlanVersion $tenantPlanVersion)
+    {
+        return $tenantPlanVersion->PlanFeatures()->syncWithPivotValues($request, ["id" => Str::uuid()], false);
     }
 }

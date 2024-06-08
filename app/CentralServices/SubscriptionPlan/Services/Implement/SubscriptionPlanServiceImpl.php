@@ -30,18 +30,26 @@ class SubscriptionPlanServiceImpl implements SubscriptionPlanInterface
 
             $createPlanTenant = $this->SubscriptionPlanRepo->CreateSubscriptionPlan([
                 "name" => $request["title"],
-                "price_per_month" => (int) $request["price_per_month"],
-                "price_per_year" => (int) $request["price_per_year"],
             ]);
 
             if (!$createPlanTenant) {
                 throw new Exception("error when create plan tenant");
             }
 
+            $createPlanTenantFirstVersion = $this->SubscriptionPlanRepo->CreateSubscriptionPlanVersion([
+                "price_per_month" => (int) $request["price_per_month"],
+                "price_per_year" => (int) $request["price_per_year"],
+                "version" => "1",
+            ], $createPlanTenant);
+
+            if (!$createPlanTenantFirstVersion) {
+                throw new Exception("error when create version plan");
+            }
+
             $featuresId = collect($request["features"])->pluck("id");
 
             foreach ($featuresId as $id) {
-                $addFeatures = $this->SubscriptionPlanRepo->AddSubscriptionFeatureInPlan($id, $createPlanTenant);
+                $addFeatures = $this->SubscriptionPlanRepo->AddSubscriptionFeatureInPlan($id, $createPlanTenantFirstVersion);
             }
 
             if (!$addFeatures) {

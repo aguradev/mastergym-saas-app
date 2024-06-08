@@ -103,14 +103,16 @@ watch(
                             <li>
                                 {{
                                     FormatCurrency(
-                                        slotProps.data.price_per_month,
+                                        slotProps.data.tenant_version_latest
+                                            .price_per_month,
                                     )
                                 }}
                             </li>
                             <li>
                                 {{
                                     FormatCurrency(
-                                        slotProps.data.price_per_year,
+                                        slotProps.data.tenant_version_latest
+                                            .price_per_year,
                                     )
                                 }}
                             </li>
@@ -120,13 +122,19 @@ watch(
                 <Column header="Feature count">
                     <template #body="slotProps">
                         <div>
-                            {{ slotProps.data.plan_features.length }} Features
+                            {{
+                                slotProps.data.tenant_version_latest
+                                    .plan_features_count
+                            }}
+                            Features
                         </div>
                     </template>
                 </Column>
                 <Column header="Version">
                     <template #body="slotProps">
-                        <div>v.{{ slotProps.data.plan_version }}</div>
+                        <div>
+                            v.{{ slotProps.data.tenant_version_latest.version }}
+                        </div>
                     </template>
                 </Column>
                 <Column header="Actions">
