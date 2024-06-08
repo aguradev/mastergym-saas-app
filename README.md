@@ -22,7 +22,7 @@ Clone this project
 git clone
 ```
 
-Install depedencies
+Install dependency package
 
 ```
 composer install && yarn install
