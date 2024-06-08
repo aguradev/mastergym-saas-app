@@ -51,16 +51,24 @@ await fetchDetailPlan();
         <div class="flex items-center gap-x-14">
             <DynamicSectionContent
                 label="Price per month"
-                :caption="FormatCurrency(planDetails.price_per_month)"
+                :caption="
+                    FormatCurrency(
+                        planDetails.tenant_version_latest.price_per_month,
+                    )
+                "
             />
             <DynamicSectionContent
                 label="Price per yearly"
-                :caption="FormatCurrency(planDetails.price_per_year)"
+                :caption="
+                    FormatCurrency(
+                        planDetails.tenant_version_latest.price_per_year,
+                    )
+                "
             />
         </div>
         <DynamicSectionContent
             label="Latest version"
-            :caption="`v.${planDetails.plan_version}`"
+            :caption="`v.${planDetails.tenant_version_latest.version}`"
         />
         <div class="mb-8">
             <h4 class="mb-4 text-base font-semibold capitalize">Features</h4>
@@ -68,7 +76,8 @@ await fetchDetailPlan();
                 class="flex flex-col gap-x-14 gap-y-4 justify-between max-w-[400px]"
             >
                 <li
-                    v-for="(feature, i) in planDetails.plan_features"
+                    v-for="(feature, i) in planDetails.tenant_version_latest
+                        .plan_features"
                     :key="feature.id"
                     class="text-base"
                 >

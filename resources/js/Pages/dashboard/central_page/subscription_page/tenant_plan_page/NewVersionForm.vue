@@ -26,7 +26,7 @@ const emits = defineEmits(["newVersionEvent"]);
 const fetchDetailPlan = async () => {
     try {
         const res = await axiosHttp(
-            route("plan_tenant.json.detail", {
+            route("plan_tenant.json.versions", {
                 planTenant: props.id,
             }),
         );
@@ -50,8 +50,15 @@ console.log(planDetails.value);
                 <label for="title" class="block">Select version</label>
                 <select class="px-4 py-3 rounded-lg bg-primary-700">
                     <option value="#">-- Select version --</option>
-                    <option :value="planDetails.id">
-                        v.{{ planDetails.plan_version }}
+                    <option
+                        v-for="{
+                            id,
+                            version,
+                        } in planDetails.tenant_log_versions"
+                        :key="id"
+                        :value="id"
+                    >
+                        v.{{ version }}
                     </option>
                 </select>
             </div>

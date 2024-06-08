@@ -130,7 +130,7 @@ watch(
                         </div>
                     </template>
                 </Column>
-                <Column header="Version">
+                <Column header="Latest version">
                     <template #body="slotProps">
                         <div>
                             v.{{ slotProps.data.tenant_version_latest.version }}

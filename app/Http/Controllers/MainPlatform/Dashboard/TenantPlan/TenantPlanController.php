@@ -39,7 +39,13 @@ class TenantPlanController extends Controller
 
     public function GetPlanDetail(TenantSubscriptionPlan $planTenant)
     {
-        $planTenant->load("PlanFeatures");
+        $planTenant->load("TenantVersionLatest", "TenantVersionLatest.PlanFeatures");
+        return response()->json($planTenant)->setStatusCode(200);
+    }
+
+    public function GetPlanVersions(TenantSubscriptionPlan $planTenant)
+    {
+        $planTenant->load("TenantLogVersions");
         return response()->json($planTenant)->setStatusCode(200);
     }
 }
