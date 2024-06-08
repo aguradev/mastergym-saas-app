@@ -11,6 +11,11 @@ Route::prefix("plan")->group(function () {
 
     Route::controller(TenantPlanController::class)->prefix('pricing')->group(function () {
         Route::get("/", 'PlanTablePage')->name('plan_tenant.table');
+        Route::post("/", 'CreatePlanTenant')->name('plan_tenant.create');
+        Route::middleware("redirect_json_access")->group(function () {
+            Route::get("api/{planTenant}", "GetPlanDetail")->name('plan_tenant.json.detail');
+            Route::get("api/{planTenant}/plan-versions", "GetPlanVersions")->name('plan_tenant.json.versions');
+        });
     });
 
     Route::controller(FeaturePlanController::class)->prefix("features")->group(function () {

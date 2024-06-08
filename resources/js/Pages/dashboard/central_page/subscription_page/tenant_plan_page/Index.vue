@@ -1,129 +1,188 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
-import PlanTenantsLayout from '@layouts/PlanTenantsLayout.vue';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import ActionLists from '@components/elements/ulLists/ActionLists.vue';
-import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
-import Modal from '@components/ui/modal/Index.vue';
-import CreateForm from '@pages/dashboard/central_page/subscription_page/tenant_plan_page/CreateForm.vue';
+import {
+    defineAsyncComponent,
+    onMounted,
+    reactive,
+    ref,
+    toRef,
+    watch,
+} from "vue";
+import PlanTenantsLayout from "@layouts/PlanTenantsLayout.vue";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import ActionLists from "@components/elements/ulLists/ActionLists.vue";
+import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
+import Modal from "@components/ui/modal/Index.vue";
+import ModalSidebar from "@components/ui/sidebar/ModalSidebar.vue";
+import CreateForm from "@pages/dashboard/central_page/subscription_page/tenant_plan_page/CreateForm.vue";
+import NotFound from "@components/ui/cta/NotFound.vue";
+import FormatCurrency from "@lib/Currency";
+import LoadingSkeleton from "@components/ui/loading/Skeleton.vue";
 
-const dataSubscriptions = ref([
-    {
-        id: 1,
-        plan: "Silver plan",
-        features: [
-            "100 Member",
-            "5 Plan subscription"
-        ],
-        price: 50000,
-        typePlan: "Monthly"
-    },
-    {
-        id: 2,
-        plan: "Gold plan",
-        features: [
-            "100 Member",
-            "5 Plan subscription",
-            "PT Management"
-        ],
-        price: 1500000,
-        typePlan: "Monthly"
-    },
-    {
-        id: 3,
-        plan: "Platinum plan",
-        features: [
-            "100 Member",
-            "5 Plan subscription",
-            "PT Management",
-            "Open Class Mentoring"
-        ],
-        price: 2000000,
-        typePlan: "Yearly"
-    },
-    {
-        id: 4,
-        plan: "Ultimate plan",
-        features: [
-            "500 Member",
-            "5 Plan subscription",
-            "PT Management",
-            "Open Class Mentoring",
-            "Gym Stuff Management"
-        ],
-        price: 5000000,
-        typePlan: "Yearly"
-    },
-])
+const LazyPlanDetail = defineAsyncComponent({
+    loader: () => import("./PlanDetail.vue"),
+});
 
-const createModalVisible = ref(false)
+const LazyNewVersionPlan = defineAsyncComponent({
+    loader: () => import("./NewVersionForm.vue"),
+});
 
-const formatCurrency = (price) => {
-    return price.toLocaleString('id-ID', { style: "currency", currency: "IDR" })
-}
+const props = defineProps({
+    getTenantPlanData: Array,
+});
 
+const dataSubscriptions = toRef(() => props.getTenantPlanData);
+const createModalVisible = ref(false);
+const detailModalVisible = ref(false);
+const tenantPlanId = ref(null);
+const refreshDetailTenantSuspense = ref(false);
+const newVersionFormActive = ref(false);
+
+const openDetailPlan = (id) => {
+    detailModalVisible.value = true;
+    tenantPlanId.value = id;
+};
+
+const changeDetailToFormSuspense = () => {
+    refreshDetailTenantSuspense.value = true;
+    newVersionFormActive.value = true;
+};
+
+watch(
+    () => refreshDetailTenantSuspense.value,
+    (newState) => {
+        if (newState) {
+            setTimeout(() => {
+                refreshDetailTenantSuspense.value = false;
+            }, 500);
+        }
+    },
+);
 </script>
 
 <template>
     <PlanTenantsLayout>
         <section class="p-8">
-            <PrimaryButton icon="pi pi-plus" label="Add Plan Subscription"
-                @click-event="() => createModalVisible = true" />
+            <PrimaryButton
+                icon="pi pi-plus"
+                label="Add Plan Subscription"
+                @click-event="() => (createModalVisible = true)"
+            />
         </section>
 
-        <section class="table_subscriptions">
+        <NotFound
+            caption="Tenant plan is empty"
+            v-if="dataSubscriptions.length <= 0"
+        />
 
-            <DataTable :value="dataSubscriptions" :pt="{
-                bodyrow: 'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
-                column: {
-                    headercell: 'py-6 px-12 border-b border-primary-600',
-                    headercontent: 'text-left font-[300] tracking-wide text-white/50',
-                    bodycell: 'px-12 py-6 text-base',
-                }
-            }">
-                <Column header="No">
-                    <template #body="slotProps">
-                        <div>{{ slotProps.data.id }}</div>
-                    </template>
-                </Column>
+        <section
+            class="table_subscriptions"
+            v-if="dataSubscriptions.length > 0"
+        >
+            <DataTable
+                :value="dataSubscriptions"
+                :pt="{
+                    bodyrow:
+                        'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
+                    column: {
+                        headercell: 'py-6 px-12 border-b border-primary-600',
+                        headercontent:
+                            'text-left font-[300] tracking-wide text-white/50',
+                        bodycell: 'px-12 py-6 text-base',
+                    },
+                }"
+            >
                 <Column header="Plans">
                     <template #body="slotProps">
-                        <div>{{ slotProps.data.plan }}</div>
+                        <div>{{ slotProps.data.name }}</div>
                     </template>
                 </Column>
-                <Column header="Prices">
+                <Column header="Price">
                     <template #body="slotProps">
-                        <div>{{ formatCurrency(slotProps.data.price) }}</div>
-                    </template>
-                </Column>
-                <Column header="Features">
-                    <template #body="slotProps">
-                        <ul>
-                            <li v-for="item in slotProps.data.features" class="mb-3">{{ item }}</li>
+                        <ul class="flex flex-col gap-y-4">
+                            <li>
+                                {{
+                                    FormatCurrency(
+                                        slotProps.data.tenant_version_latest
+                                            .price_per_month,
+                                    )
+                                }}
+                            </li>
+                            <li>
+                                {{
+                                    FormatCurrency(
+                                        slotProps.data.tenant_version_latest
+                                            .price_per_year,
+                                    )
+                                }}
+                            </li>
                         </ul>
                     </template>
                 </Column>
-                <Column header="Types">
+                <Column header="Feature count">
                     <template #body="slotProps">
-                        <Badge :value="slotProps.data.typePlan"
-                            :severity="slotProps.data.typePlan === 'Monthly' ? `success` : `info`">
-                        </Badge>
+                        <div>
+                            {{
+                                slotProps.data.tenant_version_latest
+                                    .plan_features_count
+                            }}
+                            Features
+                        </div>
+                    </template>
+                </Column>
+                <Column header="Latest version">
+                    <template #body="slotProps">
+                        <div>
+                            v.{{ slotProps.data.tenant_version_latest.version }}
+                        </div>
                     </template>
                 </Column>
                 <Column header="Actions">
                     <template #body="slotProps">
-                        <ActionLists />
+                        <ActionLists
+                            @detailEvent="openDetailPlan(slotProps.data.id)"
+                        />
                     </template>
                 </Column>
             </DataTable>
-
         </section>
-
     </PlanTenantsLayout>
 
-    <Modal title="Create tenant subscription plan" :modal-visible="createModalVisible"
-        @close-modal="() => createModalVisible = false">
+    <ModalSidebar
+        :modal-visible="detailModalVisible"
+        title="Plan detail"
+        @close-modal="
+            () => {
+                detailModalVisible = false;
+                tenantPlanId = null;
+                newVersionFormActive = false;
+            }
+        "
+    >
+        <Suspense v-if="!refreshDetailTenantSuspense">
+            <template #default>
+                <div v-if="!newVersionFormActive">
+                    <LazyPlanDetail
+                        :id="tenantPlanId"
+                        @new-version-event="changeDetailToFormSuspense"
+                    />
+                </div>
+                <div v-else>
+                    <LazyNewVersionPlan :id="tenantPlanId" />
+                </div>
+            </template>
+
+            <template #fallback>
+                <LoadingSkeleton />
+            </template>
+        </Suspense>
+    </ModalSidebar>
+
+    <Modal
+        title="Create tenant subscription plan"
+        :modal-visible="createModalVisible"
+        @close-modal="() => (createModalVisible = false)"
+    >
         <CreateForm />
     </Modal>
 </template>
