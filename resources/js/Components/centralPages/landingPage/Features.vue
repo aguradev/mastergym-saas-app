@@ -11,7 +11,8 @@
 
 <template>
     <div class="bg-gray-50 text-black py-[50px] flex flex-col items-center">
-        <h1 class="text-[50px] px-10 font-medium">We Provide Every Features That Your Gym Ever Need!</h1>
+        <h1 class="text-6xl px-10 font-bold text-gray-600">Features.</h1>
+        <p>Lists of features and perks that our app offers for you!</p>
         <div
             id="dashboard"
             class="grid place-items-center w-[100%] mb-10 mt-20"
@@ -24,25 +25,21 @@
         </div>
         <div
             id="features"
-            class="md:flex justify-evenly gap-x-5 w-[80%] mt-5"
+            class="md:flex justify-evenly gap-x-7 w-[80%] mt-5"
         >
             <div v-for="item in cards">
                 <Card
                     :pt="{
                         title: {
-                            class: '!text-center !text-black',
+                            class: '!text-center !text-gray-700 ',
                         },
                         content: {
-                            class: '!text-black',
+                            class: '!text-gray-700',
                         },
                     }"
                     :ptOptions="{ mergeProps: true }"
                 >
-                    <template
-                        #title
-                        class="text-center"
-                        >{{ item.title }}</template
-                    >
+                    <template #title>{{ item.title }}</template>
                     <template #content>
                         <p class="text-center px-2">{{ item.content }}</p>
                     </template>

@@ -32,13 +32,13 @@ Route::prefix("tenant")->group(function () {
 Route::prefix("dashboard")->group(function () {
     Route::middleware(["redirectAuth:central-web"])->controller(AuthController::class)->group(function () {
         route::get("/login", "AuthPage")->name("login");
-        route::post("/login", "Authenticable")->name("auth.submit");
+        route::post("/login", "Authenticable")->name("auth.submit")->middleware(["throttle:central_auth"]);
     });
 
     Route::middleware(["auth", "role:Super admin|Admin,central-web"])->group(function () {
         Route::post("/logout", [AuthController::class, 'Logout'])->name("central-dashboard.logout");
 
-        require_once __DIR__ . "/dashboard_central/subscription_route.php";
+        require_once __DIR__ . "/dashboard_central/plan_tenant_route.php";
         require_once __DIR__ . "/dashboard_central/navigation_route.php";
     });
 });

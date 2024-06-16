@@ -14,7 +14,6 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "lucasdotvin/laravel-soulbscription": "^4.2",
         "spatie/laravel-permission": "^6.3",
         "stancl/tenancy": "^3.7",
         "tightenco/ziggy": "^2.0"

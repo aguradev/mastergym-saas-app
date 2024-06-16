@@ -20,7 +20,7 @@ class NavigationController extends Controller
     }
     public function DashboardPage()
     {
-        $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->get()->select(["vendor", "domain"]);
+        $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->get()->select(["name", "domain"]);
         $TenantCount = Tenant::count();
 
         Debugbar::debug($TenantCount);
@@ -33,7 +33,7 @@ class NavigationController extends Controller
         ]);
     }
 
-    public function SubscriptionPage()
+    public function PlanOverviewMenu()
     {
         return Inertia::render("dashboard/central_page/subscription_page/Index");
     }

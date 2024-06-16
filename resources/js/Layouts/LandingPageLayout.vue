@@ -47,7 +47,7 @@
                         class="w-[55px]"
                     />
                 </Link>
-                <h1 class="mx-2 text-black font-black text-[15pt]">Gym Master</h1>
+                <h1 class="mx-4 text-gray-600 font-medium text-xl">Gym Master</h1>
             </div>
             <div
                 id="NavCenter"
@@ -71,12 +71,6 @@
                         label="SIGN-UP"
                         severity="success"
                 /></Link>
-
-                <Link href="/login"
-                    ><Button
-                        label="LOGIN"
-                        severity="info"
-                /></Link>
             </div>
             <div class="block sm:hidden self-end pb-3 pr-3">
                 <Button
@@ -89,11 +83,11 @@
             </div>
             <div
                 v-show="showSidebar"
-                class="absolute bg-white w-[100%] min-h-[40px] mt-[390px]"
+                class="absolute bg-gray-50 w-[100%] min-h-[40px] mt-[340px] pt-3 flex-column shadow-lg"
             >
                 <div
                     id="Menu"
-                    class="inline-block h-[200px]"
+                    class="inline-block w-full border-box h-[200px]"
                 >
                     <Link
                         v-for="item in menus"
@@ -104,15 +98,8 @@
                 </div>
                 <div
                     id="NavRight"
-                    class="flex-row ml-5 h-[120px] justify-evenly"
+                    class="flex-row ml-5 h-[60px] justify-evenly"
                 >
-                    <Link
-                        href="/login"
-                        class="flex"
-                        ><Button
-                            label="LOGIN"
-                            severity="info"
-                    /></Link>
                     <Link
                         href="/signup"
                         class="flex my-3"

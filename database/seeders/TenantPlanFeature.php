@@ -26,6 +26,8 @@ class TenantPlanFeature extends Seeder
             "Unlimited membership user",
         ]);
 
+        CentralModelTenantPlanFeature::truncate();
+
         $planFeatures->map(fn ($feature) => CentralModelTenantPlanFeature::create([
             "name" => $feature,
             "created_at" => now()

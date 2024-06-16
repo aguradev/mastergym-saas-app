@@ -5,6 +5,8 @@
 
     const isToggle = ref(false);
 
+    const link = '/signup';
+
     const togglePricing = () => {
         isToggle.value = !isToggle.value;
     };
@@ -17,7 +19,7 @@
             class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"
         >
             <div class="max-w-2xl mx-auto text-center">
-                <h2 class="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">Pricing & Plans</h2>
+                <h2 class="text-5xl font-bold leading-tight text-gray-600 sm:text-4xl lg:text-6xl">Pricing & Plans</h2>
                 <p class="max-w-md mx-auto mt-4 text-base leading-relaxed text-gray-600">Here is lists of our pricing depending on what you need, either monthly or yearly</p>
             </div>
 
@@ -60,14 +62,13 @@
                             <span class="ml-0.5 text-lg text-gray-600"> / month </span>
                         </div>
 
-                        <a
-                            href="#"
-                            title=""
-                            class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-gray-900 transition-all duration-200 bg-transparent border-2 rounded-full border-fuchsia-600 hover:bg-fuchsia-600 hover:text-white focus:text-white focus:bg-fuchsia-600"
-                            role=""
-                        >
-                            Try This Out!
-                        </a>
+                        <Link :href="link">
+                            <a
+                                class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-gray-900 transition-all duration-200 bg-transparent border-2 rounded-full border-fuchsia-600 hover:bg-fuchsia-600 hover:text-white focus:text-white focus:bg-fuchsia-600"
+                            >
+                                Try This Out!
+                            </a>
+                        </Link>
 
                         <ul class="flex flex-col mt-8 space-y-4">
                             <li class="inline-flex items-center space-x-2">
@@ -155,7 +156,7 @@
                 <!-- middle banner  -->
                 <div class="overflow-hidden bg-blue-400 border-2 border-transparent rounded-md shadow-xl hover:scale-105 ease-in-out duration-300">
                     <div class="p-6 md:py-8 md:px-9">
-                        <h3 class="text-xl font-semibold text-black">Premium</h3>
+                        <h3 class="text-xl font-semibold text-black">Ultimate</h3>
                         <p class="mt-2.5 text-sm text-black">All the extended features to <strong>GREATLY</strong> boost your gym management.</p>
 
                         <div class="flex items-end mt-5">
@@ -165,15 +166,16 @@
                             </div>
                             <span class="ml-0.5 text-lg text-black"> / month </span>
                         </div>
-
-                        <a
-                            href="#"
-                            title=""
-                            class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-200 border-2 border-transparent rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600 hover:opacity-80 focus:opacity-80"
-                            role=""
-                        >
-                            Sign Up Now!
-                        </a>
+                        <Link :href="link">
+                            <a
+                                href="#"
+                                title=""
+                                class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-200 border-2 border-transparent rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600 hover:opacity-80 focus:opacity-80"
+                                role=""
+                            >
+                                Sign Up Now!
+                            </a>
+                        </Link>
 
                         <ul class="flex flex-col mt-8 space-y-4">
                             <li class="inline-flex items-center space-x-2">
@@ -272,14 +274,16 @@
                             <span class="ml-0.5 text-lg text-gray-600"> / month </span>
                         </div>
 
-                        <a
-                            href="#"
-                            title=""
-                            class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-200 border-2 border-transparent rounded-full bg-gradient-to-r from-indigo-900 to-blue-600 hover:opacity-80 focus:opacity-80"
-                            role=""
-                        >
-                            I Am Interested!
-                        </a>
+                        <Link :href="link"
+                            ><a
+                                href="#"
+                                title=""
+                                class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-200 border-2 border-transparent rounded-full bg-gradient-to-r from-indigo-900 to-blue-600 hover:opacity-80 focus:opacity-80"
+                                role=""
+                            >
+                                I Am Interested!
+                            </a>
+                        </Link>
 
                         <ul class="flex flex-col mt-8 space-y-4">
                             <li class="inline-flex items-center space-x-2">
@@ -398,14 +402,16 @@
                             <span class="ml-0.5 text-lg text-gray-600"> / Year </span>
                         </div>
 
-                        <a
-                            href="#"
-                            title=""
-                            class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-gray-900 transition-all duration-200 bg-transparent border-2 rounded-full border-fuchsia-600 hover:bg-fuchsia-600 hover:text-white focus:text-white focus:bg-fuchsia-600"
-                            role=""
-                        >
-                            Try This Out!
-                        </a>
+                        <Link :href="link"
+                            ><a
+                                href="#"
+                                title=""
+                                class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-gray-900 transition-all duration-200 bg-transparent border-2 rounded-full border-fuchsia-600 hover:bg-fuchsia-600 hover:text-white focus:text-white focus:bg-fuchsia-600"
+                                role=""
+                            >
+                                Try This Out!
+                            </a>
+                        </Link>
 
                         <ul class="flex flex-col mt-8 space-y-4">
                             <li class="inline-flex items-center space-x-2">
@@ -504,14 +510,16 @@
                             <span class="ml-0.5 text-lg text-black"> / Year </span>
                         </div>
 
-                        <a
-                            href="#"
-                            title=""
-                            class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-200 border-2 border-transparent rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600 hover:opacity-80 focus:opacity-80"
-                            role=""
-                        >
-                            Sign Up Now!
-                        </a>
+                        <Link :href="link"
+                            ><a
+                                href="#"
+                                title=""
+                                class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-200 border-2 border-transparent rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600 hover:opacity-80 focus:opacity-80"
+                                role=""
+                            >
+                                Sign Up Now!
+                            </a>
+                        </Link>
 
                         <ul class="flex flex-col mt-8 space-y-4">
                             <li class="inline-flex items-center space-x-2">
@@ -610,14 +618,16 @@
                             <span class="ml-0.5 text-lg text-gray-600"> / Year </span>
                         </div>
 
-                        <a
-                            href="#"
-                            title=""
-                            class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-200 border-2 border-transparent rounded-full bg-gradient-to-r from-indigo-900 to-blue-600 hover:opacity-80 focus:opacity-80"
-                            role=""
-                        >
-                            I Am Interested!
-                        </a>
+                        <Link :href="link"
+                            ><a
+                                href="#"
+                                title=""
+                                class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-200 border-2 border-transparent rounded-full bg-gradient-to-r from-indigo-900 to-blue-600 hover:opacity-80 focus:opacity-80"
+                                role=""
+                            >
+                                I Am Interested!
+                            </a>
+                        </Link>
 
                         <ul class="flex flex-col mt-8 space-y-4">
                             <li class="inline-flex items-center space-x-2">

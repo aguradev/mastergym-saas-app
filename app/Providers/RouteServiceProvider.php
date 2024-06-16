@@ -29,6 +29,12 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
+        RateLimiter::for('central_auth', function (Request $request) {
+            return Limit::perMinute(4)->by($request->ip())->response(function () {
+                return redirect()->back()->with("message_error", "Too Many Login, please wait 1 minutes");
+            });
+        });
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

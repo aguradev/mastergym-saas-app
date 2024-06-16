@@ -6,8 +6,8 @@ const props = defineProps(["dataTenants"])
 const { dataTenants } = toRefs(props)
 
 const tenantLatestColumns = ref([{
-    "field": "vendor",
-    "header": "Vendor"
+    "field": "name",
+    "header": "Name"
 }, {
     "field": "domain",
     "header": "Domain"

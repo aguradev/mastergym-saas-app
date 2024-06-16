@@ -19,14 +19,12 @@ const tenantLatests = ref([...tenantLatest])
 
 const getNavMainPlatform = useNavMainPlatform();
 const storeMenuUser = useMenuUser();
-const { setMenuItem } = storeMenuUser;
-const { updateMenusItemActive } = getNavMainPlatform;
-const { navigationMenuItem } = storeToRefs(getNavMainPlatform);
+const { isMenuItemActive } = storeMenuUser;
+const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform);
 
 onMounted(() => {
-    updateMenusItemActive(route(route().current()))
+    menuItemActive.value = navigationMenuItem.value[1]?.items[0]
 })
-
 </script>
 
 <style scoped>
@@ -57,7 +55,7 @@ figure {
         <title>Dashboard</title>
     </Head>
 
-    <DashboardLayout :menu-items="navigationMenuItem" titleNav="Overview">
+    <DashboardLayout :menu-items="navigationMenuItem" :menu-item-active="menuItemActive" titleNav="Overview">
         <template #main_content>
             <section class="flex p-8 gap-x-4">
                 <div class="min-w-[60%] flex flex-col gap-y-8">
