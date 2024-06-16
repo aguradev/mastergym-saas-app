@@ -23,6 +23,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             "id",
             "name",
             "email",
+            "address",
             "created_at",
             "updated_at"
         ];

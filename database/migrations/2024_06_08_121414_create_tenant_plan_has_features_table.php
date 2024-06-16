@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tenant_subcription_plan_has_features', function (Blueprint $table) {
+        Schema::create('tenant_plan_has_features', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignUuid("subscription_plan_id")->references("id")->on("tenant_subscription_plan");
+            $table->foreignUuid("subscription_plan_id")->references("id")->on("tenant_plan_versions");
             $table->foreignUuid("feature_plan_id")->references("id")->on("tenant_plan_features");
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tenant_subcription_plan_has_features');
+        Schema::dropIfExists('tenant_plan_has_features');
     }
 };

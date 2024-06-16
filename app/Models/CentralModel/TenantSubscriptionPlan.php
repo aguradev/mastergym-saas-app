@@ -14,14 +14,18 @@ class TenantSubscriptionPlan extends Model
     protected $table = "tenant_subscription_plan";
     protected $fillable = [
         "name",
-        "price_per_year",
-        "price_per_month",
+        "status",
         "created_at",
         "updated_at"
     ];
 
-    public function PlanFeatrues()
+    public function TenantLogVersions()
     {
-        return $this->belongsToMany(TenantPlanFeature::class, "tenant_subscription_plan_has_features", "subscription_plan_id", "feature_plan_id");
+        return $this->hasMany(TenantPlanVersion::class, "tenant_subscription_plan_id", "id");
+    }
+
+    public function TenantVersionLatest()
+    {
+        return $this->hasOne(TenantPlanVersion::class, "tenant_subscription_plan_id", "id")->latest("version");
     }
 }

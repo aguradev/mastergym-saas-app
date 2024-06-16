@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\CentralModel\TenantSubscriptionPlan;
 use App\Models\Gym\Tenant;
+use App\Observers\CentralDomain\SubscriptionPlanObsever;
 use App\Observers\CentralDomain\TenantObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -28,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Tenant::observe(TenantObserver::class);
+        TenantSubscriptionPlan::observe(SubscriptionPlanObsever::class);
     }
 
     /**
