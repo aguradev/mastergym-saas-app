@@ -6,28 +6,36 @@ const props = defineProps({
     inputValue: String,
     inputId: String,
     inputPlaceholder: String,
-    toggleMask: Boolean
-})
+    toggleMask: Boolean,
+});
 
-const { inputValue, inputId, inputPlaceholder, toggleMask } = toRefs(props)
+const { inputId, inputPlaceholder, toggleMask } = toRefs(props);
 
 const emits = defineEmits(["update:inputValue"]);
-
 </script>
 
 <template>
-    <Password v-model="inputValue" :id="inputId" @input="(event) => emits('update:inputValue', event.target.value)"
-        :placeholder="inputPlaceholder" name="password" :toggleMask="toggleMask" :feedback="false" :pt="{
-        root: ['bg-transparent relative'],
-        input: {
-            root: ({ props, context, parent }) => ({
-                class: [
-                    'bg-primary-700 w-full relative py-3 px-4 rounded-lg',
-                    {
-                        'focus:outline-none focus:ring focus:ring-primary-500': !context.disabled,
-                    }
-                ]
-            })
-        }
-    }" />
+    <Password
+        v-model="props.inputValue"
+        :id="inputId"
+        @input="(event) => emits('update:inputValue', event.target.value)"
+        :placeholder="inputPlaceholder"
+        name="password"
+        :toggleMask="toggleMask"
+        :feedback="false"
+        :pt="{
+            root: ['bg-transparent relative'],
+            input: {
+                root: ({ props, context, parent }) => ({
+                    class: [
+                        'bg-primary-700 w-full relative py-3 px-4 rounded-lg',
+                        {
+                            'focus:outline-none focus:ring focus:ring-primary-500':
+                                !context.disabled,
+                        },
+                    ],
+                }),
+            },
+        }"
+    />
 </template>

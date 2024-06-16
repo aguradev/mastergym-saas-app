@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\CentralModel\User;
+use App\Models\Gym\Tenant;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 

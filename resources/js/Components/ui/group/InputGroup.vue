@@ -2,6 +2,7 @@
 const { label, labelFor } = defineProps({
     label: String,
     labelFor: String,
+    note: String,
 });
 </script>
 
@@ -11,5 +12,6 @@ const { label, labelFor } = defineProps({
             label
         }}</label>
         <slot />
+        <span v-if="note" class="text-sm block mt-2">{{ note }}</span>
     </div>
 </template>

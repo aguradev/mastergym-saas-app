@@ -32,6 +32,7 @@ Route::prefix("dashboard")->group(function () {
 
 Route::prefix("transaction")->group(function () {
     Route::controller(TenantRegistrationController::class)->group(function () {
-        Route::get('tenant-registration', "RegistrationPage");
+        Route::get('tenant-registration', "RegistrationPage")->name("transaction.tenant-registration");
+        Route::post('tenant-registration', 'TenantRegistrationSubmit')->name('transaction.tenant-registration.submit');
     });
 });
