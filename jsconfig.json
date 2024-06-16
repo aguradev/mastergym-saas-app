@@ -1,13 +1,31 @@
 {
-    "compilerOptions": {
-      "paths": {
-        "@pages/*": ["./resources/js/Pages/*"],
-        "@components/*" : ["./resources/js/Components/*"],
-        "@layouts/*" : ["./resources/js/Layouts/*"],
-        "@stores/*" : ["./resources/js/Stores/*"],
-        "@lib/*": ["./resources/js/Lib/*"],
-        "ziggy-js": ["./vendor/tightenco/ziggy"]
-      }
-    },
-    "exclude": ["node_modules", "dist"]
-  }
+  "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "./resources/js/Pages/*"
+      ],
+      "@public/*": [
+        "./public/*"
+      ],
+      "@pages/*": [
+        "./resources/js/Pages/*"
+      ],
+      "@components/*": [
+        "./resources/js/Components/*"
+      ],
+      "@layouts/*": [
+        "./resources/js/Layouts/*"
+      ],
+      "@stores/*": [
+        "./resources/js/Stores/*"
+      ],
+      "ziggy-js": [
+        "./vendor/tightenco/ziggy"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
