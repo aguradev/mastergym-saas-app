@@ -9,14 +9,15 @@ const props = defineProps({
     toggleMask: Boolean,
 });
 
-const { inputId, inputPlaceholder, toggleMask } = toRefs(props);
+const { inputValue, inputId, inputPlaceholder, toggleMask } = toRefs(props);
 
 const emits = defineEmits(["update:inputValue"]);
 </script>
 
 <template>
     <Password
-        v-model="props.inputValue"
+        :value="inputValue"
+        v-model="inputValue"
         :id="inputId"
         @input="(event) => emits('update:inputValue', event.target.value)"
         :placeholder="inputPlaceholder"

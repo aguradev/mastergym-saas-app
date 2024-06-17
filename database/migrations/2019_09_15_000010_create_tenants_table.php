@@ -21,6 +21,7 @@ class CreateTenantsTable extends Migration
             $table->string("address");
             $table->string("email")->unique();
             $table->json('data')->nullable();
+            $table->enum("status", ["ACTIVE", "DEACTIVATED", "SUSPENDED"])->default("ACTIVE");
             $table->timestamps();
         });
     }
