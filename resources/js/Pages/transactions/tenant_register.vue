@@ -5,10 +5,15 @@ import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import InputPassword from "@components/elements/input/InputPassword.vue";
 import InputTextArea from "@components/elements/input/InputTextArea.vue";
 import ValidationMessage from "@components/ui/cta/ValidationMessage.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { route } from "ziggy-js";
+import { useToast } from "primevue/usetoast";
+import Toast from "primevue/toast";
+
+const page = usePage();
+const toast = useToast();
 
 const formRegister = useForm({
     gym_title: null,
@@ -31,12 +36,38 @@ const registerTenantHandler = () => {
             isFormSubmmited.value = false;
             submitBtnLabel.value = "Registration";
         },
+        onSuccess: () => {
+            formRegister.reset();
+        },
     });
 };
+
+watchEffect(() => {
+    const { message_success, message_error } = page.props.flash;
+
+    if (message_success) {
+        toast.add({
+            severity: "success",
+            summary: "info",
+            detail: message_success,
+            life: 3000,
+        });
+    }
+
+    if (message_error) {
+        toast.add({
+            severity: "error",
+            summary: "info",
+            detail: message_error,
+            life: 3000,
+        });
+    }
+});
 </script>
 
 <template>
     <Head title="Tenant registration" />
+    <Toast />
     <section
         class="bg-primary-800 border-r border-l place-content-center py-16 border-surface-700 min-h-screen px-8 max-w-[1000px] mx-auto"
     >

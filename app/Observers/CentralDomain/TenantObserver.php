@@ -13,15 +13,9 @@ class TenantObserver implements ShouldHandleEventsAfterCommit
      */
     public function creating(Tenant $tenant): void
     {
-        $tenant->created_at = now();
     }
     public function created(Tenant $tenant): void
     {
-        $tenant->domains()->create([
-            "domain" => fake()->domainName() . ".localhost"
-        ]);
-
-        Log::info("domain created");
     }
 
     /**
