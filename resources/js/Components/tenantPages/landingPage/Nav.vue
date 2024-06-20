@@ -1,4 +1,6 @@
 <script setup>
+    import { Link, Head } from '@inertiajs/vue3';
+
     // Navbar Toggle
     document.addEventListener('DOMContentLoaded', function () {
         // Get all "navbar-burger" elements
@@ -21,6 +23,7 @@
 </script>
 
 <template>
+    <Head title="XX Gym - Home" />
     <header class="z-10 absolute">
         <div class="py-4 px-2 lg:mx-4 xl:mx-12">
             <div class="">
@@ -42,45 +45,39 @@
                         class="w-full flex-grow lg:flex items-center lg:w-auto hidden"
                     >
                         <div class="text-sm lg:flex-grow mt-2 animated jackinthebox xl:mx-8">
-                            <a
+                            <Link
                                 href="#home"
                                 class="block lg:inline-block text-md font-bold text-orange-500 sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg"
                             >
                                 HOME
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                                 href="#home"
                                 class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg"
                             >
-                                ROAD & STORY
-                            </a>
-                            <a
+                                OUR SERVICE
+                            </Link>
+                            <Link
                                 href="#home"
                                 class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg"
                             >
-                                ACCOMMODATION
-                            </a>
-                            <a
+                                PERSONAL TRAINERS
+                            </Link>
+                            <Link
                                 href="#home"
                                 class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg"
                             >
-                                TOURS
-                            </a>
-                            <a
-                                href="#home"
+                                MEMBERSHIP
+                            </Link>
+                            <Link
+                                href="about"
                                 class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg"
                             >
-                                CONTACT US
-                            </a>
-                            <a
-                                href="#home"
-                                class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg"
-                            >
-                                COMING SOON
-                            </a>
+                                ABOUT US
+                            </Link>
                         </div>
                         <div id="right-nav">
-                            <a href=""></a>
+                            <Link href=""></Link>
                         </div>
                     </div>
                 </nav>
