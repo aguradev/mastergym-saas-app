@@ -1,6 +1,6 @@
 <script setup>
 import InputText from "primevue/inputtext";
-import { ref, toRef, toRefs, watch, watchEffect } from "vue";
+import { toRefs } from "vue";
 const emit = defineEmits(["update:inputValue", "inputRef"]);
 
 const props = defineProps({
