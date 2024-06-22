@@ -1,9 +1,11 @@
 <?php
 
+namespace App\TenancyService\User\Repositories\Implements;
+
 use App\Models\Auth\TenantCredential;
 use App\Models\Gym\Tenant;
-use app\TenancyService\User\Repositories\Implements;
 use app\TenancyService\User\Repositories\Interfaces\TenantUserRepoInterface;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 class TenantUserRepoImpl implements TenantUserRepoInterface
