@@ -31,5 +31,9 @@ class CentralRepositoryServiceProvider extends ServiceProvider
             \App\CentralServices\SubscriptionPlan\Repositories\Interfaces\SubscriptionPlanInterface::class,
             \App\CentralServices\SubscriptionPlan\Repositories\Implement\SubscriptionPlanRepoImpl::class
         );
+        $this->app->bind(
+            \App\CentralServices\Tenant\Repositories\Interfaces\TenantRepoInterface::class,
+            \App\CentralServices\Tenant\Repositories\Implements\TenantRepoImpl::class,
+        );
     }
 }

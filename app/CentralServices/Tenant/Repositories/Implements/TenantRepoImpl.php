@@ -1,11 +1,9 @@
 <?php
 
-namespace app\CentralServices\Tenant\Repositories\Implements;
+namespace App\CentralServices\Tenant\Repositories\Implements;
 
-use app\CentralServices\Tenant\Repositories\Interfaces\TenantInterface;
-use app\CentralServices\Tenant\Repositories\Interfaces\TenantRepoInterface;
+use App\CentralServices\Tenant\Repositories\Interfaces\TenantRepoInterface;
 use App\Models\Gym\Tenant;
-use Exception;
 use Illuminate\Support\Facades\Log;
 
 class TenantRepoImpl implements TenantRepoInterface

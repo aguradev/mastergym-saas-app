@@ -1,6 +1,6 @@
 <?php
 
-namespace app\CentralServices\Tenant\Services\Interfaces;
+namespace App\CentralServices\Tenant\Services\Interfaces;
 
 interface TenantServiceInterface
 {

@@ -1,10 +1,9 @@
 <?php
 
-namespace app\CentralServices\Tenant\Services\Implements;
+namespace App\CentralServices\Tenant\Services\Implements;
 
-use app\CentralServices\Tenant\Repositories\Interfaces\TenantRepoInterface;
-use app\CentralServices\Tenant\Services\Interfaces\TenantServiceInterface;
-use Illuminate\Support\Facades\Log;
+use App\CentralServices\Tenant\Repositories\Interfaces\TenantRepoInterface;
+use App\CentralServices\Tenant\Services\Interfaces\TenantServiceInterface;
 
 class TenantServiceImpl implements TenantServiceInterface
 {
