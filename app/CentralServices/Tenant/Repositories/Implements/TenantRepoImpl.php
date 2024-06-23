@@ -4,6 +4,7 @@ namespace App\CentralServices\Tenant\Repositories\Implements;
 
 use App\CentralServices\Tenant\Repositories\Interfaces\TenantRepoInterface;
 use App\Models\Gym\Tenant;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 class TenantRepoImpl implements TenantRepoInterface
@@ -14,16 +15,20 @@ class TenantRepoImpl implements TenantRepoInterface
     {
         $this->tenantModel = $tenant;
     }
-    public function CreateTenantDomainRegistration(array $requestTenantRegis, array $domain)
+    public function CreateTenantDomainRegistration(array $requestTenantRegis, string $domain)
     {
         try {
             $isTenantCreated = $this->tenantModel->create($requestTenantRegis);
 
-            $isTenantCreated->domains()->create([
+            $createDomain = $isTenantCreated->domains()->create([
                 "domain" => $domain . ".localhost"
             ]);
+
+            if (!$createDomain) {
+                throw new Exception("Failed create domain");
+            }
         } catch (\Exception $err) {
-            Log::debug($err->getMessage());
+            Log::error($err->getMessage());
             return false;
         }
 

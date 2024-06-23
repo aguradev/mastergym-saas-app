@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Centrals;
 
 use App\Enums\CentralRolesEnum;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

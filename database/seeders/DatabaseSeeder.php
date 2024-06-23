@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
-
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 
 class DatabaseSeeder extends Seeder
@@ -17,11 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RoleSeeder::class,
-            CredentialSeeder::class,
-            AddUserRoleSeeder::class,
-            TenantSeeder::class,
-            TenantPlanFeature::class,
+            Centrals\RoleSeeder::class,
+            Centrals\CredentialSeeder::class,
+            Centrals\AddUserRoleSeeder::class,
+            Centrals\TenantPlanFeature::class
         ]);
     }
 }

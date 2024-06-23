@@ -30,7 +30,7 @@ class TenantRegistrationController extends Controller
     {
         $registrationServiceHandling = $this->centralTenantServices->TenantRegistrationHandler($request->validated());
 
-        if ($registrationServiceHandling) {
+        if (!$registrationServiceHandling) {
             return redirect()->back()->with("message_error", "Failed create tenant");
         }
         return redirect()->back()->with('message_success', 'Tenant Registered!');

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Centrals;
 
 use App\Models\Auth\CentralCredential;
 use App\Models\CentralModel\User;
