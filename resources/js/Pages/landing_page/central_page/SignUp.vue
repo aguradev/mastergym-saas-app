@@ -60,7 +60,7 @@
         <div class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-900 to-blue-500 i justify-around items-center hidden">
             <div>
                 <h1 class="text-white font-bold text-4xl font-sans">Gym Master</h1>
-                <p class="text-white mt-1">The most popular</p>
+                <p class="text-white mt-1">The Most Reliable Gym Management Service</p>
                 <button
                     type="submit"
                     class="block w-28 bg-white text-indigo-800 mt-4 py-2 rounded-2xl font-bold mb-2"
@@ -73,12 +73,12 @@
             <div class="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
             <div class="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
         </div>
-        <div class="flex md:w-1/2 justify-center py-5 items-center bg-white h-screen">
+        <div class="flex md:w-1/2 justify-center items-center bg-white h-screen">
             <form
                 @submit.prevent="submit"
-                class="bg-white w-[600px] px-20"
+                class="bg-white w-[600px] mx-10 sm:px-20"
             >
-                <h1 class="text-gray-800 font-bold text-3xl mb-1 mt-20">Register Your Account!</h1>
+                <h1 class="text-gray-800 font-bold text-3xl mb-1 mt-10">Register Your Account!</h1>
                 <p class="text-sm font-normal text-gray-600 mb-10">The first of few simple steps to get your app running!</p>
                 <div class="w-full">
                     <div class="mb-5">
@@ -120,44 +120,11 @@
                     </div>
                     <p></p>
                 </div>
-                <div class="w-full">
-                    <div class="mb-5">
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="Password"
-                            class="input-field"
-                            v-model="form.password"
-                        />
-                    </div>
-                    <p
-                        v-if="form.password != null && validPassword == false"
-                        class="text-red-800"
-                    >
-                        passwords must be no less than 8 characters
-                    </p>
-                </div>
-                <div class="w-full">
-                    <div class="mb-5">
-                        <input
-                            type="password"
-                            id="confirm_password"
-                            placeholder="Confirmation Password"
-                            class="input-field"
-                            v-model="form.confirm_password"
-                        />
-                    </div>
-                    <p
-                        v-if="form.confirm_password != null && passwordMatch == false"
-                        class="text-red-800"
-                    >
-                        passwords did not match
-                    </p>
-                </div>
+
                 <div class="text-black pt-5 text-center"></div>
                 <button
                     type="submit"
-                    class="block w-full bg-indigo-600 mt-2 py-4 rounded-2xl text-white font-semibold mb-2 tracking-wider"
+                    class="block w-full bg-indigo-600 mt-2 text-md sm:text-md py-4 rounded-2xl text-white font-semibold mb-2 tracking-wider"
                 >
                     CREATE YOUR ACCOUNT!
                 </button>

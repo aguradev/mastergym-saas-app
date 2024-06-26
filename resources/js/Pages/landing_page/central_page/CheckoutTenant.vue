@@ -3,6 +3,8 @@
     import { Head, Link } from '@inertiajs/vue3';
     import SubscriptionInfo from '@components/centralPages/landingPage/SubscriptionInfo.vue';
     import GymIcon from '/public/storage/images/icon/gym.png';
+
+    const items = { name: 'Ultimate Subscription', duration: 6, price: 1000000 };
 </script>
 
 <style scoped>
@@ -39,7 +41,11 @@
                     <p class="text-xl font-medium">Michael Jackson Gumembert</p>
                     <p>useremail@gmail.com</p>
                 </div>
+
                 <SubscriptionInfo
+                    :name="items.name"
+                    :duration="items.duration"
+                    :price="items.price"
                     id="subscription"
                     class="h-2/6 bord"
                 >

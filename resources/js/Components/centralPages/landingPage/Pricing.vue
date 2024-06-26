@@ -156,7 +156,7 @@
                 <!-- middle banner  -->
                 <div class="overflow-hidden bg-blue-400 border-2 border-transparent rounded-md shadow-xl hover:scale-105 ease-in-out duration-300">
                     <div class="p-6 md:py-8 md:px-9">
-                        <h3 class="text-xl font-semibold text-black">Premium</h3>
+                        <h3 class="text-xl font-semibold text-black">Ultimate</h3>
                         <p class="mt-2.5 text-sm text-black">All the extended features to <strong>GREATLY</strong> boost your gym management.</p>
 
                         <div class="flex items-end mt-5">
