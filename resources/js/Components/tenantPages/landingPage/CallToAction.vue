@@ -3,9 +3,8 @@ import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <div class="flex-column md:flex bg-slate-500 pt-10 md:py-20">
-        <div id="left"
-            class="h-content bg-slate-500 md:w-6/12 flex justify-center md:justify-end align-middle pl-20 pr-20">
+    <div class="flex-column md:flex bg-slate-700 pt-10 md:py-20">
+        <div id="left" class="h-content md:w-6/12 flex justify-center md:justify-end align-middle pl-20 pr-20">
             <img src="https://shorturl.at/fYk7V" class="md:my-10 h-80 md:h-[400px] box-content rounded-md">
         </div>
         <div id="right" class="h-content bg-slate-5 00 md:w-6/12 pl-10 md:pr-32">
