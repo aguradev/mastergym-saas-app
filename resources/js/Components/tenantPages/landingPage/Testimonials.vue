@@ -15,14 +15,8 @@
                 </div>
 
                 <a href="#"
-                    class="mt-6 inline-flex shrink-0 items-center gap-2 rounded-full border-orange-400 px-5 py-3 text-orange-400 transition hover:bg-orange-400 border-[3px] font-semibold hover:text-white md:mt-0">
-                    <span class="font-medium"> Read all reviews </span>
-
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 rtl:rotate-180" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
+                    class="mt-6 inline-flex shrink-0 items-center gap-2 rounded-lg border-orange-400 px-5 py-3 text-white transition hover:bg-orange-400 border-[3px] hover:text-white md:mt-0">
+                    <span class="font-semibold"> Read all reviews -> </span>
                 </a>
             </div>
 
@@ -62,7 +56,7 @@
                         </div>
 
                         <div class="mt-4">
-                            <p class="text-2xl font-bold text-red-400 sm:text-3xl">I Can't Believe The Service!</p>
+                            <p class="text-2xl font-bold text-white sm:text-3xl">The Best Experience!</p>
 
                             <p class="mt-4 leading-relaxed text-white">
                                 No, Rose, they are not breathing. And they have no arms or legs … Where are they? You
@@ -72,7 +66,7 @@
                         </div>
                     </div>
 
-                    <footer class="mt-4 text-sm font-medium text-orange-400 sm:mt-6">
+                    <footer class="mt-4 text-sm font-medium text-orange-300 sm:mt-6">
                         &mdash; Browns Ki
                     </footer>
                 </blockquote>
@@ -112,7 +106,7 @@
                         </div>
 
                         <div class="mt-4">
-                            <p class="text-2xl font-bold text-red-400 sm:text-3xl">Stayin' Alive</p>
+                            <p class="text-2xl font-bold text-white sm:text-3xl">Stayin' Alive</p>
 
                             <p class="mt-4 leading-relaxed text-white">
                                 No, Rose, they are not breathing. And they have no arms or legs … Where are they? You
@@ -122,7 +116,7 @@
                         </div>
                     </div>
 
-                    <footer class="mt-4 text-sm font-medium text-orange-400 sm:mt-6">
+                    <footer class="mt-4 text-sm font-medium text-orange-300 sm:mt-6">
                         &mdash; Michael Scott
                     </footer>
                 </blockquote>
@@ -162,7 +156,7 @@
                         </div>
 
                         <div class="mt-4">
-                            <p class="text-2xl font-bold text-red-400 sm:text-3xl">Feels Just Like Home</p>
+                            <p class="text-2xl font-bold text-white sm:text-3xl">The Facility Is Great!</p>
 
                             <p class="mt-4 leading-relaxed text-white">
                                 No, Rose, they are not breathing. And they have no arms or legs … Where are they? You
@@ -172,8 +166,8 @@
                         </div>
                     </div>
 
-                    <footer class="mt-4 text-sm font-medium text-orange-400 sm:mt-6">
-                        &mdash; Michael Scott
+                    <footer class="mt-4 text-sm font-medium text-orange-300 sm:mt-6">
+                        &mdash; Wazowski
                     </footer>
                 </blockquote>
             </div>
