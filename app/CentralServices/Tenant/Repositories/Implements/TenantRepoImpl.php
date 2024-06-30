@@ -32,6 +32,6 @@ class TenantRepoImpl implements TenantRepoInterface
             return false;
         }
 
-        return true;
+        return $isTenantCreated;
     }
 }

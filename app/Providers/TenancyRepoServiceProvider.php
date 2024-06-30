@@ -20,8 +20,8 @@ class TenancyRepoServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(
-            \App\TenancyService\User\Repositories\Interfaces\TenantUserRepoInterface::class,
-            \App\TenancyService\User\Repositories\Implements\TenantUserRepoImpl::class
+            \App\TenancyServices\User\Repositories\Interfaces\TenantUserRepoInterface::class,
+            \App\TenancyServices\User\Repositories\Implements\TenantUserRepoImpl::class
         );
     }
 }

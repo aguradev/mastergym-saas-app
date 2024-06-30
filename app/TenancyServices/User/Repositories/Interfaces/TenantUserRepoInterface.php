@@ -1,6 +1,6 @@
 <?php
 
-namespace app\TenancyService\User\Repositories\Interfaces;
+namespace App\TenancyServices\User\Repositories\Interfaces;
 
 interface TenantUserRepoInterface
 {
