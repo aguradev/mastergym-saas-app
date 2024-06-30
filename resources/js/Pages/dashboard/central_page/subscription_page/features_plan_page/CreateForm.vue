@@ -32,7 +32,7 @@ function handlerCreateFeature(form) {
                     'border-t-0',
                     'rounded-tl-lg',
                     'rounded-tr-lg',
-                    'bg-prmary-0 dark:bg-primary-800',
+                    'bg-primary-800 dark:bg-primary-800',
                     'text-surface-700 dark:text-surface-0/80',
                 ],
             },
@@ -49,7 +49,7 @@ function handlerCreateFeature(form) {
                         'rounded-br-lg': !instance.$slots.footer,
                     },
                     // Colors
-                    'bg-primary-0 dark:bg-primary-800',
+                    'bg-primary-900 dark:bg-primary-800',
                     'text-surface-700 dark:text-surface-0/80',
                     // Misc
                     'overflow-y-auto',
@@ -65,7 +65,7 @@ function handlerCreateFeature(form) {
                     'pb-6',
                     'border-t-0',
                     'rounded-b-lg',
-                    'bg-primary-0 dark:bg-primary-800',
+                    'bg-primary-900 dark:bg-primary-800',
                     'text-surface-700 dark:text-surface-0/80',
                 ],
             },
