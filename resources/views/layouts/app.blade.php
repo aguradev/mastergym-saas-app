@@ -12,7 +12,9 @@
     @inertiaHead
 </head>
 
-<body class="text-white bg-primary-900 dark">
+
+
+<body class="text-white bg-primary-900 @if (explode('/', Request::route()->uri)[0] === 'dashboard') dark @endif">
     @inertia
 </body>
 
