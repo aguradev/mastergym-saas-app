@@ -28,6 +28,8 @@ class TenantRegistrationController extends Controller
 
     public function TenantRegistrationSubmit(TenantTransactionRegistration $request)
     {
+        dd($request->validated());
+
         $registrationServiceHandling = $this->centralTenantServices->TenantRegistrationHandler($request->validated());
 
         if (!$registrationServiceHandling) {

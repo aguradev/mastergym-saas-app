@@ -25,8 +25,11 @@ class TenantTransactionRegistration extends FormRequest
         return [
             "gym_title" => "required",
             "domain" => ["required", "lowercase", "unique:domains,domain"],
-            "email" => ["required", "email"],
+            "gym_email" => ["required", "email"],
             "address" => ["required", "min:10"],
+            "first_name" => ["required"],
+            "last_name" => ["required"],
+            "user_email" => ["required", "email"],
             "password" => ["required", "confirmed", Password::min(8)],
             "password_confirmation" => ["required"]
         ];

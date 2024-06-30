@@ -1,43 +1,38 @@
 <script setup>
-import InputText from "@components/elements/input/InputText.vue";
-import InputGroup from "@components/ui/group/InputGroup.vue";
 import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
-import InputPassword from "@components/elements/input/InputPassword.vue";
-import InputTextArea from "@components/elements/input/InputTextArea.vue";
-import ValidationMessage from "@components/ui/cta/ValidationMessage.vue";
 import { Head, usePage } from "@inertiajs/vue3";
-import { useForm } from "@inertiajs/vue3";
 import { ref, watchEffect } from "vue";
 import { route } from "ziggy-js";
 import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
+import { useTenantRegistration } from "@stores/tenant_registration_state";
+import { storeToRefs } from "pinia";
+import TenantDataForm from "@components/central-pages/transcation-forms/TenantDataForm.vue";
+import TenantUserForm from "@components/central-pages/transcation-forms/TenantUserForm.vue";
 
 const page = usePage();
 const toast = useToast();
-
-const formRegister = useForm({
-    gym_title: null,
-    domain: null,
-    email: null,
-    address: null,
-    password: null,
-    password_confirmation: null,
-});
+const tenantRegistrationState = useTenantRegistration();
+const { formRegister, tenantRegistrationStepForm, tenantFormActive } =
+    storeToRefs(tenantRegistrationState);
 
 const isFormSubmmited = ref(false);
-const submitBtnLabel = ref("Registration");
+const submitBtnLabel = ref("Submit");
 
 const registerTenantHandler = () => {
     isFormSubmmited.value = true;
     submitBtnLabel.value = "Loading...";
 
-    formRegister.post(route("transaction.tenant-registration.submit"), {
+    formRegister.value.post(route("transaction.tenant-registration.submit"), {
         onFinish: () => {
             isFormSubmmited.value = false;
-            submitBtnLabel.value = "Registration";
+            submitBtnLabel.value = "Submit";
         },
         onSuccess: () => {
-            formRegister.reset();
+            formRegister.value.reset();
+        },
+        onError: () => {
+            tenantFormActive.value = tenantRegistrationStepForm.value[0];
         },
     });
 };
@@ -66,120 +61,67 @@ watchEffect(() => {
 </script>
 
 <template>
-    <Head title="Tenant registration" />
+    <Head title="Tenant Registration" />
     <div>
         <Toast />
         <section
-            class="bg-primary-800 border-r border-l place-content-center py-16 border-surface-700 min-h-screen px-8 max-w-[1000px] mx-auto"
+            class="place-content-center py-16 min-h-screen px-8 max-w-[1000px] mx-auto"
         >
-            <h3 class="font-bold text-3xl text-center mb-14">
-                Tenant registration
-            </h3>
-
             <form
                 action="#"
                 autocomplete="off"
                 @submit.prevent="registerTenantHandler"
             >
-                <div class="grid lg:grid-cols-2 gap-5">
-                    <InputGroup label="Gym title" labelFor="gym-title-input">
-                        <InputText
-                            inputId="gym-title-input"
-                            inputPlaceholder="typing title"
-                            inputName="gym_title_input"
-                            v-model:inputValue="formRegister.gym_title"
-                        />
-                        <ValidationMessage
-                            v-if="formRegister.errors?.gym_title"
-                            :caption="formRegister.errors?.gym_title"
-                        />
-                    </InputGroup>
-
-                    <InputGroup label="Domain" labelFor="domain-input">
-                        <div class="flex gap-x-4">
-                            <div class="flex-1">
-                                <InputText
-                                    inputId="domain-input"
-                                    inputPlaceholder="typing domain"
-                                    inputName="domain_input"
-                                    v-model:input-value="formRegister.domain"
-                                />
-                            </div>
-                            <div
-                                class="place-content-center px-4 bg-primary-700 rounded-lg"
-                            >
-                                .localhost
-                            </div>
-                        </div>
-                        <ValidationMessage
-                            v-if="formRegister.errors?.domain"
-                            :caption="formRegister.errors?.domain"
-                        />
-                    </InputGroup>
+                <div
+                    v-for="(form, i) in tenantRegistrationStepForm"
+                    :key="form.id"
+                >
+                    <div v-show="form.id === tenantFormActive?.id">
+                        <h3 class="font-bold text-3xl text-center mb-14">
+                            {{ form.title }}
+                        </h3>
+                        <component :is="form.component" />
+                    </div>
                 </div>
 
-                <InputGroup label="Address">
-                    <InputTextArea
-                        placeholder="Typing address"
-                        v-model:input-value="formRegister.address"
-                    />
-                    <ValidationMessage
-                        v-if="formRegister.errors?.address"
-                        :caption="formRegister.errors?.address"
-                    />
-                </InputGroup>
-
-                <InputGroup
-                    label="Email"
-                    labelFor="email-input"
-                    note="Make sure your email is activated"
+                <div
+                    class="mt-12 flex gap-4 justify-between"
+                    v-if="
+                        tenantFormActive.id ===
+                        tenantRegistrationStepForm[
+                            tenantRegistrationStepForm.length - 1
+                        ].id
+                    "
                 >
-                    <InputText
-                        input-type="email"
-                        input-placeholder="Typing email"
-                        input-name="email_input"
-                        v-model:input-value="formRegister.email"
-                        input-id="email-input"
-                    />
-                    <ValidationMessage
-                        v-if="formRegister.errors?.email"
-                        :caption="formRegister.errors?.email"
-                    />
-                </InputGroup>
-
-                <InputGroup label="Password" label-for="password-input">
-                    <InputPassword
-                        input-id="password-input"
-                        v-model:input-value="formRegister.password"
-                        :toggle-mask="true"
-                    />
-                    <ValidationMessage
-                        v-if="formRegister.errors?.password"
-                        :caption="formRegister.errors?.password"
-                    />
-                </InputGroup>
-
-                <InputGroup
-                    label="Confirm password"
-                    label-for="confirm-password-input"
-                >
-                    <InputPassword
-                        input-id="confirm-password-input"
-                        v-model:input-value="formRegister.password_confirmation"
-                        :toggle-mask="true"
-                    />
-                    <ValidationMessage
-                        v-if="formRegister.errors?.password_confirmation"
-                        :caption="formRegister.errors?.password_confirmation"
-                    />
-                </InputGroup>
-
-                <div class="mt-12">
                     <PrimaryButton
-                        class="w-full"
+                        type="button"
+                        label="Prev"
+                        class="px-8 !py-3"
+                        @click-event="
+                            () =>
+                                tenantRegistrationState.updateStepFormPosition(
+                                    'PREV_FORM',
+                                )
+                        "
+                    />
+                    <PrimaryButton
                         :label="submitBtnLabel"
                         type="submit"
                         :disabled="isFormSubmmited"
+                        class="!px-12"
+                    />
+                </div>
+                <div v-else class="mt-12">
+                    <PrimaryButton
+                        type="button"
+                        label="Next"
+                        class="ml-auto px-8 !py-3"
+                        @click-event="
+                            () =>
+                                tenantRegistrationState.updateStepFormPosition(
+                                    'NEXT_FORM',
+                                )
+                        "
                     />
                 </div>
             </form>

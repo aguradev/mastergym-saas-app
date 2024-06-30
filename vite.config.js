@@ -31,7 +31,7 @@ export default defineConfig({
             ),
             "@dashboardCentralPageComponents": fileURLToPath(
                 new URL(
-                    "./resources/js/Components/centralPages/dashboard",
+                    "./resources/js/Components/central-pages/dashboard",
                     import.meta.url,
                 ),
             ),

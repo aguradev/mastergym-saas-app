@@ -6,6 +6,7 @@ use App\Models\Auth\TenantCredential;
 use App\Models\Gym\Tenant;
 use app\TenancyService\User\Repositories\Interfaces\TenantUserRepoInterface;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
 class TenantUserRepoImpl implements TenantUserRepoInterface
@@ -23,14 +24,16 @@ class TenantUserRepoImpl implements TenantUserRepoInterface
             $findTenant = $this->tenantModel->whereId($tenantId)->first();
 
             if (is_null($findTenant)) {
-                throw new Exception("tenant not found");
+                throw new ModelNotFoundException("Tenant with ID " . $tenantId . " not found");
             }
 
             $findTenant->run(function () use ($request) {
                 TenantCredential::create($request);
             });
         } catch (\Exception $err) {
-            Log::debug($err->getMessage());
+            $message = $err->getMessage();
+
+            Log::error($message);
             return false;
         }
 
