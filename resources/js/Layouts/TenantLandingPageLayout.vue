@@ -5,6 +5,8 @@ import TenantFooter from "@components/tenant-pages/landingPage/TenantFooter.vue"
 
 <template>
     <Nav />
-    <slot />
-    <TenantFooter />
+    <article>
+        <slot />
+        <TenantFooter />
+    </article>
 </template>
