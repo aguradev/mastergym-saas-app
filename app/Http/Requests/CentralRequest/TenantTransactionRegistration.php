@@ -25,7 +25,7 @@ class TenantTransactionRegistration extends FormRequest
         return [
             "gym_title" => "required",
             "domain" => ["required", "lowercase", "unique:domains,domain"],
-            "gym_email" => ["required", "email"],
+            "gym_email" => ["required", "email", "unique:tenants,email"],
             "address" => ["required", "min:10"],
             "first_name" => ["required"],
             "last_name" => ["required"],

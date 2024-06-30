@@ -4,6 +4,7 @@ namespace App\CentralServices\Tenant\Repositories\Implements;
 
 use App\CentralServices\Tenant\Repositories\Interfaces\TenantRepoInterface;
 use App\Models\Gym\Tenant;
+use App\Notifications\WelcomeNewTenant;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -27,6 +28,8 @@ class TenantRepoImpl implements TenantRepoInterface
             if (!$createDomain) {
                 throw new Exception("Failed create domain");
             }
+
+            $isTenantCreated->notify(new WelcomeNewTenant($isTenantCreated, $createDomain->domain));
         } catch (\Exception $err) {
             Log::error($err->getMessage());
             return false;

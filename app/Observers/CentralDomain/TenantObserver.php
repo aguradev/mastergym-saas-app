@@ -3,6 +3,7 @@
 namespace App\Observers\CentralDomain;
 
 use App\Models\Gym\Tenant;
+use App\Notifications\WelcomeNewTenant;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Support\Facades\Log;
 
