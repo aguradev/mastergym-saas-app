@@ -27,7 +27,7 @@ const togglePricing = () => {
     @apply text-white
 }
 
-.basic-text-dashed{
+.basic-text-dashed {
     @apply text-black
 }
 
@@ -36,7 +36,7 @@ const togglePricing = () => {
 }
 
 .basic-button {
-    @apply  border-orange-400 border-[3px] hover:bg-orange-500 hover:text-white focus:text-white focus:bg-orange-500 bg-white
+    @apply border-orange-400 border-[3px] hover:bg-orange-500 hover:text-white focus:text-white focus:bg-orange-500 bg-white
 }
 
 /* ultimate */
@@ -58,7 +58,7 @@ const togglePricing = () => {
 }
 
 .ultimate-button {
-    @apply  border-red-800 text-black font-bold hover:text-orange-700 focus:bg-orange-500 bg-gradient-to-r from-white to-orange-500 hover:scale-110
+    @apply border-red-800 text-black font-bold hover:text-orange-700 focus:bg-orange-500 bg-gradient-to-r from-white to-orange-500 hover:scale-110
 }
 
 /* premium */
@@ -110,8 +110,7 @@ const togglePricing = () => {
 
             <div v-if="!isToggle" class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9">
                 <!-- left banner  -->
-                <div
-                    class="overflow-hidden basic-card border-2 rounded-md hover:scale-105 ease-in-out duration-300">
+                <div class="overflow-hidden basic-card border-2 rounded-md hover:scale-105 ease-in-out duration-300">
                     <div class="p-6 md:py-8 md:px-9">
                         <h3 class="text-xl font-semibold basic-text">Basic</h3>
                         <p class="mt-2.5 text-sm basic-text">All the basic features that you need to manage your gym.
@@ -170,7 +169,8 @@ const togglePricing = () => {
                                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                <strike class="text-base font-medium basic-text-dashed">Booking Personal Trainer</strike>
+                                <strike class="text-base font-medium basic-text-dashed">Booking Personal
+                                    Trainer</strike>
                             </li>
 
                             <li class="inline-flex items-center space-x-2">
@@ -190,7 +190,8 @@ const togglePricing = () => {
                     class="overflow-hidden ultimate-card border-2 border-transparent rounded-md shadow-xl hover:scale-105 ease-in-out duration-300">
                     <div class="p-6 md:py-8 md:px-9">
                         <h3 class="text-xl font-semibold ultimate-text">Ultimate</h3>
-                        <p class="mt-2.5 text-sm ultimate-text">All the extended features to <strong>GREATLY</strong> boost
+                        <p class="mt-2.5 text-sm ultimate-text">All the extended features to <strong>GREATLY</strong>
+                            boost
                             your gym management.</p>
 
                         <div class="flex items-end mt-5">
@@ -340,8 +341,7 @@ const togglePricing = () => {
 
             <div v-if="isToggle" class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9">
                 <!-- left banner -->
-                <div
-                    class="overflow-hidden basic-card border-2 rounded-md hover:scale-105 ease-in-out duration-300">
+                <div class="overflow-hidden basic-card border-2 rounded-md hover:scale-105 ease-in-out duration-300">
                     <div class="p-6 md:py-8 md:px-9">
                         <h3 class="text-xl font-semibold basic-text">Basic</h3>
                         <p class="mt-2.5 text-sm basic-text">All the basic features that you need to manage your gym.
@@ -400,7 +400,8 @@ const togglePricing = () => {
                                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                <strike class="text-base font-medium basic-text-dashed">Booking Personal Trainer</strike>
+                                <strike class="text-base font-medium basic-text-dashed">Booking Personal
+                                    Trainer</strike>
                             </li>
 
                             <li class="inline-flex items-center space-x-2">
@@ -420,7 +421,8 @@ const togglePricing = () => {
                     class="overflow-hidden ultimate-card border-2 border-transparent rounded-md shadow-xl hover:scale-105 ease-in-out duration-300">
                     <div class="p-6 md:py-8 md:px-9">
                         <h3 class="text-xl font-semibold ultimate-text">Ultimate</h3>
-                        <p class="mt-2.5 text-sm ultimate-text">All the premium features to <strong>GREATLY</strong> boost
+                        <p class="mt-2.5 text-sm ultimate-text">All the premium features to <strong>GREATLY</strong>
+                            boost
                             your gym management.</p>
 
                         <div class="flex items-end mt-5">
@@ -492,8 +494,7 @@ const togglePricing = () => {
                     </div>
                 </div>
                 <!-- right banner  -->
-                <div
-                    class="overflow-hidden premium-card rounded-md hover:scale-105 ease-in-out duration-300">
+                <div class="overflow-hidden premium-card rounded-md hover:scale-105 ease-in-out duration-300">
                     <div class="p-6 md:py-8 md:px-9">
                         <h3 class="text-xl font-semibold premium-text">Premium</h3>
                         <p class="mt-2.5 text-sm premium-text">All the premium features to boost your gym!</p>
