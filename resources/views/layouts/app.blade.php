@@ -14,7 +14,7 @@
 
 
 
-<body class="text-white bg-primary-900 @if (explode('/', Request::route()->uri)[0] === 'dashboard') dark @endif">
+<body class="text-white bg-primary-900 @if (explode('/', Request::route()->uri)[0] === 'dashboard' || explode('/', Request::route()->uri)[0] === 'transaction') dark @endif">
     @inertia
 </body>
 
