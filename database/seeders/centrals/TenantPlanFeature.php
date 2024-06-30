@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Centrals;
 
 use App\Models\CentralModel\TenantPlanFeature as CentralModelTenantPlanFeature;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

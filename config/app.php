@@ -161,6 +161,7 @@ return [
          */
         App\Providers\CentralRepositoryServiceProvider::class,
         App\Providers\CentralServicesServiceProvider::class,
+        App\Providers\TenancyRepoServiceProvider::class,
         /*
          * Application Service Providers...
          */

@@ -1,11 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\tenants;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Gym\Tenant;
-use Stancl\Tenancy\Database\Models\Domain;
 
 class TenantSeeder extends Seeder
 {
@@ -14,8 +12,10 @@ class TenantSeeder extends Seeder
      */
     public function run(): void
     {
-        Tenant::truncate();
-        Domain::truncate();
-        Tenant::factory(5)->create();
+        echo "running tenancy seeder";
+
+        $this->call([
+            RoleSeeder::class
+        ]);
     }
 }

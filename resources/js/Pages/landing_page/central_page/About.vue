@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { ref } from "vue";
+import { Head } from "@inertiajs/vue3";
 
-import MainNavLayout from '@layouts/LandingPageLayout.vue';
+import MainNavLayout from "@layouts/LandingPageLayout.vue";
 
-import OurTeam from '@components/centralPages/landingPage/OurTeam.vue';
-import Footer from '@components/centralPages/landingPage/Footer.vue';
+import OurTeam from "@components/central-pages/landingPage/OurTeam.vue";
+import Footer from "@components/central-pages/landingPage/Footer.vue";
 </script>
 
 <style scoped></style>

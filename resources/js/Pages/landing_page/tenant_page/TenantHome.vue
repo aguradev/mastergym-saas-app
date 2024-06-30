@@ -1,13 +1,13 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head } from "@inertiajs/vue3";
 
-import TenantLayout from '@layouts/TenantLandingPageLayout.vue';
+import TenantLayout from "@layouts/TenantLandingPageLayout.vue";
 
-import Hero from '@components/tenantPages/landingPage/Hero.vue';
-import CTA from '@components/tenantPages/landingPage/CallToAction.vue';
-import Pricing from '@components/tenantPages/landingPage/Pricing.vue'
-import Service from '@components/tenantPages/landingPage/Service.vue';
-import Testimonials from '@components/tenantPages/landingPage/Testimonials.vue';
+import Hero from "@components/tenant-pages/landingPage/Hero.vue";
+import CTA from "@components/tenant-pages/landingPage/CallToAction.vue";
+import Service from "@components/tenant-pages/landingPage/Service.vue";
+import Pricing from '@components/tenant-pages/landingPage/Pricing.vue'
+import Testimonials from "@components/tenant-pages/landingPage/Testimonials.vue";
 </script>
 
 <template>
