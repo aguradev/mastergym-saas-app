@@ -31,5 +31,9 @@ class CentralServicesServiceProvider extends ServiceProvider
             \App\CentralServices\SubscriptionPlan\Services\Interfaces\SubscriptionPlanInterface::class,
             \App\CentralServices\SubscriptionPlan\Services\Implement\SubscriptionPlanServiceImpl::class,
         );
+        $this->app->bind(
+            \App\CentralServices\Tenant\Services\Interfaces\TenantServiceInterface::class,
+            \App\CentralServices\Tenant\Services\Implements\TenantServiceImpl::class,
+        );
     }
 }

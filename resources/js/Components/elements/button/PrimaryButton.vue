@@ -1,9 +1,12 @@
 <script setup>
 import Button from "primevue/button";
+import { toRef } from "vue";
 
 const props = defineProps(["label", "type", "icon", "classBtn", "disabled"]);
 
 const { label, type, icon, classBtn } = props;
+const disabledRef = toRef(() => props.disabled);
+const labelRef = toRef(() => props.label);
 
 const emits = defineEmits(["clickEvent"]);
 </script>
@@ -17,7 +20,8 @@ const emits = defineEmits(["clickEvent"]);
         }"
         :type="type"
         :icon="icon"
-        :label="label"
+        :label="labelRef"
         @click="emits('clickEvent')"
+        :disabled="disabledRef"
     />
 </template>

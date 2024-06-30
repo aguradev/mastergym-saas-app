@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MainPlatform\Auth\AuthController;
+use App\Http\Controllers\MainPlatform\Transaction\TenantRegistrationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -37,8 +38,14 @@ Route::prefix("dashboard")->group(function () {
 
     Route::middleware(["auth", "role:Super admin|Admin,central-web"])->group(function () {
         Route::post("/logout", [AuthController::class, 'Logout'])->name("central-dashboard.logout");
-
         require_once __DIR__ . "/dashboard_central/plan_tenant_route.php";
         require_once __DIR__ . "/dashboard_central/navigation_route.php";
+    });
+});
+
+Route::prefix("transaction")->group(function () {
+    Route::controller(TenantRegistrationController::class)->group(function () {
+        Route::get('tenant-registration', "RegistrationPage")->name("transaction.tenant-registration");
+        Route::post('tenant-registration', 'TenantRegistrationSubmit')->name('transaction.tenant-registration.submit');
     });
 });
