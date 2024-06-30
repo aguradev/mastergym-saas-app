@@ -1,5 +1,5 @@
 <script setup>
-import GymIcon from '/public/storage/images/icon/gym.png';
+import GymIcon from '/public/assets/images/icon/gym.png';
 </script>
 <template>
     <section class="py-10 bg-slate-700 sm:pt-16 lg:pt-24">

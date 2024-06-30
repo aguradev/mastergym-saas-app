@@ -29,7 +29,7 @@ import Footer from "@components/central-pages/landingPage/Footer.vue";
             </div>
             <div id="right" class="md:w-1/2 flex items-center justify-left p-10 pt-0 pb-5 sm:*:pb-20">
                 <div class="flex h-content rounded-full bg-gradient-to-b from-slate-300 to-slate-500">
-                    <img class="h-[300px] sm:h-[360px]" src="/public/storage/images/svg/undraw_people_re_8spw.svg"
+                    <img class="h-[300px] sm:h-[360px]" src="/public/assets/images/svg/undraw_people_re_8spw.svg"
                         alt="" />
                 </div>
             </div>
@@ -38,7 +38,7 @@ import Footer from "@components/central-pages/landingPage/Footer.vue";
         <div id="secondSplit" class="md:flex min-h-content bg-white pt-10">
             <div id="left" class="md:w-1/2 flex justify-end pr-10 pl-5 sm:pl-20">
                 <div class="flex h-content rounded-full bg-gradient-to-b from-slate-300 to-slate-500">
-                    <img class="h-[300px] sm:h-[460px]" src="/public/storage/images/svg/undraw_working_re_ddwy.svg"
+                    <img class="h-[300px] sm:h-[460px]" src="/public/assets/images/svg/undraw_working_re_ddwy.svg"
                         alt="" />
                 </div>
             </div>
