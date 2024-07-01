@@ -59,39 +59,53 @@ const checkoutAction = (id) => {
                 </div>
             </div>
 
-            <div
-                v-if="!isToggle"
-                class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9"
-            >
-                <div v-for="(pricing, i) in pricing_lists" :key="pricing.id">
-                    <PricingCard
-                        :id="pricing.id"
-                        :title="pricing.name"
-                        :price="
-                            pricing.tenant_version_latest.price_per_month_format
-                        "
-                        :features="pricing.tenant_version_latest.plan_features"
-                        period="Month"
-                        @checkout-event="checkoutAction"
-                    />
+            <div v-if="pricing_lists.length > 0">
+                <div
+                    v-if="!isToggle"
+                    class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9"
+                >
+                    <div
+                        v-for="(pricing, i) in pricing_lists"
+                        :key="pricing.id"
+                    >
+                        <PricingCard
+                            :id="pricing.id"
+                            :title="pricing.name"
+                            :price="
+                                pricing.tenant_version_latest
+                                    .price_per_month_format
+                            "
+                            :features="
+                                pricing.tenant_version_latest.plan_features
+                            "
+                            period="Month"
+                            @checkout-event="checkoutAction"
+                        />
+                    </div>
                 </div>
-            </div>
 
-            <div
-                v-if="isToggle"
-                class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9"
-            >
-                <div v-for="(pricing, i) in pricing_lists" :key="pricing.id">
-                    <PricingCard
-                        :id="pricing.id"
-                        :title="pricing.name"
-                        :price="
-                            pricing.tenant_version_latest.price_per_year_format
-                        "
-                        :features="pricing.tenant_version_latest.plan_features"
-                        period="Yearly"
-                        @checkout-event="checkoutAction"
-                    />
+                <div
+                    v-if="isToggle"
+                    class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9"
+                >
+                    <div
+                        v-for="(pricing, i) in pricing_lists"
+                        :key="pricing.id"
+                    >
+                        <PricingCard
+                            :id="pricing.id"
+                            :title="pricing.name"
+                            :price="
+                                pricing.tenant_version_latest
+                                    .price_per_year_format
+                            "
+                            :features="
+                                pricing.tenant_version_latest.plan_features
+                            "
+                            period="Yearly"
+                            @checkout-event="checkoutAction"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
