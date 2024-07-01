@@ -37,6 +37,8 @@ const { title, price, features } = toRefs(props);
                 </span>
             </div>
 
+            <FeatLists :feature-lists="features" />
+
             <Link>
                 <a
                     class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold bg-zinc-900 transition-all duration-200 bg-transparent border-2 rounded-full basic-button"
@@ -44,8 +46,6 @@ const { title, price, features } = toRefs(props);
                     Try This Out!
                 </a>
             </Link>
-
-            <FeatLists :feature-lists="features" />
         </div>
     </div>
 </template>

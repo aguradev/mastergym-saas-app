@@ -70,6 +70,22 @@ const togglePricing = () => {
                     />
                 </div>
             </div>
+
+            <div
+                v-if="isToggle"
+                class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9"
+            >
+                <div v-for="(pricing, i) in pricing_lists" :key="pricing.id">
+                    <PricingCard
+                        :title="pricing.name"
+                        :price="
+                            pricing.tenant_version_latest.price_per_year_format
+                        "
+                        :features="pricing.tenant_version_latest.plan_features"
+                        period="Month"
+                    />
+                </div>
+            </div>
         </div>
     </section>
 </template>

@@ -18,11 +18,15 @@ class TenantPlanVersion extends Model
         "version"
     ];
 
-    protected $appends = ["price_per_month_format"];
+    protected $appends = ["price_per_month_format", "price_per_year_format"];
 
     public function getPricePerMonthFormatAttribute()
     {
         return number_format($this->attributes["price_per_month"]);
+    }
+    public function getPricePerYearFormatAttribute()
+    {
+        return number_format($this->attributes["price_per_year"]);
     }
 
     public function PlanFeatures()
