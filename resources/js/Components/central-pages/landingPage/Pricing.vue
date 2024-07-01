@@ -11,6 +11,10 @@ const { pricing_lists } = toRefs(page.props);
 const togglePricing = () => {
     isToggle.value = !isToggle.value;
 };
+
+const checkoutAction = (id) => {
+    console.log(id);
+};
 </script>
 
 <template>
@@ -61,12 +65,14 @@ const togglePricing = () => {
             >
                 <div v-for="(pricing, i) in pricing_lists" :key="pricing.id">
                     <PricingCard
+                        :id="pricing.id"
                         :title="pricing.name"
                         :price="
                             pricing.tenant_version_latest.price_per_month_format
                         "
                         :features="pricing.tenant_version_latest.plan_features"
                         period="Month"
+                        @checkout-event="checkoutAction"
                     />
                 </div>
             </div>
@@ -77,12 +83,14 @@ const togglePricing = () => {
             >
                 <div v-for="(pricing, i) in pricing_lists" :key="pricing.id">
                     <PricingCard
+                        :id="pricing.id"
                         :title="pricing.name"
                         :price="
                             pricing.tenant_version_latest.price_per_year_format
                         "
                         :features="pricing.tenant_version_latest.plan_features"
-                        period="Month"
+                        period="Yearly"
+                        @checkout-event="checkoutAction"
                     />
                 </div>
             </div>
