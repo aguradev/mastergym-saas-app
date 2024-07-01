@@ -1,8 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { ref, toRefs } from "vue";
 import PricingCard from "@components/ui/pricing-card/Index.vue";
+import { usePage } from "@inertiajs/vue3";
 
+const page = usePage();
 const isToggle = ref(false);
+
+const { pricing_lists } = toRefs(page.props);
 
 const togglePricing = () => {
     isToggle.value = !isToggle.value;
@@ -55,7 +59,15 @@ const togglePricing = () => {
                 v-if="!isToggle"
                 class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9"
             >
-                <PricingCard />
+                <div v-for="(pricing, i) in pricing_lists" :key="pricing.id">
+                    <PricingCard
+                        :title="pricing.name"
+                        :price="
+                            pricing.tenant_version_latest.price_per_month_format
+                        "
+                        period="Month"
+                    />
+                </div>
             </div>
         </div>
     </section>

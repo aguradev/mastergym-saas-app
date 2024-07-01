@@ -1,6 +1,7 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import FeatLists from "@components/ui/pricing-card/FeatLists.vue";
+import { toRefs } from "vue";
 const props = defineProps({
     title: String,
     price: String,
@@ -22,9 +23,11 @@ const { title, price, features } = toRefs(props);
 
             <div class="flex items-end mt-5">
                 <div class="flex items-start">
-                    <span class="text-xl font-medium basic-text"> Rp. </span>
+                    <span class="text-xl font-medium basic-text text-zinc-900">
+                        Rp.
+                    </span>
                     <p
-                        class="text-6xl font-medium tracking-tight basic-price text-zinc-900"
+                        class="text-3xl font-medium tracking-tight basic-price text-zinc-900"
                     >
                         {{ price }}
                     </p>

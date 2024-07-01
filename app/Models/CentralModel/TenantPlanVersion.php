@@ -18,6 +18,13 @@ class TenantPlanVersion extends Model
         "version"
     ];
 
+    protected $appends = ["price_per_month_format"];
+
+    public function getPricePerMonthFormatAttribute()
+    {
+        return number_format($this->attributes["price_per_month"]);
+    }
+
     public function PlanFeatures()
     {
         return $this->belongsToMany(TenantPlanFeature::class, "tenant_plan_has_features", "subscription_plan_id", "feature_plan_id");
