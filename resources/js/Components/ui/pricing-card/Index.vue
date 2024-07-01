@@ -45,7 +45,7 @@ const { title, price, features } = toRefs(props);
                 </a>
             </Link>
 
-            <FeatLists />
+            <FeatLists :feature-lists="features" />
         </div>
     </div>
 </template>

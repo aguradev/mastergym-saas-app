@@ -12,7 +12,10 @@ class LandingPageController extends Controller
 {
     public function __invoke()
     {
-        $getPricingActive = TenantSubscriptionPlan::with(["TenantVersionLatest"])->get();
+        $getPricingActive = TenantSubscriptionPlan::with(["TenantVersionLatest" => function ($query) {
+            return $query->with("PlanFeatures");
+        }])->get();
+
 
         return Inertia::render("landing_page/central_page/MainMenu", [
             "pricing_lists" => $getPricingActive

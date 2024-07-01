@@ -13,10 +13,14 @@ const featureLists = toRef(() => props.featureLists);
 
 <template>
     <ul class="flex flex-col mt-8 space-y-4">
-        <li class="inline-flex items-center space-x-2">
+        <li
+            class="inline-flex items-center space-x-2"
+            v-for="(feature, i) in featureLists"
+            :key="feature.id"
+        >
             <i class="pi pi-check text-zinc-900"></i>
             <span class="text-base font-medium basic-text text-zinc-900">
-                50 Maximum members</span
+                {{ feature.name }}</span
             >
         </li>
     </ul>

@@ -65,6 +65,7 @@ const togglePricing = () => {
                         :price="
                             pricing.tenant_version_latest.price_per_month_format
                         "
+                        :features="pricing.tenant_version_latest.plan_features"
                         period="Month"
                     />
                 </div>
