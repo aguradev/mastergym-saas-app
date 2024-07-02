@@ -1,25 +1,52 @@
 <script setup>
 import GymIcon from '/public/assets/images/icon/gym.png';
+
+const props = defineProps({
+    gymTitle: String,
+    briefText: String,
+    menus: Array,
+    twitter: String,
+    facebook: String,
+    instagram: String,
+    github: String,
+    copyright: String,
+})
+
+// const menuGridClasses = computed (  )    
+
+console.log(props.twitter)
 </script>
+
 <template>
-    <section class="py-10 bg-slate-700 sm:pt-16 lg:pt-24">
+    <section class="py-10 bg-slate-700 sm:pt-8 lg:pt-16">
         <div id="footer" class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-            <div class="grid grid-cols-2 md:col-span-3 lg:grid-cols-6 gap-y-16 gap-x-12">
-                <div class="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
+            <div class="grid grid-cols-1 md:col-span-2 lg:grid-cols-2 gap-x-12">
+                <div class="col-span-1 md:col-span-1 lg:col-span-1 lg:pr-8">
                     <div>
                         <img :src="GymIcon" alt="gym logo" class="w-[60px] inline" />
 
-                        <p class="text-orange-500 box-shadow inline ml-3 text-2xl font-medium align-middle">Gym Master
+                        <p class="text-orange-500 box-shadow inline ml-3 text-2xl font-medium align-middle">{{ gymTitle }}
                         </p>
                     </div>
 
-                    <p class="text-base leading-relaxed text-white   mt-7">Amet minim mollit non deserunt ullamco est
-                        sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+                    <p class="text-base leading-relaxed text-white mt-7">{{ briefText }}</p>
+                </div>
 
-                    <ul class="flex items-center space-x-3 mt-9">
+                <div class="col-span-1 md:col-span-1 lg:col-span-2s lg:pl-8 mt-10">
+                    <ul class="grid grid-cols-5 md:pl-64 lg:pl-0 lg:mt-6 text-center">
+
+                        <li v-for="menu in props.menus" class="">
+                            <a href=" #" title=""
+                                class="text-white transition-all duration-200 hover:text-orange-500 focus:text-blue-600 capitalize">
+                                {{ menu }}
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- <ul class="flex items-center space-x-3 mt-9"> -->
+                    <ul class="flex justify-end gap-3 mt-9 mr-4 lg:mr-14">
                         <li>
-                            <a href="#" title=""
-                                class="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-orange-500 focus:bg-blue-600">
+                            <a :href="props.twitter" title=""
+                            class="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-orange-500 focus:bg-blue-600">
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="currentColor">
                                     <path
@@ -30,7 +57,7 @@ import GymIcon from '/public/assets/images/icon/gym.png';
                         </li>
 
                         <li>
-                            <a href="#" title=""
+                            <a :href="props.facebook" title=""
                                 class="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-orange-500 focus:bg-blue-600">
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="currentColor">
@@ -42,7 +69,7 @@ import GymIcon from '/public/assets/images/icon/gym.png';
                         </li>
 
                         <li>
-                            <a href="#" title=""
+                            <a :href="props.instagram" title=""
                                 class="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-orange-500 focus:bg-blue-600">
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="currentColor">
@@ -58,7 +85,7 @@ import GymIcon from '/public/assets/images/icon/gym.png';
                         </li>
 
                         <li>
-                            <a href="#" title=""
+                            <a :href="props.github" title=""
                                 class="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-orange-500 focus:bg-blue-600">
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="currentColor">
@@ -69,92 +96,6 @@ import GymIcon from '/public/assets/images/icon/gym.png';
                             </a>
                         </li>
                     </ul>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold tracking-widest text-orange-400 uppercase">Company</p>
-
-                    <ul class="mt-6 space-y-4">
-                        <li>
-                            <a href="#" title=""
-                                class="flex text-base text-white transition-all duration-200 hover:text-orange-500 focus:text-blue-600">
-                                About
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" title=""
-                                class="flex text-base text-white transition-all duration-200 hover:text-orange-500 focus:text-blue-600">
-                                Features
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" title=""
-                                class="flex text-base text-white transition-all duration-200 hover:text-orange-500 focus:text-blue-600">
-                                Works
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" title=""
-                                class="flex text-base text-white transition-all duration-200 hover:text-orange-500 focus:text-blue-600">
-                                Career
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div>
-                    <p class="text-sm font-semibold tracking-widest text-orange-400 uppercase">Help</p>
-
-                    <ul class="mt-6 space-y-4">
-                        <li>
-                            <a href="#" title=""
-                                class="flex text-base text-white transition-all duration-200 hover:text-orange-500 focus:text-blue-600">
-                                Customer Support
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" title=""
-                                class="flex text-base text-white transition-all duration-200 hover:text-orange-500 focus:text-blue-600">
-                                Delivery Details
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" title=""
-                                class="flex text-base text-white transition-all duration-200 hover:text-orange-500 focus:text-blue-600">
-                                Terms & Conditions
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" title=""
-                                class="flex text-base text-white transition-all duration-200 hover:text-orange-500 focus:text-blue-600">
-                                Privacy Policy
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-span-2 md:col-span-1 lg:col-span-2 lg:pl-8">
-                    <p class="text-sm font-semibold tracking-widest text-orange-400 uppercase">Subscribe to newsletter
-                    </p>
-
-                    <form action="#" method="POST" class="mt-6">
-                        <div>
-                            <label for="email" class="sr-only">Email</label>
-                            <input type="email" name="email" id="email" placeholder="Enter your email"
-                                class="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-orange-600 caret-orange-600" />
-                        </div>
-
-                        <button type="submit"
-                            class="inline-flex items-center justify-center px-6 py-4 mt-3 font-semibold text-white transition-all duration-200 bg-orange-500 rounded-md hover:bg-ororange-500 focus:bg-orange-600">
-                            Subscribe
-                        </button>
-                    </form>
                 </div>
             </div>
 
