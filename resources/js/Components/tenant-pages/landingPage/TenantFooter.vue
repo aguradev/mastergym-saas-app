@@ -11,10 +11,6 @@ const props = defineProps({
     github: String,
     copyright: String,
 })
-
-// const menuGridClasses = computed (  )    
-
-console.log(props.twitter)
 </script>
 
 <template>

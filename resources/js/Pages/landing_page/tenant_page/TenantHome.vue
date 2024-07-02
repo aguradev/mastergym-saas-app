@@ -19,7 +19,7 @@ import Testimonials from "@components/tenant-pages/landingPage/Testimonials.vue"
             <Hero />
             <CTA />
             <Service />
-            <Pricing/>
+            <Pricing />
             <Testimonials />
         </TenantLayout>
     </div>

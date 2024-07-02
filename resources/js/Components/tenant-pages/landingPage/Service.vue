@@ -1,4 +1,5 @@
-<script setup></script>
+<script setup>
+</script>
 
 <style scoped>
 .service-image {

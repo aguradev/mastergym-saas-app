@@ -1,3 +1,19 @@
+<script setup>
+
+import { ref } from 'vue';
+
+const fetchTestimonialsItems = ref({
+    title: "read trusted reviews from our customers",
+    text: "read trusted reviews from our customers",
+    button: "read all reviews ->",
+    cards: [
+        { stars: 5, title: "stayin' alive", text: "No, Rose, they are not breathing. And they have no arms or legs … Where are they? You know what? If we come across somebody with no arms or legs, do we bother resuscitating them?", name: "Browns Ki" },
+        { stars: 4, title: "the facility is great!", text: "No, Rose, they are not breathing. And they have no arms or legs … Where are they? You know what? If we come across somebody with no arms or legs, do we bother resuscitating them?", name: "Michael Jackson" },
+        { stars: 2, title: "the best experience!", text: "No, Rose, they are not breathing. And they have no arms or legs … Where are they? You know what? If we come across somebody with no arms or legs, do we bother resuscitating them?", name: "Browns Ki" },
+    ]
+})
+</script>
+
 <template>
     <section class="bg-slate-500">
         <div class="mx-auto max-w-screen-2xl px-4 py-12 sm:px-6 lg:px-40 lg:py-16">
