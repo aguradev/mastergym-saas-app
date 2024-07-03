@@ -13,10 +13,6 @@ const fetchTestimonialsItems = ref({
         { stars: 4, title: "the best experience!", text: "I've been a member of this gym for over a year, and it continues to exceed my expectations. The facilities are top-notch, with clean and well-maintained equipment. The trainers are friendly and incredibly knowledgeable, always willing to help with form or suggest new routines. ", name: "ben dover" },
     ]
 })
-
-console.log(fetchTestimonialsItems.value.cards);
-console.log(fetchTestimonialsItems.value.cards.length);
-console.log(fetchTestimonialsItems.value.cards[1].title);
 </script>
 
 <template>

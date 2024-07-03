@@ -21,14 +21,15 @@ const props = defineProps({
                     <div>
                         <img :src="GymIcon" alt="gym logo" class="w-[60px] inline" />
 
-                        <p class="text-orange-500 box-shadow inline ml-3 text-2xl font-medium align-middle">{{ gymTitle }}
+                        <p class="text-orange-500 box-shadow inline ml-3 text-2xl font-medium align-middle">{{ gymTitle
+                            }}
                         </p>
                     </div>
 
                     <p class="text-base leading-relaxed text-white mt-7">{{ briefText }}</p>
                 </div>
 
-                <div class="col-span-1 md:col-span-1 lg:col-span-2s lg:pl-8 mt-10">
+                <div class="col-span-1 md:col-span-1 lg:col-span-2s lg:pl-8 mt-14 lg:mt-0">
                     <ul class="grid grid-cols-5 md:pl-64 lg:pl-0 lg:mt-6 text-center">
 
                         <li v-for="menu in props.menus" class="">
@@ -38,11 +39,10 @@ const props = defineProps({
                             </a>
                         </li>
                     </ul>
-                    <!-- <ul class="flex items-center space-x-3 mt-9"> -->
-                    <ul class="flex justify-end gap-3 mt-9 mr-4 lg:mr-14">
+                    <ul class="flex justify-end gap-3 mt-9 mr-3">
                         <li>
                             <a :href="props.twitter" title=""
-                            class="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-orange-500 focus:bg-blue-600">
+                                class="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-orange-500 focus:bg-blue-600">
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="currentColor">
                                     <path
