@@ -25,8 +25,8 @@ const emits = defineEmits(["checkedRadioHandler"]);
             ]"
             ref="getLabel"
         >
-            <h4>{{ label }}</h4>
-            <p>{{ note }}</p>
+            <h4 class="select-none">{{ label }}</h4>
+            <p class="select-none">{{ note }}</p>
         </label>
         <input
             type="radio"

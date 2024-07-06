@@ -1,73 +1,73 @@
 <script setup>
-    import Menu from 'primevue/menu';
-    import MenuDropdown from '@components/elements/dropdownToggle/index.vue';
-    import DashboardSidebar from '@components/ui/sidebar/DashboardSidebar.vue';
-    import { useMenuUser } from '@stores/menu_dropdown_user';
-    import { router } from '@inertiajs/vue3';
-    import { onMounted, provide, ref, toRef, toRefs } from 'vue';
+import Menu from "primevue/menu";
+import MenuDropdown from "@components/elements/dropdownToggle/index.vue";
+import DashboardSidebar from "@components/ui/sidebar/DashboardSidebar.vue";
+import { useMenuUser } from "@stores/menu_dropdown_user";
+import { router } from "@inertiajs/vue3";
+import { onMounted, provide, ref, toRef, toRefs } from "vue";
 
-    const storeMenuUser = useMenuUser();
-    const { menuItem } = storeMenuUser;
+const storeMenuUser = useMenuUser();
+const { menuItem } = storeMenuUser;
 
-    const logoutEvent = () => {
-        router.visit(menuItem[0]?.items[0]?.link, {
-            method: 'post',
-        });
-    };
-
-    const props = defineProps({
-        menuItemActive: {
-            type: Object,
-        },
-        titleNav: {
-            type: String,
-            default: '',
-        },
-        metaHead: {
-            type: Object,
-            default: {
-                title: 'Dashboard',
-            },
-        },
-        menuItems: {
-            type: Array,
-            default: [
-                {
-                    label: 'Label here',
-                    items: [
-                        {
-                            label: 'item 1',
-                        },
-                        {
-                            label: 'item 2',
-                        },
-                    ],
-                },
-            ],
-        },
+const logoutEvent = () => {
+    router.visit(menuItem[0]?.items[0]?.link, {
+        method: "post",
     });
-    const mainSection = ref(null);
-    const { menuItems, menuItemActive } = toRefs(props);
+};
 
-    provide('mainSection', mainSection);
+const props = defineProps({
+    menuItemActive: {
+        type: Object,
+    },
+    titleNav: {
+        type: String,
+        default: "",
+    },
+    metaHead: {
+        type: Object,
+        default: {
+            title: "Dashboard",
+        },
+    },
+    menuItems: {
+        type: Array,
+        default: [
+            {
+                label: "Label here",
+                items: [
+                    {
+                        label: "item 1",
+                    },
+                    {
+                        label: "item 2",
+                    },
+                ],
+            },
+        ],
+    },
+});
+const mainSection = ref(null);
+const { menuItems, menuItemActive } = toRefs(props);
+
+provide("mainSection", mainSection);
 </script>
 
 <style scoped>
-    .main {
-        @apply bg-primary-900;
-    }
+.main {
+    @apply bg-primary-900;
+}
 
-    .sub__menu__header {
-        @apply mt-[2rem] mb-3 px-4 font-bold;
-    }
+.sub__menu__header {
+    @apply mt-[2rem] mb-3 px-4 font-bold;
+}
 
-    .active {
-        @apply text-white;
-    }
+.active {
+    @apply text-white;
+}
 
-    .user__account {
-        @apply flex gap-x-3 rounded-full items-center text-white/30 hover:text-white cursor-pointer;
-    }
+.user__account {
+    @apply flex gap-x-3 rounded-full items-center text-white/30 hover:text-white cursor-pointer;
+}
 </style>
 
 <template>
@@ -101,10 +101,7 @@
                     </template>
 
                     <template #item_template>
-                        <button
-                            type="button"
-                            @click="logoutEvent"
-                        >
+                        <button type="button" @click="logoutEvent">
                             Logout
                         </button>
                     </template>
@@ -112,7 +109,7 @@
             </nav>
 
             <div>
-                <slot name="main_content" />
+                <slot />
             </div>
         </main>
     </div>
