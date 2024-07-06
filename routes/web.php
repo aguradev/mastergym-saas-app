@@ -28,7 +28,7 @@ Route::get("/setup-tenant", fn () => Inertia::render("landing_page/central_page/
 Route::get("/checkout-tenant", fn () => Inertia::render("landing_page/central_page/CheckoutTenant"))->name('central.checkoutTenant');
 
 Route::prefix("tenant")->group(function () {
-    Route::get("/landing", fn () => Inertia::render("landing_page/tenant_page/TenantHome"))->name('tenant.landingPsage');
+    Route::get("/landing", fn () => Inertia::render("landing_page/tenant_page/TenantHome"))->name('tenant.landingPage');
 });
 
 

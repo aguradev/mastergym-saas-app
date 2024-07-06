@@ -5,7 +5,7 @@ import { toRefs } from "vue";
 const props = defineProps({
     id: String,
     title: String,
-    price: String,
+    price: Number,
     features: Array,
     period: String,
 });

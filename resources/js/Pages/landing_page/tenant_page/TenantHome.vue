@@ -8,7 +8,6 @@ import CTA from "@components/tenant-pages/landingPage/CallToAction.vue";
 import Service from "@components/tenant-pages/landingPage/Service.vue";
 import Pricing from "@components/tenant-pages/landingPage/Pricing.vue";
 import Testimonials from "@components/tenant-pages/landingPage/Testimonials.vue";
-
 </script>
 
 <template>
