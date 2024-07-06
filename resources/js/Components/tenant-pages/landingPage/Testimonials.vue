@@ -16,7 +16,7 @@ const fetchTestimonialsItems = ref({
 </script>
 
 <template>
-    <section class="bg-slate-500">
+    <section id="#testimony" class="bg-slate-500">
         <div class="mx-auto max-w-screen-2xl px-4 py-12 sm:px-6 lg:px-40 lg:py-16">
             <div class="md:flex md:items-end md:justify-between">
                 <div class="max-w-xl">
