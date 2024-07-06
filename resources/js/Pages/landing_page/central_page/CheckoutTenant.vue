@@ -1,11 +1,13 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 import FormatCurrency from "../../../Lib/Currency";
 import FeatLists from "@components/ui/pricing-card/FeatLists.vue";
 import CheckoutForm from "@components/central-pages/transcation-forms/CheckoutForm.vue";
 import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import CardRadio from "@components/elements/input/CardRadio.vue";
 import { ref } from "vue";
+import { useCentralCheckout } from "@stores/central_checkout_state";
+import { storeToRefs } from "pinia";
 
 const { planOrder, totalPrice, price, periodPurchase } = defineProps([
     "planOrder",
@@ -14,6 +16,11 @@ const { planOrder, totalPrice, price, periodPurchase } = defineProps([
     "periodPurchase",
 ]);
 
+const useCentralCheckoutState = useCentralCheckout();
+const { checkoutOrderRequest } = storeToRefs(useCentralCheckoutState);
+
+const isFormSubmmited = ref(false);
+const submitBtnLabel = ref("Confirm Order");
 const manualTransferSelected = ref(false);
 const paymentGatewaySelected = ref(false);
 
@@ -22,16 +29,25 @@ const selectRadioPaymentHandler = (radio) => {
         case "manual_transfer":
             manualTransferSelected.value = true;
             paymentGatewaySelected.value = false;
+            checkoutOrderRequest.value.select_payment = radio.value;
             break;
         case "payment_gateway":
             paymentGatewaySelected.value = true;
             manualTransferSelected.value = false;
+            checkoutOrderRequest.value.select_payment = radio.value;
             break;
         default:
             paymentGatewaySelected.value = false;
             manualTransferSelected.value = false;
             break;
     }
+};
+
+const confirmOrderActionHandler = () => {
+    submitBtnLabel.value = "Loading...";
+    isFormSubmmited.value = true;
+
+    console.log(checkoutOrderRequest.value);
 };
 </script>
 
@@ -42,7 +58,10 @@ const selectRadioPaymentHandler = (radio) => {
         <div class="grid lg:grid-cols-2 gap-4">
             <!-- user form -->
             <div class="py-10 px-12">
-                <action autocomplete="off">
+                <form
+                    autocomplete="off"
+                    @submit.prevent="confirmOrderActionHandler"
+                >
                     <div class="mb-8">
                         <h2 class="text-xl font-semibold mb-8">
                             Billing Infomation
@@ -69,11 +88,12 @@ const selectRadioPaymentHandler = (radio) => {
                         />
                     </div>
                     <PrimaryButton
-                        label="Confirm Order"
+                        :label="submitBtnLabel"
+                        :disabled="isFormSubmmited"
                         class="w-full"
                         type="submit"
                     />
-                </action>
+                </form>
             </div>
             <!-- product info -->
             <div

@@ -2,6 +2,11 @@
 import InputText from "@components/elements/input/InputText.vue";
 import InputTextArea from "@components/elements/input/InputTextArea.vue";
 import InputGroup from "@components/ui/group/InputGroup.vue";
+import { useCentralCheckout } from "@stores/central_checkout_state";
+import { storeToRefs } from "pinia";
+
+const useCentralCheckoutState = useCentralCheckout();
+const { checkoutOrderRequest } = storeToRefs(useCentralCheckoutState);
 </script>
 
 <template>
@@ -12,6 +17,7 @@ import InputGroup from "@components/ui/group/InputGroup.vue";
                 input-placeholder="Type full name"
                 input-name="full_name"
                 input-id="full_name"
+                v-model:inputValue="checkoutOrderRequest.full_name"
             />
         </InputGroup>
         <InputGroup
@@ -24,6 +30,7 @@ import InputGroup from "@components/ui/group/InputGroup.vue";
                 input-placeholder="Type email"
                 input-name="email"
                 input-id="email"
+                v-model:inputValue="checkoutOrderRequest.email"
             />
         </InputGroup>
     </div>
@@ -34,12 +41,16 @@ import InputGroup from "@components/ui/group/InputGroup.vue";
                 input-placeholder="Type phone number"
                 input-name="phone_number"
                 input-id="phone_number"
+                v-model:inputValue="checkoutOrderRequest.phone_number"
             />
         </InputGroup>
     </div>
     <div class="mb-4">
         <InputGroup label="Address">
-            <InputTextArea placeholder="Type address" />
+            <InputTextArea
+                placeholder="Type address"
+                v-model:inputValue="checkoutOrderRequest.address"
+            />
         </InputGroup>
     </div>
 </template>
