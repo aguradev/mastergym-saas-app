@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MainPlatform\Auth\AuthController;
 use App\Http\Controllers\MainPlatform\FrontPage\LandingPageController;
+use App\Http\Controllers\MainPlatform\Transaction\CheckoutController;
 use App\Http\Controllers\MainPlatform\Transaction\TenantRegistrationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -44,7 +45,10 @@ Route::prefix("dashboard")->group(function () {
 });
 
 Route::prefix("transaction")->group(function () {
-    Route::get("/checkout", fn () => Inertia::render("landing_page/central_page/CheckoutTenant"))->name('transaction.checkout');
+    Route::controller(CheckoutController::class)->group(function () {
+        Route::get('/redirect-checkout/{tenantSubscriptionPlan}', 'RedirectToCheckout')->name('transaction.create-checkout');
+        Route::get('/checkout', 'CheckoutPage')->name('transaction.checkout');
+    });
 
     Route::controller(TenantRegistrationController::class)->group(function () {
         Route::get('tenant-registration', "RegistrationPage")->name("transaction.tenant-registration");

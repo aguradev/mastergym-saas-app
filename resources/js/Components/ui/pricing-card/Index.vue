@@ -43,6 +43,7 @@ const emits = defineEmits(["checkoutEvent"]);
 
             <Link
                 as="button"
+                type="button"
                 class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold bg-zinc-900 transition-all duration-200 bg-transparent border-2 rounded-full basic-button"
                 @click="() => emits('checkoutEvent', id)"
             >

@@ -1,7 +1,8 @@
 <script setup>
 import { ref, toRefs } from "vue";
 import PricingCard from "@components/ui/pricing-card/Index.vue";
-import { usePage } from "@inertiajs/vue3";
+import { router, usePage } from "@inertiajs/vue3";
+import { route } from "ziggy-js";
 
 const page = usePage();
 const isToggle = ref(false);
@@ -13,7 +14,11 @@ const togglePricing = () => {
 };
 
 const checkoutAction = (id) => {
-    console.log(id);
+    router.get(
+        route("transaction.create-checkout", {
+            tenantSubscriptionPlan: id,
+        }),
+    );
 };
 </script>
 
