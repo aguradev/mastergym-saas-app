@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3130e40706d463fb6cd5d03316f835e",
+    "content-hash": "d8e678b2c23e1e3db8966bbdf41ef697",
     "packages": [
         {
             "name": "brick/math",
@@ -2020,41 +2020,32 @@
             "time": "2024-01-28T23:22:08+00:00"
         },
         {
-            "name": "lucasdotvin/laravel-soulbscription",
-            "version": "4.2.0",
+            "name": "midtrans/midtrans-php",
+            "version": "2.5.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lucasdotvin/laravel-soulbscription.git",
-                "reference": "c31adf3744075cd9960d67a74be4bb874a338df9"
+                "url": "https://github.com/Midtrans/midtrans-php.git",
+                "reference": "a1ad0c824449ca8c68c4cf11b3417ad518311d2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucasdotvin/laravel-soulbscription/zipball/c31adf3744075cd9960d67a74be4bb874a338df9",
-                "reference": "c31adf3744075cd9960d67a74be4bb874a338df9",
+                "url": "https://api.github.com/repos/Midtrans/midtrans-php/zipball/a1ad0c824449ca8c68c4cf11b3417ad518311d2b",
+                "reference": "a1ad0c824449ca8c68c4cf11b3417ad518311d2b",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0",
-                "php": "^8.0|^8.1|^8.2"
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.4"
             },
             "require-dev": {
-                "orchestra/testbench": "^6.22|^7.0|^8.0|^9.0",
-                "phpunit/phpunit": "^9.5|^10.0",
-                "squizlabs/php_codesniffer": "*"
+                "phpunit/phpunit": "5.7.*",
+                "psy/psysh": "0.4.*"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "LucasDotVin\\Soulbscription\\SoulbscriptionServiceProvider"
-                    ],
-                    "aliases": []
-                }
-            },
             "autoload": {
                 "psr-4": {
-                    "LucasDotVin\\Soulbscription\\": "src",
-                    "LucasDotVin\\Soulbscription\\Database\\Factories\\": "database/factories"
+                    "Midtrans\\": "Midtrans/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2063,30 +2054,25 @@
             ],
             "authors": [
                 {
-                    "name": "Lucas Vinicius",
-                    "email": "lucasvinicius211@yahoo.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A straightforward interface to handle subscriptions and features consumption.",
-            "homepage": "https://github.com/lucasdotvin/laravel-soulbscription",
-            "keywords": [
-                "laravel",
-                "laravel-soulbscription",
-                "lucasdotvin",
-                "subscriptions"
-            ],
-            "support": {
-                "issues": "https://github.com/lucasdotvin/laravel-soulbscription/issues",
-                "source": "https://github.com/lucasdotvin/laravel-soulbscription/tree/4.2.0"
-            },
-            "funding": [
+                    "name": "Andri Setiawan",
+                    "email": "andri.setiawan@veritrans.co.id"
+                },
                 {
-                    "url": "https://github.com/lucasdotvin",
-                    "type": "github"
+                    "name": "Alvin Litani",
+                    "email": "alvin.litani@veritrans.co.id"
+                },
+                {
+                    "name": "Ismail Faruqi",
+                    "email": "ismail.faruqi@veritrans.co.id"
                 }
             ],
-            "time": "2024-04-08T03:49:14+00:00"
+            "description": "PHP Wrapper for Midtrans Payment API.",
+            "homepage": "https://midtrans.com",
+            "support": {
+                "issues": "https://github.com/Midtrans/midtrans-php/issues",
+                "source": "https://github.com/Midtrans/midtrans-php/tree/2.5.2"
+            },
+            "time": "2021-08-23T08:52:05+00:00"
         },
         {
             "name": "monolog/monolog",

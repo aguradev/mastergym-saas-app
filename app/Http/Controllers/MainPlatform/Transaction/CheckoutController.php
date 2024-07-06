@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MainPlatform\Transaction;
 
 use App\Http\Controllers\Controller;
 use App\Models\CentralModel\TenantSubscriptionPlan;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CheckoutController extends Controller
@@ -52,5 +53,33 @@ class CheckoutController extends Controller
 
 
         return Inertia::render("landing_page/central_page/CheckoutTenant", compact('planOrder', 'totalPrice', 'price', 'periodPurchase'));
+    }
+
+    public function ProcessingOrderCheckout(Request $request)
+    {
+        $planOrder = session('purchase_subscription_plan');
+        $periodPurchase = session('period_purchase');
+
+        switch ($periodPurchase) {
+            case "Month":
+                $price = $planOrder->TenantVersionLatest->price_per_month;
+                $totalPrice = (int) $price + ($price * (10 / 100));
+                break;
+            case "Yearly":
+                $price = $planOrder->TenantVersionLatest->price_per_year;
+                $totalPrice = (int) $price + ($price * (10 / 100));
+                break;
+            default:
+                break;
+        }
+
+        switch ($request->select_payment) {
+            case "payment_gateway":
+                break;
+            case "manual_transfer":
+                break;
+            default:
+                return redirect()->back()->with("message_error", "error: incorrect payment method");
+        }
     }
 }

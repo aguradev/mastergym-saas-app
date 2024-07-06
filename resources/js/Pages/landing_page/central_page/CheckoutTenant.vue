@@ -8,6 +8,7 @@ import CardRadio from "@components/elements/input/CardRadio.vue";
 import { ref } from "vue";
 import { useCentralCheckout } from "@stores/central_checkout_state";
 import { storeToRefs } from "pinia";
+import { route } from "ziggy-js";
 
 const { planOrder, totalPrice, price, periodPurchase } = defineProps([
     "planOrder",
@@ -47,7 +48,7 @@ const confirmOrderActionHandler = () => {
     submitBtnLabel.value = "Loading...";
     isFormSubmmited.value = true;
 
-    console.log(checkoutOrderRequest.value);
+    checkoutOrderRequest.value.post(route("transaction.confirm-order"));
 };
 </script>
 
