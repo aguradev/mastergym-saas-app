@@ -1,14 +1,16 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, Link, useForm, usePage } from "@inertiajs/vue3";
 import FormatCurrency from "../../../Lib/Currency";
 import FeatLists from "@components/ui/pricing-card/FeatLists.vue";
 import CheckoutForm from "@components/central-pages/transcation-forms/CheckoutForm.vue";
 import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import CardRadio from "@components/elements/input/CardRadio.vue";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { useCentralCheckout } from "@stores/central_checkout_state";
 import { storeToRefs } from "pinia";
 import { route } from "ziggy-js";
+import { useToast } from "primevue/usetoast";
+import Toast from "primevue/toast";
 
 const { planOrder, totalPrice, price, periodPurchase } = defineProps([
     "planOrder",
@@ -19,6 +21,8 @@ const { planOrder, totalPrice, price, periodPurchase } = defineProps([
 
 const useCentralCheckoutState = useCentralCheckout();
 const { checkoutOrderRequest } = storeToRefs(useCentralCheckoutState);
+const toast = useToast();
+const page = usePage();
 
 const isFormSubmmited = ref(false);
 const submitBtnLabel = ref("Confirm Order");
@@ -48,14 +52,42 @@ const confirmOrderActionHandler = () => {
     submitBtnLabel.value = "Loading...";
     isFormSubmmited.value = true;
 
-    checkoutOrderRequest.value.post(route("transaction.confirm-order"));
+    checkoutOrderRequest.value.post(route("transaction.confirm-order"), {
+        onFinish: () => {
+            submitBtnLabel.value = "Confirm Order";
+            isFormSubmmited.value = false;
+        },
+    });
 };
+
+watchEffect(() => {
+    const { message_success, message_error } = page.props.flash;
+
+    if (message_success) {
+        toast.add({
+            severity: "success",
+            summary: "info",
+            detail: message_success,
+            life: 3000,
+        });
+    }
+
+    if (message_error) {
+        toast.add({
+            severity: "error",
+            summary: "info",
+            detail: message_error,
+            life: 3000,
+        });
+    }
+});
 </script>
 
 <template>
     <Head title="Checkout" />
 
     <div class="min-h-screen">
+        <Toast />
         <div class="grid lg:grid-cols-2 gap-4">
             <!-- user form -->
             <div class="py-10 px-12">

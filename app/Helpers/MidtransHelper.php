@@ -4,13 +4,19 @@ namespace App\Helpers;
 
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class MidtransHelper
 {
     public function __construct()
     {
-        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = false;
+        Config::$isSanitized = true;
+        Config::$curlOptions[CURLOPT_SSL_VERIFYHOST] = 0;
+        Config::$curlOptions[CURLOPT_SSL_VERIFYPEER] = 0;
+        Config::$curlOptions[CURLOPT_HTTPHEADER] = [];
     }
 
     public function createInvoiceTransaction(array $request)
@@ -24,17 +30,27 @@ class MidtransHelper
             [
                 "id" => $request["item_id"],
                 "name" => $request["item_name"],
-                "price" => $request["item_price"],
+                "price" => $request["total"],
+                "quantity" => 1
             ]
+        ];
+
+        $customer_details = [
+            "first_name" => $request["full_name"],
+            "last_name" => "",
+            "email" => $request["email"],
+            "phone" => $request["phone_number"],
+            "billing_address" => $request["address"]
         ];
 
         $transaction_data = [
             "transaction_details" => $transaction_details,
             "item_details" => $items,
+            "customer_details" => $customer_details
         ];
 
         try {
-            $paymentUrl = \Midtrans\Snap::createTransaction($transaction_data)->redirect_url;
+            $paymentUrl = Snap::createTransaction($transaction_data)->redirect_url;
 
             return $paymentUrl;
         } catch (Exception $e) {

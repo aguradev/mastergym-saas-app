@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\MainPlatform\Transaction;
 
+use App\Helpers\MidtransHelper;
 use App\Http\Controllers\Controller;
 use App\Models\CentralModel\TenantSubscriptionPlan;
 use Illuminate\Http\Request;
@@ -57,8 +58,13 @@ class CheckoutController extends Controller
 
     public function ProcessingOrderCheckout(Request $request)
     {
+        $initialMidtrans = new MidtransHelper();
         $planOrder = session('purchase_subscription_plan');
         $periodPurchase = session('period_purchase');
+
+        if (!session()->has('purchase_subscription_plan')) {
+            return to_route('central.landingPage');
+        }
 
         switch ($periodPurchase) {
             case "Month":
@@ -75,7 +81,22 @@ class CheckoutController extends Controller
 
         switch ($request->select_payment) {
             case "payment_gateway":
-                break;
+                $urlRedirectPaymentGateway = $initialMidtrans->createInvoiceTransaction([
+                    "total" => $totalPrice,
+                    "item_id" => time(),
+                    "item_price" => $price,
+                    "item_name" => $planOrder->name,
+                    "full_name" => $request->full_name,
+                    "email" => $request->email,
+                    "phone_number" => $request->phone_number,
+                    "address" => $request->address
+                ]);
+
+                if (is_null($urlRedirectPaymentGateway)) {
+                    return redirect()->back()->with("message_error", "error: failed to processing payment gateway");
+                }
+
+                return Inertia::location($urlRedirectPaymentGateway);
             case "manual_transfer":
                 break;
             default:
