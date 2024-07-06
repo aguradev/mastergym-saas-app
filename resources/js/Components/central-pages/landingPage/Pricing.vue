@@ -13,10 +13,11 @@ const togglePricing = () => {
     isToggle.value = !isToggle.value;
 };
 
-const checkoutAction = (id) => {
+const checkoutAction = (id, period) => {
     router.get(
         route("transaction.create-checkout", {
             tenantSubscriptionPlan: id,
+            periodPurchase: period,
         }),
     );
 };
