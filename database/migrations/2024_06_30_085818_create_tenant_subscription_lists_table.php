@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tenant_subscription_lists', function (Blueprint $table) {
+        Schema::create('tenants_subscription_lists', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->foreignUuid("tenant_id")->references("id")->on("tenants");
             $table->foreignUuid("invoice_transaction_id")->references("id")->on("tenant_transactions");

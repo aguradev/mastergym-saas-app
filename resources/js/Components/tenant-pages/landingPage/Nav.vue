@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import { Link, Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import Logo from "/public/assets/images/icon/gym.png";
@@ -32,16 +33,6 @@ window.addEventListener('scroll', function () {
     }
 });
 
-const fetchMenuItems = ref({
-    menus: [
-        "home",
-        "our service",
-        "personal trainer",
-        "membership",
-        "about us",
-    ],
-    name: "Gym Master"
-})
 </script>
 
 <template>
@@ -63,9 +54,25 @@ const fetchMenuItems = ref({
                     </div>
                     <div id="main-nav" class="w-full flex-grow lg:flex items-center lg:w-auto hidden">
                         <div class="text-sm lg:flex-grow mt-2 animated jackinthebox xl:mx-8">
-                            <Link v-for="menu in fetchMenuItems.menus" href="#home"
-                                class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg uppercase">
-                            {{ menu }}
+                            <Link href="#home"
+                                class="block lg:inline-block text-md font-bold text-orange-500 sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
+                            HOME
+                            </Link>
+                            <Link href="#home"
+                                class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
+                            OUR SERVICE
+                            </Link>
+                            <Link href="#home"
+                                class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
+                            PERSONAL TRAINERS
+                            </Link>
+                            <Link href="#home"
+                                class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
+                            MEMBERSHIP
+                            </Link>
+                            <Link href="about"
+                                class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
+                            ABOUT US
                             </Link>
                         </div>
                         <div id="right-nav">

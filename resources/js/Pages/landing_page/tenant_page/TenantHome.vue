@@ -8,7 +8,6 @@ import CTA from "@components/tenant-pages/landingPage/CallToAction.vue";
 import Service from "@components/tenant-pages/landingPage/Service.vue";
 import Pricing from "@components/tenant-pages/landingPage/Pricing.vue";
 import Testimonials from "@components/tenant-pages/landingPage/Testimonials.vue";
-
 </script>
 
 <template>
@@ -18,9 +17,9 @@ import Testimonials from "@components/tenant-pages/landingPage/Testimonials.vue"
         <TenantLayout>
             <Hero />
             <CTA />
-            <Service />
-            <Pricing />
-            <Testimonials />
+            <Service id="service"/>
+            <Pricing id="membership"/>
+            <Testimonials id="testimony"/>
         </TenantLayout>
     </div>
 </template>
