@@ -26,6 +26,6 @@ class TenantSubscriptionPlan extends Model
 
     public function TenantVersionLatest()
     {
-        return $this->hasOne(TenantPlanVersion::class, "tenant_subscription_plan_id", "id")->latest("version");
+        return $this->hasOne(TenantPlanVersion::class, "tenant_subscription_plan_id", "id")->where("status", "ACTIVE");
     }
 }

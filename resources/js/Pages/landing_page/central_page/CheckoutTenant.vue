@@ -126,6 +126,12 @@ watchEffect(() => {
                         class="w-full"
                         type="submit"
                     />
+                    <button
+                        type="button"
+                        class="text-center w-full mt-6 text-zinc-600"
+                    >
+                        Cancel
+                    </button>
                 </form>
             </div>
             <!-- product info -->

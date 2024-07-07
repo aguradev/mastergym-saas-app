@@ -15,6 +15,7 @@ class TenantTransaction extends Model
 
     protected $table = "tenant_transactions";
     protected $keyType = "string";
+    protected $with = ["PlanPurchase"];
 
     protected $fillable = [
         "tenant_plan_id",
@@ -31,6 +32,6 @@ class TenantTransaction extends Model
 
     public function PlanPurchase()
     {
-        return $this->hasOne(TenantPlanVersion::class, "id", "plan_tenant_id");
+        return $this->hasOne(TenantPlanVersion::class, "id", "tenant_plan_id");
     }
 }

@@ -16,7 +16,6 @@ class TenantTransactionObserver implements ShouldHandleEventsAfterCommit
     {
         $tenantTransaction->status = "PENDING";
         $tenantTransaction->transaction_expired_at = now()->addDay();
-        $tenantTransaction->transaction_token_access = Crypt::encrypt(Str::random(64));
         $tenantTransaction->created_at = now();
 
         $tenantTransaction->save();

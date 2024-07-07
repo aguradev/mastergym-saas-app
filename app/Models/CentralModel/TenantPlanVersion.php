@@ -12,12 +12,13 @@ class TenantPlanVersion extends Model
     protected $table = "tenant_plan_versions";
 
     protected $fillable = [
-        "subscription_plan_id",
+        "tenant_subscription_plan_id",
         "price_per_month",
         "price_per_year",
         "version"
     ];
 
+    protected $with = ["TenantSubscriptionPlan"];
     protected $appends = ["price_per_month_format", "price_per_year_format"];
 
     public function getPricePerMonthFormatAttribute()
@@ -27,6 +28,11 @@ class TenantPlanVersion extends Model
     public function getPricePerYearFormatAttribute()
     {
         return number_format($this->attributes["price_per_year"]);
+    }
+
+    public function TenantSubscriptionPlan()
+    {
+        return $this->belongsTo(TenantSubscriptionPlan::class, "tenant_subscription_plan_id", "id");
     }
 
     public function PlanFeatures()

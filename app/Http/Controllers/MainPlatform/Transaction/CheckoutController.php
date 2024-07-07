@@ -117,13 +117,18 @@ class CheckoutController extends Controller
                 ]);
 
                 if (is_null($urlRedirectPaymentGateway)) {
+                    DB::rollBack();
                     return redirect()->back()->with("message_error", "error: failed to processing payment gateway");
                 }
 
                 DB::commit();
+                session()->forget("purchase_subscription_plan");
+                session()->forget("period_purchase");
 
                 return Inertia::location($urlRedirectPaymentGateway);
             case "manual_transfer":
+                session()->forget("purchase_subscription_plan");
+                session()->forget("period_purchase");
                 break;
             default:
                 return redirect()->back()->with("message_error", "error: incorrect payment method");

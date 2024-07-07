@@ -1,95 +1,116 @@
 <script setup>
-import { defineAsyncComponent, ref, toRef, watch } from 'vue';
-import { route } from 'ziggy-js'
+import { defineAsyncComponent, ref, toRef, watch } from "vue";
+import { route } from "ziggy-js";
 
-import Modal from '@components/ui/modal/Index.vue';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import ActionLists from '@components/elements/ulLists/ActionLists.vue';
-import { router } from '@inertiajs/vue3';
-import NotFound from '@components/ui/cta/NotFound.vue';
+import Modal from "@components/ui/modal/Index.vue";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import ActionLists from "@components/elements/ulLists/ActionLists.vue";
+import { router } from "@inertiajs/vue3";
+import NotFound from "@components/ui/cta/NotFound.vue";
 const LazyFeatureDetail = defineAsyncComponent({
-    loader: () => import('@pages/dashboard/central_page/subscription_page/features_plan_page/FeatureDetail.vue')
-})
+    loader: () =>
+        import(
+            "@pages/dashboard/central_page/subscription_page/features_plan_page/FeatureDetail.vue"
+        ),
+});
 const LazyFeatureEditForm = defineAsyncComponent({
-    loader: () => import('@pages/dashboard/central_page/subscription_page/features_plan_page/EditForm.vue')
-})
+    loader: () =>
+        import(
+            "@pages/dashboard/central_page/subscription_page/features_plan_page/EditForm.vue"
+        ),
+});
 
 const props = defineProps({
-    featurePlanDatas: Object
-})
+    featurePlanDatas: Object,
+});
 const selectedCheckboxFeature = ref([]);
-const featureDetailModal = ref(false)
-const featureEditFormModal = ref(false)
+const featureDetailModal = ref(false);
+const featureEditFormModal = ref(false);
 const featureDetailId = ref(null);
 
-const featurePlanDatas = toRef(() => props.featurePlanDatas)
+const featurePlanDatas = toRef(() => props.featurePlanDatas);
 
 const getNumberColumn = (current_page, per_page, index) => {
-    return (current_page - 1) * per_page + (index + 1)
-}
+    return (current_page - 1) * per_page + (index + 1);
+};
 
 const openFeatureDetailModal = (id) => {
-    featureDetailModal.value = true
+    featureDetailModal.value = true;
     featureDetailId.value = id;
-}
+};
 
 const openFeatureEditModal = (id) => {
-    featureEditFormModal.value = true
+    featureEditFormModal.value = true;
     featureDetailId.value = id;
-}
+};
 
 const closeFeatureDetailHandler = () => {
-    featureDetailModal.value = false
+    featureDetailModal.value = false;
     featureDetailId.value = null;
-}
+};
 
 const closeFeatureEditHandler = () => {
-    featureEditFormModal.value = false
+    featureEditFormModal.value = false;
     featureDetailId.value = null;
-}
+};
 
 const deleteFeaturePlanHandler = (id) => {
-    router.delete(route('plan_feature.delete', {
-        tenantPlanFeature: id
-    }), {
-        onBefore: () => confirm("are you sure delete features ? "),
-        onFinish: () => {
-            selectedCheckboxFeature.value = [];
+    router.delete(
+        route("plan_feature.delete", {
+            tenantPlanFeature: id,
+        }),
+        {
+            onBefore: () => confirm("are you sure delete features ? "),
+            onFinish: () => {
+                selectedCheckboxFeature.value = [];
+            },
+            preserveScroll: true,
         },
-        preserveScroll: true
-    })
-}
+    );
+};
 
 watch(selectedCheckboxFeature, (newState) => {
     console.log(newState);
-})
-
+});
 </script>
 
 <template>
     <section class="pb-12">
-
         <div v-if="!!featurePlanDatas.data.length">
-            <DataTable :value="featurePlanDatas.data" :pt="{
-                bodyrow: 'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
-                column: {
-                    headercell: 'py-6 px-12 border-b border-primary-600',
-                    headercontent: 'text-left font-[300] tracking-wide text-white/50',
-                    bodycell: 'px-12 py-6 text-base',
-                }
-            }">
+            <DataTable
+                :value="featurePlanDatas.data"
+                :pt="{
+                    bodyrow:
+                        'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
+                    column: {
+                        headercell: 'py-6 px-12 border-b border-primary-600',
+                        headercontent:
+                            'text-left font-[300] tracking-wide text-white/50',
+                        bodycell: 'px-12 py-6 text-base',
+                    },
+                }"
+            >
                 <Column header="">
                     <template #body="slotProps">
-                        <input type="checkbox" v-model="selectedCheckboxFeature" :value="slotProps.data.id"
-                            class="block rounded-md size-4" :id="`checkbox-${slotProps.data.id}`" />
+                        <input
+                            type="checkbox"
+                            v-model="selectedCheckboxFeature"
+                            :value="slotProps.data.id"
+                            class="block rounded-md size-4"
+                            :id="`checkbox-${slotProps.data.id}`"
+                        />
                     </template>
                 </Column>
                 <Column header="No">
                     <template #body="slotProps">
                         <div>
-                            {{ getNumberColumn(featurePlanDatas.current_page, featurePlanDatas.per_page,
-                                slotProps.index)
+                            {{
+                                getNumberColumn(
+                                    featurePlanDatas.current_page,
+                                    featurePlanDatas.per_page,
+                                    slotProps.index,
+                                )
                             }}
                         </div>
                     </template>
@@ -106,14 +127,26 @@ watch(selectedCheckboxFeature, (newState) => {
                 </Column>
                 <Column header="Updated At">
                     <template #body="slotProps">
-                        <div>{{ slotProps.data.updated_at ? slotProps.data.updated_at_diff_human : '-' }}</div>
+                        <div>
+                            {{
+                                slotProps.data.updated_at
+                                    ? slotProps.data.updated_at_diff_human
+                                    : "-"
+                            }}
+                        </div>
                     </template>
                 </Column>
                 <Column header="Action">
                     <template #body="slotProps">
-                        <ActionLists @deleteEvent="deleteFeaturePlanHandler(slotProps.data.id)"
+                        <ActionLists
+                            @deleteEvent="
+                                deleteFeaturePlanHandler(slotProps.data.id)
+                            "
                             @editEvent="openFeatureEditModal(slotProps.data.id)"
-                            @detailEvent="openFeatureDetailModal(slotProps.data.id)" />
+                            @detailEvent="
+                                openFeatureDetailModal(slotProps.data.id)
+                            "
+                        />
                     </template>
                 </Column>
             </DataTable>
@@ -127,24 +160,28 @@ watch(selectedCheckboxFeature, (newState) => {
         </div>
     </section>
 
-
-    <Modal title="Feature Detail" @closeModal="closeFeatureDetailHandler" :modalVisible="featureDetailModal">
+    <Modal
+        title="Feature Detail"
+        @closeModal="closeFeatureDetailHandler"
+        :modalVisible="featureDetailModal"
+    >
         <Suspense>
             <LazyFeatureDetail :id="featureDetailId" />
-            <template #fallback>
-                Loading...
-            </template>
+            <template #fallback> Loading... </template>
         </Suspense>
     </Modal>
 
-    <Modal title="Edit Form" @closeModal="closeFeatureEditHandler" :modalVisible="featureEditFormModal">
+    <Modal
+        title="Edit Form"
+        @closeModal="closeFeatureEditHandler"
+        :modalVisible="featureEditFormModal"
+    >
         <Suspense>
-            <LazyFeatureEditForm :id="featureDetailId" @closeModal="closeFeatureEditHandler" />
-            <template #fallback>
-                Loading...
-            </template>
+            <LazyFeatureEditForm
+                :id="featureDetailId"
+                @closeModal="closeFeatureEditHandler"
+            />
+            <template #fallback> Loading... </template>
         </Suspense>
     </Modal>
-
-
 </template>

@@ -1,21 +1,44 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import { useNavMainPlatform } from "@stores/navigation_menu_item";
-import { useMenuUser } from "@stores/menu_dropdown_user";
+import Badge from "primevue/badge";
 import { storeToRefs } from "pinia";
 
 import DashboardLayout from "@layouts/DashboardLayout.vue";
-import { onMounted } from "vue";
+import { onMounted, toRefs } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
 const getNavMainPlatform = useNavMainPlatform();
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform);
 
+const { props } = usePage();
+const { transactions } = toRefs(props);
+console.table(transactions.value);
+const { current_page, per_page, data } = transactions.value;
+
 onMounted(() => {
     menuItemActive.value = navigationMenuItem.value[1]?.items[4];
 });
+
+const getNumberColumn = (current_page, per_page, index) => {
+    return (current_page - 1) * per_page + (index + 1);
+};
 </script>
+
+<style scoped>
+.action_lists {
+    @apply flex gap-x-6 items-center;
+
+    .action_link {
+        @apply text-base bg-primary-700 p-3 rounded;
+
+        &:hover {
+            @apply bg-primary-600;
+        }
+    }
+}
+</style>
 
 <template>
     <Head>
@@ -28,6 +51,7 @@ onMounted(() => {
         titleNav="Transaction"
     >
         <DataTable
+            :value="data"
             :pt="{
                 bodyrow:
                     'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
@@ -39,11 +63,53 @@ onMounted(() => {
                 },
             }"
         >
-            <Column header="No"></Column>
-            <Column header="Full Name"></Column>
-            <Column header="Email"></Column>
-            <Column header="Status"></Column>
-            <Column header="Actions"></Column>
+            <Column header="No">
+                <template #body="slotProps">
+                    {{
+                        getNumberColumn(current_page, per_page, slotProps.index)
+                    }}
+                </template>
+            </Column>
+            <Column header="Full Name">
+                <template #body="slotProps">{{
+                    slotProps.data.full_name
+                }}</template>
+            </Column>
+            <Column header="Email">
+                <template #body="slotProps">{{
+                    slotProps.data.email
+                }}</template></Column
+            >
+            <Column header="Status">
+                <template #body="slotProps">
+                    <Badge
+                        :value="slotProps.data.status"
+                        class="px-4 !text-white"
+                        :severity="[
+                            slotProps.data.status === 'PENDING'
+                                ? 'info'
+                                : slotProps.data.status === 'PAID'
+                                  ? 'success'
+                                  : 'danger',
+                        ]"
+                    />
+                </template>
+            </Column>
+            <Column header="Actions">
+                <template #body="slotProps">
+                    <ul class="action_lists">
+                        <li class="action_item">
+                            <button
+                                type="button"
+                                class="action_link"
+                                @click="detailEventHandler"
+                            >
+                                <i class="pi pi-eye"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </template>
+            </Column>
         </DataTable>
     </DashboardLayout>
 </template>

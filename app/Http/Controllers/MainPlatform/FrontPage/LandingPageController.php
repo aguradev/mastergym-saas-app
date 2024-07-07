@@ -16,7 +16,6 @@ class LandingPageController extends Controller
             return $query->with("PlanFeatures");
         }])->get();
 
-
         return Inertia::render("landing_page/central_page/MainMenu", [
             "pricing_lists" => $getPricingActive
         ]);
