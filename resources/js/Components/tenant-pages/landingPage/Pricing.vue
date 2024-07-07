@@ -11,7 +11,20 @@ const fetchDataPricing = ref({
     title: "Choose Your Member Type!",
     text: "Here is lists of our membership prices depending on what you need, either monthly or yearly",
     cards: [
-        { id: 1, title: 'Basic', price: 250000, features: [{ id: 1, name: "feat1" }, { id: 2, name: "feat2" }, { id: 3, name: "feat3" }, { id: 4, name: "feat4" }, { id: 5, name: "feat5" }, { id: 6, name: "feat6" }], period: "month" },
+        {
+            id: 1,
+            title: 'Basic',
+            price: 250000,
+            features: [
+                { id: 1, name: "feat1" },
+                { id: 2, name: "feat2" },
+                { id: 3, name: "feat3" },
+                { id: 4, name: "feat4" },
+                { id: 5, name: "feat5" },
+                { id: 6, name: "feat6" }
+            ],
+            period: "month"
+        },
         { id: 2, title: 'Ultimate', price: 550000, features: [{ id: 1, name: "feat1" }, { id: 2, name: "feat2" }, { id: 3, name: "feat3" }, { id: 4, name: "feat4" }, { id: 5, name: "feat5" }, { id: 6, name: "feat6" }], period: "month" },
         { id: 2, title: 'Premium', price: 350000, features: [{ id: 1, name: "feat1" }, { id: 2, name: "feat2" }, { id: 3, name: "feat3" }, { id: 4, name: "feat4" }, { id: 5, name: "feat5" }, { id: 6, name: "feat6" }], period: "month" },
         { id: 2, title: 'Basic', price: 2500000, features: [{ id: 1, name: "feat1" }, { id: 2, name: "feat2" }, { id: 3, name: "feat3" }, { id: 4, name: "feat4" }, { id: 5, name: "feat5" }, { id: 6, name: "feat6" }], period: "year" },
@@ -33,7 +46,7 @@ const togglePricing = () => {
                     {{ fetchDataPricing.title }}
                 </h2>
                 <p class="max-w-md mx-auto mt-4 text-base leading-relaxed text-white">
-                    {{ fetchDataPricing.text}}
+                    {{ fetchDataPricing.text }}
                 </p>
             </div>
 
@@ -62,7 +75,8 @@ const togglePricing = () => {
                 </div>
             </div>
 
-            <div v-if="isToggle" class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9 mt-[20px]">
+            <div v-if="isToggle"
+                class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9 mt-[20px]">
                 <div id="card" v-for="(card, index) in fetchDataPricing.cards">
                     <PricingCard v-if="card.period === 'year'" :title="card.title" :price="card.price"
                         :features="card.features" :period="card.period" />

@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 import { Link, Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
-import Logo from "/public/assets/images/icon/gym.png";
 
 // Navbar Toggle
 document.addEventListener('DOMContentLoaded', function () {
@@ -58,26 +56,26 @@ window.addEventListener('scroll', function () {
                                 class="block lg:inline-block text-md font-bold text-orange-500 sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
                             HOME
                             </Link>
-                            <Link href="#home"
+                            <Link href="#service"
                                 class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
                             OUR SERVICE
                             </Link>
-                            <Link href="#home"
-                                class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
-                            PERSONAL TRAINERS
-                            </Link>
-                            <Link href="#home"
+                            <Link href="#membership"
                                 class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
                             MEMBERSHIP
                             </Link>
-                            <Link href="about"
+                            <Link href="#testimony"
+                                class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
+                            OUR REVIEWS
+                            </Link>
+                            <Link href="#about"
                                 class="block lg:inline-block text-md font-bold text-white sm:hover:border-indigo-400 hover:text-orange-500 mx-2 focus:text-blue-500 p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
                             ABOUT US
                             </Link>
                         </div>
                         <div id="right-nav">
-                            <img :src="Logo" class="rounded-full w-12 inline-block" alt="logo-gym">
-                            <p class="pl-4 text-xl font-medium inline-block">{{ fetchMenuItems.name }}</p>
+                            <Link href="">
+                            </Link>
                         </div>
                     </div>
                 </nav>

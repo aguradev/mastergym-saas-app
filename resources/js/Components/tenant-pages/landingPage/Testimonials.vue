@@ -8,7 +8,12 @@ const fetchTestimonialsItems = ref({
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur praesentium natus sapiente commodi. Aliquid sunt tempore iste repellendus explicabo dignissimos placeat, autem harum dolore reprehenderit quis! Quo totam dignissimos earum.",
     button: "read all reviews ->",
     cards: [
-        { stars: 5, title: "stayin' alive", text: "As a regular gym-goer, I've found this gym to be the perfect place to stay motivated and fit. The wide range of equipment means I never get bored with my workouts, and the staff are always on hand to offer tips and support. The classes are diverse and cater to all fitness levels, making it easy to find something that suits my mood and goals. ", name: "john weak" },
+        {
+            stars: 5,
+            title: "stayin' alive",
+            text: "As a regular gym-goer, I've found this gym to be the perfect place to stay motivated and fit. The wide range of equipment means I never get bored with my workouts, and the staff are always on hand to offer tips and support. The classes are diverse and cater to all fitness levels, making it easy to find something that suits my mood and goals. ",
+            name: "john weak"
+        },
         { stars: 3, title: "the facility is great!", text: "The gym is an incredible place to push your limits and achieve your fitness goals. The state-of-the-art equipment, variety of classes, and knowledgeable trainers create an environment that is both challenging and supportive. From the moment you walk in, you're greeted with a clean, motivating space filled with like-minded individuals.", name: "gavid doggins" },
         { stars: 4, title: "the best experience!", text: "I've been a member of this gym for over a year, and it continues to exceed my expectations. The facilities are top-notch, with clean and well-maintained equipment. The trainers are friendly and incredibly knowledgeable, always willing to help with form or suggest new routines. ", name: "ben dover" },
     ]
