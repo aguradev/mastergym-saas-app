@@ -20,8 +20,8 @@ return new class extends Migration
             $table->decimal("total", 10, 2);
             $table->decimal("tax", 10, 2);
             $table->enum("status", ["REGISTERED", "PENDING", "PAID", "NEED CONFIRM"]);
-            $table->string("transaction_token_access")->nullable();
-            $table->timestamp("transaction_token_access_expired_at")->useCurrent()->nullable();
+            $table->text("transaction_token_access")->nullable();
+            $table->timestamp("transaction_expired_at")->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction');
+        Schema::dropIfExists('tenant_transactions');
     }
 };

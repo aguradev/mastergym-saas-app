@@ -5,7 +5,11 @@ namespace App\Http\Controllers\MainPlatform\Transaction;
 use App\Helpers\MidtransHelper;
 use App\Http\Controllers\Controller;
 use App\Models\CentralModel\TenantSubscriptionPlan;
+use App\Models\CentralModel\TenantTransaction;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class CheckoutController extends Controller
@@ -58,6 +62,7 @@ class CheckoutController extends Controller
 
     public function ProcessingOrderCheckout(Request $request)
     {
+
         $initialMidtrans = new MidtransHelper();
         $planOrder = session('purchase_subscription_plan');
         $periodPurchase = session('period_purchase');
@@ -79,6 +84,25 @@ class CheckoutController extends Controller
                 break;
         }
 
+        DB::beginTransaction();
+
+        try {
+            TenantTransaction::create([
+                "tenant_plan_id" => $planOrder->TenantVersionLatest->id,
+                "full_name" => $request->full_name,
+                "email" => $request->email,
+                "phone_number" => $request->phone_number,
+                "address" => $request->address,
+                "tax" => $price * 10 / 100,
+                "total" => $totalPrice,
+            ]);
+        } catch (Exception $err) {
+            DB::rollBack();
+
+            Log::error($err->getMessage());
+            return redirect()->back()->with('message_error', 'failed proccessing transaction');
+        }
+
         switch ($request->select_payment) {
             case "payment_gateway":
                 $urlRedirectPaymentGateway = $initialMidtrans->createInvoiceTransaction([
@@ -95,6 +119,8 @@ class CheckoutController extends Controller
                 if (is_null($urlRedirectPaymentGateway)) {
                     return redirect()->back()->with("message_error", "error: failed to processing payment gateway");
                 }
+
+                DB::commit();
 
                 return Inertia::location($urlRedirectPaymentGateway);
             case "manual_transfer":
