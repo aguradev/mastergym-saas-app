@@ -24,10 +24,11 @@ Route::get("/about", fn () => Inertia::render("landing_page/central_page/About")
 
 Route::get("/signup", fn () => Inertia::render("landing_page/central_page/SignUp"))->name('central.signup');
 Route::get("/login", fn () => Inertia::render("landing_page/central_page/Login"))->name('central.login');
-Route::get("/setuptenant", fn () => Inertia::render("landing_page/central_page/SetupTenant"))->name('central.setuptenant');
+Route::get("/setup-tenant", fn () => Inertia::render("landing_page/central_page/SetupTenant"))->name('central.setupTenant');
+Route::get("/checkout-tenant", fn () => Inertia::render("landing_page/central_page/CheckoutTenant"))->name('central.checkoutTenant');
 
 Route::prefix("tenant")->group(function () {
-    Route::get("/landing", fn () => Inertia::render("landing_page/tenant_page/TenantHome"))->name('tenant.landingpage');
+    Route::get("/landing", fn () => Inertia::render("landing_page/tenant_page/TenantHome"))->name('tenant.landingPage');
 });
 
 

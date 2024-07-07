@@ -1,6 +1,10 @@
 <script setup>
 import GymIcon from '/public/assets/images/icon/gym.png';
+
+
+
 </script>
+
 <template>
     <section class="py-10 bg-gray-50 sm:pt-16 lg:pt-24">
         <div id="footer" class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
