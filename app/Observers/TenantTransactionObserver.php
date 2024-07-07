@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use Illuminate\Support\Str;
 use App\Models\CentralModel\TenantTransaction;
+use Carbon\Carbon;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Support\Facades\Crypt;
 
@@ -15,7 +16,7 @@ class TenantTransactionObserver implements ShouldHandleEventsAfterCommit
     public function created(TenantTransaction $tenantTransaction): void
     {
         $tenantTransaction->status = "PENDING";
-        $tenantTransaction->transaction_expired_at = now()->addDay();
+        $tenantTransaction->transaction_expired_at = Carbon::now()->addDay();
         $tenantTransaction->created_at = now();
 
         $tenantTransaction->save();

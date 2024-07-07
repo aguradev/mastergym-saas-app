@@ -80,6 +80,11 @@ const getNumberColumn = (current_page, per_page, index) => {
                     slotProps.data.email
                 }}</template></Column
             >
+            <Column header="Expired duration at">
+                <template #body="slotProps">{{
+                    slotProps.data.transaction_expired_at
+                }}</template></Column
+            >
             <Column header="Status">
                 <template #body="slotProps">
                     <Badge

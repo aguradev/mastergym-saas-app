@@ -2,6 +2,8 @@
 
 namespace App\Models\CentralModel;
 
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -26,12 +28,21 @@ class TenantTransaction extends Model
         "tax",
         "status",
         "transaction_token_access",
-        "transaction_token_expired_at",
+        "transaction_expired_at",
         "created_at"
     ];
+
+    protected $appends = ["expired_countdown"];
 
     public function PlanPurchase()
     {
         return $this->hasOne(TenantPlanVersion::class, "id", "tenant_plan_id");
+    }
+
+    public function getExpiredCountdownAttribute()
+    {
+        $expired_at = $this->attributes['transaction_expired_at'];
+
+        return $expired_at !== null ? Carbon::parse($expired_at)->diffForHumans(now(), CarbonInterface::DIFF_RELATIVE_AUTO, true, 3) : null;
     }
 }

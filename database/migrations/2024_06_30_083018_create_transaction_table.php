@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal("tax", 10, 2);
             $table->enum("status", ["REGISTERED", "PENDING", "PAID", "NEED CONFIRM"]);
             $table->text("transaction_token_access")->nullable();
-            $table->timestamp("transaction_expired_at")->nullable();
+            $table->timestampTz("transaction_expired_at")->nullable();
             $table->timestamps();
         });
     }
