@@ -15,7 +15,6 @@ class TenantTransactionObserver implements ShouldHandleEventsAfterCommit
      */
     public function created(TenantTransaction $tenantTransaction): void
     {
-        $tenantTransaction->status = "PENDING";
         $tenantTransaction->transaction_expired_at = Carbon::now()->addDay();
         $tenantTransaction->created_at = now();
 

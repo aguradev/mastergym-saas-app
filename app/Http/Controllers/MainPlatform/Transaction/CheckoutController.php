@@ -84,24 +84,16 @@ class CheckoutController extends Controller
                 break;
         }
 
-        DB::beginTransaction();
-
-        try {
-            TenantTransaction::create([
-                "tenant_plan_id" => $planOrder->TenantVersionLatest->id,
-                "full_name" => $request->full_name,
-                "email" => $request->email,
-                "phone_number" => $request->phone_number,
-                "address" => $request->address,
-                "tax" => $price * 10 / 100,
-                "total" => $totalPrice,
-            ]);
-        } catch (Exception $err) {
-            DB::rollBack();
-
-            Log::error($err->getMessage());
-            return redirect()->back()->with('message_error', 'failed proccessing transaction');
-        }
+        $transactionsRequest = [
+            "tenant_plan_id" => $planOrder->TenantVersionLatest->id,
+            "full_name" => $request->full_name,
+            "email" => $request->email,
+            "phone_number" => $request->phone_number,
+            "address" => $request->address,
+            "tax" => $price * 10 / 100,
+            "total" => $totalPrice,
+            "status" => "PENDING"
+        ];
 
         switch ($request->select_payment) {
             case "payment_gateway":
@@ -117,11 +109,24 @@ class CheckoutController extends Controller
                 ]);
 
                 if (is_null($urlRedirectPaymentGateway)) {
+                    return redirect()->back()->with("message_error", "error: failed to processing payment gateway");
+                }
+
+                $transactionsRequest["payment_type"] = "payment_gateway";
+                $transactionsRequest["payment_gateway_url"] = $urlRedirectPaymentGateway;
+
+                DB::beginTransaction();
+
+                try {
+                    TenantTransaction::create($transactionsRequest);
+                } catch (Exception $err) {
                     DB::rollBack();
+                    Log::error($err->getMessage());
                     return redirect()->back()->with("message_error", "error: failed to processing payment gateway");
                 }
 
                 DB::commit();
+
                 session()->forget("purchase_subscription_plan");
                 session()->forget("period_purchase");
 

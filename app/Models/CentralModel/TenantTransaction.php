@@ -29,6 +29,9 @@ class TenantTransaction extends Model
         "status",
         "transaction_token_access",
         "transaction_expired_at",
+        "payment_type",
+        "payment_gateway_url",
+        "file_transfer_confirmation",
         "created_at"
     ];
 
