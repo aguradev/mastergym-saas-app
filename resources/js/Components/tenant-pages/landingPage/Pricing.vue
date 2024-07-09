@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from "vue";
-import { Link } from "@inertiajs/vue3";
+import { computed, ref, toRefs } from "vue";
+import { Link, usePage } from "@inertiajs/vue3";
 
 import PricingCard from "@components/ui/pricing-card/IndexTenant.vue"
 
@@ -33,6 +33,19 @@ const fetchDataPricing = ref({
     ]
 })
 
+const page = usePage();
+const { pricing } = toRefs(page.props)
+
+const parsedPricing = computed(() => {
+    try {
+        return JSON.parse(pricing.value);
+    } catch (e) {
+        console.error("Error parsing pricing JSON:", e);
+        return null;
+    }
+})
+
+
 const togglePricing = () => {
     isToggle.value = !isToggle.value;
 };
@@ -43,10 +56,10 @@ const togglePricing = () => {
         <div id="pricing" class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="max-w-2xl mx-auto text-center">
                 <h2 class="text-5xl font-bold leading-tight text-orange-400 sm:text-2xl lg:text-5xl">
-                    {{ fetchDataPricing.title }}
+                    {{ parsedPricing.title }}
                 </h2>
                 <p class="max-w-md mx-auto mt-4 text-base leading-relaxed text-white">
-                    {{ fetchDataPricing.text }}
+                    {{ parsedPricing.text }}
                 </p>
             </div>
 
@@ -69,15 +82,15 @@ const togglePricing = () => {
             </div>
 
             <div v-if="!isToggle" class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9">
-                <div id="card" v-for="(card, index) in fetchDataPricing.cards">
+                <div id="card" v-for="(card, index) in parsedPricing.cards">
                     <PricingCard v-if="card.period === 'month'" :title="card.title" :price="card.price"
                         :features="card.features" :period="card.period" />
                 </div>
             </div>
 
             <div v-if="isToggle"
-                class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9 mt-[20px]">
-                <div id="card" v-for="(card, index) in fetchDataPricing.cards">
+                class="grid max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-3 mt-14 md:gap-9 mt-[20px] pb-[36px]">
+                <div id="card" v-for="(card, index) in parsedPricing.cards">
                     <PricingCard v-if="card.period === 'year'" :title="card.title" :price="card.price"
                         :features="card.features" :period="card.period" />
                 </div>
