@@ -17,7 +17,7 @@ export const useNavMainPlatform = defineStore("dashboard_nav", () => {
                 {
                     icon: "pi pi-users",
                     label: "Plan Tenants",
-                    link: route("plan.overview"),
+                    link: route("plan_tenant.table"),
                 },
                 {
                     icon: "pi pi-building",

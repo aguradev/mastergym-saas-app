@@ -16,4 +16,15 @@ class TransactionController extends Controller
         Debugbar::debug($transactions);
         return Inertia::render("dashboard/central_page/transaction_page/Index", compact('transactions'));
     }
+
+    public function GetTransactionDetail(TenantTransaction $transaction)
+    {
+        if (is_null($transaction)) {
+            return response()->json([
+                "error" => "tenant transaction not found"
+            ])->setStatusCode(404);
+        }
+
+        return response()->json($transaction)->setStatusCode(200);
+    }
 }

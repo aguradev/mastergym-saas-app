@@ -5,7 +5,8 @@ import Badge from "primevue/badge";
 import { storeToRefs } from "pinia";
 
 import DashboardLayout from "@layouts/DashboardLayout.vue";
-import { onMounted, toRefs } from "vue";
+import Modal from "@components/ui/modal/Index.vue";
+import { defineAsyncComponent, onMounted, ref, toRefs } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
@@ -16,14 +17,30 @@ const { props } = usePage();
 const { transactions } = toRefs(props);
 console.table(transactions.value);
 const { current_page, per_page, data } = transactions.value;
+const modalTransactionDetailVisible = ref(false);
+const transactionSelected = ref(null);
 
 onMounted(() => {
     menuItemActive.value = navigationMenuItem.value[1]?.items[4];
 });
 
+const detailEventHandler = (id) => {
+    modalTransactionDetailVisible.value = true;
+    transactionSelected.value = id;
+};
+
+const closeModalTransactionDetail = () => {
+    modalTransactionDetailVisible.value = false;
+    transactionSelected.value = null;
+};
+
 const getNumberColumn = (current_page, per_page, index) => {
     return (current_page - 1) * per_page + (index + 1);
 };
+
+const LazyTransactionDetail = defineAsyncComponent({
+    loader: () => import("./Detail.vue"),
+});
 </script>
 
 <style scoped>
@@ -80,9 +97,9 @@ const getNumberColumn = (current_page, per_page, index) => {
                     slotProps.data.email
                 }}</template></Column
             >
-            <Column header="Expired duration at">
+            <Column header="Payment Type">
                 <template #body="slotProps">{{
-                    slotProps.data.transaction_expired_at
+                    slotProps.data.payment_type
                 }}</template></Column
             >
             <Column header="Status">
@@ -107,7 +124,9 @@ const getNumberColumn = (current_page, per_page, index) => {
                             <button
                                 type="button"
                                 class="action_link"
-                                @click="detailEventHandler"
+                                @click="
+                                    () => detailEventHandler(slotProps.data.id)
+                                "
                             >
                                 <i class="pi pi-eye"></i>
                             </button>
@@ -116,5 +135,16 @@ const getNumberColumn = (current_page, per_page, index) => {
                 </template>
             </Column>
         </DataTable>
+
+        <Modal
+            title="Transaction Detail"
+            :modal-visible="modalTransactionDetailVisible"
+            @close-modal="closeModalTransactionDetail"
+        >
+            <Suspense>
+                <LazyTransactionDetail :id="transactionSelected" />
+                <template #fallback> Loading... </template>
+            </Suspense>
+        </Modal>
     </DashboardLayout>
 </template>

@@ -37,7 +37,6 @@ class MidtransHelper
 
         $customer_details = [
             "first_name" => $request["full_name"],
-            "last_name" => "",
             "email" => $request["email"],
             "phone" => $request["phone_number"],
             "billing_address" => $request["address"]

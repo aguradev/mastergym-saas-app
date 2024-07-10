@@ -118,7 +118,7 @@ class CheckoutController extends Controller
                 DB::beginTransaction();
 
                 try {
-                    TenantTransaction::create($transactionsRequest);
+                    $createTransaction = TenantTransaction::create($transactionsRequest);
                 } catch (Exception $err) {
                     DB::rollBack();
                     Log::error($err->getMessage());
@@ -129,6 +129,7 @@ class CheckoutController extends Controller
 
                 session()->forget("purchase_subscription_plan");
                 session()->forget("period_purchase");
+                session()->put('last_history_transaction_id', $createTransaction->id);
 
                 return Inertia::location($urlRedirectPaymentGateway);
             case "manual_transfer":
@@ -138,5 +139,13 @@ class CheckoutController extends Controller
             default:
                 return redirect()->back()->with("message_error", "error: incorrect payment method");
         }
+    }
+
+    public function CancelTransaction()
+    {
+        session()->forget("purchase_subscription_plan");
+        session()->forget("period_purchase");
+
+        return to_route('central.landingPage');
     }
 }

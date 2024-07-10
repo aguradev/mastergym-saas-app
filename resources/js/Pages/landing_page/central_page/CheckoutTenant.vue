@@ -8,7 +8,7 @@ import CardRadio from "@components/elements/input/CardRadio.vue";
 import { ref, watchEffect } from "vue";
 import { useCentralCheckout } from "@stores/central_checkout_state";
 import { storeToRefs } from "pinia";
-import { route } from "ziggy-js";
+import { route, useRoute } from "ziggy-js";
 import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
 
@@ -126,12 +126,15 @@ watchEffect(() => {
                         class="w-full"
                         type="submit"
                     />
-                    <button
+                    <Link
+                        :href="route('transaction.cancel')"
+                        as="button"
                         type="button"
                         class="text-center w-full mt-6 text-zinc-600"
+                        method="post"
                     >
                         Cancel
-                    </button>
+                    </Link>
                 </form>
             </div>
             <!-- product info -->

@@ -46,6 +46,6 @@ class TenantTransaction extends Model
     {
         $expired_at = $this->attributes['transaction_expired_at'];
 
-        return $expired_at !== null ? Carbon::parse($expired_at)->diffForHumans(now(), CarbonInterface::DIFF_RELATIVE_AUTO, true, 3) : null;
+        return $expired_at !== null ? Carbon::parse($expired_at)->diffForHumans(now(), CarbonInterface::DIFF_RELATIVE_TO_NOW, true, 2) : null;
     }
 }

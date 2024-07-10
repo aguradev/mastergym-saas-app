@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text("payment_gateway_url")->nullable();
             $table->string("file_transfer_confirmation")->nullable();
             $table->text("transaction_token_access")->nullable();
-            $table->enum("status", ["REGISTERED", "PENDING", "PAID", "NEED CONFIRM"]);
+            $table->enum("status", ["REGISTERED", "PENDING", "PAID", "NEED CONFIRM", "EXPIRED"]);
             $table->timestampTz("transaction_expired_at")->nullable();
             $table->timestamps();
         });

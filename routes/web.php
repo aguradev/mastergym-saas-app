@@ -49,6 +49,7 @@ Route::prefix("transaction")->group(function () {
     Route::controller(CheckoutController::class)->group(function () {
         Route::get('/redirect-checkout/{tenantSubscriptionPlan}/{periodPurchase}', 'RedirectToCheckout')->name('transaction.create-checkout');
         Route::get('/checkout', 'CheckoutPage')->name('transaction.checkout');
+        Route::post('/cancel', 'CancelTransaction')->name('transaction.cancel');
         Route::post('/confirm-order', 'ProcessingOrderCheckout')->name('transaction.confirm-order');
     });
 
