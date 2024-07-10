@@ -1,31 +1,38 @@
 <script setup>
-import { ref } from 'vue'
+import { usePage } from '@inertiajs/vue3';
+import { computed, toRef, toRefs } from 'vue'
+import { parse } from 'vue/compiler-sfc';
 
+const page = usePage();
+const { hero } = toRefs(page.props)
 
-const fetchHeroData = ref({
-    image: 'https://www.energy.fit/cdn/shop/articles/cardio.jpg?v=1639065893&width=2048',
-    title: "Get In Shape With Our Service!",
-    btnLeft: "get started!",
-    btnRight: "learn more ->",
+const parsedHero = computed(() => {
+    try {
+        return JSON.parse(hero.value);
+    } catch (e) {
+        console.log('error parsing hero value', e);
+    }
+})
 
+const icon = computed(() => {
+    return new URL(`${parsedHero.value.image}`, import.meta.url).href
 })
 </script>
 
 <template>
-    <div
-        :style="{ 'background': 'url(' + fetchHeroData.image + ')', 'background-size': 'cover', 'background-repeat': 'no-repeat' }">
+    <div :style="{ 'background': 'url(' + icon + ')', 'background-size': 'cover', 'background-repeat': 'no-repeat' }">
         <div class="h-screen bg-opacity-50 bg-black flex items-center justify-center"
             style="background: rgba(0, 0, 0, 0.5)">
             <div class="mx-2 text-center">
-                <h1 class="text-white font-bold text-4xl xs:text-5xl md:text-6xl"><span>{{ fetchHeroData.title }}</span>
+                <h1 class="text-white font-bold text-4xl xs:text-5xl md:text-6xl"><span>{{ parsedHero.title }}</span>
                 </h1>
                 <div class="inline-flex">
                     <button
                         class="py-3 px-4  my-5 mx-2 bg-orange-500 border-orange-500 hover:bg-white hover:border-white hover:text-orange-500 hover:font-bold font-semibold text-white rounded-md border-[3px] shadow-md transition duration-500 md:text-xl capitalize">{{
-                            fetchHeroData.btnLeft }}</button>
+                            parsedHero.btnLeft }}</button>
                     <a href="#about"><button
                             class="py-3 px-4 my-5 mx-2 bg-transparent border-[3px] hover:bg-orange-500 border-orange-500 rounded-md font-bold text-white shadow-md transition duration-500 md:text-lg capitalize">
-                            {{ fetchHeroData.btnRight }}
+                            {{ parsedHero.btnRight }}
                         </button></a>
                 </div>
             </div>

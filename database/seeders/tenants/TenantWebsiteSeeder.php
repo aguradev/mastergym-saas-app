@@ -11,11 +11,26 @@ class TenantWebsiteSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-
-    //php artisan tenants:seed --class=Database\\Seeders\\Tenants\\TenantWebsiteSeeder
-
     public function run(): void
     {
+        $nav = [
+            'title' => 'Tenant Gym - Home',
+            'menus' => [
+                'HOME',
+                'OUR SERVICE',
+                'MEMBERSHIP',
+                'OUR REVIEWS',
+                'ABOUT US'
+            ]
+        ];
+
+        $hero = [
+            'image' => '/public/assets/images/icon/hero.png',
+            'title' => "Get In Shape With Our Service!",
+            'btnLeft' => "get started!",
+            'btnRight' => "learn more ->",
+        ];
+
         $cta = [
             'image' => 'https://shorturl.at/fYk7V',
             'header' => "Become A member Now!",
@@ -141,14 +156,60 @@ class TenantWebsiteSeeder extends Seeder
             ]
         ];
 
+        //php artisan tenants:seed --class=Database\\Seeders\\Tenants\\TenantWebsiteSeeder
+
+        $testimony = [
+            'title' => "read trusted reviews from our customers",
+            'text' => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur praesentium natus sapiente commodi. Aliquid sunt tempore iste repellendus explicabo dignissimos placeat, autem harum dolore reprehenderit quis! Quo totam dignissimos earum.",
+            'button' => "read all reviews ->",
+            'cards' => [
+                [
+                    'stars' => 5,
+                    'title' => "stayin' alive",
+                    'text' => "As a regular gym-goer, I've found this gym to be the perfect place to stay motivated and fit. The wide range of equipment means I never get bored with my workouts, and the staff are always on hand to offer tips and support. The classes are diverse and cater to all fitness levels, making it easy to find something that suits my mood and goals. ",
+                    'name' => "john weak"
+                ],
+                [
+                    'stars' => 3,
+                    'title' => "the facility is great!",
+                    'text' => "The gym is an incredible place to push your limits and achieve your fitness goals. The state-of-the-art equipment, variety of classes, and knowledgeable trainers create an environment that is both challenging and supportive. From the moment you walk in, you're greeted with a clean, motivating space filled with like-minded individuals.",
+                    'name' => "gavid doggins"
+                ],
+                [
+                    'stars' => 4,
+                    'title' => "the best experience!",
+                    'text' => "I've been a member of this gym for over a year, and it continues to exceed my expectations. The facilities are top-notch, with clean and well-maintained equipment. The trainers are friendly and incredibly knowledgeable, always willing to help with form or suggest new routines. ",
+                    'name' => "ben dover"
+                ],
+            ]
+        ];
+
+        $footer = [
+            'gymIcon' => '/public/assets/images/icon/gym.png',
+            'gymTitle' => "Gym Tenant",
+            'briefText' => "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.",
+            'menus' => [
+                "company",
+                "about",
+                "features",
+                "works",
+                "contact us",
+            ],
+            'twitter' => "https://twitter.com",
+            'facebook' => "https://facebook.com",
+            'instagram' => "https://instagram.com",
+        ];
+
+        //SEED CONSOLE COMMAND : php artisan tenants:seed --class=Database\\Seeders\\Tenants\\TenantWebsiteSeeder
+
         DB::table('website_content')->insert([
-            // "nav" => json_encode($nav),
-            // "hero" => json_encode($hero),
+            "nav" => json_encode($nav),
+            "hero" => json_encode($hero),
             "cta" => json_encode($cta),
             "service" => json_encode($service),
             "membership" => json_encode($pricing),
-            // "testimony" => json_encode($service),
-            // "footer" => json_encode($service),
+            "testimony" => json_encode($testimony),
+            "footer" => json_encode($footer),
             "created_at" => now(),
             "updated_at" => now(),
         ]);
