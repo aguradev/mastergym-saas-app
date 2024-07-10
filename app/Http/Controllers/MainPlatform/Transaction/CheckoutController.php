@@ -133,8 +133,22 @@ class CheckoutController extends Controller
 
                 return Inertia::location($urlRedirectPaymentGateway);
             case "manual_transfer":
+                DB::beginTransaction();
+                $transactionsRequest["payment_type"] = "manual_transfer";
+
+                try {
+                    $createTransaction = TenantTransaction::create($transactionsRequest);
+                } catch (Exception $err) {
+                    DB::rollBack();
+                    Log::error($err->getMessage());
+                    return redirect()->back()->with("message_error", "error: failed to processing payment gateway");
+                }
+
+                DB::commit();
+
                 session()->forget("purchase_subscription_plan");
                 session()->forget("period_purchase");
+
                 break;
             default:
                 return redirect()->back()->with("message_error", "error: incorrect payment method");
