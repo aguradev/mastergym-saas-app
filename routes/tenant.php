@@ -28,6 +28,5 @@ Route::middleware([
 ])->group(function () {
     // Route::get("/", fn () => Inertia::render("landing_page/tenant_page/TenantHome"))->name('tenant.landingPage');
     Route::get("/", [TenantLandingPageController::class, 'showAllWebsiteContent'])->name('tenant.landingPage');
-    // Route::get("/", [CtaController::class, 'showCallToAction'])->name('tenant.landingPage');
     require __DIR__ . "/dashboard_tenant/navigation_route.php";
 });

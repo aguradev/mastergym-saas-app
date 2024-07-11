@@ -11,6 +11,9 @@ class TenantWebsiteSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+
+    //php artisan tenants:seed --class=Database\\Seeders\\Tenants\\TenantWebsiteSeeder
+
     public function run(): void
     {
         $nav = [
