@@ -17,9 +17,9 @@ import Testimonials from "@components/tenant-pages/landingPage/Testimonials.vue"
         <TenantLayout>
             <Hero />
             <CTA />
-            <Service id="service"/>
-            <Pricing id="membership"/>
-            <Testimonials id="testimony"/>
+            <Service id="service" />
+            <Pricing id="membership" />
+            <Testimonials id="testimony" />
         </TenantLayout>
     </div>
 </template>
