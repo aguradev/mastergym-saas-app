@@ -5,12 +5,13 @@ import FeatLists from "@components/ui/pricing-card/FeatLists.vue";
 import CheckoutForm from "@components/central-pages/transcation-forms/CheckoutForm.vue";
 import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import CardRadio from "@components/elements/input/CardRadio.vue";
-import { ref, watchEffect } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { useCentralCheckout } from "@stores/central_checkout_state";
 import { storeToRefs } from "pinia";
 import { route, useRoute } from "ziggy-js";
 import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
+import axiosHttp from "../../../Lib/axios";
 
 const { planOrder, totalPrice, price, periodPurchase } = defineProps([
     "planOrder",
@@ -52,12 +53,48 @@ const confirmOrderActionHandler = () => {
     submitBtnLabel.value = "Loading...";
     isFormSubmmited.value = true;
 
-    checkoutOrderRequest.value.post(route("transaction.confirm-order"), {
-        onFinish: () => {
-            submitBtnLabel.value = "Confirm Order";
-            isFormSubmmited.value = false;
-        },
-    });
+    switch (checkoutOrderRequest.value.select_payment) {
+        case "payment_gateway":
+            const paymentProcessing = async () => {
+                try {
+                    const res = await axiosHttp(
+                        route("transaction.payment-gateway"),
+                        {
+                            method: "POST",
+                            data: checkoutOrderRequest.value,
+                        },
+                    );
+
+                    if (res.status === 200) {
+                        const data = res.data;
+                        window.snap.embed(data.token, {
+                            embedId: "snap-container",
+                        });
+                    }
+                } catch (err) {
+                    console.log(err);
+                } finally {
+                    submitBtnLabel.value = "Confirm Order";
+                    isFormSubmmited.value = false;
+                }
+            };
+
+            paymentProcessing();
+            break;
+        case "manual_transfer":
+            checkoutOrderRequest.value.post(
+                route("transaction.manual-transfer"),
+                {
+                    onFinish: () => {
+                        submitBtnLabel.value = "Confirm Order";
+                        isFormSubmmited.value = false;
+                    },
+                },
+            );
+            break;
+        default:
+            break;
+    }
 };
 
 watchEffect(() => {
@@ -81,11 +118,19 @@ watchEffect(() => {
         });
     }
 });
+
+onMounted(() => {
+    const createScript = document.createElement("script");
+    createScript.src = "https://app.stg.midtrans.com/snap/snap.js";
+    createScript.dataset.clientKey = "SB-Mid-client-m4v2DI";
+    createScript.type = "text/javascript";
+
+    document.head.append(createScript);
+});
 </script>
 
 <template>
     <Head title="Checkout" />
-
     <div class="min-h-screen">
         <Toast />
         <div class="grid lg:grid-cols-2 gap-4">
@@ -189,5 +234,10 @@ watchEffect(() => {
                 </ul>
             </div>
         </div>
+
+        <div
+            id="snap-container"
+            class="none fixed top-0 left-0 w-full h-full z-[9999]"
+        ></div>
     </div>
 </template>

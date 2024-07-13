@@ -13,7 +13,6 @@ class MidtransHelper
     {
         Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         Config::$isProduction = false;
-        Config::$isSanitized = true;
         Config::$curlOptions[CURLOPT_SSL_VERIFYHOST] = 0;
         Config::$curlOptions[CURLOPT_SSL_VERIFYPEER] = 0;
         Config::$curlOptions[CURLOPT_HTTPHEADER] = [];
@@ -49,9 +48,11 @@ class MidtransHelper
         ];
 
         try {
-            $paymentUrl = Snap::createTransaction($transaction_data)->redirect_url;
-
-            return $paymentUrl;
+            $paymentUrl = Snap::createTransaction($transaction_data);
+            return [
+                "redirect_url" => $paymentUrl->redirect_url,
+                "snap_token" => $paymentUrl->token
+            ];
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return null;

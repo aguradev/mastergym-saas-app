@@ -50,7 +50,8 @@ Route::prefix("transaction")->group(function () {
         Route::get('/redirect-checkout/{tenantSubscriptionPlan}/{periodPurchase}', 'RedirectToCheckout')->name('transaction.create-checkout');
         Route::get('/checkout', 'CheckoutPage')->name('transaction.checkout');
         Route::post('/cancel', 'CancelTransaction')->name('transaction.cancel');
-        Route::post('/confirm-order', 'ProcessingOrderCheckout')->name('transaction.confirm-order');
+        Route::post('/manual-transfer', 'ManualTransferProcess')->name('transaction.manual-transfer');
+        Route::post('/payment-gateway', 'PaymentGatewaySubmit')->middleware('redirect_json_access')->name('transaction.payment-gateway');
     });
 
     Route::controller(TenantRegistrationController::class)->group(function () {
