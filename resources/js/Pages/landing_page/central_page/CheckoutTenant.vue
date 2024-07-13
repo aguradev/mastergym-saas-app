@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm, usePage } from "@inertiajs/vue3";
+import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
 import FormatCurrency from "../../../Lib/Currency";
 import FeatLists from "@components/ui/pricing-card/FeatLists.vue";
 import CheckoutForm from "@components/central-pages/transcation-forms/CheckoutForm.vue";
@@ -67,8 +67,10 @@ const confirmOrderActionHandler = () => {
 
                     if (res.status === 200) {
                         const data = res.data;
-                        window.snap.embed(data.token, {
-                            embedId: "snap-container",
+                        window.snap.pay(data.token, {
+                            onClose: function () {
+                                router.visit(route("central.landingPage"));
+                            },
                         });
                     }
                 } catch (err) {
@@ -121,7 +123,7 @@ watchEffect(() => {
 
 onMounted(() => {
     const createScript = document.createElement("script");
-    createScript.src = "https://app.stg.midtrans.com/snap/snap.js";
+    createScript.src = "https://app.sandbox.midtrans.com/snap/snap.js";
     createScript.dataset.clientKey = "SB-Mid-client-m4v2DI";
     createScript.type = "text/javascript";
 
@@ -235,9 +237,6 @@ onMounted(() => {
             </div>
         </div>
 
-        <div
-            id="snap-container"
-            class="none fixed top-0 left-0 w-full h-full z-[9999]"
-        ></div>
+        <div id="snap-container"></div>
     </div>
 </template>
