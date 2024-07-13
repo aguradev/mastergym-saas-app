@@ -56,7 +56,7 @@ Route::prefix("transaction")->group(function () {
     });
 
     Route::controller(ConfirmPaymentController::class)->prefix("confirm")->group(function () {
-        Route::get("/", "ConfirmPage");
+        Route::get("/", "ConfirmPage")->name('transaction.confirm-page');
         Route::post("/payment-gateway", "MidtransSuccessConfirmation")->name("transaction.confirm.midtrans");
     });
 

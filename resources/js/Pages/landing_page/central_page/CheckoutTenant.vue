@@ -69,6 +69,7 @@ const confirmOrderActionHandler = () => {
                         const data = res.data;
                         window.snap.pay(data.token, {
                             onSuccess: function (res) {
+                                checkoutOrderRequest.value.reset();
                                 router.visit(
                                     route("transaction.confirm.midtrans"),
                                     {

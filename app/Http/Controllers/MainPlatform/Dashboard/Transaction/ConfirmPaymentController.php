@@ -15,8 +15,16 @@ class ConfirmPaymentController extends Controller
 {
     public function ConfirmPage()
     {
+        $getConfirmMessage = session('confirm_message');
+
+        if (is_null($getConfirmMessage)) {
+            return to_route('central.landingPage');
+        }
+
         return Inertia::render("transactions/confirm", [
-            "message" => "Transaction Success"
+            "status" => $getConfirmMessage["status"],
+            "title" => $getConfirmMessage["title"],
+            "message" => $getConfirmMessage["message"],
         ]);
     }
     public function MidtransSuccessConfirmation(Request $request)
@@ -37,6 +45,14 @@ class ConfirmPaymentController extends Controller
                 "transaction_token_access" => Crypt::encrypt($generateToken),
                 "transaction_expired_at" => null,
             ]);
+
+            session()->put("confirm_message", [
+                "status" => "success",
+                "title" => "Transaction success",
+                "message" => "Please check your email for next instruction"
+            ]);
+
+            return to_route('transaction.confirm-page');
         } catch (Exception $err) {
             Log::error($err->getMessage());
             return to_route('central.landingPage');

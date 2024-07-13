@@ -88,15 +88,17 @@ await fetchTransactionDetail();
     <div class="grid lg:grid-cols-2">
         <DynamicSectionContent
             label="Transaction expired countdown"
-            :caption="transactionDetail.expired_countdown"
+            :caption="transactionDetail.expired_countdown ?? '-'"
             class="!mb-0"
         />
         <DynamicSectionContent
             label="Transaction expired date"
             :caption="
-                new Date(
-                    transactionDetail.transaction_expired_at,
-                ).toDateString()
+                transactionDetail.transaction_expired_at
+                    ? new Date(
+                          transactionDetail.transaction_expired_at,
+                      ).toDateString()
+                    : '-'
             "
             class="!mb-0"
         />
