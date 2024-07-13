@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MainPlatform\Auth\AuthController;
+use App\Http\Controllers\MainPlatform\Dashboard\Transaction\ConfirmPaymentController;
 use App\Http\Controllers\MainPlatform\FrontPage\LandingPageController;
 use App\Http\Controllers\MainPlatform\Transaction\CheckoutController;
 use App\Http\Controllers\MainPlatform\Transaction\TenantRegistrationController;
@@ -52,6 +53,11 @@ Route::prefix("transaction")->group(function () {
         Route::post('/cancel', 'CancelTransaction')->name('transaction.cancel');
         Route::post('/manual-transfer', 'ManualTransferProcess')->name('transaction.manual-transfer');
         Route::post('/payment-gateway', 'PaymentGatewaySubmit')->middleware('redirect_json_access')->name('transaction.payment-gateway');
+    });
+
+    Route::controller(ConfirmPaymentController::class)->prefix("confirm")->group(function () {
+        Route::get("/", "ConfirmPage");
+        Route::post("/payment-gateway", "MidtransSuccessConfirmation")->name("transaction.confirm.midtrans");
     });
 
     Route::controller(TenantRegistrationController::class)->group(function () {

@@ -68,6 +68,15 @@ const confirmOrderActionHandler = () => {
                     if (res.status === 200) {
                         const data = res.data;
                         window.snap.pay(data.token, {
+                            onSuccess: function (res) {
+                                router.visit(
+                                    route("transaction.confirm.midtrans"),
+                                    {
+                                        method: "post",
+                                        data: res,
+                                    },
+                                );
+                            },
                             onClose: function () {
                                 router.visit(route("central.landingPage"));
                             },
