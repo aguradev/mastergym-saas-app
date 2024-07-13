@@ -42,6 +42,18 @@ class TenantTransaction extends Model
         return $this->hasOne(TenantPlanVersion::class, "id", "tenant_plan_id");
     }
 
+    public function PlanTenant()
+    {
+        return $this->hasOneThrough(
+            TenantSubscriptionPlan::class,
+            TenantPlanVersion::class,
+            "tenant_subscription_plan_id",
+            "id",
+            "tenant_plan_id",
+            "tenant_subscription_plan_id"
+        );
+    }
+
     public function getExpiredCountdownAttribute()
     {
         $expired_at = $this->attributes['transaction_expired_at'];
