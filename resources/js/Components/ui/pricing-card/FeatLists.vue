@@ -6,6 +6,7 @@ const props = defineProps({
         type: Array,
         default: [],
     },
+    listClass: String,
 });
 
 const featureLists = toRef(() => props.featureLists);
@@ -18,8 +19,11 @@ const featureLists = toRef(() => props.featureLists);
             v-for="(feature, i) in featureLists"
             :key="feature.id"
         >
-            <i class="pi pi-check text-zinc-900"></i>
-            <span class="text-base font-medium basic-text text-zinc-900">
+            <i class="pi pi-check text-zinc-900" :class="listClass"></i>
+            <span
+                class="text-base font-medium basic-text text-zinc-900"
+                :class="listClass"
+            >
                 {{ feature.name }}</span
             >
         </li>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MainPlatform\Auth\AuthController;
+use App\Http\Controllers\MainPlatform\Dashboard\Transaction\ConfirmPaymentController;
 use App\Http\Controllers\MainPlatform\FrontPage\LandingPageController;
 use App\Http\Controllers\MainPlatform\Transaction\CheckoutController;
 use App\Http\Controllers\MainPlatform\Transaction\TenantRegistrationController;
@@ -42,13 +43,22 @@ Route::prefix("dashboard")->group(function () {
         Route::post("/logout", [AuthController::class, 'Logout'])->name("central-dashboard.logout");
         require_once __DIR__ . "/dashboard_central/plan_tenant_route.php";
         require_once __DIR__ . "/dashboard_central/navigation_route.php";
+        require_once __DIR__ . "/dashboard_central/transactions_route.php";
     });
 });
 
 Route::prefix("transaction")->group(function () {
     Route::controller(CheckoutController::class)->group(function () {
-        Route::get('/redirect-checkout/{tenantSubscriptionPlan}', 'RedirectToCheckout')->name('transaction.create-checkout');
+        Route::get('/redirect-checkout/{tenantSubscriptionPlan}/{periodPurchase}', 'RedirectToCheckout')->name('transaction.create-checkout');
         Route::get('/checkout', 'CheckoutPage')->name('transaction.checkout');
+        Route::post('/cancel', 'CancelTransaction')->name('transaction.cancel');
+        Route::post('/manual-transfer', 'ManualTransferProcess')->name('transaction.manual-transfer');
+        Route::post('/payment-gateway', 'PaymentGatewaySubmit')->middleware('redirect_json_access')->name('transaction.payment-gateway');
+    });
+
+    Route::controller(ConfirmPaymentController::class)->prefix("confirm")->group(function () {
+        Route::get("/", "ConfirmPage")->name('transaction.confirm-page');
+        Route::post("/payment-gateway", "MidtransSuccessConfirmation")->name("transaction.confirm.midtrans");
     });
 
     Route::controller(TenantRegistrationController::class)->group(function () {

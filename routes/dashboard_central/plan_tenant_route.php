@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix("plan")->group(function () {
-    Route::get('/overview', [NavigationController::class, 'PlanOverviewMenu'])->name("plan.overview");
-
     Route::controller(TenantPlanController::class)->prefix('pricing')->group(function () {
         Route::get("/", 'PlanTablePage')->name('plan_tenant.table');
         Route::post("/", 'CreatePlanTenant')->name('plan_tenant.create');

@@ -19,9 +19,12 @@ return new class extends Migration
             $table->string("phone_number");
             $table->decimal("total", 10, 2);
             $table->decimal("tax", 10, 2);
-            $table->enum("status", ["REGISTERED", "PENDING", "PAID", "NEED CONFIRM"]);
-            $table->string("transaction_token_access")->nullable();
-            $table->timestamp("transaction_token_access_expired_at")->useCurrent()->nullable();
+            $table->enum("payment_type", ["manual_transfer", "payment_gateway"]);
+            $table->text("payment_gateway_url")->nullable();
+            $table->string("file_transfer_confirmation")->nullable();
+            $table->text("transaction_token_access")->nullable();
+            $table->enum("status", ["REGISTERED", "PENDING", "PAID", "NEED CONFIRM", "EXPIRED"]);
+            $table->timestampTz("transaction_expired_at")->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction');
+        Schema::dropIfExists('tenant_transactions');
     }
 };

@@ -1,10 +1,12 @@
 <?php
 
+use App\Mail\TestMail;
 use App\Models\Auth\TenantCredential;
 use App\Models\CentralModel\User;
 use App\Models\Gym\Tenant;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +22,8 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+Artisan::command("email:test", function () {
+    Mail::send(new TestMail());
+    $this->comment("check your mail!");
+})->purpose('Testing sending email');

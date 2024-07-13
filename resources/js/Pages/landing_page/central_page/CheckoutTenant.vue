@@ -1,60 +1,252 @@
 <script setup>
-import { ref } from "vue";
-import { Head, Link } from "@inertiajs/vue3";
-import SubscriptionInfo from "@components/central-pages/landingPage/SubscriptionInfo.vue";
-import GymIcon from "/public/assets/images/icon/gym.png";
+import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
+import FormatCurrency from "../../../Lib/Currency";
+import FeatLists from "@components/ui/pricing-card/FeatLists.vue";
+import CheckoutForm from "@components/central-pages/transcation-forms/CheckoutForm.vue";
+import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
+import CardRadio from "@components/elements/input/CardRadio.vue";
+import { onMounted, ref, watchEffect } from "vue";
+import { useCentralCheckout } from "@stores/central_checkout_state";
+import { storeToRefs } from "pinia";
+import { route, useRoute } from "ziggy-js";
+import { useToast } from "primevue/usetoast";
+import Toast from "primevue/toast";
+import axiosHttp from "../../../Lib/axios";
 
-const items = { name: "Ultimate Subscription", duration: 6, price: 1000000 };
+const { planOrder, totalPrice, price, periodPurchase } = defineProps([
+    "planOrder",
+    "totalPrice",
+    "price",
+    "periodPurchase",
+]);
+
+const useCentralCheckoutState = useCentralCheckout();
+const { checkoutOrderRequest } = storeToRefs(useCentralCheckoutState);
+const toast = useToast();
+const page = usePage();
+
+const isFormSubmmited = ref(false);
+const submitBtnLabel = ref("Confirm Order");
+const manualTransferSelected = ref(false);
+const paymentGatewaySelected = ref(false);
+
+const selectRadioPaymentHandler = (radio) => {
+    switch (radio.id) {
+        case "manual_transfer":
+            manualTransferSelected.value = true;
+            paymentGatewaySelected.value = false;
+            checkoutOrderRequest.value.select_payment = radio.value;
+            break;
+        case "payment_gateway":
+            paymentGatewaySelected.value = true;
+            manualTransferSelected.value = false;
+            checkoutOrderRequest.value.select_payment = radio.value;
+            break;
+        default:
+            paymentGatewaySelected.value = false;
+            manualTransferSelected.value = false;
+            break;
+    }
+};
+
+const confirmOrderActionHandler = () => {
+    submitBtnLabel.value = "Loading...";
+    isFormSubmmited.value = true;
+
+    switch (checkoutOrderRequest.value.select_payment) {
+        case "payment_gateway":
+            const paymentProcessing = async () => {
+                try {
+                    const res = await axiosHttp(
+                        route("transaction.payment-gateway"),
+                        {
+                            method: "POST",
+                            data: checkoutOrderRequest.value,
+                        },
+                    );
+
+                    if (res.status === 200) {
+                        const data = res.data;
+                        window.snap.pay(data.token, {
+                            onSuccess: function (res) {
+                                checkoutOrderRequest.value.reset();
+                                router.visit(
+                                    route("transaction.confirm.midtrans"),
+                                    {
+                                        method: "post",
+                                        data: res,
+                                    },
+                                );
+                            },
+                            onClose: function () {
+                                router.visit(route("central.landingPage"));
+                            },
+                        });
+                    }
+                } catch (err) {
+                    console.log(err);
+                } finally {
+                    submitBtnLabel.value = "Confirm Order";
+                    isFormSubmmited.value = false;
+                }
+            };
+
+            paymentProcessing();
+            break;
+        case "manual_transfer":
+            checkoutOrderRequest.value.post(
+                route("transaction.manual-transfer"),
+                {
+                    onFinish: () => {
+                        submitBtnLabel.value = "Confirm Order";
+                        isFormSubmmited.value = false;
+                    },
+                },
+            );
+            break;
+        default:
+            break;
+    }
+};
+
+watchEffect(() => {
+    const { message_success, message_error } = page.props.flash;
+
+    if (message_success) {
+        toast.add({
+            severity: "success",
+            summary: "info",
+            detail: message_success,
+            life: 3000,
+        });
+    }
+
+    if (message_error) {
+        toast.add({
+            severity: "error",
+            summary: "info",
+            detail: message_error,
+            life: 3000,
+        });
+    }
+});
+
+onMounted(() => {
+    const createScript = document.createElement("script");
+    createScript.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+    createScript.dataset.clientKey = "SB-Mid-client-m4v2DI";
+    createScript.type = "text/javascript";
+
+    document.head.append(createScript);
+});
 </script>
 
-<style scoped>
-.bord {
-    @apply border-b-2 border-gray-300;
-}
-</style>
-
 <template>
-
-    <Head title="Payment Page" />
-    <div class="absolute p-10 hidden md:block flex">
-        <img :src="GymIcon" alt="gym logo" class="w-[70px] inline-block" />
-    </div>
-    <form @submit.prevent="submit">
-        <div id="background_drop"
-            class="w-screen h-screen bg-[url('/public/storage/images/svg/stacked-waves-haikei2.svg')] flex justify-center py-10">
-            <div class="card shadow-xl bg-white flex-row w-11/12 md:w-2/5 rounded-2xl text-black p-5">
-                <div id="title"
-                    class="bg-blue-400 shadow-md border-b-4 border-blue-200 rounded-xl h-1/6 text-center pt-7 md:pt-9">
-                    <p class="text-3xl font-semibold drop-shadow-md text-white">
-                        Gym Master - Payment
-                    </p>
-                </div>
-                <div id="user" class="h-1/6 p-5 leading-6 bord">
-                    <p class="text-xl font-medium">Michael Jackson Gumembert</p>
-                    <p>useremail@gmail.com</p>
-                </div>
-
-                <SubscriptionInfo :name="items.name" :duration="items.duration" :price="items.price" id="subscription"
-                    class="h-2/6 bord">
-                </SubscriptionInfo>
-                <div id="title" class="h-1/6 text-start pt-3 md:pt-8 px-2 md:px-10 bord">
-                    <div>
-                        <input class="inline-block mr-2" type="checkbox" />
-                        <label class="text-sm">I Confirm that the information displayed above is
-                            true.</label>
+    <Head title="Checkout" />
+    <div class="min-h-screen">
+        <Toast />
+        <div class="grid lg:grid-cols-2 gap-4">
+            <!-- user form -->
+            <div class="py-10 px-12">
+                <form
+                    autocomplete="off"
+                    @submit.prevent="confirmOrderActionHandler"
+                >
+                    <div class="mb-8">
+                        <h2 class="text-xl font-semibold mb-8">
+                            Billing Infomation
+                        </h2>
+                        <CheckoutForm />
                     </div>
-                    <div>
-                        <input class="inline-block mr-2" type="checkbox" />
-                        <label class="text-sm">I Agree to the Terms and Condition of the Gym
-                            Master Service</label>
+                    <div class="mb-8">
+                        <h2 class="text-xl font-semibold mb-8">
+                            Select Payment
+                        </h2>
+                        <CardRadio
+                            radio-name="select_payment"
+                            radio-id="payment_gateway"
+                            label="Payment Gateway"
+                            @checked-radio-handler="selectRadioPaymentHandler"
+                            :payment-select="paymentGatewaySelected"
+                        />
+                        <CardRadio
+                            radio-name="select_payment"
+                            radio-id="manual_transfer"
+                            label="Manual Transfer"
+                            @checked-radio-handler="selectRadioPaymentHandler"
+                            :payment-select="manualTransferSelected"
+                        />
                     </div>
+                    <PrimaryButton
+                        :label="submitBtnLabel"
+                        :disabled="isFormSubmmited"
+                        class="w-full"
+                        type="submit"
+                    />
+                    <Link
+                        :href="route('transaction.cancel')"
+                        as="button"
+                        type="button"
+                        class="text-center w-full mt-6 text-zinc-600"
+                        method="post"
+                    >
+                        Cancel
+                    </Link>
+                </form>
+            </div>
+            <!-- product info -->
+            <div
+                class="bg-primary-800 py-10 px-8 min-h-screen border-l border-surface-600"
+            >
+                <h2 class="text-3xl font-semibold mb-8">Order Summary</h2>
+                <div
+                    class="bg-primary-800 p-6 rounded-lg border border-surface-600"
+                >
+                    <ul class="flex flex-col gap-6">
+                        <li class="flex flex-col gap-2 text-lg">
+                            <span class="font-semibold">Purchase plan</span>
+                            <span>{{ planOrder?.name }}</span>
+                        </li>
+                        <li class="flex flex-col gap-2 text-lg">
+                            <span class="font-semibold">Feature</span>
+                            <FeatLists
+                                :feature-lists="
+                                    planOrder.tenant_version_latest
+                                        .plan_features
+                                "
+                                class="!space-y-4 !mt-1"
+                                list-class="!text-white"
+                            />
+                        </li>
+                        <li class="flex flex-col gap-2 text-lg">
+                            <span class="font-semibold">Period Type</span>
+                            <span>{{ periodPurchase }}</span>
+                        </li>
+                    </ul>
                 </div>
-                <div id="payment" class="flex justify-center items-center h-1/6">
-                    <Link href=""
-                        class="inline-block shadow-xl rounded-md font-medium text-white bg-green-500 py-2 px-5 md:px-10 h-fit">
-                    Proceed to the Payment Process</Link>
-                </div>
+
+                <hr class="my-8 border-t border-t-surface-600" />
+
+                <ul class="flex flex-col gap-4">
+                    <li class="flex justify-between gap-2 text-lg">
+                        <span class="font-semibold">Price</span>
+                        <span>{{ FormatCurrency(price) }}</span>
+                    </li>
+                    <li class="flex justify-between gap-2 text-lg">
+                        <span class="font-semibold">Tax</span>
+                        <span>10%</span>
+                    </li>
+                </ul>
+
+                <ul class="mt-8">
+                    <li class="flex justify-between gap-2 text-lg">
+                        <span class="font-semibold">Total</span>
+                        <span>{{ FormatCurrency(totalPrice) }}</span>
+                    </li>
+                </ul>
             </div>
         </div>
-    </form>
+
+        <div id="snap-container"></div>
+    </div>
 </template>

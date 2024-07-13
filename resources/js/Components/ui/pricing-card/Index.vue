@@ -15,7 +15,9 @@ const emits = defineEmits(["checkoutEvent"]);
 </script>
 
 <template>
-    <div class="overflow-hidden basic-card border-2 rounded-md hover:scale-105 ease-in-out duration-300">
+    <div
+        class="overflow-hidden basic-card border-2 rounded-md hover:scale-105 ease-in-out duration-300"
+    >
         <div class="p-6 md:py-8 md:px-9">
             <h3 class="text-xl font-semibold basic-text text-zinc-900">
                 {{ title }}
@@ -26,7 +28,9 @@ const emits = defineEmits(["checkoutEvent"]);
                     <span class="text-xl font-medium basic-text text-zinc-900">
                         Rp.
                     </span>
-                    <p class="text-3xl font-medium tracking-tight basic-price text-zinc-900">
+                    <p
+                        class="text-3xl font-medium tracking-tight basic-price text-zinc-900"
+                    >
                         {{ price }}
                     </p>
                 </div>
@@ -37,10 +41,13 @@ const emits = defineEmits(["checkoutEvent"]);
 
             <FeatLists :feature-lists="features" />
 
-            <Link as="button" type="button"
+            <Link
+                as="button"
+                type="button"
                 class="inline-flex items-center justify-center w-full px-4 py-3 mt-6 font-semibold bg-zinc-900 transition-all duration-200 bg-transparent border-2 rounded-full basic-button"
-                @click="() => emits('checkoutEvent', id)">
-            Register Now
+                @click="() => emits('checkoutEvent', id, period)"
+            >
+                Register Now
             </Link>
         </div>
     </div>
