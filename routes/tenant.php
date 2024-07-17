@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Tenancy\Website\CtaController;
 use App\Http\Controllers\Tenancy\Website\TenantLandingPageController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
-use Inertia\Inertia;
-
 /*
 |--------------------------------------------------------------------------
 | Tenant Routes
@@ -26,7 +23,7 @@ Route::middleware([
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
-    // Route::get("/", fn () => Inertia::render("landing_page/tenant_page/TenantHome"))->name('tenant.landingPage');
     Route::get("/", [TenantLandingPageController::class, 'showAllWebsiteContent'])->name('tenant.landingPage');
     require __DIR__ . "/dashboard_tenant/navigation_route.php";
+    require __DIR__ . "/dashboard_tenant/content_website_route.php";
 });

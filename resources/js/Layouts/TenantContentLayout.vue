@@ -18,7 +18,7 @@ const { contentMenus } = getContentMenus;
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavTenantPlatform);
 
 onMounted(() => {
-    menuItemActive.value = navigationMenuItem.value[1]?.items[1]
+    menuItemActive.value = navigationMenuItem.value[1]?.items[4]
 })
 
 </script>
@@ -26,9 +26,7 @@ onMounted(() => {
 <template>
     <DashboardLayout :menu-items="navigationMenuItem" :menu-item-active="menuItemActive"
         titleNav="Manage Website Content">
-        <template #main_content>
-            <TabViewPage :tabUrl="contentMenus" />
-            <slot />
-        </template>
+        <TabViewPage :tabUrl="contentMenus" />
+        <slot />
     </DashboardLayout>
 </template>

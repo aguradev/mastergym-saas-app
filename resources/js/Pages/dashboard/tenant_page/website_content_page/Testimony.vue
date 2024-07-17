@@ -8,8 +8,8 @@ import TenantContentLayout from '@layouts/TenantContentLayout.vue';
 
 <template>
 
-    <Head title="Hero Content" />
+    <Head title="Testimony Content" />
     <TenantContentLayout>
-        <p>Hero</p>
+        <p>Testimony</p>
     </TenantContentLayout>
 </template>

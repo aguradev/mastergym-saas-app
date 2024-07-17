@@ -17,6 +17,9 @@ const parsedHero = computed(() => {
 const icon = computed(() => {
     return new URL(`${parsedHero.value.image}`, import.meta.url).href
 })
+
+// tenant9c855257-f207-4264-a261-395318631d7f
+// storage\tenant9c855257-f207-4264-a261-395318631d7f\app\website-image\SxVxIMQuYbd0F4et9IWFVmCiNpvOzRJkxQpO7Uv2.webp
 </script>
 
 <template>
