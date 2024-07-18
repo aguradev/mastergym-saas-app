@@ -1,49 +1,48 @@
 <script setup>
 import { useForm, usePage } from '@inertiajs/vue3';
-import { computed, toRefs } from 'vue';
+import { ref, computed, toRefs, toRef, watch } from 'vue';
 
 import InputGroup from '@components/ui/group/InputGroup.vue';
 import InputText from '@components/elements/input/InputText.vue';
 import InputFile from '@components/elements/input/InputFile.vue';
 import ValidationMessage from '@components/ui/cta/ValidationMessage.vue';
 import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
+import PreviewImage from '@components/tenant-pages/dashboard/ultility/PreviewImage.vue'
 
-const page = usePage()
-const { hero } = toRefs(page.props)
+const { props } = toRefs(usePage());
 
-const parsedHero = computed(() => {
-    try {
-        return JSON.parse(hero.value);
-    } catch (e) {
-        console.log('error parsing hero value', e);
-    }
+const { parsed } = props.value;
+
+const imgUrl = "/public/storage/" + parsed.image;
+
+let bgi = computed(() => {
+    return new URL(`${imgUrl.value}`, import.meta.url).href
 })
 
-const bg = computed(() => {
-    return new URL(`${parsedHero.value.image}`, import.meta.url).href
-})
 
 const form = useForm({
-    title: parsedHero.value.title,
-    btnLeft: parsedHero.value.btnLeft,
-    btnRight: parsedHero.value.btnRight,
+    title: parsed.title,
+    btnLeft: parsed.btnLeft,
+    btnRight: parsed.btnRight,
     image: "",
 })
 
-// /public/assets/images/preview/hero.png
+const { title, btnLeft, btnRight } = toRefs(form)
 
-const { title, btnLeft, btnRight, image } = toRefs(form);
 
 function editHandler() {
     if (!form.image) {
-        form.image = parsedHero.value.image;
+        form.image = parsed.image;
     }
 
     form.post(route("website.hero.update", {
         _method: 'put',
-        onSuccess: () => form.reset('image'),
     }));
+
+    console.table(parsed);
 }
+
+watch(() => props.value, (newVal, oldVal) => console.log(newVal.parsed))
 
 </script>
 
@@ -60,22 +59,22 @@ function editHandler() {
                     inputName="left_button" v-model:inputValue="btnLeft" />
                 <ValidationMessage v-if="form.errors.btnLeft" :caption="form.errors.btnLeft" />
             </InputGroup>
-            <InputGroup label="Hero Title" labelFor="right-button">
+            <InputGroup label="Hero Right Button" labelFor="right-button">
                 <InputText inputId="btnRight" inputPlaceholder="Right button text of your Hero here!"
                     inputName="right_button" v-model:inputValue="btnRight" />
                 <ValidationMessage v-if="form.errors.btnRight" :caption="form.errors.btnRight" />
             </InputGroup>
             <InputGroup label="Hero Background Image" labelFor="background_input">
-                <!-- <InputText inputId="image" inputType="text" inputPlaceholder="Background Image of your Hero here!"
-                    inputName="background_input" v-model:inputValue="image" /> -->
                 <InputFile inputId="image" inputType="file" inputPlaceholder="Background Image of your Hero here!"
                     inputName="background_input" @update:inputValue="(file) => { form.image = file; }" />
             </InputGroup>
         </div>
-        <div class="flex justify-between">
-            <div class="">
-                <p>Image Currently Used</p>
-                <img :src="bg" alt="" class="w-[200px] mt-2">
+        <div class="flex justify-between mb-4">
+            <div class="w-[400px]">
+                <p>Background Image Currently Used</p>
+                <p>Img Url : {{ imgUrl }}</p>
+                <img :src="bgi" alt="" class="w-[200px] mt-2">
+                <PreviewImage :img="imgUrl" />
             </div>
             <div class="">
                 <PrimaryButton type="" label="Update Data" />

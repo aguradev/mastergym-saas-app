@@ -4,18 +4,25 @@ import { Head } from '@inertiajs/vue3';
 
 import TenantContentLayout from '@layouts/TenantContentLayout.vue';
 import HeroForm from '@components/tenant-pages/dashboard/website/HeroForm.vue';
+
+const prop = defineProps({
+    parsed: Object
+})
+
+console.log(prop.parsed.parsed);
+
 </script>
 
 <template>
 
     <Head title="Hero Content" />
     <TenantContentLayout>
-        <h1 class="px-8 py-8 text-2xl font-bold ">Edit Hero Content</h1>
-        <div class="grid grid-cols-3 gap-6 px-8">
-            <div id="form" class="col-span-2 pr-10">
+        <div class="grid grid-cols-5 gap-6 px-8 pt-6">
+            <div id="form" class="col-span-3">
                 <HeroForm />
             </div>
-            <div id="preview" class="">
+            <div id="preview" class="text-center col-span-2">
+                <p class="pb-6 text-xl font-medium">Preview Hero Section</p>
                 <img src="/public/assets/images/preview/hero-prev.png" alt="" srcset="">
             </div>
         </div>

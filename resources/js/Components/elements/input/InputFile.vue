@@ -29,7 +29,7 @@ const handleFileChange = (event) => {
             root: ({ props, context, parent }) => {
                 return {
                     class: [
-                        'bg-primary-700 rounded-lg py-3 px-4 w-full',
+                        'bg-primary-700 rounded-lg py-3 px-4 w-fit',
                         {
                             'focus:outline-none': !context.disabled,
                         },
