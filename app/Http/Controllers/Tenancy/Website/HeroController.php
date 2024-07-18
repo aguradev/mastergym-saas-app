@@ -25,7 +25,7 @@ class HeroController extends Controller
     {
         if ($req->file("image") != null) {
 
-            $req->file('image')->store('website-image');
+            $req->file('image')->store('assets/website/images');
             $image_name = "tenant" . tenant('id');
 
             dd($image_name);
@@ -46,8 +46,10 @@ class HeroController extends Controller
         }
 
         // tenant id
-
-        dd($value);
+        $url = asset("website/images/Noym6hkUtCuLkV7ldY3hThjKvDHaYk3Qo9yDa  AdL.jpg");
+        // storage\tenant-9c855257-f207-4264-a261-395318631d7f\app\public\assets\website\images\Noym6hkUtCuLkV7ldY3hThjKvDHaYk3Qo9yDaAdL.jpg
+        // dd($value);
+        dd($url);
 
         $website = WebsiteContent::first();
         $website->hero = json_encode($value);
