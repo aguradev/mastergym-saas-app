@@ -1,10 +1,9 @@
 <script setup>
-import Menu from "primevue/menu";
 import MenuDropdown from "@components/elements/dropdownToggle/index.vue";
 import DashboardSidebar from "@components/ui/sidebar/DashboardSidebar.vue";
 import { useMenuUser } from "@stores/menu_dropdown_user";
 import { router } from "@inertiajs/vue3";
-import { onMounted, provide, ref, toRef, toRefs } from "vue";
+import { provide, ref, toRefs } from "vue";
 
 const storeMenuUser = useMenuUser();
 const { menuItem } = storeMenuUser;
