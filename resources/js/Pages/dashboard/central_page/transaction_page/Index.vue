@@ -9,6 +9,7 @@ import Modal from "@components/ui/modal/Index.vue";
 import { defineAsyncComponent, onMounted, ref, toRefs } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import NotFound from "@components/ui/cta/NotFound.vue";
 
 const getNavMainPlatform = useNavMainPlatform();
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform);
@@ -67,84 +68,96 @@ const LazyTransactionDetail = defineAsyncComponent({
         :menu-item-active="menuItemActive"
         titleNav="Transaction"
     >
-        <DataTable
-            :value="data"
-            :pt="{
-                bodyrow:
-                    'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
-                column: {
-                    headercell: 'py-6 px-12 border-b border-primary-600',
-                    headercontent:
-                        'text-left font-[300] tracking-wide text-white/50',
-                    bodycell: 'px-12 py-6 text-base',
-                },
-            }"
-        >
-            <Column header="No">
-                <template #body="slotProps">
-                    {{
-                        getNumberColumn(current_page, per_page, slotProps.index)
-                    }}
-                </template>
-            </Column>
-            <Column header="Full Name">
-                <template #body="slotProps">{{
-                    slotProps.data.full_name
-                }}</template>
-            </Column>
-            <Column header="Email">
-                <template #body="slotProps">{{
-                    slotProps.data.email
-                }}</template></Column
+        <div v-if="transactions.data.length <= 0">
+            <NotFound caption="No transaction data" />
+        </div>
+        <div v-else>
+            <DataTable
+                :value="data"
+                :pt="{
+                    bodyrow:
+                        'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
+                    column: {
+                        headercell: 'py-6 px-12 border-b border-primary-600',
+                        headercontent:
+                            'text-left font-[300] tracking-wide text-white/50',
+                        bodycell: 'px-12 py-6 text-base',
+                    },
+                }"
             >
-            <Column header="Payment Type">
-                <template #body="slotProps">{{
-                    slotProps.data.payment_type
-                }}</template></Column
-            >
-            <Column header="Status">
-                <template #body="slotProps">
-                    <Badge
-                        :value="slotProps.data.status"
-                        class="px-4 !text-white"
-                        :severity="[
-                            slotProps.data.status === 'PENDING'
-                                ? 'info'
-                                : slotProps.data.status === 'PAID'
-                                  ? 'success'
-                                  : 'danger',
-                        ]"
-                    />
-                </template>
-            </Column>
-            <Column header="Actions">
-                <template #body="slotProps">
-                    <ul class="action_lists">
-                        <li class="action_item">
-                            <button
-                                type="button"
-                                class="action_link"
-                                @click="
-                                    () => detailEventHandler(slotProps.data.id)
-                                "
-                            >
-                                <i class="pi pi-eye"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </template>
-            </Column>
-        </DataTable>
+                <Column header="No">
+                    <template #body="slotProps">
+                        {{
+                            getNumberColumn(
+                                current_page,
+                                per_page,
+                                slotProps.index,
+                            )
+                        }}
+                    </template>
+                </Column>
+                <Column header="Full Name">
+                    <template #body="slotProps">{{
+                        slotProps.data.full_name
+                    }}</template>
+                </Column>
+                <Column header="Email">
+                    <template #body="slotProps">{{
+                        slotProps.data.email
+                    }}</template></Column
+                >
+                <Column header="Payment Type">
+                    <template #body="slotProps">{{
+                        slotProps.data.payment_type
+                    }}</template></Column
+                >
+                <Column header="Status">
+                    <template #body="slotProps">
+                        <Badge
+                            :value="slotProps.data.status"
+                            class="px-4 !text-white"
+                            :severity="[
+                                slotProps.data.status === 'PENDING'
+                                    ? 'info'
+                                    : slotProps.data.status === 'PAID'
+                                      ? 'success'
+                                      : 'danger',
+                            ]"
+                        />
+                    </template>
+                </Column>
+                <Column header="Actions">
+                    <template #body="slotProps">
+                        <ul class="action_lists">
+                            <li class="action_item">
+                                <button
+                                    type="button"
+                                    class="action_link"
+                                    @click="
+                                        () =>
+                                            detailEventHandler(
+                                                slotProps.data.id,
+                                            )
+                                    "
+                                >
+                                    <i class="pi pi-eye"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </template>
+                </Column>
+            </DataTable>
 
-        <Modal
-            title="Transaction Detail"
-            :modal-visible="modalTransactionDetailVisible"
-            @close-modal="closeModalTransactionDetail"
-        >
-            <Suspense>
-                <LazyTransactionDetail :id="transactionSelected" />
-                <template #fallback> Loading... </template>
-            </Suspense>
-        </Modal>
+            <Modal
+                title="Transaction Detail"
+                :modal-visible="modalTransactionDetailVisible"
+                @close-modal="closeModalTransactionDetail"
+            >
+                <Suspense>
+                    <LazyTransactionDetail :id="transactionSelected" />
+                    <template #fallback> Loading... </template>
+                </Suspense>
+            </Modal>
+        </div>
     </DashboardLayout>
 </template>

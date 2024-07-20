@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MainPlatform\Dashboard\Nav;
 
 use App\CentralServices\User\Services\Interfaces\CredentialInterface as CredentialService;
 use App\Http\Controllers\Controller;
+use App\Models\CentralModel\TenantSubscriptionPlan;
 use App\Models\CentralModel\TenantTransaction;
 use App\Models\Gym\Tenant;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -22,6 +23,7 @@ class NavigationController extends Controller
     public function DashboardPage()
     {
         $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->where("status", "ACTIVE")->limit(5)->get()->select(["name", "domain"]);
+        $tenantPlansCount = TenantSubscriptionPlan::count();
 
         $transactionLatest = TenantTransaction::latest()->limit(3)->get();
 
@@ -35,7 +37,8 @@ class NavigationController extends Controller
         return Inertia::render("dashboard/central_page/Overview", [
             "tenantLatest" => $TenantLatest,
             "tenantCount" => $TenantCount,
-            "transactionLatest" => $transactionLatest
+            "transactionLatest" => $transactionLatest,
+            "planCount" => $tenantPlansCount
         ]);
     }
 

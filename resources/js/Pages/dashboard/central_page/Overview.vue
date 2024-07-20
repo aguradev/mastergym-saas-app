@@ -10,12 +10,11 @@ import DashboardLayout from "@layouts/DashboardLayout.vue";
 import TenantLatestSection from "@dashboardCentralPageComponents/mainMenu/tenantLatest_section.vue";
 import LatestTransactionSubscriptionSection from "@dashboardCentralPageComponents/mainMenu/LatestTransactionSubscription_section.vue";
 
-const props = defineProps(["tenantLatest", "tenantCount"]);
-const { tenantLatest } = props;
+const props = defineProps(["tenantLatest", "tenantCount", "planCount"]);
+const { tenantLatest, planCount } = props;
 const tenantLatests = ref([...tenantLatest]);
 
 const getNavMainPlatform = useNavMainPlatform();
-const storeMenuUser = useMenuUser();
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform);
 
 onMounted(() => {
@@ -71,7 +70,9 @@ figure {
                                 </div>
                                 <div class="content__caption">
                                     <h4 class="title__content">Tenant Plan</h4>
-                                    <p class="subtitle__content">0</p>
+                                    <p class="subtitle__content">
+                                        {{ planCount }}
+                                    </p>
                                 </div>
                                 <div class="px-4">
                                     <Divider layout="vertical" align="center" />

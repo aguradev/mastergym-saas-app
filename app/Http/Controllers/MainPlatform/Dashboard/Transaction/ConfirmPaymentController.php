@@ -39,7 +39,6 @@ class ConfirmPaymentController extends Controller
 
         try {
             $findTransactionId = TenantTransaction::where("id", $transactionId)->first();
-
             $generateToken = Str::random(64);
 
             $findTransactionId->update([
@@ -54,12 +53,15 @@ class ConfirmPaymentController extends Controller
                 "message" => "Please check your email for next instruction"
             ]);
 
+            $getPricePeriod = $findTransactionId->period_type === "Monthly" ? $findTransactionId->PlanPurchase->price_per_month : $findTransactionId->PlanPurchase->price_per_year;
+
             Mail::to($findTransactionId->email)->queue(new InvoicePaidMail([
                 "id" => $findTransactionId->id,
                 "full_name" => $findTransactionId->full_name,
                 "payment_type" => $findTransactionId->payment_type,
                 "address" => $findTransactionId->address,
                 "total" => $findTransactionId->total,
+                "price" => $getPricePeriod,
                 "tax" => $findTransactionId->tax
             ]));
 

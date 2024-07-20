@@ -12,14 +12,19 @@ use Illuminate\Queue\SerializesModels;
 class InvoicePaidMail extends Mailable
 {
     use Queueable, SerializesModels;
-    private $fullName;
+    private $fullName, $payment_type, $address, $total, $tax;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($fullName,)
+    public function __construct($datas)
     {
-        $this->fullName = $fullName;
+        [$full_name, $payment_type, $address, $total, $tax] = $datas;
+        $this->fullName = $full_name;
+        $this->payment_type = $payment_type;
+        $this->address = $address;
+        $this->total = $total;
+        $this->tax = $tax;
     }
 
     /**
