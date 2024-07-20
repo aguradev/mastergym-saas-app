@@ -5,10 +5,12 @@ namespace App\Http\Controllers\MainPlatform\Dashboard\Transaction;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\InvoicePaidMail;
 use App\Models\CentralModel\TenantTransaction;
 use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class ConfirmPaymentController extends Controller
@@ -51,6 +53,17 @@ class ConfirmPaymentController extends Controller
                 "title" => "Transaction success",
                 "message" => "Please check your email for next instruction"
             ]);
+
+            Mail::to($findTransactionId->email)->queue(new InvoicePaidMail([
+                "id" => $findTransactionId->id,
+                "full_name" => $findTransactionId->full_name,
+                "payment_type" => $findTransactionId->payment_type,
+                "address" => $findTransactionId->address,
+                "total" => $findTransactionId->total,
+                "tax" => $findTransactionId->tax
+            ]));
+
+            session()->forget("last_history_transaction_id");
 
             return to_route('transaction.confirm-page');
         } catch (Exception $err) {

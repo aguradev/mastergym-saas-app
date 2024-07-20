@@ -4,10 +4,8 @@
 
 @section('main')
     <h4>Hi, {{ $full_name }}</h4>
-    <p style="line-height: 38px;">We hope you're enjoying your transaction purchasing <b>{{ $plan_name }} Plan.</b> This
-        is a
-        friendly reminder that your
-        subscription payment is due on <b>{{ $due_date }}</b>
+    <p style="line-height: 38px;">We hope you're enjoying our services included in the <b>{{ $plan_name }} Plan</b> so
+        far. this is a reminder that your payment is due soon on <b>{{ $due_date }}</b>
 
         To avoid any interruption in your service, please ensure that your payment is processed by the due date.
 

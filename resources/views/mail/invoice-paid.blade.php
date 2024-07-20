@@ -9,22 +9,22 @@
 
     <div style="margin-bottom: 2rem">
         <h4 style="margin-bottom: .775rem">Full name</h4>
-        <p>Agung Rageshwara</p>
+        <p>{{ $full_name }}</p>
     </div>
     <div style="margin-bottom: 2rem">
         <h4 style="margin-bottom: .775rem">Payment method</h4>
-        <p>Midtrans Gateway</p>
+        <p>{{ $payment_type }}</p>
     </div>
     <div style="margin-bottom: 2rem">
         <h4 style="margin-bottom: .775rem">Address</h4>
-        <p>NYC STREET 1</p>
+        <p>{{ $address }}</p>
     </div>
 
     <hr style="margin-top: 2.2rem" />
 
     <div style="margin-bottom: 2rem">
         <h4 style="margin-bottom: .775rem">Plan Purchase</h4>
-        <p>Basic</p>
+        <p>{{ $plan_name }}</p>
     </div>
 
     <div style="margin-bottom: 2rem">

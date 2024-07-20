@@ -12,14 +12,14 @@ use Illuminate\Queue\SerializesModels;
 class InvoicePaidMail extends Mailable
 {
     use Queueable, SerializesModels;
-    private $mailTo;
+    private $fullName;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($mailTo)
+    public function __construct($fullName,)
     {
-        $this->mailTo = $mailTo;
+        $this->fullName = $fullName;
     }
 
     /**
@@ -28,7 +28,6 @@ class InvoicePaidMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            to: $this->mailTo,
             subject: 'Master Gym - Purchase Plan Order',
         );
     }
@@ -41,7 +40,7 @@ class InvoicePaidMail extends Mailable
         return new Content(
             view: 'mail.invoice-paid',
             with: [
-                "to" => $this->mailTo,
+                "full_name" => $this->fullName,
             ]
         );
     }
