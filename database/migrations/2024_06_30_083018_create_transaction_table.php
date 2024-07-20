@@ -15,10 +15,12 @@ return new class extends Migration
             $table->uuid("id")->primary();
             $table->foreignUuid("tenant_plan_id")->references("id")->on("tenant_plan_versions");
             $table->string("full_name");
+            $table->longText("address");
             $table->string("email")->unique();
             $table->string("phone_number");
             $table->decimal("total", 10, 2);
             $table->decimal("tax", 10, 2);
+            $table->enum("period_type", ["Monthly", "Yearly"]);
             $table->enum("payment_type", ["manual_transfer", "payment_gateway"]);
             $table->text("payment_gateway_url")->nullable();
             $table->string("file_transfer_confirmation")->nullable();

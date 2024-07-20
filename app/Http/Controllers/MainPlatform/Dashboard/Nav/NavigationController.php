@@ -23,7 +23,7 @@ class NavigationController extends Controller
     {
         $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->where("status", "ACTIVE")->limit(5)->get()->select(["name", "domain"]);
 
-        $transactionLatest = TenantTransaction::with(["PlanTenant"])->latest()->limit(3)->get();
+        $transactionLatest = TenantTransaction::latest()->limit(3)->get();
 
         $TenantCount = Tenant::count();
 

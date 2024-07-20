@@ -15,7 +15,7 @@ const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform);
 
 const { props } = usePage();
 const { transactions } = toRefs(props);
-console.table(transactions.value);
+
 const { current_page, per_page, data } = transactions.value;
 const modalTransactionDetailVisible = ref(false);
 const transactionSelected = ref(null);

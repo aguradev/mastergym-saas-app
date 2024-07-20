@@ -5,7 +5,7 @@ namespace App\Http\Controllers\MainPlatform\Dashboard\Transaction;
 use App\Http\Controllers\Controller;
 use App\Models\CentralModel\TenantTransaction;
 use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
@@ -26,5 +26,12 @@ class TransactionController extends Controller
         }
 
         return response()->json($transaction)->setStatusCode(200);
+    }
+
+    public function PrintInvoicePDF(TenantTransaction $transaction)
+    {
+        $loadInvoicePDF = Pdf::loadView('pdf.transaction-invoice', compact('transaction'));
+
+        return $loadInvoicePDF->stream();
     }
 }

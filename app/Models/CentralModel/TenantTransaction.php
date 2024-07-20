@@ -27,6 +27,8 @@ class TenantTransaction extends Model
         "total",
         "tax",
         "status",
+        "address",
+        "period_type",
         "transaction_token_access",
         "transaction_expired_at",
         "payment_type",
@@ -40,18 +42,6 @@ class TenantTransaction extends Model
     public function PlanPurchase()
     {
         return $this->hasOne(TenantPlanVersion::class, "id", "tenant_plan_id");
-    }
-
-    public function PlanTenant()
-    {
-        return $this->hasOneThrough(
-            TenantSubscriptionPlan::class,
-            TenantPlanVersion::class,
-            "tenant_subscription_plan_id",
-            "id",
-            "tenant_plan_id",
-            "tenant_subscription_plan_id"
-        );
     }
 
     public function getExpiredCountdownAttribute()

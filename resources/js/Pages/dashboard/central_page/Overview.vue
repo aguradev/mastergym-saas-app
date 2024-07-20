@@ -70,8 +70,8 @@ figure {
                                     <i class="pi pi-users"></i>
                                 </div>
                                 <div class="content__caption">
-                                    <h4 class="title__content">Owner Tenant</h4>
-                                    <p class="subtitle__content">14</p>
+                                    <h4 class="title__content">Tenant Plan</h4>
+                                    <p class="subtitle__content">0</p>
                                 </div>
                                 <div class="px-4">
                                     <Divider layout="vertical" align="center" />
