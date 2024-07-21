@@ -12,6 +12,7 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import NotFound from "@components/ui/cta/NotFound.vue";
 import TablePagination from "@components/elements/pagination/TablePagination.vue";
+import FormatCurrency from "../../../../Lib/Currency";
 
 const getNavMainPlatform = useNavMainPlatform();
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform);
@@ -36,10 +37,6 @@ const detailEventHandler = (id) => {
 const closeModalTransactionDetail = () => {
     modalTransactionDetailVisible.value = false;
     transactionSelected.value = null;
-};
-
-const getNumberColumn = (current_page, per_page, index) => {
-    return (current_page - 1) * per_page + (index + 1);
 };
 
 const LazyTransactionDetail = defineAsyncComponent({
@@ -100,18 +97,14 @@ function handlerPaginationFeature(page) {
                     },
                 }"
             >
-                <Column header="No">
+                <Column header="Date & Time">
                     <template #body="slotProps">
-                        {{
-                            getNumberColumn(
-                                current_page,
-                                per_page,
-                                slotProps.index,
-                            )
-                        }}
+                        <p class="text-nowrap">
+                            {{ slotProps.data.date_and_time }}
+                        </p>
                     </template>
                 </Column>
-                <Column header="Full Name">
+                <Column header="Name">
                     <template #body="slotProps">{{
                         slotProps.data.full_name
                     }}</template>
@@ -139,6 +132,16 @@ function handlerPaginationFeature(page) {
                                       : 'danger',
                             ]"
                         />
+                    </template>
+                </Column>
+                <Column header="Period Type">
+                    <template #body="slotProps">
+                        {{ slotProps.data.period_type }}
+                    </template>
+                </Column>
+                <Column header="Amount (total + tax)">
+                    <template #body="slotProps">
+                        {{ FormatCurrency(slotProps.data.total) }}
                     </template>
                 </Column>
                 <Column header="Actions">

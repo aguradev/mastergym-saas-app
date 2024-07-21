@@ -37,7 +37,7 @@ class TenantTransaction extends Model
         "created_at"
     ];
 
-    protected $appends = ["expired_countdown"];
+    protected $appends = ["expired_countdown", "date_and_time"];
 
     public function PlanPurchase()
     {
@@ -49,5 +49,10 @@ class TenantTransaction extends Model
         $expired_at = $this->attributes['transaction_expired_at'];
 
         return $expired_at !== null ? Carbon::parse($expired_at)->diffForHumans(now(), CarbonInterface::DIFF_RELATIVE_TO_NOW, true, 2) : null;
+    }
+
+    public function getDateAndTimeAttribute()
+    {
+        return Carbon::parse($this->attributes["created_at"])->format("d M Y, H:i");
     }
 }
