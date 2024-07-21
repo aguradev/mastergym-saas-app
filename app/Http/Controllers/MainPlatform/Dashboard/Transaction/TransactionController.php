@@ -12,7 +12,7 @@ class TransactionController extends Controller
 {
     public function TransactionListPage()
     {
-        $transactions = TenantTransaction::simplePaginate(10);
+        $transactions = TenantTransaction::paginate(5);
         Debugbar::debug($transactions);
         return Inertia::render("dashboard/central_page/transaction_page/Index", compact('transactions'));
     }

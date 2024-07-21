@@ -1,23 +1,26 @@
 <script setup>
-import { Head, usePage } from "@inertiajs/vue3";
+import { Head, router, usePage } from "@inertiajs/vue3";
+import { route } from "ziggy-js";
 import { useNavMainPlatform } from "@stores/navigation_menu_item";
 import Badge from "primevue/badge";
 import { storeToRefs } from "pinia";
 
 import DashboardLayout from "@layouts/DashboardLayout.vue";
 import Modal from "@components/ui/modal/Index.vue";
-import { defineAsyncComponent, onMounted, ref, toRefs } from "vue";
+import { computed, defineAsyncComponent, onMounted, ref, toRef } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import NotFound from "@components/ui/cta/NotFound.vue";
+import TablePagination from "@components/elements/pagination/TablePagination.vue";
 
 const getNavMainPlatform = useNavMainPlatform();
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform);
 
-const { props } = usePage();
-const { transactions } = toRefs(props);
+const page = usePage();
+const transactions = toRef(() => page.props.transactions);
 
 const { current_page, per_page, data } = transactions.value;
+
 const modalTransactionDetailVisible = ref(false);
 const transactionSelected = ref(null);
 
@@ -42,6 +45,18 @@ const getNumberColumn = (current_page, per_page, index) => {
 const LazyTransactionDetail = defineAsyncComponent({
     loader: () => import("./Detail.vue"),
 });
+
+function handlerPaginationFeature(page) {
+    router.get(
+        route("central-dashboard.transactions.lists"),
+        {
+            page: page,
+        },
+        {
+            preserveScroll: true,
+        },
+    );
+}
 </script>
 
 <style scoped>
@@ -147,6 +162,13 @@ const LazyTransactionDetail = defineAsyncComponent({
                     </template>
                 </Column>
             </DataTable>
+
+            <div class="mt-6">
+                <TablePagination
+                    :pagination="transactions"
+                    @load-page="handlerPaginationFeature"
+                />
+            </div>
 
             <Modal
                 title="Transaction Detail"
