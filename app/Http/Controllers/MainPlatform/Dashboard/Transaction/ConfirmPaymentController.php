@@ -38,7 +38,7 @@ class ConfirmPaymentController extends Controller
         $transactionId = session('last_history_transaction_id');
 
         try {
-            $findTransactionId = TenantTransaction::where("id", $transactionId)->first();
+            $findTransactionId = TenantTransaction::with(["PlanPurchase.TenantSubscriptionPlan"])->where("id", $transactionId)->first();
             $generateToken = Str::random(64);
 
             $findTransactionId->update([
@@ -55,15 +55,18 @@ class ConfirmPaymentController extends Controller
 
             $getPricePeriod = $findTransactionId->period_type === "Monthly" ? $findTransactionId->PlanPurchase->price_per_month : $findTransactionId->PlanPurchase->price_per_year;
 
-            Mail::to($findTransactionId->email)->queue(new InvoicePaidMail([
+            $sendInvoicePaidToMail = new InvoicePaidMail([
                 "id" => $findTransactionId->id,
                 "full_name" => $findTransactionId->full_name,
                 "payment_type" => $findTransactionId->payment_type,
                 "address" => $findTransactionId->address,
                 "total" => $findTransactionId->total,
                 "price" => $getPricePeriod,
-                "tax" => $findTransactionId->tax
-            ]));
+                "tax" => $findTransactionId->tax,
+                "plan_name" => $findTransactionId->PlanPurchase->TenantSubscriptionPlan->name,
+            ]);
+
+            Mail::to($findTransactionId->email)->queue($sendInvoicePaidToMail);
 
             session()->forget("last_history_transaction_id");
 
@@ -72,7 +75,5 @@ class ConfirmPaymentController extends Controller
             Log::error($err->getMessage());
             return to_route('central.landingPage');
         }
-
-        return to_route('central.landingPage');
     }
 }

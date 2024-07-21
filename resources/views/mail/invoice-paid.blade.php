@@ -29,12 +29,12 @@
 
     <div style="margin-bottom: 2rem">
         <h4 style="margin-bottom: .775rem">Tax</h4>
-        <p>IDR {{ number_format(5000) }}</p>
+        <p>IDR {{ number_format($tax) }}</p>
     </div>
 
     <div style="margin-bottom: 2rem">
         <h4 style="margin-bottom: .775rem">Price</h4>
-        <p>IDR {{ number_format(5000000) }}</p>
+        <p>IDR {{ number_format($price) }}</p>
     </div>
 
     <hr style="margin-bottom: 2.2rem" />
@@ -43,7 +43,7 @@
         <tr>
             <td style="font-size: 1.6rem; font-weight: 700; color: #aaa">Total</td>
             <td style="text-align: right; color: green; font-weight: 700; font-size: 1.4rem">IDR
-                {{ number_format(50000000) }}</td>
+                {{ number_format($total) }}</td>
         </tr>
     </table>
 
