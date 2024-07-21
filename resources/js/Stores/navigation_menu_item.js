@@ -21,11 +21,8 @@ export const useNavMainPlatform = defineStore("dashboard_nav", () => {
                 },
                 {
                     icon: "pi pi-building",
-                    label: "Tenants",
-                },
-                {
-                    icon: "pi pi-building",
-                    label: "Subscriptions",
+                    label: "Tenant Subscriptions",
+                    link: route("central-dashboard.tenant-subscription.index"),
                 },
                 {
                     icon: "pi pi-money-bill",
