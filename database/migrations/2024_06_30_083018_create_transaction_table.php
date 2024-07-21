@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tenant_transactions', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->foreignUuid("tenant_plan_id")->references("id")->on("tenant_plan_versions");
+            $table->integer("order_id")->default(time());
             $table->string("full_name");
             $table->longText("address");
             $table->string("email")->unique();
