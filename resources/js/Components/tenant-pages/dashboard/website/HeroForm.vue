@@ -1,6 +1,6 @@
 <script setup>
-import { useForm, usePage } from '@inertiajs/vue3';
-import { ref, computed, toRefs, toRef, watch } from 'vue';
+import { useForm, usePage, router } from '@inertiajs/vue3';
+import { computed, toRefs, watch, nextTick, ref } from 'vue';
 
 import InputGroup from '@components/ui/group/InputGroup.vue';
 import InputText from '@components/elements/input/InputText.vue';
@@ -10,39 +10,45 @@ import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
 import PreviewImage from '@components/tenant-pages/dashboard/ultility/PreviewImage.vue'
 
 const { props } = toRefs(usePage());
-
-const { parsed } = props.value;
-
-const imgUrl = "/public/storage/" + parsed.image;
-
-let bgi = computed(() => {
-    return new URL(`${imgUrl.value}`, import.meta.url).href
-})
-
+const { hero } = props.value;
+const imgComponentKey = ref(0);
 
 const form = useForm({
-    title: parsed.title,
-    btnLeft: parsed.btnLeft,
-    btnRight: parsed.btnRight,
+    title: hero.title,
+    btnLeft: hero.btnLeft,
+    btnRight: hero.btnRight,
+    imageURL: hero.image,
     image: "",
 })
+const { title, btnLeft, btnRight, imageURL } = toRefs(form)
 
-const { title, btnLeft, btnRight } = toRefs(form)
+let imgUrl = ref(`/public/storage/${imageURL.value}?t=${Date.now()}`);
 
+function updateImageKey() {
+    imgComponentKey.value++;
+}
 
 function editHandler() {
     if (!form.image) {
-        form.image = parsed.image;
+        form.image = hero.image;
     }
 
     form.post(route("website.hero.update", {
         _method: 'put',
+        onSuccess: () => form.reset('image'),
     }));
-
-    console.table(parsed);
 }
 
-watch(() => props.value, (newVal, oldVal) => console.log(newVal.parsed))
+watch(() => props.value, (newVal, oldVal) => {
+    hero.title = newVal.hero.title;
+    hero.btnLeft = newVal.hero.btnLeft;
+    hero.btnRight = newVal.hero.btnRight;
+    hero.imageURL = newVal.hero.image;
+
+    imgUrl = `/public/storage/${newVal.hero.image}?t=${Date.now()}`;
+
+    updateImageKey();
+});
 
 </script>
 
@@ -71,13 +77,10 @@ watch(() => props.value, (newVal, oldVal) => console.log(newVal.parsed))
         </div>
         <div class="flex justify-between mb-4">
             <div class="w-[400px]">
-                <p>Background Image Currently Used</p>
-                <p>Img Url : {{ imgUrl }}</p>
-                <img :src="bgi" alt="" class="w-[200px] mt-2">
-                <PreviewImage :img="imgUrl" />
+                <PreviewImage :key="imgComponentKey" :img="imgUrl" :number="imgComponentKey" :title="hero.title" />
             </div>
             <div class="">
-                <PrimaryButton type="" label="Update Data" />
+                <PrimaryButton type="submit" label="Update Data" />
             </div>
         </div>
     </form>

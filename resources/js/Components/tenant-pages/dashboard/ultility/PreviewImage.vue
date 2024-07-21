@@ -1,10 +1,15 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 
 const prop = defineProps({
-    img: String
+    img: String,
+    title: String,
+    number: Number
 })
 
+// let bg = computed(() => {
+//     return new URL(`${prop.img}`, import.meta.url).href
+// })
 let bg = computed(() => {
     return new URL(`${prop.img}`, import.meta.url).href
 })

@@ -5,12 +5,6 @@ import { Head } from '@inertiajs/vue3';
 import TenantContentLayout from '@layouts/TenantContentLayout.vue';
 import HeroForm from '@components/tenant-pages/dashboard/website/HeroForm.vue';
 
-const prop = defineProps({
-    parsed: Object
-})
-
-console.log(prop.parsed.parsed);
-
 </script>
 
 <template>

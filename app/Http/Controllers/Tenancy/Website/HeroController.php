@@ -17,10 +17,10 @@ class HeroController extends Controller
 
     public function fetchHeroData()
     {
-        $hero = WebsiteContent::select("hero")->latest()->first();
-        $parsed = json_decode($hero->hero);
+        $heroUnparsed = WebsiteContent::select("hero")->latest()->first();
+        $hero = json_decode($heroUnparsed->hero);
 
-        return Inertia::render("dashboard/tenant_page/website_content_page/Hero", compact('parsed'));
+        return Inertia::render("dashboard/tenant_page/website_content_page/Hero", compact('hero'));
     }
 
     public function updateHeroData(Request $req)
@@ -30,14 +30,6 @@ class HeroController extends Controller
             $prefix = "tenant-" . tenant('id') . '/assets/website/images';
 
             $image_name = $req->file('image')->store($prefix);
-
-            // $url = Storage::disk('public')->url($image_name);
-            // $url = asset($image_name);  
-            // dd($url);
-
-            // dd($full_url);
-
-            // dd($image_name);
 
             $value = [
                 'image' => $image_name,
