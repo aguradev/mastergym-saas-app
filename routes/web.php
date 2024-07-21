@@ -8,6 +8,7 @@ use App\Http\Controllers\MainPlatform\Transaction\TenantRegistrationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::get("/invitation-registration", fn () => view('mail.sending-tenant-registration'));
 Route::get("/", LandingPageController::class)->name('central.landingPage');
 Route::get("/about", fn () => Inertia::render("landing_page/central_page/About"))->name('central.about');
 
@@ -48,7 +49,7 @@ Route::prefix("transaction")->group(function () {
         Route::post("/payment-gateway", "MidtransSuccessConfirmation")->name("transaction.confirm.midtrans");
     });
 
-    Route::controller(TenantRegistrationController::class)->group(function () {
+    Route::controller(TenantRegistrationController::class)->middleware(["central.verify-token-transaction"])->group(function () {
         Route::get('tenant-registration', "RegistrationPage")->name("transaction.tenant-registration");
         Route::post('tenant-registration', 'TenantRegistrationSubmit')->name('transaction.tenant-registration.submit');
     });

@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
-        'redirect_json_access' => \App\Http\Middleware\APIRedirectAccess::class
+        'redirect_json_access' => \App\Http\Middleware\APIRedirectAccess::class,
+        "central.verify-token-transaction" => \App\Http\Middleware\Central\VerifyTransactionToken::class
     ];
 }

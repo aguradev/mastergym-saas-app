@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\InvoicePaidMail;
+use App\Mail\SendingTenantRegistration;
 use App\Models\CentralModel\TenantTransaction;
 use Exception;
 use Illuminate\Support\Facades\Crypt;
@@ -43,7 +44,7 @@ class ConfirmPaymentController extends Controller
 
             $findTransactionId->update([
                 "status" => "PAID",
-                "transaction_token_access" => Crypt::encrypt($generateToken),
+                "transaction_token_access" => $generateToken,
                 "transaction_expired_at" => null,
             ]);
 
@@ -66,7 +67,13 @@ class ConfirmPaymentController extends Controller
                 "plan_name" => $findTransactionId->PlanPurchase->TenantSubscriptionPlan->name,
             ]);
 
+            $sendTenantRegistration = new SendingTenantRegistration([
+                "full_name" => $findTransactionId->full_name,
+                "url" => route('transaction.tenant-registration', ['token' => Crypt::encrypt($generateToken)]),
+            ]);
+
             Mail::to($findTransactionId->email)->queue($sendInvoicePaidToMail);
+            Mail::to($findTransactionId->email)->later(now()->addSeconds(10), $sendTenantRegistration);
 
             session()->forget("last_history_transaction_id");
 
