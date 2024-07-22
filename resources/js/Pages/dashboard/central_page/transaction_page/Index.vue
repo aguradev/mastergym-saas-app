@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, router, usePage } from "@inertiajs/vue3";
+import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
 import { route } from "ziggy-js";
 import { useNavMainPlatform } from "@stores/navigation_menu_item";
 import Badge from "primevue/badge";
@@ -7,7 +7,15 @@ import { storeToRefs } from "pinia";
 
 import DashboardLayout from "@layouts/DashboardLayout.vue";
 import Modal from "@components/ui/modal/Index.vue";
-import { computed, defineAsyncComponent, onMounted, ref, toRef } from "vue";
+import {
+    computed,
+    defineAsyncComponent,
+    onMounted,
+    ref,
+    toRef,
+    toRefs,
+    watch,
+} from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import NotFound from "@components/ui/cta/NotFound.vue";
@@ -18,13 +26,12 @@ const getNavMainPlatform = useNavMainPlatform();
 const { navigationMenuItem, menuItemActive } = storeToRefs(getNavMainPlatform);
 
 const page = usePage();
-const transactions = toRef(() => page.props.transactions);
-
-const { current_page, per_page, data } = transactions.value;
+const transactions = computed(() => page.props.transactions);
 
 const modalTransactionDetailVisible = ref(false);
 const transactionSelected = ref(null);
-const selectedSearch = ref("order ID");
+const selectedSearch = ref("ORDER_ID");
+const searchValueInput = ref("");
 
 onMounted(() => {
     menuItemActive.value = navigationMenuItem.value[1]?.items[4];
@@ -55,6 +62,28 @@ function handlerPaginationFeature(page) {
         },
     );
 }
+
+const handlerSearchFeature = computed(() => {
+    const urlParams = new URL(route("central-dashboard.transactions.lists"));
+
+    if (searchValueInput.value !== "" && selectedSearch.value) {
+        urlParams.searchParams.append("type", selectedSearch.value);
+        urlParams.searchParams.append("search", searchValueInput.value);
+    }
+
+    return urlParams;
+});
+
+watch(
+    () => handlerSearchFeature.value,
+    (newStateValue) => {
+        router.visit(newStateValue, {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
+        });
+    },
+);
 </script>
 
 <style scoped>
@@ -93,28 +122,24 @@ function handlerPaginationFeature(page) {
                         @change="(e) => (selectedSearch = e.target.value)"
                     >
                         <option
-                            value="order ID"
-                            :selected="selectedSearch === 'order ID'"
+                            value="ORDER_ID"
+                            :selected="selectedSearch === 'ORDER_ID'"
                         >
                             Order id
                         </option>
                         <option
-                            value="email"
-                            :selected="selectedSearch === 'email'"
+                            value="EMAIL"
+                            :selected="selectedSearch === 'EMAIL'"
                         >
                             Email
                         </option>
                     </select>
                     <input
-                        type="search"
+                        type="text"
                         class="px-4 py-3 rounded-lg bg-primary-800 outline-none w-[400px]"
                         :placeholder="`Search ${selectedSearch}`"
+                        @input="(e) => (searchValueInput = e.target.value)"
                     />
-                    <Link
-                        as="button"
-                        class="px-6 py-3 bg-surface-700 rounded-lg font-semibold"
-                        >Search</Link
-                    >
                 </div>
                 <div class="text-right">
                     <Link
@@ -130,7 +155,7 @@ function handlerPaginationFeature(page) {
                 </div>
             </div>
             <DataTable
-                :value="data"
+                :value="transactions.data"
                 :pt="{
                     bodyrow:
                         'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',

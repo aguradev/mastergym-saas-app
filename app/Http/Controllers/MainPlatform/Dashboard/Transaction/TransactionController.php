@@ -6,13 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Models\CentralModel\TenantTransaction;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
-    public function TransactionListPage()
+    public function TransactionListPage(Request $request)
     {
-        $transactions = TenantTransaction::paginate(5);
+        $searchResult = $request->query("search");
+        $typeSearch = $request->query("type");
+        $transactions = null;
+
+        switch ($typeSearch) {
+            case "EMAIL":
+                $transactions = TenantTransaction::query()->when($searchResult, function ($query) use ($searchResult) {
+                    $query->where("email", "LIKE", '%' . $searchResult . '%');
+                })->paginate(5);
+                break;
+            default:
+                $transactions = TenantTransaction::paginate(5);
+                break;
+        }
+
         Debugbar::debug($transactions);
         return Inertia::render("dashboard/central_page/transaction_page/Index", compact('transactions'));
     }
