@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Tenancy\Website\CtaController;
 use App\Http\Controllers\Tenancy\Website\HeroController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -12,30 +13,17 @@ Route::prefix("dashboard/website")->group(function () {
         );
     })->name('website.overview');
 
-    Route::get("/nav", function () {
-        return Inertia::render("dashboard/tenant_page/website_content_page/Nav");
-    })->name('website.nav');
-
     Route::get("/hero", [HeroController::class, 'fetchHeroData'])->name('website.hero');
     Route::put("/hero", [HeroController::class, 'updateHeroData'])->name('website.hero.update');
 
-    Route::get("/cta", function () {
-        return Inertia::render(
-            "dashboard/tenant_page/website_content_page/CallToAction"
-        );
-    })->name('website.cta');
+    Route::get("/cta", [CtaController::class, 'fetchCtaData'])->name('website.cta');
+    Route::put("/cta", [CtaController::class, 'updateCtaData'])->name('website.cta.update');
 
     Route::get("/service", function () {
         return Inertia::render(
             "dashboard/tenant_page/website_content_page/Service"
         );
     })->name('website.service');
-
-    Route::get("/membership", function () {
-        return Inertia::render(
-            "dashboard/tenant_page/website_content_page/Membership"
-        );
-    })->name('website.membership');
 
     Route::get("/testimony", function () {
         return Inertia::render(

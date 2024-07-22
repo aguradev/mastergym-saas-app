@@ -24,6 +24,14 @@ const { title, btnLeft, btnRight, imageURL } = toRefs(form)
 
 let imgUrl = ref(`/public/storage/${imageURL.value}?t=${Date.now()}`);
 
+console.log(imgUrl.value);
+if (imageURL.value.includes("tenant")) {
+    imgUrl = `/public/storage/${imageURL.value}?t=${Date.now()}`;
+} else {
+    imgUrl = `${imageURL.value}?t=${Date.now()}`;
+}
+console.log(imgUrl);
+
 function updateImageKey() {
     imgComponentKey.value++;
 }
@@ -71,13 +79,14 @@ watch(() => props.value, (newVal, oldVal) => {
                 <ValidationMessage v-if="form.errors.btnRight" :caption="form.errors.btnRight" />
             </InputGroup>
             <InputGroup label="Hero Background Image" labelFor="background_input">
-                <InputFile inputId="image" inputType="file" inputPlaceholder="Background Image of your Hero here!"
-                    inputName="background_input" @update:inputValue="(file) => { form.image = file; }" />
+                <InputFile inputId="image" inputType="file" inputName="background_input"
+                    @update:inputValue="(file) => { form.image = file; }" />
             </InputGroup>
         </div>
         <div class="flex justify-between mb-4">
             <div class="w-[400px]">
-                <PreviewImage :key="imgComponentKey" :img="imgUrl" :number="imgComponentKey" :title="hero.title" />
+                <p>Background image currently used</p>
+                <PreviewImage :key="imgComponentKey" :img="imgUrl" />
             </div>
             <div class="">
                 <PrimaryButton type="submit" label="Update Data" />
