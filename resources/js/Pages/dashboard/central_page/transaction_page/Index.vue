@@ -110,50 +110,50 @@ watch(
         :menu-item-active="menuItemActive"
         titleNav="Transaction"
     >
+        <div class="px-6 py-4 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <select
+                    name="search-select"
+                    class="px-4 py-3 rounded-lg bg-primary-800 outline-none w-[180px]"
+                    @change="(e) => (selectedSearch = e.target.value)"
+                >
+                    <option
+                        value="ORDER_ID"
+                        :selected="selectedSearch === 'ORDER_ID'"
+                    >
+                        Order id
+                    </option>
+                    <option
+                        value="EMAIL"
+                        :selected="selectedSearch === 'EMAIL'"
+                    >
+                        Email
+                    </option>
+                </select>
+                <input
+                    type="text"
+                    class="px-4 py-3 rounded-lg bg-primary-800 outline-none w-[400px]"
+                    :placeholder="`Search ${selectedSearch}`"
+                    @input="(e) => (searchValueInput = e.target.value)"
+                />
+            </div>
+            <div class="text-right">
+                <Link
+                    as="button"
+                    type="button"
+                    class="bg-primary-700 hover:bg-primary-600 px-4 py-3 rounded-lg"
+                >
+                    <div class="flex items-center gap-3">
+                        <i class="pi pi-download"></i>
+                        <span> Export CSV </span>
+                    </div>
+                </Link>
+            </div>
+        </div>
         <div v-if="transactions.data.length <= 0">
             <NotFound caption="No transaction data" />
         </div>
         <div v-else>
-            <div class="px-6 py-4 flex items-center justify-between gap-4">
-                <div class="flex items-center gap-2">
-                    <select
-                        name="search-select"
-                        class="px-4 py-3 rounded-lg bg-primary-800 outline-none w-[180px]"
-                        @change="(e) => (selectedSearch = e.target.value)"
-                    >
-                        <option
-                            value="ORDER_ID"
-                            :selected="selectedSearch === 'ORDER_ID'"
-                        >
-                            Order id
-                        </option>
-                        <option
-                            value="EMAIL"
-                            :selected="selectedSearch === 'EMAIL'"
-                        >
-                            Email
-                        </option>
-                    </select>
-                    <input
-                        type="text"
-                        class="px-4 py-3 rounded-lg bg-primary-800 outline-none w-[400px]"
-                        :placeholder="`Search ${selectedSearch}`"
-                        @input="(e) => (searchValueInput = e.target.value)"
-                    />
-                </div>
-                <div class="text-right">
-                    <Link
-                        as="button"
-                        type="button"
-                        class="bg-primary-700 hover:bg-primary-600 px-4 py-3 rounded-lg"
-                    >
-                        <div class="flex items-center gap-3">
-                            <i class="pi pi-download"></i>
-                            <span> Export CSV </span>
-                        </div>
-                    </Link>
-                </div>
-            </div>
             <DataTable
                 :value="transactions.data"
                 :pt="{
