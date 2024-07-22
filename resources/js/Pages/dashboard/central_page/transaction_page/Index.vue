@@ -150,6 +150,9 @@ watch(
                 </Link>
             </div>
         </div>
+        <div class="px-8 mt-3" v-if="searchValueInput">
+            <p>Result: {{ searchValueInput }}</p>
+        </div>
         <div v-if="transactions.data.length <= 0">
             <NotFound caption="No transaction data" />
         </div>

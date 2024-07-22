@@ -12,6 +12,7 @@ import ConfirmationService from "primevue/confirmationservice";
 const appName = import.meta.env.VITE_APP_NAME;
 
 createInertiaApp({
+    progress: false,
     title: (title) => `${appName} - ${title}`,
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
