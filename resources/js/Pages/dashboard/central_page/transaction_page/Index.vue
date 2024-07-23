@@ -34,7 +34,7 @@ const selectedSearch = ref("ORDER_ID");
 const searchValueInput = ref("");
 
 onMounted(() => {
-    menuItemActive.value = navigationMenuItem.value[1]?.items[4];
+    menuItemActive.value = navigationMenuItem.value[1]?.items[3];
 });
 
 const detailEventHandler = (id) => {
@@ -150,8 +150,9 @@ watch(
                 </Link>
             </div>
         </div>
-        <div class="px-8 mt-3" v-if="searchValueInput">
+        <div class="px-8 mt-3 flex items-center gap-5" v-if="searchValueInput">
             <p>Result: {{ searchValueInput }}</p>
+            <p>Found: {{ transactions.total }}</p>
         </div>
         <div v-if="transactions.data.length <= 0">
             <NotFound caption="No transaction data" />

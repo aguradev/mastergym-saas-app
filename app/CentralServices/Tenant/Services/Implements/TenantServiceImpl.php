@@ -43,6 +43,6 @@ class TenantServiceImpl implements TenantServiceInterface
             return false;
         }
 
-        return true;
+        return $processRegistration;
     }
 }

@@ -17,16 +17,15 @@ class TransactionController extends Controller
         $typeSearch = $request->query("type");
         $transactions = null;
 
-        switch ($typeSearch) {
-            case "EMAIL":
-                $transactions = TenantTransaction::query()->when($searchResult, function ($query) use ($searchResult) {
+        $transactions = TenantTransaction::query()->when($searchResult, function ($query) use ($searchResult, $typeSearch) {
+            switch ($typeSearch) {
+                case "EMAIL":
                     $query->where("email", "LIKE", '%' . $searchResult . '%');
-                })->paginate(5);
-                break;
-            default:
-                $transactions = TenantTransaction::paginate(5);
-                break;
-        }
+                    break;
+                default:
+                    break;
+            }
+        })->paginate(5);
 
         Debugbar::debug($transactions);
         return Inertia::render("dashboard/central_page/transaction_page/Index", compact('transactions'));
