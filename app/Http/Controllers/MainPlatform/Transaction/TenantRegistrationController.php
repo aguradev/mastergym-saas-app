@@ -26,18 +26,27 @@ class TenantRegistrationController extends Controller
         $this->centralTenantServices = $centralTenantService;
     }
 
-    public function RegistrationPage()
+    public function RegistrationPage(Request $request)
     {
-        return Inertia::render("transactions/tenant_register");
+        $token = $request->query("token");
+
+        return Inertia::render("transactions/tenant_register", compact('token'));
     }
 
     public function TenantRegistrationSubmit(TenantTransactionRegistration $request)
     {
         $tokens = $request->query("token");
 
-        $findTransaction = TenantTransaction::where("transaction_token_access", $tokens)->first();
+        try {
+            $decryptionToken = Crypt::decrypt($tokens);
 
-        if (!$findTransaction) {
+            $findTransaction = TenantTransaction::where("transaction_token_access", $decryptionToken)->first();
+
+            if (!$findTransaction) {
+                return redirect()->back()->with("message_error", "Failed create tenant");
+            }
+        } catch (DecryptException $err) {
+            Log::error($err->getMessage());
             return redirect()->back()->with("message_error", "Failed create tenant");
         }
 
@@ -48,16 +57,15 @@ class TenantRegistrationController extends Controller
         }
 
         try {
-            $dateNow = now();
-
             TenantSubscription::create([
                 "tenant_id" => $registrationServiceHandling->id,
                 "invoice_transaction_id" => $findTransaction->id,
-                "start_date" => $dateNow,
-                "due_date" => $findTransaction->period_type === "Monthly" ? $dateNow->addMonth() : $dateNow->addYear()
+                "start_date" => now(),
+                "due_date" => $findTransaction->period_type === "Monthly" ? now()->addMonth() : now()->addYear()
             ]);
         } catch (Exception $err) {
             Log::error($err);
+            return redirect()->back()->with('message_error', 'failed create tenant');
         }
 
 

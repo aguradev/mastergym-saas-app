@@ -20,6 +20,7 @@ class VerifyTransactionToken
     public function handle(Request $request, Closure $next): Response
     {
         $token = $request->query("token");
+
         $decryptionToken = null;
 
         if (!$token) {

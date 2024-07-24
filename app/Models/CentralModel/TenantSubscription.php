@@ -3,12 +3,13 @@
 namespace App\Models\CentralModel;
 
 use App\Models\Gym\Tenant;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TenantSubscription extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
     protected $table = "tenants_subscription_lists";
 
     protected $fillable = [

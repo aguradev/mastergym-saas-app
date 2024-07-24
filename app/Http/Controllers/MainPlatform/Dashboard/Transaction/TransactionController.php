@@ -19,6 +19,9 @@ class TransactionController extends Controller
 
         $transactions = TenantTransaction::query()->when($searchResult, function ($query) use ($searchResult, $typeSearch) {
             switch ($typeSearch) {
+                case "ORDER_ID":
+                    $query->where("order_id", (int) $searchResult);
+                    break;
                 case "EMAIL":
                     $query->where("email", "LIKE", '%' . $searchResult . '%');
                     break;
