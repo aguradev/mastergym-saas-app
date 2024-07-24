@@ -68,7 +68,10 @@ class TenantRegistrationController extends Controller
             return redirect()->back()->with('message_error', 'failed create tenant');
         }
 
-
-        return redirect()->back()->with('message_success', 'Tenant Registered!');
+        return Inertia::render('transactions/confirm', [
+            "status" => "success",
+            "title" => "Success",
+            "message" => "Your tenant is registered! Check your email for more information"
+        ]);
     }
 }

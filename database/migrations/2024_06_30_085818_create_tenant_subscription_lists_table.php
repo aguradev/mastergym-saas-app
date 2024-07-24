@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignUuid("invoice_transaction_id")->references("id")->on("tenant_transactions");
             $table->timestampTz("start_date");
             $table->timestampTz("due_date");
-            $table->enum("status", ["ACTIVE", "INACTIVE", "SUSPENSED"])->default("ACTIVE");
             $table->timestamps();
         });
     }
