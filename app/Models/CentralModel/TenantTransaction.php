@@ -21,6 +21,7 @@ class TenantTransaction extends Model
 
     protected $fillable = [
         "tenant_plan_id",
+        "order_id",
         "full_name",
         "email",
         "phone_number",

@@ -171,17 +171,19 @@ watch(
                     },
                 }"
             >
-                <Column header="Date & Time">
+                <Column header="Order ID">
                     <template #body="slotProps">
                         <p class="text-nowrap">
-                            {{ slotProps.data.date_and_time }}
+                            {{ slotProps.data.order_id }}
                         </p>
                     </template>
                 </Column>
                 <Column header="Name">
-                    <template #body="slotProps">{{
-                        slotProps.data.full_name
-                    }}</template>
+                    <template #body="slotProps">
+                        <span class="text-nowrap">{{
+                            slotProps.data.full_name
+                        }}</span>
+                    </template>
                 </Column>
                 <Column header="Email">
                     <template #body="slotProps">{{

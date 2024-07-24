@@ -15,8 +15,8 @@ return new class extends Migration
             $table->uuid("id")->primary();
             $table->foreignUuid("tenant_id")->references("id")->on("tenants");
             $table->foreignUuid("invoice_transaction_id")->references("id")->on("tenant_transactions");
-            $table->timestamp("start_date");
-            $table->timestamp("due_date");
+            $table->timestampTz("start_date");
+            $table->timestampTz("due_date");
             $table->timestamps();
         });
     }

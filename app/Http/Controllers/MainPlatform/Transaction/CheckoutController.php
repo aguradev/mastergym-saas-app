@@ -141,6 +141,7 @@ class CheckoutController extends Controller
 
         $transactionsRequest = [
             "tenant_plan_id" => $planOrder->TenantVersionLatest->id,
+            "order_id" => time(),
             "full_name" => $request->full_name,
             "email" => $request->email,
             "phone_number" => $request->phone_number,
