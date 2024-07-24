@@ -1,6 +1,6 @@
 <script setup>
-import { useForm, usePage, router } from '@inertiajs/vue3';
-import { computed, toRefs, watch, nextTick, ref } from 'vue';
+import { useForm, usePage, } from '@inertiajs/vue3';
+import { toRefs, watch, ref } from 'vue';
 
 import InputGroup from '@components/ui/group/InputGroup.vue';
 import InputText from '@components/elements/input/InputText.vue';
@@ -24,13 +24,11 @@ const { title, btnLeft, btnRight, imageURL } = toRefs(form)
 
 let imgUrl = ref(`/public/storage/${imageURL.value}?t=${Date.now()}`);
 
-console.log(imgUrl.value);
 if (imageURL.value.includes("tenant")) {
     imgUrl = `/public/storage/${imageURL.value}?t=${Date.now()}`;
 } else {
     imgUrl = `${imageURL.value}?t=${Date.now()}`;
 }
-console.log(imgUrl);
 
 function updateImageKey() {
     imgComponentKey.value++;
@@ -47,7 +45,7 @@ function editHandler() {
     }));
 }
 
-watch(() => props.value, (newVal, oldVal) => {
+watch(() => props.value, (newVal) => {
     hero.title = newVal.hero.title;
     hero.btnLeft = newVal.hero.btnLeft;
     hero.btnRight = newVal.hero.btnRight;

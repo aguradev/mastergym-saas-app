@@ -1,8 +1,10 @@
 <script setup>
-import { ref } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { ref, toRefs } from 'vue';
+import { Head, usePage } from '@inertiajs/vue3';
 
 import TenantContentLayout from '@layouts/TenantContentLayout.vue';
+import TestiForm from '@components/tenant-pages/dashboard/website/TestiForm.vue'
+
 
 </script>
 
@@ -11,5 +13,6 @@ import TenantContentLayout from '@layouts/TenantContentLayout.vue';
     <Head title="Testimony Content" />
     <TenantContentLayout>
         <p>Testimony</p>
+        <TestiForm />
     </TenantContentLayout>
 </template>

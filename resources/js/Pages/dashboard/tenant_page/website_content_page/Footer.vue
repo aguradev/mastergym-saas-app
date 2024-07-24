@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
 
 import TenantContentLayout from '@layouts/TenantContentLayout.vue';
+import FooterForm from '@components/tenant-pages/dashboard/website/FooterForm.vue'
 
 </script>
 
@@ -10,6 +11,8 @@ import TenantContentLayout from '@layouts/TenantContentLayout.vue';
 
     <Head title="Footer Content" />
     <TenantContentLayout>
-        <p>Footer</p>
+        <div>
+            <FooterForm />
+        </div>
     </TenantContentLayout>
 </template>

@@ -9,6 +9,7 @@ import InputFile from '@components/elements/input/InputFile.vue';
 import PreviewImage from '../ultility/PreviewImage.vue';
 import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
 import ValidationMessage from '@components/ui/cta/ValidationMessage.vue';
+import { watch } from 'vue';
 
 const { props } = toRefs(usePage());
 const { cta } = props.value
@@ -21,22 +22,15 @@ const form = useForm({
     imageURL: cta.image,
     image: ''
 });
-
-
 const { header, text, button, imageURL } = toRefs(form);
 
 let imgUrl = ref(`/public/storage/${imageURL.value}?t=${Date.now()}`)
 
-console.log("before", imgUrl.value);
-
-console.log(imageURL.value);
 if (imageURL.value.includes("tenant")) {
     imgUrl = `/public/storage/${imageURL.value}?t=${Date.now()}`;
 } else {
     imgUrl = `${imageURL.value}?t=${Date.now()}`;
 }
-
-console.log("after", imgUrl);
 
 function updateImageKey() {
     imgComponentKey.value++
@@ -53,14 +47,20 @@ function editHandler() {
     }));
 }
 
+watch(() => props.value, (newVal) => {
+    cta.header = newVal.cta.header;
+    cta.text = newVal.cta.text;
+    cta.button = newVal.cta.button;
+    cta.imageURL = newVal.cta.image;
 
+    imgUrl = `/public/storage/${newVal.cta.image}?t=${Date.now()}`
 
-
+    updateImageKey();
+})
 </script>
 
 <template>
     <form action="#" @submit.prevent="editHandler">
-        <p class="text-white">{{ cta }}</p>
         <div class="pr-20">
             <InputGroup labelFor="header" label="Header Text">
                 <InputText v-model:inputValue="header" inputType="text" inputId="header" inputName="header"

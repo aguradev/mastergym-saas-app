@@ -16,13 +16,11 @@ const parsedCTA = computed(() => {
 
 let imgUrl = ref(`/public/storage/${parsedCTA.value.image}?t=${Date.now()}`);
 
-console.log(imgUrl.value);
 if (parsedCTA.value.image.includes("tenant")) {
     imgUrl = `/public/storage/${parsedCTA.value.image}?t=${Date.now()}`;
 } else {
     imgUrl = `${parsedCTA.value.image}?t=${Date.now()}`;
 }
-console.log(imgUrl);
 
 const image = computed(() => {
     return new URL(`${imgUrl}`, import.meta.url).href

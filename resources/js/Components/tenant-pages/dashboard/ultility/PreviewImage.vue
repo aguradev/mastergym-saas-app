@@ -3,8 +3,7 @@ import { computed, onMounted } from 'vue';
 
 const prop = defineProps({
     img: String,
-    title: String,
-    number: Number
+    class: String,
 })
 
 let bg = computed(() => {
@@ -13,6 +12,6 @@ let bg = computed(() => {
 </script>
 <template>
     <div>
-        <img :src="bg" alt="" class="w-[200px] mt-2">
+        <img :src="bg" alt="" class="w-[200px] mt-2 pb-10">
     </div>
 </template>

@@ -160,8 +160,6 @@ class TenantWebsiteSeeder extends Seeder
             ]
         ];
 
-        //php artisan tenants:seed --class=Database\\Seeders\\Tenants\\TenantWebsiteSeeder
-
         $testimony = [
             'title' => "read trusted reviews from our customers",
             'text' => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur praesentium natus sapiente commodi. Aliquid sunt tempore iste repellendus explicabo dignissimos placeat, autem harum dolore reprehenderit quis! Quo totam dignissimos earum.",

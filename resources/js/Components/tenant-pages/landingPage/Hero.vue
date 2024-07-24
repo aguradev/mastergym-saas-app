@@ -16,13 +16,11 @@ const parsedHero = computed(() => {
 
 let imgUrl = ref(`/public/storage/${parsedHero.value.image}?t=${Date.now()}`);
 
-console.log(imgUrl.value);
 if (parsedHero.value.image.includes("tenant")) {
     imgUrl = `/public/storage/${parsedHero.value.image}?t=${Date.now()}`;
 } else {
     imgUrl = `${parsedHero.value.image}?t=${Date.now()}`;
 }
-console.log(imgUrl);
 
 const icon = computed(() => {
     return new URL(`${imgUrl}`, import.meta.url).href

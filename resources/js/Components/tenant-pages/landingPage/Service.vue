@@ -27,7 +27,7 @@ const parsedService = computed(() => {
             <p class="text-white px-10 md:px-80 pt-5">{{ parsedService.text }}</p>
         </div>
         <div id="content"
-            class="w-screen grid grid-rows-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 px-20 py-20 text-orange-500">
+            :class="`grid px-40 py-10 place-content-center gap-20 grid-cols-1 md:grid-cols-2 xl:grid-cols-4 text-orange-500`">
             <serviceCard v-for="(item, index) in parsedService.cards" :name="item.name" :image="item.image" />
         </div>
     </div>
