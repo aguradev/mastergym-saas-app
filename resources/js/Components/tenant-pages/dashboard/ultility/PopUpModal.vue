@@ -16,7 +16,7 @@ let img = computed(() => {
 
 <template>
     <Dialog v-model:visible="visible" :style="{
-        width: '70rem',
+        width: '90rem',
     }" :pt="{
         header: {
             class: [

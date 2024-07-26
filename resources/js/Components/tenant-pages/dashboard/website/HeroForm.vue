@@ -41,7 +41,10 @@ function editHandler() {
 
     form.post(route("website.hero.update", {
         _method: 'put',
-        onSuccess: () => form.reset('image'),
+        onSuccess: () => {
+            form.reset('image');
+            form.clearErrors();
+        },
     }));
 }
 
@@ -51,7 +54,11 @@ watch(() => props.value, (newVal) => {
     hero.btnRight = newVal.hero.btnRight;
     hero.imageURL = newVal.hero.image;
 
-    imgUrl = `/public/storage/${newVal.hero.image}?t=${Date.now()}`;
+    if (newVal.hero.image.includes("tenant")) {
+        imgUrl = `/public/storage/${newVal.hero.image}?t=${Date.now()}`;
+    } else {
+        imgUrl = `${newVal.hero.image}?t=${Date.now()}`;
+    }
 
     updateImageKey();
 });
@@ -79,6 +86,7 @@ watch(() => props.value, (newVal) => {
             <InputGroup label="Hero Background Image" labelFor="background_input">
                 <InputFile inputId="image" inputType="file" inputName="background_input"
                     @update:inputValue="(file) => { form.image = file; }" />
+                <ValidationMessage v-if="form.errors.image" :caption="form.errors.image" />
             </InputGroup>
         </div>
         <div class="flex justify-between mb-4">

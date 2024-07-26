@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Tenancy\Website;
 
 use App\Http\Controllers\Controller;
 use App\Models\TenancyModel\WebsiteContent;
+use Faker\Core\File;
+use App\Rules\ServiceUploadImage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -24,10 +26,32 @@ class ServiceController extends Controller
 
     public function updateServiceData(Request $req)
     {
-        // dd($req->file('cards'));
-        // dd($req->cards[0]['image']);
 
         if ($req->file('cards') != null) {
+
+            dd($req);
+
+            $req->validate([
+                'title' => 'required|max:20',
+                'text' => 'required|max:500',
+                'cards.*.name' => 'required|max:20',
+                'cards.*.image' => 'mimes:jpeg,png,jpg|max:2048'
+            ]);
+
+            // $rules = [
+            //     'title' => 'required|max:20',
+            //     'text' => 'required',
+            //     'cards.*.name' => 'required|max:20',
+            // ];
+
+            // // Dynamically add the custom validation rule for each card image
+            // foreach ($req->input('cards', []) as $index => $card) {
+            //     $rules["cards.$index.image"] = ['nullable', 'mimes:jpeg,png,jpg', 'max:2048', new ServiceUploadImage];
+            // }
+
+            // $req->validate($rules);
+
+            // dd($req);
 
             $prefix = "tenant-" . tenant('id') . '/assets/website/images';
 
@@ -63,6 +87,13 @@ class ServiceController extends Controller
                 ]
             ];
         } else {
+
+            $req->validate([
+                'title' => 'required|max:20',
+                'text' => 'required|max:500',
+                'cards.*.name' => 'required|max:20',
+            ]);
+
             $value = [
                 'title' => $req->title,
                 'text' => $req->text,
@@ -97,9 +128,9 @@ class ServiceController extends Controller
 
 
         if (!$website) {
-            return redirect()->back()->with("message_error", "Update footer content failed...");
+            return redirect()->back()->with("message_error", "Update service content failed...");
         }
 
-        return redirect()->back()->with("message_success", "Footer content updated!");
+        return redirect()->back()->with("message_success", "Service content updated!");
     }
 }

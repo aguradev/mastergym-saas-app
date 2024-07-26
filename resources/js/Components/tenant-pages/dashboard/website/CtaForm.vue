@@ -43,7 +43,10 @@ function editHandler() {
 
     form.post(route("website.cta.update", {
         _method: 'put',
-        onSuccess: () => form.reset('image')
+        onSuccess: () => {
+            form.reset('image');
+            form.clearErrors();
+        }
     }));
 }
 
@@ -53,7 +56,11 @@ watch(() => props.value, (newVal) => {
     cta.button = newVal.cta.button;
     cta.imageURL = newVal.cta.image;
 
-    imgUrl = `/public/storage/${newVal.cta.image}?t=${Date.now()}`
+    if (newVal.cta.image.includes("tenant")) {
+        imgUrl = `/public/storage/${newVal.cta.image}?t=${Date.now()}`;
+    } else {
+        imgUrl = `${newVal.cta.image}?t=${Date.now()}`;
+    }
 
     updateImageKey();
 })
@@ -65,18 +72,21 @@ watch(() => props.value, (newVal) => {
             <InputGroup labelFor="header" label="Header Text">
                 <InputText v-model:inputValue="header" inputType="text" inputId="header" inputName="header"
                     inputPlaceholder="Your call to action header text goes here!" />
-                <ValidationMessage v-if="form.errors.header" :caption="form.errors.title" />
+                <ValidationMessage v-if="form.errors.header" :caption="form.errors.header" />
             </InputGroup>
             <InputGroup labelFor="text" label="Text Paragraph">
                 <InputTextArea v-model:inputValue="text" />
+                <ValidationMessage v-if="form.errors.text" :caption="form.errors.text" />
             </InputGroup>
             <InputGroup labelFor="button" label="Button Text">
                 <InputText v-model:inputValue="button" inputType="text" inputId="button" inputName=""
                     inputPlaceholder="Your button's text goes here!" />
+                <ValidationMessage v-if="form.errors.button" :caption="form.errors.button" />
             </InputGroup>
             <InputGroup labelFor="image" label="Input Image">
                 <InputFile inputType="file" inputId="image" inputName="background_image"
                     @update:inputValue="(file) => { form.image = file; }" />
+                <ValidationMessage v-if="form.errors.image" :caption="form.errors.image" />
             </InputGroup>
             <div class="flex justify-between mb-4">
                 <div class="w-[400px]">

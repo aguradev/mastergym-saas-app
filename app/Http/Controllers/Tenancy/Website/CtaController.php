@@ -25,6 +25,14 @@ class CtaController extends Controller
     public function updateCtaData(Request $req)
     {
         if ($req->file('image') != null) {
+
+            $req->validate([
+                'image' => 'mimes:jpeg,png,jpg|max:2048',
+                'header' => 'required|max:50',
+                'text' => 'required|max:500',
+                'button' => 'required:max:15'
+            ]);
+
             $prefix = "tenant-" . tenant('id') . 'assets/website/images';
 
             $img_name = $req->file('image')->store($prefix);
@@ -36,6 +44,13 @@ class CtaController extends Controller
                 'button' => $req->button
             ];
         } else {
+
+            $req->validate([
+                'header' => 'required|max:50',
+                'text' => 'required|max:500',
+                'button' => 'required:max:15'
+            ]);
+
             $value = [
                 'image' => $req->image,
                 'header' => $req->header,

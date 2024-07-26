@@ -54,7 +54,6 @@ function editHandler() {
 
     form.post(route('website.footer.update', {
         _method: 'put',
-        onSuccess: () => form.reset('gymIcon'),
     }));
 }
 
@@ -71,7 +70,11 @@ watch(() => props.value, (newVal) => {
         footer.facebook = newVal.footer.facebook,
         footer.instagram = newVal.footer.instagram
 
-    imgUrl = `/public/storage/${newVal.footer.gymIcon}?t=${Date.now()}`;
+    if (newVal.footer.gymIcon.includes("tenant")) {
+        imgUrl = `/public/storage/${newVal.footer.gymIcon}?t=${Date.now()}`;
+    } else {
+        imgUrl = `${newVal.footer.gymIcon}?t=${Date.now()}`;
+    }
 
     updateImageKey();
 });

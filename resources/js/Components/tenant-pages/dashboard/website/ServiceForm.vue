@@ -47,16 +47,27 @@ function updateImageKey() {
     imgComponentKey.value++;
 }
 
+function display() {
+    setTimeout(() => {
+        console.log(form.errors);
+    }, 5000);
+}
+
 function editHandler() {
     form.post(route('website.service.update', {
         _method: 'put'
     }));
+    display();
 }
 
 watch(() => props.value, (newVal) => {
     service.title = newVal.service.title,
         service.text = newVal.service.text,
         service.cards = newVal.service.cards
+
+    // imgUrl.forEach(element => {
+
+    // });
 
     imgUrl[0].value = `/public/storage/${newVal.service.cards[0].image}?t=${Date.now()}`;
     imgUrl[1].value = `/public/storage/${newVal.service.cards[1].image}?t=${Date.now()}`;
@@ -66,6 +77,9 @@ watch(() => props.value, (newVal) => {
     updateImageKey();
 })
 
+function getErrorMessage(index, field) {
+    return form.errors[`cards.${index}.${field}`];
+}
 </script>
 
 <style scoped>
@@ -94,7 +108,7 @@ watch(() => props.value, (newVal) => {
 
 <template>
     <div class="grid grid-cols-1">
-        <form action="#" @submit.prevent="editHandler">
+        <form action="#" autocomplete="off" @submit.prevent="editHandler">
             <div class="grid grid-cols-2 gap-10 pr-2">
                 <div id="left">
                     <PopUpModal image="/public/assets/images/preview/service-prev.png" />
@@ -102,14 +116,14 @@ watch(() => props.value, (newVal) => {
                         <span class="text-2xl font-medium pt-2">Edit Service Content</span>
                         <PrimaryButton label="Preview Layout" @click-event="() => (openModal = true)" />
                     </div>
-                    <InputGroup label="Service Title" label-for="title">
-                        <InputText inputId="title" input-placeholder="Your service title goes here"
-                            input-name="title_input" v-model:inputValue="title" />
+                    <InputGroup label="Service Title" labelFor="title">
+                        <InputText inputId="title" input-placeholder="Your service title goes here" name="title_input"
+                            v-model:inputValue="title" />
                         <ValidationMessage v-if="form.errors.title" :caption="form.errors.title" />
                     </InputGroup>
-                    <InputGroup label="Brief Text" label-for="text">
-                        <InputTextArea inputId="text" input-placeholder="Your brief text goes here"
-                            input-name="text_input" v-model:inputValue="text" />
+                    <InputGroup label="Brief Text" labelFor="text">
+                        <InputTextArea inputId="text" input-placeholder="Your brief text goes here" name="text_input"
+                            v-model:inputValue="text" />
                         <ValidationMessage v-if="form.errors.text" :caption="form.errors.text" />
                     </InputGroup>
                     <PrimaryButton type="submit" label="Update Data" />
@@ -118,18 +132,21 @@ watch(() => props.value, (newVal) => {
                     <div v-for="(card, index) in cards" class="pt-4 mr-4">
                         <p class="text-md font-medium"> Card Number {{ index + 1 }}</p>
                         <div class="px-4 mt-2 pt-2 bg-primary-800 rounded-lg">
-                            <InputText class="hidden" inputId="id" input-placeholder="Your card name goes here"
-                                input-name="card_input" v-model:inputValue="card.id" />
-                            <InputGroup label="Card Name" label-for="text">
-                                <InputText inputId="card" input-placeholder="Your card name goes here"
-                                    input-name="card_input" v-model:inputValue="card.name" />
-                                <ValidationMessage v-if="form.errors.text" :caption="form.errors.text" />
+                            <!-- <InputText class="hidden" inputId="id" input-placeholder="Your card name goes here"
+                                name="card_input" v-model:inputValue="card.id" /> -->
+                            <InputGroup label="Card Name" labelFor="text">
+                                <InputText inputId="card" input-placeholder="Your card name goes here" name="card_input"
+                                    v-model:inputValue="card.name" />
+                                <ValidationMessage v-if="getErrorMessage(index, 'name')"
+                                    :caption="getErrorMessage(index, 'name')" />
                             </InputGroup>
                             <div class="grid grid-cols-2 gap-20">
                                 <div>
-                                    <InputGroup label="Card Image" label-for="cardImage">
-                                        <InputFile inputId="cardImage" inputType="file" input-name="gym_icon_input"
+                                    <InputGroup label="Card Image" labelFor="cardImage">
+                                        <InputFile inputId="cardImage" inputType="file" name="gym_icon_input"
                                             @update:inputValue="(file) => { form.cards[index].image = file; }" />
+                                        <ValidationMessage v-if="getErrorMessage(index, 'image')"
+                                            :caption="getErrorMessage(index, 'image')" />
                                     </InputGroup>
                                 </div>
                                 <div>

@@ -3,7 +3,6 @@ import { computed, onMounted } from 'vue';
 
 const prop = defineProps({
     img: String,
-    class: String,
 })
 
 let bg = computed(() => {

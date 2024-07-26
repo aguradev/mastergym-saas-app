@@ -26,6 +26,7 @@ Route::prefix("dashboard/website")->group(function () {
     Route::put("/service", [ServiceController::class, 'updateServiceData'])->name('website.service.update');
 
     Route::get("/testimony", [TestimonyController::class, 'fetchTestimonyData'])->name('website.testimony');
+    Route::put("/testimony", [TestimonyController::class, 'updateTestimonyData'])->name('website.testimony.update');
 
     Route::get("/footer", [FooterController::class, 'fetchFooterData'])->name('website.footer');
     Route::put("/footer", [FooterController::class, 'updateFooterData'])->name('website.footer.update');

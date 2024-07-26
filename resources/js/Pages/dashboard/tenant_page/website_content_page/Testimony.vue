@@ -12,7 +12,6 @@ import TestiForm from '@components/tenant-pages/dashboard/website/TestiForm.vue'
 
     <Head title="Testimony Content" />
     <TenantContentLayout>
-        <p>Testimony</p>
         <TestiForm />
     </TenantContentLayout>
 </template>

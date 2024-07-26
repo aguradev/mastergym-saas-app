@@ -6,8 +6,16 @@ const data = defineProps({
     image: String,
 })
 
+let imgUrl = ref(`/public/storage/${data.image}?t=${Date.now()}`);
+
+if (data.image.includes("tenant")) {
+    imgUrl = `/public/storage/${data.image}?t=${Date.now()}`;
+} else {
+    imgUrl = `${data.image}?t=${Date.now()}`;
+}
+
 const images = computed(() => {
-    return new URL(`${data.image}`, import.meta.url).href
+    return new URL(`${imgUrl}`, import.meta.url).href
 })
 </script>
 

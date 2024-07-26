@@ -27,6 +27,13 @@ class HeroController extends Controller
     {
         if ($req->file("image") != null) {
 
+            $req->validate([
+                'title' => 'required|max:50',
+                'btnLeft' => 'required|max:20',
+                'btnRight' => 'required|max:20',
+                'image' => 'mimes:jpeg,png,jpg|max:2048',
+            ]);
+
             $prefix = "tenant-" . tenant('id') . '/assets/website/images';
 
             $image_name = $req->file('image')->store($prefix);
@@ -38,6 +45,13 @@ class HeroController extends Controller
                 'btnRight' => $req->btnRight,
             ];
         } else {
+
+            $req->validate([
+                'title' => 'required|max:50',
+                'btnLeft' => 'required|max:20',
+                'btnRight' => 'required|max:20',
+            ]);
+
             $value = [
                 'image' => $req->image,
                 'title' => $req->title,
