@@ -23,7 +23,7 @@ class TenantTransactionRegistration extends FormRequest
     public function rules(): array
     {
         return [
-            "gym_title" => "required",
+            "gym_title" => ["required"],
             "domain" => ["required", "lowercase", "unique:domains,domain"],
             "gym_email" => ["required", "email", "unique:tenants,email"],
             "address" => ["required", "min:10"],

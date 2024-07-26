@@ -24,7 +24,9 @@ class TenantServiceImpl implements TenantServiceInterface
             "address" => $request["address"]
         ];
 
+
         $processRegistration = $this->tenantRepo->CreateTenantDomainRegistration($tenantRegistration, $request["domain"]);
+
 
         if (!$processRegistration) {
             return false;

@@ -9,6 +9,7 @@ use App\Models\Auth\TenantCredential;
 use App\Models\CentralModel\TenantSubscription;
 use App\Models\CentralModel\TenantTransaction;
 use App\Models\Gym\Tenant;
+use App\Notifications\WelcomeNewTenant;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
@@ -40,7 +41,8 @@ class TenantRegistrationController extends Controller
         try {
             $decryptionToken = Crypt::decrypt($tokens);
 
-            $findTransaction = TenantTransaction::where("transaction_token_access", $decryptionToken)->first();
+            $findTransaction = TenantTransaction::where("transaction_token_access", $decryptionToken)
+                ->first();
 
             if (!$findTransaction) {
                 return redirect()->back()->with("message_error", "Failed create tenant");
@@ -50,21 +52,33 @@ class TenantRegistrationController extends Controller
             return redirect()->back()->with("message_error", "Failed create tenant");
         }
 
+
         $registrationServiceHandling = $this->centralTenantServices->TenantRegistrationHandler($request->validated());
+
 
         if (!$registrationServiceHandling) {
             return redirect()->back()->with("message_error", "Failed create tenant");
         }
 
+        DB::beginTransaction();
+
         try {
-            TenantSubscription::create([
+            $createSubscription = TenantSubscription::create([
                 "tenant_id" => $registrationServiceHandling->id,
                 "invoice_transaction_id" => $findTransaction->id,
                 "start_date" => now(),
                 "due_date" => $findTransaction->period_type === "Monthly" ? now()->addMonth() : now()->addYear()
             ]);
+
+            if ($createSubscription) {
+                $findTransaction->transaction_token_access = null;
+                $findTransaction->save();
+            }
+
+            DB::commit();
         } catch (Exception $err) {
-            Log::error($err);
+            DB::rollBack();
+            Log::error($err->getMessage());
             return redirect()->back()->with('message_error', 'failed create tenant');
         }
 

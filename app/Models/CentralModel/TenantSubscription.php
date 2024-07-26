@@ -11,6 +11,7 @@ class TenantSubscription extends Model
 {
     use HasFactory, HasUuids;
     protected $table = "tenants_subscription_lists";
+    protected $with = ["Tenant", "Transaction"];
 
     protected $fillable = [
         "tenant_id",
