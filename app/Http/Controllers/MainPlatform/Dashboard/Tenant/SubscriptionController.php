@@ -10,12 +10,19 @@ use Inertia\Inertia;
 
 class SubscriptionController extends Controller
 {
-    public function TenantSubscriptionsPage()
+    public function TenantSubscriptionsPage(Request $request)
     {
-        $tenantSubscriptionsLists = TenantSubscription::with(["Tenant.Domains"])->get();
+        $subscriptionId = $request->query("subscription_id");
+        $tenantSubscriptionModel = TenantSubscription::with(["Tenant.Domains"]);
+
+        $tenantSubscriptionsLists = $tenantSubscriptionModel->get();
+        $visibleModalDetail = Inertia::lazy(fn () => true);
+        $getSubscriptionDataDetail = Inertia::lazy(fn () => $tenantSubscriptionModel->whereId($subscriptionId)->first());
 
         return Inertia::render('dashboard/central_page/subscription_tenant_page/Index', compact(
-            'tenantSubscriptionsLists'
+            'tenantSubscriptionsLists',
+            'visibleModalDetail',
+            'getSubscriptionDataDetail'
         ));
     }
 }
