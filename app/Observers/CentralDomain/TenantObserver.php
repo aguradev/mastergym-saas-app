@@ -3,9 +3,8 @@
 namespace App\Observers\CentralDomain;
 
 use App\Models\Gym\Tenant;
-use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 
-class TenantObserver implements ShouldDispatchAfterCommit
+class TenantObserver
 {
     /**
      * Handle the Tenant "created" event.

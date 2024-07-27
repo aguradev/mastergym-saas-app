@@ -28,8 +28,6 @@ class TenantRepoImpl implements TenantRepoInterface
             if (!$createDomain) {
                 throw new Exception("Failed create domain");
             }
-
-            $isTenantCreated->notify(new WelcomeNewTenant($isTenantCreated, $createDomain->domain));
         } catch (\Exception $err) {
             Log::error($err->getMessage());
             return false;

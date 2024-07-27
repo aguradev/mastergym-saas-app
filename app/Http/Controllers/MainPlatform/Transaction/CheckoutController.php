@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MainPlatform\Transaction;
 
 use App\Helpers\MidtransHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CentralRequest\CheckoutOrderRequest;
 use App\Mail\ReminderTransactionMail;
 use App\Models\CentralModel\TenantSubscriptionPlan;
 use App\Models\CentralModel\TenantTransaction;
@@ -114,7 +115,7 @@ class CheckoutController extends Controller
         session()->forget("period_purchase");
     }
 
-    public function PaymentGatewaySubmit(Request $request)
+    public function PaymentGatewaySubmit(CheckoutOrderRequest $request)
     {
         $initialMidtrans = new MidtransHelper();
         $planOrder = session('purchase_subscription_plan');

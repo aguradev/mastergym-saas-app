@@ -64,18 +64,9 @@ onMounted(() => {
                 </Column>
                 <Column header="Domain">
                     <template #body="slotProps">
-                        <button
-                            type="button"
-                            class="underline"
-                            @click="
-                                () =>
-                                    redirectToTenant(
-                                        slotProps.data.tenant.domains[0].domain,
-                                    )
-                            "
-                        >
+                        <p>
                             {{ slotProps.data.tenant.domains[0].domain }}
-                        </button>
+                        </p>
                     </template>
                 </Column>
                 <Column header="Address">
@@ -92,7 +83,7 @@ onMounted(() => {
                         </p>
                     </template>
                 </Column>
-                <Column header="Status">
+                <Column header="Subscription status">
                     <template #body="slotProps">
                         <Badge
                             class="px-4 !text-white"

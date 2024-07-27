@@ -28,7 +28,7 @@ class TransactionController extends Controller
                 default:
                     break;
             }
-        })->paginate(5);
+        })->latest()->paginate(5);
 
         Debugbar::debug($transactions);
         return Inertia::render("dashboard/central_page/transaction_page/Index", compact('transactions'));

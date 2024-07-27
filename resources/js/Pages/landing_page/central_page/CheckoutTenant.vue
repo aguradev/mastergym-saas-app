@@ -5,7 +5,7 @@ import FeatLists from "@components/ui/pricing-card/FeatLists.vue";
 import CheckoutForm from "@components/central-pages/transcation-forms/CheckoutForm.vue";
 import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import CardRadio from "@components/elements/input/CardRadio.vue";
-import { onMounted, ref, watchEffect } from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 import { useCentralCheckout } from "@stores/central_checkout_state";
 import { storeToRefs } from "pinia";
 import { route, useRoute } from "ziggy-js";
@@ -21,11 +21,13 @@ const { planOrder, totalPrice, price, periodPurchase } = defineProps([
 ]);
 
 const useCentralCheckoutState = useCentralCheckout();
-const { checkoutOrderRequest } = storeToRefs(useCentralCheckoutState);
+const { checkoutOrderRequest, checkoutOrderMessageValidation } = storeToRefs(
+    useCentralCheckoutState,
+);
 const toast = useToast();
 const page = usePage();
 
-const isFormSubmmited = ref(false);
+const isFormSubmmited = ref(true);
 const submitBtnLabel = ref("Confirm Order");
 const manualTransferSelected = ref(false);
 const paymentGatewaySelected = ref(false);
@@ -84,10 +86,18 @@ const confirmOrderActionHandler = () => {
                         });
                     }
                 } catch (err) {
-                    console.log(err);
+                    const responseError = err.response;
+                    if (responseError.status === 422) {
+                        checkoutOrderMessageValidation.value =
+                            responseError.data.errors;
+                    } else {
+                        console.log(responseError);
+                    }
                 } finally {
                     submitBtnLabel.value = "Confirm Order";
-                    isFormSubmmited.value = false;
+                    isFormSubmmited.value = true;
+                    paymentGatewaySelected.value = false;
+                    manualTransferSelected.value = false;
                 }
             };
 
@@ -108,6 +118,15 @@ const confirmOrderActionHandler = () => {
             break;
     }
 };
+
+watch(
+    () => checkoutOrderRequest.value.select_payment,
+    (newValue, oldValue) => {
+        if (newValue !== "") {
+            isFormSubmmited.value = false;
+        }
+    },
+);
 
 watchEffect(() => {
     const { message_success, message_error } = page.props.flash;
