@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 //content website routes
-Route::prefix("dashboard/website")->group(function () {
+Route::prefix("website")->group(function () {
     Route::get("/", function () {
         return Inertia::render(
             "dashboard/tenant_page/website_content_page/ContentOverview"

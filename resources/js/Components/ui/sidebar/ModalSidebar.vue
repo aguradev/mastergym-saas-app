@@ -1,27 +1,33 @@
 <script setup>
-import { toRefs, watch } from 'vue';
+import { toRefs, watch } from "vue";
 
 const props = defineProps({
     title: String,
-    modalVisible: Boolean
-})
+    modalVisible: Boolean,
+});
 
 const { title, modalVisible } = toRefs(props);
-const emits = defineEmits(["closeModal"])
+const emits = defineEmits(["closeModal"]);
 
-watch(() => modalVisible.value, (status) => {
-    if (!status) {
-        document.body.classList.remove("overflow-hidden");
-        return;
-    }
+watch(
+    () => modalVisible.value,
+    (status) => {
+        if (!status) {
+            document.body.classList.remove("overflow-hidden");
+            return;
+        }
 
-    document.body.classList.add("overflow-hidden")
-})
+        document.body.classList.add("overflow-hidden");
+    },
+);
 </script>
 
 <template>
-    <div class="fixed z-[99] top-0 left-0 grid w-full h-full px-8 place-content-center bg-primary-900/70"
-        v-if="modalVisible" @click="$emit('closeModal')"></div>
+    <div
+        class="fixed z-[99] top-0 left-0 grid w-full h-full px-8 place-content-center bg-primary-900/70"
+        v-if="modalVisible"
+        @click="$emit('closeModal')"
+    ></div>
 
     <transition name="sidebar-slide">
         <div class="modal__sidebar" v-if="modalVisible">
@@ -33,8 +39,6 @@ watch(() => modalVisible.value, (status) => {
             <slot />
         </div>
     </transition>
-
-
 </template>
 
 <style scoped>

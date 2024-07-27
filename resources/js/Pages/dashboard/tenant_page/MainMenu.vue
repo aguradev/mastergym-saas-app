@@ -1,16 +1,7 @@
 <script setup>
-import DashboardLayout from "@layouts/DashboardLayout.vue";
-import { reactive } from "vue";
-
-const props = defineProps({
-    vendor: String,
-});
+import DashboardTenantLayout from "@layouts/DashboardTenantLayout.vue";
 </script>
 
 <template>
-    <DashboardLayout :menu-items="menuItems">
-        <section>
-            <div>Hello world {{ props.vendor }}</div>
-        </section>
-    </DashboardLayout>
+    <DashboardTenantLayout> </DashboardTenantLayout>
 </template>
