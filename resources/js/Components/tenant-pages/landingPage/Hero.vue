@@ -1,6 +1,6 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3';
-import { computed, toRef, toRefs } from 'vue'
+import { computed, ref, toRef, toRefs } from 'vue'
 import { parse } from 'vue/compiler-sfc';
 
 const page = usePage();
@@ -14,9 +14,18 @@ const parsedHero = computed(() => {
     }
 })
 
+let imgUrl = ref(`/public/storage/${parsedHero.value.image}?t=${Date.now()}`);
+
+if (parsedHero.value.image.includes("tenant")) {
+    imgUrl = `/public/storage/${parsedHero.value.image}?t=${Date.now()}`;
+} else {
+    imgUrl = `${parsedHero.value.image}?t=${Date.now()}`;
+}
+
 const icon = computed(() => {
-    return new URL(`${parsedHero.value.image}`, import.meta.url).href
+    return new URL(`${imgUrl}`, import.meta.url).href
 })
+
 </script>
 
 <template>

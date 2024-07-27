@@ -16,15 +16,20 @@ const props = defineProps({
 
 const { inputValue, inputId, inputType, inputPlaceholder, inputName, invalid } =
     toRefs(props);
+
+const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    emit("update:inputValue", file ? file : null);
+};
 </script>
 
 <template>
     <InputText :value="inputValue" :id="inputId" :type="inputType" :placeholder="inputPlaceholder" :name="inputName"
-        @input="(event) => emit('update:inputValue', event.target.value)" :pt="{
+        @input="handleFileChange" :pt="{
             root: ({ props, context, parent }) => {
                 return {
                     class: [
-                        'bg-primary-700 rounded-lg py-3 px-4 w-full',
+                        'bg-primary-700 rounded-lg py-3 px-4 w-fit',
                         {
                             'focus:outline-none': !context.disabled,
                         },

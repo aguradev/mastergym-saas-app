@@ -43,13 +43,10 @@ watchEffect(() => {
 </script>
 
 <template>
+
     <Head title="Plan Tenants" />
 
-    <DashboardLayout
-        :menu-items="navigationMenuItem"
-        :menu-item-active="menuItemActive"
-        titleNav="Plan Tenants"
-    >
+    <DashboardLayout :menu-items="navigationMenuItem" :menu-item-active="menuItemActive" titleNav="Plan Tenants">
         <Toast />
         <TabViewPage :tabUrl="tabContents" />
         <slot />

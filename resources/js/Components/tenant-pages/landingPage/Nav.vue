@@ -4,17 +4,12 @@ import { Link, Head, usePage } from '@inertiajs/vue3';
 
 // Navbar Toggle
 document.addEventListener('DOMContentLoaded', function () {
-    // Get all "navbar-burger" elements
     var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-    // Check if there are any navbar burgers
     if ($navbarBurgers.length > 0) {
-        // Add a click event on each of them
         $navbarBurgers.forEach(function ($el) {
             $el.addEventListener('click', function () {
-                // Get the "main-nav" element
                 var $target = document.getElementById('main-nav');
-                // Toggle the class on "main-nav"
                 $target.classList.toggle('hidden');
             });
         });
@@ -23,10 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 window.addEventListener('scroll', function () {
     const box = document.getElementById('box');
-    if (window.scrollY > 200) { // Adjust the scroll position as needed
-        box.classList.add('bg-black'); // Change to the class you want to add
+    if (window.scrollY > 200) {
+        box.classList.add('bg-black');
     } else {
-        box.classList.remove('bg-black'); // Change to the class you want to remove
+        box.classList.remove('bg-black');
     }
 });
 
@@ -90,7 +85,7 @@ const parsedNav = computed(() => {
                             </Link>
                         </div>
                         <div id="right-nav">
-                            <Link href="">
+                            <Link href="#">
                             </Link>
                         </div>
                     </div>

@@ -3,17 +3,16 @@ import { ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
 
 import TenantContentLayout from '@layouts/TenantContentLayout.vue';
+import FooterForm from '@components/tenant-pages/dashboard/website/FooterForm.vue'
 
 </script>
 
 <template>
 
-    <Head title="CTA Content" />
+    <Head title="Footer Content" />
     <TenantContentLayout>
-        <p>Call To Action</p>
-        <div id="wrap">
-            <div id="left"></div>
-            <div id="right"></div>
+        <div>
+            <FooterForm />
         </div>
     </TenantContentLayout>
 </template>

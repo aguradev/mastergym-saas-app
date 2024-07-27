@@ -1,8 +1,6 @@
 <script setup>
 import GymIcon from '/public/assets/images/icon/gym.png';
 
-
-
 </script>
 
 <template>

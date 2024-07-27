@@ -13,12 +13,24 @@ const parsedCTA = computed(() => {
         return null;
     }
 })
+
+let imgUrl = ref(`/public/storage/${parsedCTA.value.image}?t=${Date.now()}`);
+
+if (parsedCTA.value.image.includes("tenant")) {
+    imgUrl = `/public/storage/${parsedCTA.value.image}?t=${Date.now()}`;
+} else {
+    imgUrl = `${parsedCTA.value.image}?t=${Date.now()}`;
+}
+
+const image = computed(() => {
+    return new URL(`${imgUrl}`, import.meta.url).href
+})
 </script>
 
 <template>
     <div class="flex-column md:flex bg-slate-700 pt-10 md:py-20">
         <div id="left" class="h-content md:w-6/12 flex justify-center md:justify-end align-middle pl-20 pr-20">
-            <img :src="parsedCTA.image" class="md:my-10 md:h-[400px] mr-10 mt-5 md:mr-0 md:mt-0 box-content rounded-md">
+            <img :src="image" class="md:my-10 md:h-[400px] mr-10 mt-5 md:mr-0 md:mt-0 box-content rounded-md">
         </div>
         <div id="right" class="h-content bg-slate-5 00 md:w-6/12 pl-10 pr-20 pb-10 md:pr-60 md:pb-0">
             <p id="header" class="block text-orange-400 text-5xl font-semibold mt-10 md:mt-20 pb-5 capitalize">{{

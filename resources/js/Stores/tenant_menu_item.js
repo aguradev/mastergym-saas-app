@@ -12,18 +12,22 @@ export const useNavTenantPlatform = defineStore('tenant_dashboard_nav', () => {
                 {
                     icon: 'pi pi-chart-pie',
                     label: 'Dashboard',
+                    link: route('website.overview'),
                 },
                 {
                     icon: 'pi pi-users',
                     label: 'Member',
+                    link: route('website.overview'),
                 },
                 {
                     icon: 'pi pi-money-bill',
                     label: 'Membership',
+                    link: route('website.overview'),
                 },
                 {
                     icon: 'pi pi-money-bill',
                     label: 'Transactions',
+                    link: route('website.overview'),
                 },
                 {
                     icon: 'pi pi-window-maximize',
@@ -33,6 +37,7 @@ export const useNavTenantPlatform = defineStore('tenant_dashboard_nav', () => {
                 {
                     icon: 'pi pi-cog',
                     label: 'Setting',
+                    link: route('website.overview'),
                 },
             ],
         },

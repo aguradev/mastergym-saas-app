@@ -1,25 +1,10 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3';
-import { computed, toRefs } from 'vue';
-
-const footerItems = {
-    gymIcon: "/public/assets/images/icon/gym.png",
-    gymTitle: "Gym Tenant",
-    briefText: "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.",
-    menus: [
-        "company",
-        "about",
-        "features",
-        "works",
-        "contact us",
-    ],
-    twitter: "https://twitter.com",
-    facebook: "https://facebook.com",
-    instagram: "https://instagram.com",
-}
+import { computed, ref, toRefs } from 'vue';
 
 const page = usePage();
 const { footer } = toRefs(page.props);
+
 
 const parsedFooter = computed(() => {
     {
@@ -31,8 +16,16 @@ const parsedFooter = computed(() => {
     }
 })
 
+let imgUrl = ref(`/public/storage/${parsedFooter.value.gymIcon}?t=${Date.now()}`);
+
+if (parsedFooter.value.gymIcon.includes("tenant")) {
+    imgUrl = `/public/storage/${parsedFooter.value.gymIcon}?t=${Date.now()}`;
+} else {
+    imgUrl = `${parsedFooter.value.gymIcon}?t=${Date.now()}`;
+}
+
 const icon = computed(() => {
-    return new URL(`${parsedFooter.value.gymIcon}`, import.meta.url).href
+    return new URL(`${imgUrl}`, import.meta.url).href
 })
 </script>
 
@@ -108,7 +101,7 @@ const icon = computed(() => {
 
             <hr class="mt-16 mb-10 border-gray-200" />
 
-            <p class="text-sm text-center text-white">© Copyright 2024, All Rights Reserved by Gym Master</p>
+            <p class="text-sm text-center text-white">© Copyright 2024, Website made by Gym Master</p>
         </div>
     </section>
 </template>

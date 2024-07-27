@@ -34,8 +34,9 @@ class TenantWebsiteSeeder extends Seeder
             'btnRight' => "learn more ->",
         ];
 
+        // 'image' => 'https://shorturl.at/fYk7V',
         $cta = [
-            'image' => 'https://shorturl.at/fYk7V',
+            'image' => '/public/assets/images/icon/cta.webp',
             'header' => "Become A member Now!",
             'text' => "Unlock your full potential with our exclusive fitness programs at [Gym Name].Join today and take the first step towards a healthier, stronger you! Our expert trainers, state- of - the - art facilities, and personalized workout plans are designed to help you achieve your fitness goals. Don't wait—transform your life and become part of our vibrant community now! Sign up and start your journey with us.",
             'button' => "JOIN US!",
@@ -158,8 +159,6 @@ class TenantWebsiteSeeder extends Seeder
                 ]
             ]
         ];
-
-        //php artisan tenants:seed --class=Database\\Seeders\\Tenants\\TenantWebsiteSeeder
 
         $testimony = [
             'title' => "read trusted reviews from our customers",
