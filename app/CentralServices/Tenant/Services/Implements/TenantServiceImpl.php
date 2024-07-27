@@ -4,6 +4,7 @@ namespace App\CentralServices\Tenant\Services\Implements;
 
 use App\CentralServices\Tenant\Repositories\Interfaces\TenantRepoInterface;
 use App\CentralServices\Tenant\Services\Interfaces\TenantServiceInterface;
+use App\Notifications\WelcomeNewTenant;
 use App\TenancyServices\User\Repositories\Interfaces\TenantUserRepoInterface;
 
 class TenantServiceImpl implements TenantServiceInterface
@@ -24,11 +25,15 @@ class TenantServiceImpl implements TenantServiceInterface
             "address" => $request["address"]
         ];
 
+
         $processRegistration = $this->tenantRepo->CreateTenantDomainRegistration($tenantRegistration, $request["domain"]);
+
 
         if (!$processRegistration) {
             return false;
         }
+
+        $processRegistration->notify(new WelcomeNewTenant($processRegistration, $processRegistration->domains->first()->domain));
 
         $userRegistrations = [
             "first_name" => $request["first_name"],
@@ -43,6 +48,6 @@ class TenantServiceImpl implements TenantServiceInterface
             return false;
         }
 
-        return true;
+        return $processRegistration;
     }
 }

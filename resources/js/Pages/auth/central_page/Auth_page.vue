@@ -1,6 +1,6 @@
 <script setup>
 import { Head, useForm, usePage } from "@inertiajs/vue3";
-import { onMounted, reactive, ref, watchEffect } from "vue";
+import { reactive, ref, watchEffect } from "vue";
 import InputElement from "@components/elements/input/InputText.vue";
 import InputPassword from "@components/elements/input/InputPassword.vue";
 import Button from "primevue/button";
@@ -120,8 +120,7 @@ watchEffect(() => {
                     }"
                     type="submit"
                     :disabled="formAuth.processing"
-                    :loading="loadingButton"
-                    label="Sign in"
+                    :label="formAuth.processing ? 'Loading...' : 'Sign in'"
                     ref="buttonSubmit"
                 />
             </div>

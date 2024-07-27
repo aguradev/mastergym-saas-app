@@ -7,8 +7,6 @@ import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
 import { useTenantRegistration } from "@stores/tenant_registration_state";
 import { storeToRefs } from "pinia";
-import TenantDataForm from "@components/central-pages/transcation-forms/TenantDataForm.vue";
-import TenantUserForm from "@components/central-pages/transcation-forms/TenantUserForm.vue";
 
 const page = usePage();
 const toast = useToast();
@@ -23,18 +21,23 @@ const registerTenantHandler = () => {
     isFormSubmmited.value = true;
     submitBtnLabel.value = "Loading...";
 
-    formRegister.value.post(route("transaction.tenant-registration.submit"), {
-        onFinish: () => {
-            isFormSubmmited.value = false;
-            submitBtnLabel.value = "Submit";
+    formRegister.value.post(
+        route("transaction.tenant-registration.submit", {
+            token: page.props.token,
+        }),
+        {
+            onFinish: () => {
+                isFormSubmmited.value = false;
+                submitBtnLabel.value = "Submit";
+            },
+            onSuccess: () => {
+                formRegister.value.reset();
+            },
+            onError: () => {
+                tenantFormActive.value = tenantRegistrationStepForm.value[0];
+            },
         },
-        onSuccess: () => {
-            formRegister.value.reset();
-        },
-        onError: () => {
-            tenantFormActive.value = tenantRegistrationStepForm.value[0];
-        },
-    });
+    );
 };
 
 watchEffect(() => {

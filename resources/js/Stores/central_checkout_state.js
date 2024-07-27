@@ -1,5 +1,6 @@
 import { useForm } from "@inertiajs/vue3";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
 export const useCentralCheckout = defineStore("central-checkout-state", () => {
     const checkoutOrderRequest = useForm({
@@ -10,5 +11,7 @@ export const useCentralCheckout = defineStore("central-checkout-state", () => {
         select_payment: "",
     });
 
-    return { checkoutOrderRequest };
+    const checkoutOrderMessageValidation = ref(null);
+
+    return { checkoutOrderRequest, checkoutOrderMessageValidation };
 });

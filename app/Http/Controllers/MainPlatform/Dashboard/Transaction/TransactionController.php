@@ -5,14 +5,31 @@ namespace App\Http\Controllers\MainPlatform\Dashboard\Transaction;
 use App\Http\Controllers\Controller;
 use App\Models\CentralModel\TenantTransaction;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
-    public function TransactionListPage()
+    public function TransactionListPage(Request $request)
     {
-        $transactions = TenantTransaction::simplePaginate(10);
+        $searchResult = $request->query("search");
+        $typeSearch = $request->query("type");
+        $transactions = null;
+
+        $transactions = TenantTransaction::query()->when($searchResult, function ($query) use ($searchResult, $typeSearch) {
+            switch ($typeSearch) {
+                case "ORDER_ID":
+                    $query->where("order_id", (int) $searchResult);
+                    break;
+                case "EMAIL":
+                    $query->where("email", "LIKE", '%' . $searchResult . '%');
+                    break;
+                default:
+                    break;
+            }
+        })->latest()->paginate(5);
+
         Debugbar::debug($transactions);
         return Inertia::render("dashboard/central_page/transaction_page/Index", compact('transactions'));
     }
@@ -26,5 +43,12 @@ class TransactionController extends Controller
         }
 
         return response()->json($transaction)->setStatusCode(200);
+    }
+
+    public function PrintInvoicePDF(TenantTransaction $transaction)
+    {
+        $loadInvoicePDF = Pdf::loadView('pdf.transaction-invoice', compact('transaction'));
+
+        return $loadInvoicePDF->stream();
     }
 }

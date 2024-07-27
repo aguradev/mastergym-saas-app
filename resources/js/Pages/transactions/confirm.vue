@@ -19,7 +19,7 @@ const { status, title, message } = defineProps({
             </div>
 
             <h1 class="text-5xl font-semibold mb-8">{{ title }}</h1>
-            <p>{{ message }}</p>
+            <p class="text-lg">{{ message }}</p>
         </div>
 
         <div class="text-center">

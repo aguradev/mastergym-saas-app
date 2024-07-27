@@ -8,18 +8,7 @@ use App\Http\Controllers\MainPlatform\Transaction\TenantRegistrationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|E
-*/
-
-
+Route::get("/invitation-registration", fn () => view('mail.sending-tenant-registration'));
 Route::get("/", LandingPageController::class)->name('central.landingPage');
 Route::get("/about", fn () => Inertia::render("landing_page/central_page/About"))->name('central.about');
 
@@ -44,6 +33,7 @@ Route::prefix("dashboard")->group(function () {
         require_once __DIR__ . "/dashboard_central/plan_tenant_route.php";
         require_once __DIR__ . "/dashboard_central/navigation_route.php";
         require_once __DIR__ . "/dashboard_central/transactions_route.php";
+        require_once __DIR__ . "/dashboard_central/tenant_subscriptions_route.php";
     });
 });
 
@@ -61,7 +51,7 @@ Route::prefix("transaction")->group(function () {
         Route::post("/payment-gateway", "MidtransSuccessConfirmation")->name("transaction.confirm.midtrans");
     });
 
-    Route::controller(TenantRegistrationController::class)->group(function () {
+    Route::controller(TenantRegistrationController::class)->middleware(["central.verify-token-transaction"])->group(function () {
         Route::get('tenant-registration', "RegistrationPage")->name("transaction.tenant-registration");
         Route::post('tenant-registration', 'TenantRegistrationSubmit')->name('transaction.tenant-registration.submit');
     });

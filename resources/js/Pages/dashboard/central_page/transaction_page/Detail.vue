@@ -5,6 +5,7 @@ import { route } from "ziggy-js";
 import axiosHttp from "../../../../Lib/axios";
 import FormatCurrency from "../../../../Lib/Currency";
 import Badge from "primevue/badge";
+import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 
 const props = defineProps({
     id: String,
@@ -26,6 +27,16 @@ const fetchTransactionDetail = async () => {
     } catch (err) {
         console.log(err);
     }
+};
+
+const openPreviewPDF = (id) => {
+    window.open(
+        route("central-dashboard.transactions.invoice-pdf", {
+            transaction: id,
+        }),
+        "MsgWindow",
+        "width=800 height=1200",
+    );
 };
 
 await fetchTransactionDetail();
@@ -85,7 +96,7 @@ await fetchTransactionDetail();
             class="!mb-0"
         />
     </div>
-    <div class="grid lg:grid-cols-2">
+    <div class="grid lg:grid-cols-2 mb-8">
         <DynamicSectionContent
             label="Transaction expired countdown"
             :caption="transactionDetail.expired_countdown ?? '-'"
@@ -101,6 +112,12 @@ await fetchTransactionDetail();
                     : '-'
             "
             class="!mb-0"
+        />
+    </div>
+    <div>
+        <PrimaryButton
+            label="Download Invoice"
+            @click-event="() => openPreviewPDF(transactionDetail.id)"
         />
     </div>
 </template>

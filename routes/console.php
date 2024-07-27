@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\InvoicePaidMail;
 use App\Mail\TestMail;
 use App\Models\Auth\TenantCredential;
 use App\Models\CentralModel\User;
@@ -27,3 +28,8 @@ Artisan::command("email:test", function () {
     Mail::send(new TestMail());
     $this->comment("check your mail!");
 })->purpose('Testing sending email');
+
+Artisan::command("email:invoice-paid-test", function () {
+    Mail::send(new InvoicePaidMail("agungrageshwara24@gmail.com"));
+    $this->comment("check your mail!");
+});

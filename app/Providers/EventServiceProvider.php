@@ -31,7 +31,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Tenant::observe(TenantObserver::class);
         TenantTransaction::observe(TenantTransactionObserver::class);
         TenantSubscriptionPlan::observe(SubscriptionPlanObsever::class);
     }

@@ -4,12 +4,16 @@ namespace App\Http\Controllers\MainPlatform\Transaction;
 
 use App\Helpers\MidtransHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CentralRequest\CheckoutOrderRequest;
+use App\Mail\ReminderTransactionMail;
 use App\Models\CentralModel\TenantSubscriptionPlan;
 use App\Models\CentralModel\TenantTransaction;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class CheckoutController extends Controller
@@ -111,7 +115,7 @@ class CheckoutController extends Controller
         session()->forget("period_purchase");
     }
 
-    public function PaymentGatewaySubmit(Request $request)
+    public function PaymentGatewaySubmit(CheckoutOrderRequest $request)
     {
         $initialMidtrans = new MidtransHelper();
         $planOrder = session('purchase_subscription_plan');
@@ -138,13 +142,15 @@ class CheckoutController extends Controller
 
         $transactionsRequest = [
             "tenant_plan_id" => $planOrder->TenantVersionLatest->id,
+            "order_id" => time(),
             "full_name" => $request->full_name,
             "email" => $request->email,
             "phone_number" => $request->phone_number,
             "address" => $request->address,
             "tax" => $price * 10 / 100,
             "total" => $totalPrice,
-            "status" => "PENDING"
+            "status" => "PENDING",
+            "period_type" => $periodPurchase === "Month" ? "Monthly" : "Yearly"
         ];
 
         $urlRedirectPaymentGateway = $initialMidtrans->createInvoiceTransaction([
@@ -184,6 +190,15 @@ class CheckoutController extends Controller
         session()->forget("purchase_subscription_plan");
         session()->forget("period_purchase");
         session()->put('last_history_transaction_id', $createTransaction->id);
+
+        $parseExpiredDate = Carbon::parse($createTransaction->transaction_expired_at)->format("D, d M Y H:i:s");
+
+        Mail::to($createTransaction["email"])->queue(new ReminderTransactionMail([
+            "full_name" => $createTransaction["full_name"],
+            "plan" => $planOrder->name,
+            "expired_date" => $parseExpiredDate,
+            "payment_url" => $createTransaction->payment_gateway_url
+        ]));
 
         return response()->json([
             "message" => "Success create new transactions",

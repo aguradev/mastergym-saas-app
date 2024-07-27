@@ -3,16 +3,16 @@
 namespace App\Observers\CentralDomain;
 
 use App\Models\Gym\Tenant;
-use App\Notifications\WelcomeNewTenant;
-use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class TenantObserver implements ShouldHandleEventsAfterCommit
+class TenantObserver
 {
     /**
      * Handle the Tenant "created" event.
      */
     public function creating(Tenant $tenant): void
     {
+        $tenant->created_at = now();
+        $tenant->save();
     }
 
     public function created(Tenant $tenant): void
