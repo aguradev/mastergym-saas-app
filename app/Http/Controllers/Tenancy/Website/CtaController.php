@@ -27,7 +27,7 @@ class CtaController extends Controller
         if ($req->file('image') != null) {
 
             $req->validate([
-                'image' => 'mimes:jpeg,png,jpg|max:2048',
+                'image' => 'mimes:jpeg,png,jpg,webp|max:2048',
                 'header' => 'required|max:50',
                 'text' => 'required|max:500',
                 'button' => 'required:max:15'

@@ -16,7 +16,8 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $findTenants = Tenant::whereId("9c5b145a-2898-4f91-aeda-a9531b41d5d7")->first();
+        $tenantId = tenant('id');
+        $findTenants = Tenant::whereId($tenantId)->first();
 
         if (!$findTenants) {
             throw new Error("tenant not found");

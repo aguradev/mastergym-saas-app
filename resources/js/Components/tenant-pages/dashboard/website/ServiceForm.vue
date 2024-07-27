@@ -27,7 +27,7 @@ const form = useForm({
 const { title, text, cards } = toRefs(form);
 
 let imgUrl = toRefs([
-    `/public/storage/${cards.value[0].image}?t=${Date.now()}`,
+    `/public/storage/${cards.value[0].image}?t=git s${Date.now()}`,
     `/public/storage/${cards.value[1].image}?t=${Date.now()}`,
     `/public/storage/${cards.value[2].image}?t=${Date.now()}`,
     `/public/storage/${cards.value[3].image}?t=${Date.now()}`,

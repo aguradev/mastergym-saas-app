@@ -26,32 +26,16 @@ class ServiceController extends Controller
 
     public function updateServiceData(Request $req)
     {
+        // dd($req);
 
         if ($req->file('cards') != null) {
-
-            dd($req);
 
             $req->validate([
                 'title' => 'required|max:20',
                 'text' => 'required|max:500',
                 'cards.*.name' => 'required|max:20',
-                'cards.*.image' => 'mimes:jpeg,png,jpg|max:2048'
+                'cards.*.image' => 'max:2048'
             ]);
-
-            // $rules = [
-            //     'title' => 'required|max:20',
-            //     'text' => 'required',
-            //     'cards.*.name' => 'required|max:20',
-            // ];
-
-            // // Dynamically add the custom validation rule for each card image
-            // foreach ($req->input('cards', []) as $index => $card) {
-            //     $rules["cards.$index.image"] = ['nullable', 'mimes:jpeg,png,jpg', 'max:2048', new ServiceUploadImage];
-            // }
-
-            // $req->validate($rules);
-
-            // dd($req);
 
             $prefix = "tenant-" . tenant('id') . '/assets/website/images';
 
