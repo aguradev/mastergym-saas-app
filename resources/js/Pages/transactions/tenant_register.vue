@@ -23,15 +23,12 @@ const registerTenantHandler = () => {
 
     formRegister.value.post(
         route("transaction.tenant-registration.submit", {
-            token: page.props.token,
+            token: page.props?.token,
         }),
         {
             onFinish: () => {
                 isFormSubmmited.value = false;
                 submitBtnLabel.value = "Submit";
-            },
-            onSuccess: () => {
-                formRegister.value.reset();
             },
             onError: () => {
                 tenantFormActive.value = tenantRegistrationStepForm.value[0];
@@ -41,16 +38,7 @@ const registerTenantHandler = () => {
 };
 
 watchEffect(() => {
-    const { message_success, message_error } = page.props.flash;
-
-    if (message_success) {
-        toast.add({
-            severity: "success",
-            summary: "info",
-            detail: message_success,
-            life: 3000,
-        });
-    }
+    const { message_error } = page.props?.flash;
 
     if (message_error) {
         toast.add({

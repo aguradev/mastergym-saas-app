@@ -12,8 +12,6 @@ class TenantSeeder extends Seeder
      */
     public function run(): void
     {
-        echo "running tenancy seeder";
-
         $this->call([
             RoleSeeder::class,
             TenantWebsiteSeeder::class
