@@ -21,7 +21,8 @@ provide("visibleModal", openModal);
 const form = useForm({
     title: service.title,
     text: service.text,
-    cards: service.cards
+    cards: service.cards,
+    cardImage: []
 });
 
 const { title, text, cards } = toRefs(form);
@@ -47,10 +48,17 @@ function updateImageKey() {
     imgComponentKey.value++;
 }
 
+function printError() {
+    setTimeout(() => {
+        console.log(form.errors)
+    }, 5000);
+}
+
 function editHandler() {
     form.post(route('website.service.update', {
         _method: 'put'
     }));
+    printError();
 }
 
 watch(() => props.value, (newVal) => {
@@ -69,6 +77,10 @@ watch(() => props.value, (newVal) => {
 
 function getErrorMessage(index, field) {
     return form.errors[`cards.${index}.${field}`];
+}
+
+function getImageErrorMessage(index) {
+    return form.errors[`cardImage.${index}`];
 }
 </script>
 
@@ -122,8 +134,6 @@ function getErrorMessage(index, field) {
                     <div v-for="(card, index) in cards" class="pt-4 mr-4">
                         <p class="text-md font-medium"> Card Number {{ index + 1 }}</p>
                         <div class="px-4 mt-2 pt-2 bg-primary-800 rounded-lg">
-                            <!-- <InputText class="hidden" inputId="id" input-placeholder="Your card name goes here"
-                                name="card_input" v-model:inputValue="card.id" /> -->
                             <InputGroup label="Card Name" labelFor="text">
                                 <InputText inputId="card" input-placeholder="Your card name goes here" name="card_input"
                                     v-model:inputValue="card.name" />
@@ -134,9 +144,9 @@ function getErrorMessage(index, field) {
                                 <div>
                                     <InputGroup label="Card Image" labelFor="cardImage">
                                         <InputFile inputId="cardImage" inputType="file" name="gym_icon_input"
-                                            @update:inputValue="(file) => { form.cards[index].image = file; }" />
-                                        <ValidationMessage v-if="getErrorMessage(index, 'image')"
-                                            :caption="getErrorMessage(index, 'image')" />
+                                            @update:inputValue="(file) => { form.cardImage[index] = file; }" />
+                                        <ValidationMessage v-if="getImageErrorMessage(index)"
+                                            :caption="getImageErrorMessage(index)" />
                                     </InputGroup>
                                 </div>
                                 <div>

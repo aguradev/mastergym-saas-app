@@ -177,6 +177,10 @@ return [
         'cards.*.stars' => [
             'required' => 'This testimony star is required',
             'between' => 'The star field must be between number 1 and 5.'
+        ],
+        'cardImage.*' => [
+            'size' => 'Image size is too big!',
+            'mimes' => 'The image must be in JPG or PNG format',
         ]
     ],
 
