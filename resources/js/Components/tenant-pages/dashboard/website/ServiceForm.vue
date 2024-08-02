@@ -47,32 +47,22 @@ function updateImageKey() {
     imgComponentKey.value++;
 }
 
-function display() {
-    setTimeout(() => {
-        console.log(form.errors);
-    }, 5000);
-}
-
 function editHandler() {
     form.post(route('website.service.update', {
         _method: 'put'
     }));
-    display();
 }
 
 watch(() => props.value, (newVal) => {
     service.title = newVal.service.title,
         service.text = newVal.service.text,
-        service.cards = newVal.service.cards
+        service.cards = newVal.service.card
 
-    // imgUrl.forEach(element => {
-
-    // });
-
-    imgUrl[0].value = `/public/storage/${newVal.service.cards[0].image}?t=${Date.now()}`;
-    imgUrl[1].value = `/public/storage/${newVal.service.cards[1].image}?t=${Date.now()}`;
-    imgUrl[2].value = `/public/storage/${newVal.service.cards[2].image}?t=${Date.now()}`;
-    imgUrl[3].value = `/public/storage/${newVal.service.cards[3].image}?t=${Date.now()}`;
+    const imgIndex = ref(0);
+    imgUrl.forEach(indexes => {
+        imgUrl[imgIndex.value].value = newVal.service.cards[imgIndex.value].image.includes("tenant") ? `/public/storage/${newVal.service.cards[imgIndex.value].image}?t=${Date.now()}` : newVal.service.cards[imgIndex.value].image;
+        imgIndex.value++;
+    });
 
     updateImageKey();
 })
