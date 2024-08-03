@@ -31,7 +31,7 @@ class UsersController extends Controller
         $modalUserEdit = Inertia::lazy(fn () => true);
         $getUserDetail = Inertia::lazy(function () use ($request) {
             $queryId = $request->query("id");
-            return User::with('TenantCredential')->whereId($queryId)->first();
+            return User::with(['TenantCredential', 'roles'])->whereId($queryId)->first();
         });
 
         Debugbar::debug($usersData);
@@ -67,7 +67,7 @@ class UsersController extends Controller
     public function CreateUser(UserCredentialRequest $request)
     {
         $requestValidated = $request->validated();
-        $path_image_profile = "public/tenancy/" . tenant("id") . "/assets/images/profile";
+        $path_image_profile = "public/tenant-" . tenant("id") . "/assets/images/profile";
 
         $userCredentialData = [
             "username" => $requestValidated["username"],

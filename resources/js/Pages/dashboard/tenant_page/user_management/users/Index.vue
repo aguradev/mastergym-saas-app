@@ -19,10 +19,6 @@ const closeModalHandler = () => {
         replace: true,
     });
 };
-
-watchEffect(() => {
-    console.log(page.props.getUserDetail);
-});
 </script>
 
 <style scoped>
@@ -119,7 +115,11 @@ watchEffect(() => {
                                         },
                                     )
                                 "
-                                :only="['getUserDetail', 'modalUserEdit']"
+                                :only="[
+                                    'getUserDetail',
+                                    'modalUserEdit',
+                                    'rolesLists',
+                                ]"
                                 as="button"
                                 class="action_link"
                             >

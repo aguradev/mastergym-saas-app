@@ -27,7 +27,7 @@ Route::middleware([
 
     require __DIR__ . "/dashboard_tenant/authentication_route.php";
 
-    Route::prefix("/dashboard")->group(function () {
+    Route::prefix("/dashboard")->middleware(['auth.tenant'])->group(function () {
         require __DIR__ . "/dashboard_tenant/navigation_route.php";
         require __DIR__ . "/dashboard_tenant/content_website_route.php";
         require __DIR__ . "/dashboard_tenant/user_management_route.php";

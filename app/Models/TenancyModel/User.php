@@ -32,7 +32,7 @@ class User extends Model
 
     public function getProfileImageAttribute()
     {
-        $profile_image_path = "tenancy/" . tenant("id") . "/assets/images/profile/";
+        $profile_image_path = "tenant-" . tenant("id") . "/assets/images/profile/";
         return $this->attributes["profile_url"] === "profile.png" ? asset("images/profile/profile.png") : Storage::url($profile_image_path .  $this->attributes["profile_url"]);
     }
 

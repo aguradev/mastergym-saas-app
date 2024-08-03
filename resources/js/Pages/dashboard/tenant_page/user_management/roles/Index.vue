@@ -83,10 +83,11 @@ const closeModalHandler = () => {
                             </span>
                             <span
                                 class="text-nowrap"
-                                v-if="slotProps.data.name === 'Staff'"
+                                v-else-if="slotProps.data.name === 'Staff'"
                             >
                                 {{ staffCount }}
                             </span>
+                            <span v-else>0</span>
                         </div>
                     </template>
                 </Column>

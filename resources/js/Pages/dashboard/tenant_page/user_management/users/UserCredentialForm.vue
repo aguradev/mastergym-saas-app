@@ -42,6 +42,7 @@ onMounted(() => {
         const userData = page.props.getUserDetail;
 
         requestForm.username = userData.tenant_credential.username;
+        requestForm.role = userData.roles[0].name;
         requestForm.first_name = userData.first_name;
         requestForm.last_name = userData.last_name;
         requestForm.email = userData.tenant_credential.email;
@@ -120,6 +121,7 @@ const userSubmitHandler = () => {
                         v-for="role in rolesLists"
                         :key="role.id"
                         :value="role.name"
+                        :selected="requestForm.role === role.name"
                     >
                         {{ role.name }}
                     </option>
