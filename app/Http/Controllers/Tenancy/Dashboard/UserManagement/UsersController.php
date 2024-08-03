@@ -17,7 +17,7 @@ use Inertia\Inertia;
 
 class UsersController extends Controller
 {
-    public function UsersManagementPage()
+    public function UsersManagementPage(Request $request)
     {
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "users";
@@ -29,12 +29,16 @@ class UsersController extends Controller
 
         $modalUserCreate = Inertia::lazy(fn () => true);
         $modalUserEdit = Inertia::lazy(fn () => true);
+        $getUserDetail = Inertia::lazy(function () use ($request) {
+            $queryId = $request->query("id");
+            return User::with('TenantCredential')->whereId($queryId)->first();
+        });
 
         Debugbar::debug($usersData);
 
         return Inertia::render(
             'dashboard/tenant_page/user_management/users/Index',
-            compact('titlePage', 'title', 'indexMenuActive', 'titleNav', 'usersData', 'modalUserCreate', 'rolesLists')
+            compact('titlePage', 'title', 'indexMenuActive', 'titleNav', 'usersData', 'modalUserCreate', 'rolesLists', 'getUserDetail', 'modalUserEdit')
         );
     }
 

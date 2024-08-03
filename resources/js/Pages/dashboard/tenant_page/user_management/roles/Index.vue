@@ -94,11 +94,6 @@ const closeModalHandler = () => {
                     <template #body="slotProps">
                         <ul class="action_lists">
                             <li class="action_item">
-                                <button type="button" class="action_link">
-                                    <i class="pi pi-pencil"></i>
-                                </button>
-                            </li>
-                            <li class="action_item">
                                 <Link
                                     as="button"
                                     class="!py-[10px] action_link"

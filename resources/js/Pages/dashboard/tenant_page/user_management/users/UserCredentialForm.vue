@@ -6,7 +6,7 @@ import InputPassword from "@components/elements/input/InputPassword.vue";
 import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import PreviewImageFile from "../../../../../Lib/preview-img";
-import { ref, toRef, watchEffect } from "vue";
+import { onMounted, ref, toRef, watchEffect } from "vue";
 import { route } from "ziggy-js";
 
 const previewImg = ref(null);
@@ -32,11 +32,24 @@ const requestForm = useForm({
 });
 
 const rolesLists = toRef(() => page.props.rolesLists);
-const errorsValidation = toRef(() => requestForm.errors);
 
 const previewImageHandler = (e) => {
     previewImg.value = PreviewImageFile(e.target.files[0]);
 };
+
+onMounted(() => {
+    if (props.mode === "edit") {
+        const userData = page.props.getUserDetail;
+
+        requestForm.username = userData.tenant_credential.username;
+        requestForm.first_name = userData.first_name;
+        requestForm.last_name = userData.last_name;
+        requestForm.email = userData.tenant_credential.email;
+        requestForm.phone_number = userData.phone_number;
+
+        previewImg.value = userData.profile_image;
+    }
+});
 
 const userSubmitHandler = () => {
     switch (props.mode) {

@@ -6,11 +6,12 @@ import UserCredentialForm from "./UserCredentialForm.vue";
 import Column from "primevue/column";
 import DataTable from "primevue/datatable";
 
-import { toRef } from "vue";
+import { toRef, watch, watchEffect } from "vue";
 import ModalSidebar from "@components/ui/sidebar/ModalSidebar.vue";
 
 const page = usePage();
 const modalUserCreate = toRef(() => page.props.modalUserCreate);
+const modalUserEdit = toRef(() => page.props.modalUserEdit);
 const usersData = toRef(() => page.props.usersData);
 
 const closeModalHandler = () => {
@@ -18,6 +19,10 @@ const closeModalHandler = () => {
         replace: true,
     });
 };
+
+watchEffect(() => {
+    console.log(page.props.getUserDetail);
+});
 </script>
 
 <style scoped>
@@ -38,7 +43,7 @@ const closeModalHandler = () => {
     <UserManagementLayout>
         <header class="px-6 py-6 w-full">
             <Link
-                :to="route('tenant-dashboard.user-management.users')"
+                :href="route('tenant-dashboard.user-management.users')"
                 preserve-state
                 :only="['modalUserCreate', 'rolesLists']"
                 as="button"
@@ -105,9 +110,21 @@ const closeModalHandler = () => {
                 <template #body="slotProps">
                     <ul class="action_lists">
                         <li class="action_item">
-                            <button type="button" class="action_link">
+                            <Link
+                                :href="
+                                    route(
+                                        'tenant-dashboard.user-management.users',
+                                        {
+                                            id: slotProps.data.id,
+                                        },
+                                    )
+                                "
+                                :only="['getUserDetail', 'modalUserEdit']"
+                                as="button"
+                                class="action_link"
+                            >
                                 <i class="pi pi-pencil"></i>
-                            </button>
+                            </Link>
                         </li>
                         <li class="action_item">
                             <Link as="button" class="!py-[10px] action_link">
@@ -126,5 +143,13 @@ const closeModalHandler = () => {
         @close-modal="closeModalHandler"
     >
         <UserCredentialForm />
+    </ModalSidebar>
+
+    <ModalSidebar
+        :modal-visible="modalUserEdit"
+        title="Edit User"
+        @close-modal="closeModalHandler"
+    >
+        <UserCredentialForm mode="edit" />
     </ModalSidebar>
 </template>
