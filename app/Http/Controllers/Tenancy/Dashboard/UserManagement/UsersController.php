@@ -45,13 +45,18 @@ class UsersController extends Controller
         $indexMenuActive = 1;
 
         $rolesDatas = Role::where('guard_name', 'tenant-web')->paginate(5);
+        $modalCreate = Inertia::lazy(fn () => true);
         $superAdminCount = User::with('roles')->get()->filter(
             fn ($user) => $user->roles->where('name', 'Super admin')->toArray()
         )->count();
 
+        $staffCount = User::with('roles')->get()->filter(
+            fn ($user) => $user->roles->where('name', 'Staff')->toArray()
+        )->count();
+
         return Inertia::render(
             'dashboard/tenant_page/user_management/roles/Index',
-            compact('title', 'indexMenuActive', 'titleNav', 'rolesDatas', 'superAdminCount')
+            compact('title', 'indexMenuActive', 'titleNav', 'rolesDatas', 'superAdminCount', 'staffCount', 'modalCreate')
         );
     }
 
@@ -105,5 +110,24 @@ class UsersController extends Controller
         }
 
         return redirect()->back()->with("message_success", "Success create new user");
+    }
+
+    public function CreateRole(Request $request)
+    {
+        $request->validate([
+            "title" => "required|unique:roles,name"
+        ]);
+
+        try {
+            Role::create([
+                "name" => $request->title,
+                "guard_name" => "tenant-web"
+            ]);
+        } catch (\Throwable $err) {
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "Failed create new role");
+        }
+
+        return redirect()->back()->with("message_success", "Success create new role");
     }
 }

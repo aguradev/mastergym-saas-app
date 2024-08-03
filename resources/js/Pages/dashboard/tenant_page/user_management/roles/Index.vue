@@ -1,5 +1,5 @@
 <script setup>
-import { usePage, Link } from "@inertiajs/vue3";
+import { usePage, Link, router } from "@inertiajs/vue3";
 import { toRef } from "vue";
 import { route } from "ziggy-js";
 import UserManagementLayout from "@pages/dashboard/tenant_page/user_management/Index.vue";
@@ -12,6 +12,13 @@ import DataTable from "primevue/datatable";
 const page = usePage();
 const rolesData = toRef(() => page.props.rolesDatas);
 const superAdminCount = toRef(() => page.props.superAdminCount);
+const staffCount = toRef(() => page.props.staffCount);
+
+const closeModalHandler = () => {
+    router.visit(route("tenant-dashboard.user-management.roles"), {
+        replace: true,
+    });
+};
 </script>
 
 <style scoped>
@@ -34,7 +41,7 @@ const superAdminCount = toRef(() => page.props.superAdminCount);
             <Link
                 :to="route('tenant-dashboard.user-management.users')"
                 preserve-state
-                :only="['modalUserCreate']"
+                :only="['modalCreate']"
                 as="button"
                 class="bg-surface-600 px-4 py-3 rounded-lg flex items-center gap-x-2"
             >
@@ -74,6 +81,12 @@ const superAdminCount = toRef(() => page.props.superAdminCount);
                             >
                                 {{ superAdminCount }}
                             </span>
+                            <span
+                                class="text-nowrap"
+                                v-if="slotProps.data.name === 'Staff'"
+                            >
+                                {{ staffCount }}
+                            </span>
                         </div>
                     </template>
                 </Column>
@@ -99,7 +112,11 @@ const superAdminCount = toRef(() => page.props.superAdminCount);
             </DataTable>
         </div>
 
-        <Modal title="Create role" :modalVisible="true">
+        <Modal
+            title="Create role"
+            :modalVisible="page.props.modalCreate"
+            @closeModal="closeModalHandler"
+        >
             <RoleForm />
         </Modal>
     </UserManagementLayout>
