@@ -16,8 +16,8 @@ export const useNavTenantPlatform = defineStore("tenant_dashboard_nav", () => {
                 },
                 {
                     icon: "pi pi-users",
-                    label: "Member",
-                    link: route("website.overview"),
+                    label: "User Management",
+                    link: route("tenant-dashboard.user-management.users"),
                 },
                 {
                     icon: "pi pi-money-bill",

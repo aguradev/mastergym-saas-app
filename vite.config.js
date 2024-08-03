@@ -17,6 +17,7 @@ export default defineConfig({
             "@pages": fileURLToPath(
                 new URL("./resources/js/Pages", import.meta.url),
             ),
+            "@public": fileURLToPath(new URL("./public", import.meta.url)),
             "@components": fileURLToPath(
                 new URL("./resources/js/Components", import.meta.url),
             ),

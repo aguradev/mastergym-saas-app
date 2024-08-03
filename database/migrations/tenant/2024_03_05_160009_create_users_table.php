@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignUuid("credential_id")->unique()->references("id")->on("tenant_credentials");
             $table->string("first_name");
             $table->string("last_name");
+            $table->string("phone_number")->nullable();
             $table->string("profile_url")->default("profile.png");
-            $table->string("bio");
             $table->timestamps();
         });
     }

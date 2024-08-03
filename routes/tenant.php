@@ -30,5 +30,6 @@ Route::middleware([
     Route::prefix("/dashboard")->group(function () {
         require __DIR__ . "/dashboard_tenant/navigation_route.php";
         require __DIR__ . "/dashboard_tenant/content_website_route.php";
+        require __DIR__ . "/dashboard_tenant/user_management_route.php";
     });
 });

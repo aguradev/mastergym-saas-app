@@ -43,7 +43,7 @@ watch(
 
 <style scoped>
 .modal__sidebar {
-    @apply p-8 border-l bg-primary-800 border-surface-500 z-[99] min-h-screen fixed right-0 top-0 min-w-[600px];
+    @apply p-8 border-l bg-primary-800 border-surface-500 z-[99] min-h-screen fixed h-full overflow-y-auto right-0 top-0 min-w-[600px];
 }
 
 .sidebar-slide-enter-active,

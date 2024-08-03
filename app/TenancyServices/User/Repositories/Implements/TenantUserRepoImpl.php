@@ -55,6 +55,8 @@ class TenantUserRepoImpl implements TenantUserRepoInterface
                     throw new Exception("failed create profile tenant user");
                 }
 
+                $createUser->assignRole("Super admin");
+
                 DB::commit();
             });
         } catch (\Exception $err) {

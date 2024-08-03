@@ -51,7 +51,7 @@ watchEffect(() => {
         </div>
         <div class="min-w-[600px] mx-auto place-content-center">
             <h2 class="mb-12 text-4xl font-bold text-center">
-                Welcome to {{ tenantName }}
+                Login {{ tenantName }}
             </h2>
 
             <form

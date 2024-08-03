@@ -25,7 +25,8 @@ class RoleSeeder extends Seeder
 
         $findTenants->run(function () {
             Role::create([
-                "name" => CentralRolesEnum::SUPERADMIN->value
+                "name" => CentralRolesEnum::SUPERADMIN->value,
+                "guard_name" => "tenant-web"
             ]);
         });
     }

@@ -8,16 +8,17 @@ import { useNavTenantPlatform } from "@stores/tenant_menu_item";
 import DashboardLayout from "./DashboardLayout.vue";
 import { usePage } from "@inertiajs/vue3";
 
+const page = usePage();
+
 const getNavTenantPlatform = useNavTenantPlatform();
-const getContentMenus = useContentMenus();
+const menuItemActivePosition = page.props.indexMenuActive || 0;
 
 const { navigationMenuItem, menuItemActive } =
     storeToRefs(getNavTenantPlatform);
 
-const page = usePage();
-
 onMounted(() => {
-    menuItemActive.value = navigationMenuItem.value[1]?.items[0];
+    menuItemActive.value =
+        navigationMenuItem.value[1]?.items[menuItemActivePosition];
 });
 </script>
 
@@ -28,8 +29,9 @@ onMounted(() => {
         :meta-head="{
             title: page.props?.title,
         }"
+        :title-nav="page.props?.titleNav"
     >
-        <main class="px-8">
+        <main>
             <slot />
         </main>
     </DashboardLayout>
