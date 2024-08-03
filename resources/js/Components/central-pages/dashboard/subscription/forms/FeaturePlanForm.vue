@@ -1,26 +1,34 @@
 <script setup>
-import InputText from '@components/elements/input/InputText.vue';
-import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
-import { onMounted, reactive, ref, toRef, toRefs, watch, watchEffect } from 'vue'
-import { router, useForm } from '@inertiajs/vue3';
+import InputText from "@components/elements/input/InputText.vue";
+import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
+import {
+    onMounted,
+    reactive,
+    ref,
+    toRef,
+    toRefs,
+    watch,
+    watchEffect,
+} from "vue";
+import { router, useForm } from "@inertiajs/vue3";
 
 const featureForm = useForm({
-    "items": [
+    items: [
         {
-            input_feature: ''
+            input_feature: "",
         },
-    ]
-})
+    ],
+});
 
-const emits = defineEmits(["actionFeatureForm"])
+const emits = defineEmits(["actionFeatureForm"]);
 const props = defineProps({
-    validationMessages: Array
-})
+    validationMessages: Array,
+});
 
-const disableButtonPlus = ref(false)
+const disableButtonPlus = ref(false);
 
 function addInputFeature() {
-    featureForm.items = [...featureForm.items, { input_feature: '' }]
+    featureForm.items = [...featureForm.items, { input_feature: "" }];
 }
 
 function removeInputFeature() {
@@ -28,12 +36,12 @@ function removeInputFeature() {
 }
 
 function submitAddFeature() {
-    emits("actionFeatureForm", featureForm)
+    emits("actionFeatureForm", featureForm);
 }
 
 watch(featureForm, (newVal) => {
-    disableButtonPlus.value = newVal.items.length >= 3 ? true : false
-})
+    disableButtonPlus.value = newVal.items.length >= 3 ? true : false;
+});
 </script>
 
 <style>
@@ -44,20 +52,54 @@ watch(featureForm, (newVal) => {
 
 <template>
     <div class="feature_form_input">
-        <form method="post" @submit.prevent="submitAddFeature" autocomplete="off">
+        <form
+            method="post"
+            @submit.prevent="submitAddFeature"
+            autocomplete="off"
+        >
             <div class="mb-6">
-                <div v-for="(item, index) in featureForm.items" class="mb-4" :key="index">
-                    <InputText id="feature__name" type="text" placeholder="input feature name"
-                        inputName="input_feature[]" v-model:inputValue="featureForm.items[index].input_feature"
-                        :invalid="featureForm.errors[`items.${index}.input_feature`] ? true : false" />
-                    <span class="block mt-2 mb-5 text-sm text-danger-300" v-if="featureForm.hasErrors">{{
-                        featureForm.errors[`items.${index}.input_feature`] }}</span>
+                <div
+                    v-for="(item, index) in featureForm.items"
+                    class="mb-4"
+                    :key="index"
+                >
+                    <InputText
+                        id="feature__name"
+                        type="text"
+                        placeholder="input feature name"
+                        inputName="input_feature[]"
+                        v-model:inputValue="
+                            featureForm.items[index].input_feature
+                        "
+                        :invalid="
+                            featureForm.errors[`items.${index}.input_feature`]
+                                ? true
+                                : false
+                        "
+                    />
+                    <span
+                        class="block mt-2 mb-5 text-sm text-danger-300"
+                        v-if="featureForm.hasErrors"
+                        >{{
+                            featureForm.errors[`items.${index}.input_feature`]
+                        }}</span
+                    >
                 </div>
                 <div class="flex items-center gap-x-4">
-                    <PrimaryButton type="button" icon="pi pi-plus" classBtn="bg-primary-700 p-3 rounded text-sm"
-                        @click-event="addInputFeature" v-if="!disableButtonPlus" />
-                    <PrimaryButton type="button" icon="pi pi-minus" classBtn="bg-primary-700 p-3 rounded text-sm"
-                        @click-event="removeInputFeature" v-if="featureForm.items.length > 1" />
+                    <PrimaryButton
+                        type="button"
+                        icon="pi pi-plus"
+                        classBtn="bg-primary-700 p-3 rounded text-sm"
+                        @click-event="addInputFeature"
+                        v-if="!disableButtonPlus"
+                    />
+                    <PrimaryButton
+                        type="button"
+                        icon="pi pi-minus"
+                        classBtn="bg-primary-700 p-3 rounded text-sm"
+                        @click-event="removeInputFeature"
+                        v-if="featureForm.items.length > 1"
+                    />
                 </div>
             </div>
             <PrimaryButton type="submit" label="Submit" />

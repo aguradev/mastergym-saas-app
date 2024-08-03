@@ -24,6 +24,12 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     Route::get("/", [TenantLandingPageController::class, 'showAllWebsiteContent'])->name('tenant.landingPage');
-    require __DIR__ . "/dashboard_tenant/navigation_route.php";
-    require __DIR__ . "/dashboard_tenant/content_website_route.php";
+
+    require __DIR__ . "/dashboard_tenant/authentication_route.php";
+
+    Route::prefix("/dashboard")->middleware(['auth.tenant'])->group(function () {
+        require __DIR__ . "/dashboard_tenant/navigation_route.php";
+        require __DIR__ . "/dashboard_tenant/content_website_route.php";
+        require __DIR__ . "/dashboard_tenant/user_management_route.php";
+    });
 });

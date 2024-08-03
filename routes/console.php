@@ -7,6 +7,7 @@ use App\Models\CentralModel\User;
 use App\Models\Gym\Tenant;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 /*
@@ -32,4 +33,10 @@ Artisan::command("email:test", function () {
 Artisan::command("email:invoice-paid-test", function () {
     Mail::send(new InvoicePaidMail("agungrageshwara24@gmail.com"));
     $this->comment("check your mail!");
+});
+
+Artisan::command("password:generate", function () {
+    $password = "superadmin1234";
+
+    $this->comment(Hash::make($password));
 });

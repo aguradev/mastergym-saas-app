@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\CentralRequest;
+namespace App\Http\Requests\TenantRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class TenantTransactionRegistration extends FormRequest
+class UserCredentialRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +23,15 @@ class TenantTransactionRegistration extends FormRequest
     public function rules(): array
     {
         return [
-            "gym_title" => ["required", "unique:tenants,name"],
-            "domain" => ["required", "lowercase", "unique:domains,domain"],
-            "gym_email" => ["required", "email", "unique:tenants,email"],
-            "address" => ["required", "min:10"],
-            "first_name" => ["required"],
-            "last_name" => ["required"],
-            "user_email" => ["required", "email"],
+            "profileImg" => ["image", "max:1024"],
+            "username" => ["required", "unique:tenant_credentials,username"],
+            "role" => ["required"],
+            "first_name" => "required",
+            "last_name" => "required",
+            "email" => "required|unique:tenant_credentials,email",
+            "phone_number" => "required|numeric",
             "password" => ["required", "confirmed", Password::min(8)],
-            "password_confirmation" => ["required"]
+            "password_confirmation" => "required"
         ];
     }
 }

@@ -24,20 +24,20 @@ class VerifyTransactionToken
         $decryptionToken = null;
 
         if (!$token) {
-            abort(401);
+            abort(404);
         }
 
         try {
             $decryptionToken = Crypt::decrypt($token);
         } catch (DecryptException $err) {
             Log::error($err->getMessage());
-            abort(401, "Have a problem to decryption");
+            abort(404, "Have a problem to decryption");
         }
 
         $findTransactionId = TenantTransaction::where('transaction_token_access', $decryptionToken)->exists();
 
         if (!$findTransactionId) {
-            abort(401);
+            abort(404);
         }
 
         return $next($request);

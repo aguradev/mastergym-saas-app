@@ -2,7 +2,7 @@
 import MenuDropdown from "@components/elements/dropdownToggle/index.vue";
 import DashboardSidebar from "@components/ui/sidebar/DashboardSidebar.vue";
 import { useMenuUser } from "@stores/menu_dropdown_user";
-import { router } from "@inertiajs/vue3";
+import { router, Head } from "@inertiajs/vue3";
 import { provide, ref, toRefs } from "vue";
 
 const storeMenuUser = useMenuUser();
@@ -70,6 +70,9 @@ provide("mainSection", mainSection);
 </style>
 
 <template>
+    <Head>
+        <title>{{ metaHead.title }}</title>
+    </Head>
     <div class="flex w-full min-h-screen">
         <DashboardSidebar
             :menuNav="menuItems"
