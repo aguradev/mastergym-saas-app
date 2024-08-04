@@ -29,7 +29,7 @@ const deleteActionHandler = (id) => {
                 id: id,
             }),
             {
-                only: ["rolesDatas"],
+                only: ["rolesDatas", "flash"],
                 method: "delete",
                 replace: true,
             },

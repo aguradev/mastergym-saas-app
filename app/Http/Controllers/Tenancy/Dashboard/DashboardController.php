@@ -9,16 +9,17 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function __invoke()
+    public function Overview()
     {
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Dashboard";
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
+        $titleNav = "Welcome, " . $userLogin->username;
 
         return Inertia::render(
             'dashboard/tenant_page/MainMenu',
-            compact('title', 'titlePage', 'logoutUrl', 'userLogin')
+            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin')
         );
     }
 }
