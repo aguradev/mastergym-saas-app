@@ -13,11 +13,23 @@ import ActionLists from "@components/elements/ulLists/ActionLists.vue";
 
 const page = usePage();
 const membershipPlans = computed(() => page.props.membershipPlans);
-console.log(membershipPlans.value);
+
 const closeModalhandler = () => {
     router.visit(route("tenant-dashboard.membership.plan-page"), {
         replace: true,
     });
+};
+
+const membershipDetailAction = (id) => {
+    return router.visit(
+        route("tenant-dashboard.membership.detail", {
+            membershipPlan: id,
+        }),
+        {
+            replace: true,
+            method: "get",
+        },
+    );
 };
 </script>
 
@@ -90,13 +102,17 @@ const closeModalhandler = () => {
                                     ? 'success'
                                     : 'danger'
                             "
-                            class="w-[50%]"
+                            class="w-[60%]"
                         />
                     </template>
                 </Column>
                 <Column header="Action">
                     <template #body="slotProps">
-                        <ActionLists />
+                        <ActionLists
+                            @detailEvent="
+                                () => membershipDetailAction(slotProps.data.id)
+                            "
+                        />
                     </template>
                 </Column>
             </DataTable>

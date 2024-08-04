@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenancy\Dashboard\Auth\AuthenticationController;
 use App\Http\Controllers\Tenancy\Website\TenantLandingPageController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -32,5 +33,7 @@ Route::middleware([
         require __DIR__ . "/dashboard_tenant/content_website_route.php";
         require __DIR__ . "/dashboard_tenant/user_management_route.php";
         require __DIR__ . "/dashboard_tenant/membership_route.php";
+
+        Route::post("/logout", [AuthenticationController::class, "LogoutDashboard"])->name("tenant-dashboard.logout");
     });
 });

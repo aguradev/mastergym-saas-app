@@ -95,6 +95,11 @@ const deleteFeatureHandler = (id) => {
                         <span>{{ slotProps.data.title }}</span>
                     </template>
                 </Column>
+                <Column header="Assigned plan">
+                    <template #body="slotProps">
+                        <span>{{ slotProps.data.membership_plans_count }}</span>
+                    </template>
+                </Column>
                 <Column header="Status">
                     <template #body="slotProps">
                         <Badge
@@ -104,7 +109,7 @@ const deleteFeatureHandler = (id) => {
                                     ? 'success'
                                     : 'danger'
                             "
-                            class="w-[25%]"
+                            class="w-[30%]"
                         />
                     </template>
                 </Column>

@@ -92,6 +92,7 @@ watch(
                         >Price per month</label
                     >
                     <InputText
+                        inputType="number"
                         inputId="price_per_month"
                         v-model:input-value="price_per_month"
                     />
@@ -105,6 +106,7 @@ watch(
                         >Price per year</label
                     >
                     <InputText
+                        inputType="number"
                         inputId="price_per_year"
                         v-model:input-value="price_per_year"
                     />

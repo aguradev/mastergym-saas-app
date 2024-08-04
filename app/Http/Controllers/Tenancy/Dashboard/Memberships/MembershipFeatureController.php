@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenancy\Dashboard\Memberships;
 use App\Http\Controllers\Controller;
 use App\Models\TenancyModel\MembershipFeature;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -16,10 +17,12 @@ class MembershipFeatureController extends Controller
         $title = tenant("name") . " - " . "Membership features";
         $titleNav = "Membership management";
         $indexMenuActive = 2;
+        $logoutUrl = "tenant-dashboard.logout";
+        $userLogin = Auth::guard("tenant-web")->user();
 
         $modalCreate = Inertia::lazy(fn () => true);
         $modalEdit = Inertia::lazy(fn () => true);
-        $membershipFeatures = MembershipFeature::paginate(5);
+        $membershipFeatures = MembershipFeature::withCount(["membershipPlans"])->latest()->paginate(5);
 
         $getMembershipDetail = Inertia::lazy(function () use ($request) {
             $queryId = $request->query("id");
@@ -30,7 +33,9 @@ class MembershipFeatureController extends Controller
             "dashboard/tenant_page/membership_page/feature/Index",
             compact(
                 "titlePage",
+                "userLogin",
                 "title",
+                "logoutUrl",
                 "titleNav",
                 "indexMenuActive",
                 "modalCreate",

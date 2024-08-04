@@ -7,6 +7,7 @@ use App\Models\CentralModel\TenantTransaction;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
@@ -16,6 +17,7 @@ class TransactionController extends Controller
         $searchResult = $request->query("search");
         $typeSearch = $request->query("type");
         $transactions = null;
+        $userLogin = Auth::guard("central-web")->user();
 
         $transactions = TenantTransaction::query()->when($searchResult, function ($query) use ($searchResult, $typeSearch) {
             switch ($typeSearch) {
@@ -31,7 +33,7 @@ class TransactionController extends Controller
         })->latest()->paginate(5);
 
         Debugbar::debug($transactions);
-        return Inertia::render("dashboard/central_page/transaction_page/Index", compact('transactions'));
+        return Inertia::render("dashboard/central_page/transaction_page/Index", compact('transactions', 'userLogin'));
     }
 
     public function GetTransactionDetail(TenantTransaction $transaction)

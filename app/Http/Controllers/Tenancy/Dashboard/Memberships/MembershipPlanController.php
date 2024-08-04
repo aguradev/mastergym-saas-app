@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TenancyModel\MembershipPlan;
 use App\Models\TenancyModel\MembershipFeature;
 use App\Http\Requests\TenantRequest\MembershipPlanRequest;
+use Illuminate\Support\Facades\Auth;
 
 class MembershipPlanController extends Controller
 {
@@ -20,6 +21,8 @@ class MembershipPlanController extends Controller
         $title = tenant("name") . " - " . "Membership plan";
         $titleNav = "Membership management";
         $indexMenuActive = 2;
+        $logoutUrl = "tenant-dashboard.logout";
+        $userLogin = Auth::guard("tenant-web")->user();
 
         $modalCreate = Inertia::lazy(fn () => true);
         $modalEdit = Inertia::lazy(fn () => true);
@@ -33,6 +36,8 @@ class MembershipPlanController extends Controller
             "dashboard/tenant_page/membership_page/plan/Index",
             compact(
                 "titlePage",
+                "userLogin",
+                'logoutUrl',
                 "title",
                 "titleNav",
                 "indexMenuActive",
@@ -40,6 +45,29 @@ class MembershipPlanController extends Controller
                 "modalEdit",
                 "getMembershipFeaturesActive",
                 'membershipPlans'
+            )
+        );
+    }
+
+    public function DetailPage(MembershipPlan $membershipPlan)
+    {
+        $membershipPlan->load("MembershipFeatures");
+
+        $titlePage = tenant('name');
+        $title = tenant("name") . " - " . "Membership plan";
+        $titleNav = "Membership management";
+        $indexMenuActive = 2;
+        $userLogin = Auth::guard("tenant-web")->user();
+
+        return Inertia::render(
+            "dashboard/tenant_page/membership_page/plan/MembershipPlanDetail",
+            compact(
+                'userLogin',
+                'titlePage',
+                'title',
+                'titleNav',
+                'indexMenuActive',
+                'membershipPlan'
             )
         );
     }

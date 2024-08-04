@@ -22,6 +22,11 @@ class MembershipFeature extends Model
 
     protected $appends = ["created_at_diff_human", "updated_at_diff_human"];
 
+    public function MembershipPlans()
+    {
+        return $this->belongsToMany(MembershipPlan::class, "memberships_has_features", "feature_id", "membership_id");
+    }
+
 
     public function getCreatedAtDiffHumanAttribute()
     {

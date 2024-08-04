@@ -24,7 +24,6 @@ const LazyFeatureEditForm = defineAsyncComponent({
 const props = defineProps({
     featurePlanDatas: Object,
 });
-const selectedCheckboxFeature = ref([]);
 const featureDetailModal = ref(false);
 const featureEditFormModal = ref(false);
 const featureDetailId = ref(null);
@@ -62,17 +61,10 @@ const deleteFeaturePlanHandler = (id) => {
         }),
         {
             onBefore: () => confirm("are you sure delete features ? "),
-            onFinish: () => {
-                selectedCheckboxFeature.value = [];
-            },
             preserveScroll: true,
         },
     );
 };
-
-watch(selectedCheckboxFeature, (newState) => {
-    console.log(newState);
-});
 </script>
 
 <template>
@@ -91,17 +83,6 @@ watch(selectedCheckboxFeature, (newState) => {
                     },
                 }"
             >
-                <Column header="">
-                    <template #body="slotProps">
-                        <input
-                            type="checkbox"
-                            v-model="selectedCheckboxFeature"
-                            :value="slotProps.data.id"
-                            class="block rounded-md size-4"
-                            :id="`checkbox-${slotProps.data.id}`"
-                        />
-                    </template>
-                </Column>
                 <Column header="No">
                     <template #body="slotProps">
                         <div>

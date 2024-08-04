@@ -37,4 +37,15 @@ class AuthenticationController extends Controller
 
         return redirect()->back()->with('message_error', 'Credential is incorrect');
     }
+
+    public function LogoutDashboard(Request $request)
+    {
+        Auth::guard("tenant-web")->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return to_route("tenant.dashboard-loginpage");
+    }
 }

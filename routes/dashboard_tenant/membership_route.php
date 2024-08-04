@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("membership")->group(function () {
     Route::controller(MembershipPlanController::class)->group(function () {
         Route::get("/plans", "Page")->name("tenant-dashboard.membership.plan-page");
+        Route::get("/plan/{membershipPlan}", "DetailPage")->name("tenant-dashboard.membership.detail");
         Route::post("/plan", "CreateMembershipPlan")->name("tenant-dashboard.membership.create");
     });
 
