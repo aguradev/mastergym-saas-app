@@ -138,4 +138,16 @@ class UsersController extends Controller
 
         return redirect()->back()->with("message_success", "Success create new role");
     }
+
+    public function DeleteRole($id)
+    {
+        try {
+            Role::where("id", $id)->where("guard_name", "tenant-web")->delete();
+        } catch (\Throwable $err) {
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "Failed delete role");
+        }
+
+        return redirect()->back()->with("message_success", "Success delete role");
+    }
 }
