@@ -20,7 +20,7 @@ class MembershipPlanController extends Controller
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Membership plan";
         $titleNav = "Membership management";
-        $indexMenuActive = 2;
+        $indexMenuActive = 3;
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
 
@@ -62,7 +62,7 @@ class MembershipPlanController extends Controller
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Membership plan";
         $titleNav = "Membership management";
-        $indexMenuActive = 2;
+        $indexMenuActive = 3;
         $userLogin = Auth::guard("tenant-web")->user();
 
         return Inertia::render(

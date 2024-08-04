@@ -16,7 +16,7 @@ class MembershipFeatureController extends Controller
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Membership features";
         $titleNav = "Membership management";
-        $indexMenuActive = 2;
+        $indexMenuActive = 3;
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
 
