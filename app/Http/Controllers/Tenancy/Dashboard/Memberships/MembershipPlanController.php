@@ -31,6 +31,11 @@ class MembershipPlanController extends Controller
         $getMembershipFeaturesActive = Inertia::lazy(function () {
             return MembershipFeature::where("status", "ACTIVE")->get();
         });
+        $membershipPlanEditData = Inertia::lazy(function () use ($request) {
+            $id = $request->query("id");
+            return MembershipPlan::with(['MembershipFeatures'])->whereId($id)->first();
+        });
+
 
         return Inertia::render(
             "dashboard/tenant_page/membership_page/plan/Index",
@@ -44,7 +49,8 @@ class MembershipPlanController extends Controller
                 "modalCreate",
                 "modalEdit",
                 "getMembershipFeaturesActive",
-                'membershipPlans'
+                'membershipPlans',
+                'membershipPlanEditData'
             )
         );
     }
@@ -87,7 +93,7 @@ class MembershipPlanController extends Controller
             ]);
 
             foreach ($requestValidated['features'] as $feature) {
-                $newMembershipPlan->MembershipFeatures()->syncWithPivotValues($feature['id'], ['id' => Str::uuid()], false);
+                $newMembershipPlan->MembershipFeatures()->syncWithPivotValues($feature, ['id' => Str::uuid()], false);
             }
 
             DB::commit();
@@ -97,5 +103,36 @@ class MembershipPlanController extends Controller
             return redirect()->back()->with("message_error", "Failed create new membership plan");
         }
         return redirect()->back()->with("message_success", "Success create new membership plan");
+    }
+
+    public function UpdateMembershipPlan(MembershipPlanRequest $request, MembershipPlan $membershipPlan)
+    {
+        DB::beginTransaction();
+        $membershipPlan->load("MembershipFeatures");
+
+        try {
+            $requestValidated = $request->validated();
+
+            $membershipPlan->update([
+                "title" => $requestValidated['title'],
+                "period_type" => $requestValidated['period_type'],
+                "status" => $request->status,
+                "amount" => (int) $requestValidated['amount'],
+                "updated_at" => now()
+            ]);
+
+            $membershipPlan->MembershipFeatures()->detach();
+
+            foreach ($requestValidated['features'] as $feature) {
+                $membershipPlan->MembershipFeatures()->syncWithPivotValues($feature, ['id' => Str::uuid()], false);
+            }
+
+            DB::commit();
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "Failed update new membership plan");
+        }
+        return redirect()->back()->with("message_success", "Success update new membership plan");
     }
 }

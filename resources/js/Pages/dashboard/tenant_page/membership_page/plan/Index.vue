@@ -31,6 +31,22 @@ const membershipDetailAction = (id) => {
         },
     );
 };
+
+const editActionHandler = (id) => {
+    router.visit(
+        route("tenant-dashboard.membership.plan-page", {
+            id: id,
+        }),
+        {
+            only: [
+                "modalEdit",
+                "getMembershipFeaturesActive",
+                "membershipPlanEditData",
+            ],
+            replace: true,
+        },
+    );
+};
 </script>
 
 <template>
@@ -112,6 +128,9 @@ const membershipDetailAction = (id) => {
                             @detailEvent="
                                 () => membershipDetailAction(slotProps.data.id)
                             "
+                            @editEvent="
+                                () => editActionHandler(slotProps.data.id)
+                            "
                         />
                     </template>
                 </Column>
@@ -124,6 +143,13 @@ const membershipDetailAction = (id) => {
             @close-modal="closeModalhandler"
         >
             <MembershipPlanForm />
+        </Modal>
+        <Modal
+            title="Edit membership plan"
+            :modal-visible="page.props.modalEdit"
+            @close-modal="closeModalhandler"
+        >
+            <MembershipPlanForm mode="edit" />
         </Modal>
     </MembershipLayout>
 </template>
