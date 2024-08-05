@@ -42,7 +42,7 @@ export const useNavTenantPlatform = defineStore("tenant_dashboard_nav", () => {
                 {
                     icon: "pi pi-cog",
                     label: "Setting",
-                    link: route("website.overview"),
+                    link: route("tenant-dashboard.setting-page"),
                 },
             ],
         },

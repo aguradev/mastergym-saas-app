@@ -22,4 +22,21 @@ class DashboardController extends Controller
             compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin')
         );
     }
+
+    public function Setting()
+    {
+        $titlePage = tenant('name');
+        $title = tenant("name") . " - " . "Setting";
+        $logoutUrl = "tenant-dashboard.logout";
+        $userLogin = Auth::guard("tenant-web")->user();
+        $titleNav = "Settings";
+        $indexMenuActive = 6;
+
+        $currentTenant = tenant()->with(['TenantSubscription', 'domains'])->first();
+
+        return Inertia::render(
+            'dashboard/tenant_page/setting_page/TenantInformation',
+            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'currentTenant')
+        );
+    }
 }

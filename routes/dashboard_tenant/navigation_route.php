@@ -9,5 +9,5 @@ use Inertia\Inertia;
 
 Route::controller(DashboardController::class)->group(function () {
     Route::get("/", "Overview")->name('tenant-dashboard.overview-page');
-    Route::get("/setting", "Setting")->name('tenant-dashboard.setting-page');
+    Route::get("/setting/tenant-subscription", "Setting")->name('tenant-dashboard.setting-page');
 });

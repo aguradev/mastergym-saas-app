@@ -2,6 +2,8 @@
 
 namespace App\Models\Gym;
 
+use App\Models\CentralModel\TenantSubscription;
+use App\Models\CentralModel\TenantTransaction;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -31,5 +33,14 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     public static function getDataColumn(): string
     {
         return "data";
+    }
+
+    public function TenantSubscription()
+    {
+        return $this->hasOne(TenantSubscription::class, 'tenant_id', "id");
+    }
+    public function TenantTransaction()
+    {
+        return $this->hasManyThrough(TenantTransaction::class, TenantSubscription::class, "tenant_id", "id", "id", "invoice_transaction_id");
     }
 }
