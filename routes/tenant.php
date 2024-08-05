@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Tenancy\Website\TenantLandingPageController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 /*
@@ -24,6 +25,9 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     Route::get("/", [TenantLandingPageController::class, 'showAllWebsiteContent'])->name('tenant.landingPage');
+
+    //register ui preview temp route
+    Route::get("/preview_register", fn () => Inertia::render('auth/tenant_page/Register'))->name('tenant.register');
 
     require __DIR__ . "/dashboard_tenant/authentication_route.php";
 
