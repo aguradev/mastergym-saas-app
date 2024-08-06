@@ -26,23 +26,25 @@ class ServiceController extends Controller
 
     public function updateServiceData(Request $req)
     {
-        // dd($req);
 
-        if ($req->file('cards') != null) {
+        if ($req->file('cardImage') != null) {
+
 
             $req->validate([
                 'title' => 'required|max:20',
                 'text' => 'required|max:500',
                 'cards.*.name' => 'required|max:20',
-                'cards.*.image' => 'max:2048'
+                'cardImage.*' => 'mimes:jpg,png|max:2048'
             ]);
+
+            dd($req->file('cardImage'));
 
             $prefix = "tenant-" . tenant('id') . '/assets/website/images';
 
-            $image_name1 = array_key_exists(0, $req->file('cards')) ? $req->file('cards')[0]['image']->store($prefix) : $req->cards[0]['image'];
-            $image_name2 = array_key_exists(1, $req->file('cards')) ? $req->file('cards')[1]['image']->store($prefix) : $req->cards[1]['image'];
-            $image_name3 = array_key_exists(2, $req->file('cards')) ? $req->file('cards')[2]['image']->store($prefix) : $req->cards[2]['image'];
-            $image_name4 = array_key_exists(3, $req->file('cards')) ? $req->file('cards')[3]['image']->store($prefix) : $req->cards[3]['image'];
+            $image_name1 = array_key_exists(0, $req->file('cardImage')) ? $req->file('cardImage')[0]->store($prefix) : $req->cards[0]['image'];
+            $image_name2 = array_key_exists(1, $req->file('cardImage')) ? $req->file('cardImage')[1]->store($prefix) : $req->cards[1]['image'];
+            $image_name3 = array_key_exists(2, $req->file('cardImage')) ? $req->file('cardImage')[2]->store($prefix) : $req->cards[2]['image'];
+            $image_name4 = array_key_exists(3, $req->file('cardImage')) ? $req->file('cardImage')[3]->store($prefix) : $req->cards[3]['image'];
 
             $value = [
                 'title' => $req->title,
