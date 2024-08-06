@@ -4,6 +4,7 @@ import DynamicSectionContent from "@components/ui/dynamicDetailContent/Index.vue
 import Badge from "primevue/badge";
 import { usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
+import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 
 const page = usePage();
 const currentTenant = computed(() => page.props.currentTenant);
@@ -46,6 +47,8 @@ const currentTenant = computed(() => page.props.currentTenant);
                     :caption="currentTenant.domains[0].domain"
                 />
             </div>
+
+            <PrimaryButton label="Edit Tenant" class="px-6" />
         </section>
         <section class="py-6 px-8 bg-primary-800">
             <h2 class="text-xl font-semibold mb-6">Subscription</h2>

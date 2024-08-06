@@ -39,4 +39,21 @@ class DashboardController extends Controller
             compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'currentTenant')
         );
     }
+
+    public function TenantInvoiceTransaction()
+    {
+        $titlePage = tenant('name');
+        $title = tenant("name") . " - " . "Setting";
+        $logoutUrl = "tenant-dashboard.logout";
+        $userLogin = Auth::guard("tenant-web")->user();
+        $titleNav = "Settings";
+        $indexMenuActive = 6;
+
+        $tenantTransactions = tenant()->with(['TenantTransaction'])->first();
+
+        return Inertia::render(
+            'dashboard/tenant_page/setting_page/InvoiceTransaction',
+            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'tenantTransactions')
+        );
+    }
 }

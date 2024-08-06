@@ -16,7 +16,7 @@ const tabMenus = [
     },
     {
         title: "Invoice transaction",
-        url: "#",
+        url: route("tenant-dashboard.invoice-transaction"),
     },
 ];
 
