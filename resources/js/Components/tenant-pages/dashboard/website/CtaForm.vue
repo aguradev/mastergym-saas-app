@@ -1,6 +1,6 @@
 <script setup>
     import { useForm, usePage } from '@inertiajs/vue3';
-    import { ref, toRefs } from 'vue';
+    import { provide, ref, toRefs } from 'vue';
 
     import InputGroup from '@components/ui/group/InputGroup.vue';
     import InputText from '@components/elements/input/InputText.vue';
@@ -9,11 +9,15 @@
     import PreviewImage from '../ultility/PreviewImage.vue';
     import PrimaryButton from '@components/elements/button/PrimaryButton.vue';
     import ValidationMessage from '@components/ui/cta/ValidationMessage.vue';
+    import PopUpModal from '../ultility/PopUpModal.vue';
     import { watch } from 'vue';
 
     const { props } = toRefs(usePage());
     const { cta } = props.value;
     const imgComponentKey = ref(0);
+
+    const openModal = ref(false);
+    provide('visibleModal', openModal);
 
     const form = useForm({
         header: cta.header,
@@ -77,6 +81,15 @@
         @submit.prevent="editHandler"
     >
         <div class="pr-10">
+            <PopUpModal image="/public/assets/images/preview/cta-prev.png" />
+            <div class="flex gap-7">
+                <span class="text-2xl font-medium pt-2">Edit Call to Action Content</span>
+                <PrimaryButton
+                    type="button"
+                    label="Preview Layout"
+                    @click-event="() => (openModal = true)"
+                />
+            </div>
             <InputGroup
                 labelFor="header"
                 label="Header Text"
@@ -119,25 +132,35 @@
                     :caption="form.errors.button"
                 />
             </InputGroup>
-            <InputGroup
-                labelFor="image"
-                label="Input Image"
-            >
-                <InputFile
-                    inputType="file"
-                    inputId="image"
-                    inputName="background_image"
-                    @update:inputValue="
-                        (file) => {
-                            form.image = file;
-                        }
-                    "
-                />
-                <ValidationMessage
-                    v-if="form.errors.image"
-                    :caption="form.errors.image"
-                />
-            </InputGroup>
+            <div class="flex justify-between">
+                <div id="">
+                    <InputGroup
+                        labelFor="image"
+                        label="Input Image"
+                    >
+                        <InputFile
+                            inputType="file"
+                            inputId="image"
+                            inputName="background_image"
+                            @update:inputValue="
+                                (file) => {
+                                    form.image = file;
+                                }
+                            "
+                        />
+                        <ValidationMessage
+                            v-if="form.errors.image"
+                            :caption="form.errors.image"
+                        />
+                    </InputGroup>
+                </div>
+                <div class="pt-8">
+                    <PrimaryButton
+                        type="submit"
+                        label="Update Data"
+                    />
+                </div>
+            </div>
             <div class="flex justify-between mb-4">
                 <div class="w-[400px]">
                     <p>Image Currently Used</p>
@@ -146,12 +169,7 @@
                         :img="imgUrl"
                     />
                 </div>
-                <div class="">
-                    <PrimaryButton
-                        type="submit"
-                        label="Update Data"
-                    />
-                </div>
+                <div class=""></div>
             </div>
         </div>
     </form>

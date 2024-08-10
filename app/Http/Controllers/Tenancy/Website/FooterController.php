@@ -24,6 +24,23 @@ class FooterController extends Controller
 
     public function updateFooterData(Request $req)
     {
+        // dd($req);
+
+        $req->validate([
+            'gymIcon' => 'mimes:jpg,png|max:2048',
+            'gymTitle' => 'required|max:20',
+            'briefText' => 'required|max:255',
+            'menus1' => 'required|max:12',
+            'menus2' => 'required|max:12',
+            'menus3' => 'required|max:12',
+            'menus4' => 'required|max:12',
+            'menus5' => 'required|max:12',
+            'twitter' => 'required|max:100',
+            'facebook' => 'required|max:100',
+            'instagram' => 'required|max:100',
+        ]);
+
+        dd('tetot');
 
         $menu_items = [
             $req->menus1,
