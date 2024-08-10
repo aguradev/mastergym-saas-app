@@ -25,6 +25,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             "name",
             "email",
             "address",
+            "virtual_account_number",
             "created_at",
             "updated_at"
         ];

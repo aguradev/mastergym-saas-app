@@ -1,11 +1,10 @@
 <script setup>
 import { usePage } from "@inertiajs/vue3";
 import SettingPage from "./SettingPage.vue";
-import { computed, defineAsyncComponent, ref } from "vue";
+import { computed } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import FormatCurrency from "../../../../Lib/Currency";
-import Modal from "@components/ui/modal/Index.vue";
 
 import Badge from "primevue/badge";
 const page = usePage();

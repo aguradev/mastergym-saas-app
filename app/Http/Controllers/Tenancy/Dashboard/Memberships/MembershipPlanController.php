@@ -20,12 +20,12 @@ class MembershipPlanController extends Controller
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Membership plan";
         $titleNav = "Membership management";
-        $indexMenuActive = 3;
+        $indexMenuActive = 2;
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
 
-        $modalCreate = Inertia::lazy(fn () => true);
-        $modalEdit = Inertia::lazy(fn () => true);
+        $modalCreate = Inertia::lazy(fn() => true);
+        $modalEdit = Inertia::lazy(fn() => true);
 
         $membershipPlans = MembershipPlan::with(['MembershipFeatures'])->paginate(5);
         $getMembershipFeaturesActive = Inertia::lazy(function () {
@@ -62,7 +62,7 @@ class MembershipPlanController extends Controller
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Membership plan";
         $titleNav = "Membership management";
-        $indexMenuActive = 3;
+        $indexMenuActive = 2;
         $userLogin = Auth::guard("tenant-web")->user();
 
         return Inertia::render(

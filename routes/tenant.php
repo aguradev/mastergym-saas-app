@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Tenancy\Dashboard\Auth\AuthenticationController;
+use App\Http\Controllers\Tenancy\Dashboard\TenantConfiguration;
 use App\Http\Controllers\Tenancy\Website\TenantLandingPageController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -34,6 +35,9 @@ Route::middleware([
         require __DIR__ . "/dashboard_tenant/user_management_route.php";
         require __DIR__ . "/dashboard_tenant/membership_route.php";
 
+        Route::controller(TenantConfiguration::class)->prefix("tenant-configuration")->group(function () {
+            Route::put("/update/{tenant}", "UpdateTenantSubmmited")->name("tenant-configuration.update");
+        });
         Route::post("/logout", [AuthenticationController::class, "LogoutDashboard"])->name("tenant-dashboard.logout");
     });
 });

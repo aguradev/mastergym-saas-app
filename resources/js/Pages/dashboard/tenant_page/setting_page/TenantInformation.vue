@@ -2,12 +2,19 @@
 import SettingPage from "./SettingPage.vue";
 import DynamicSectionContent from "@components/ui/dynamicDetailContent/Index.vue";
 import Badge from "primevue/badge";
-import { usePage } from "@inertiajs/vue3";
-import { computed } from "vue";
-import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
-
+import { router, usePage } from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
+import { route } from "ziggy-js";
+import { computed, toRef } from "vue";
+import TenantConfiguration from "@pages/dashboard/tenant_page/setting_page/form/TenantConfiguration.vue";
+import Modal from "@components/ui/modal/Index.vue";
 const page = usePage();
 const currentTenant = computed(() => page.props.currentTenant);
+const closeEditTenantModal = () => {
+    router.visit(route("tenant-dashboard.setting-page"), {
+        replace: true,
+    });
+};
 </script>
 
 <template>
@@ -46,9 +53,20 @@ const currentTenant = computed(() => page.props.currentTenant);
                     label="domain"
                     :caption="currentTenant.domains[0].domain"
                 />
+                <DynamicSectionContent
+                    label="Virtual Account number"
+                    :caption="currentTenant.virtual_account_number ?? '-'"
+                />
             </div>
 
-            <PrimaryButton label="Edit Tenant" class="px-6" />
+            <Link
+                preserve-state
+                as="button"
+                :only="['modalEditTenantActive']"
+                class="bg-surface-600 px-4 py-3 rounded-lg flex items-center gap-x-2"
+            >
+                <span>Edit Tenant</span>
+            </Link>
         </section>
         <section class="py-6 px-8 bg-primary-800">
             <h2 class="text-xl font-semibold mb-6">Subscription</h2>
@@ -83,5 +101,13 @@ const currentTenant = computed(() => page.props.currentTenant);
                 </div>
             </div>
         </section>
+
+        <Modal
+            title="Edit tenant"
+            :modal-visible="page.props.modalEditTenantActive"
+            @close-modal="closeEditTenantModal"
+        >
+            <TenantConfiguration :tenant-data="currentTenant" />
+        </Modal>
     </SettingPage>
 </template>

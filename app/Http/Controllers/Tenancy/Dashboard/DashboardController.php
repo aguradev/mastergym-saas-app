@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Tenancy\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\CentralModel\TenantTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -30,13 +32,14 @@ class DashboardController extends Controller
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
         $titleNav = "Settings";
-        $indexMenuActive = 6;
+        $indexMenuActive = 5;
 
         $currentTenant = tenant()->with(['TenantSubscription', 'domains'])->first();
+        $modalEditTenantActive = Inertia::lazy(fn() => true);
 
         return Inertia::render(
             'dashboard/tenant_page/setting_page/TenantInformation',
-            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'currentTenant')
+            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'currentTenant', 'modalEditTenantActive')
         );
     }
 
@@ -47,7 +50,7 @@ class DashboardController extends Controller
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
         $titleNav = "Settings";
-        $indexMenuActive = 6;
+        $indexMenuActive = 5;
 
         $tenantTransactions = tenant()->with(['TenantTransaction'])->first();
 
