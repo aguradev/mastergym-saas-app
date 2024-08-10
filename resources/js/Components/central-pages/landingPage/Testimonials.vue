@@ -1,7 +1,3 @@
-<script setup>
-    import { ref } from 'vue';
-</script>
-
 <template>
     <div class="min-w-screen min-h-screen flex items-center justify-center bg-gray-50">
         <div class="w-full px-5 py-16 md:py-24 text-gray-800">
@@ -33,8 +29,8 @@
                             </div>
                             <div class="w-full">
                                 <p class="text-sm leading-tight">
-                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos sunt ratione dolor exercitationem minima quas itaque saepe
-                                    quasi architecto vel! Accusantium, vero sint recusandae cum tempora nemo commodi soluta deleniti.<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
+                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>This service was exactly what our small gym needed. The landing page setup was quick, and the management dashboard is super
+                                    intuitive. Our members find the site easy to navigate, and we’ve seen increased engagement.<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
                                 </p>
                             </div>
                         </div>
@@ -52,8 +48,8 @@
                             </div>
                             <div class="w-full">
                                 <p class="text-sm leading-tight">
-                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>Lorem ipsum, dolor sit amet, consectetur adipisicing elit. Dolore quod necessitatibus, labore sapiente, est, dignissimos
-                                    ullam error ipsam sint quam tempora vel.<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
+                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>Switching to this service transformed our gym's online presence. The pre-made landing page looks professional, and the
+                                    dashboard is so easy to use. We've attracted more members since making the change.<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
                                 </p>
                             </div>
                         </div>
@@ -73,10 +69,8 @@
                             </div>
                             <div class="w-full">
                                 <p class="text-sm leading-tight">
-                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, obcaecati ullam excepturi dicta error deleniti sequi.<span
-                                        class="text-lg leading-none italic font-bold text-gray-400 ml-1"
-                                        >"</span
-                                    >
+                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>We were blown away by how simple and effective this service is. The landing page is sleek, and the dashboard saves us so much
+                                    time. Plus, customer support has been top-notch.<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
                                 </p>
                             </div>
                         </div>
@@ -94,8 +88,8 @@
                             </div>
                             <div class="w-full">
                                 <p class="text-sm leading-tight">
-                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto inventore voluptatum nostrum atque, corrupti, vitae esse
-                                    id accusamus dignissimos neque reprehenderit natus, hic sequi itaque dicta nisi voluptatem! Culpa, iusto.<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
+                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>This platform is a game-changer for our gym. The landing page draws in new clients effortlessly, and the dashboard makes
+                                    managing our operations a breeze. It's like having an extra team member.<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
                                 </p>
                             </div>
                         </div>
@@ -115,8 +109,8 @@
                             </div>
                             <div class="w-full">
                                 <p class="text-sm leading-tight">
-                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, voluptatem porro obcaecati dicta, quibusdam sunt ipsum,
-                                    laboriosam nostrum facere exercitationem pariatur deserunt tempora molestiae assumenda nesciunt alias eius? Illo, autem!<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
+                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>We've tried other platforms, but this one is by far the best. The landing page is optimized for conversions, and the
+                                    dashboard is incredibly user-friendly. We finally have a system that works for us.<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
                                 </p>
                             </div>
                         </div>
@@ -134,10 +128,8 @@
                             </div>
                             <div class="w-full">
                                 <p class="text-sm leading-tight">
-                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem iusto, explicabo, cupiditate quas totam!<span
-                                        class="text-lg leading-none italic font-bold text-gray-400 ml-1"
-                                        >"</span
-                                    >
+                                    <span class="text-lg leading-none italic font-bold text-gray-400 mr-1">"</span>Using this service has been a fantastic experience for our gym. The landing page is attractive and functional, and the
+                                    dashboard makes managing memberships and schedules a breeze. Our client feedback has been overwhelmingly positive.<span class="text-lg leading-none italic font-bold text-gray-400 ml-1">"</span>
                                 </p>
                             </div>
                         </div>
