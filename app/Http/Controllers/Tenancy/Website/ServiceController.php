@@ -18,10 +18,11 @@ class ServiceController extends Controller
 
     public function fetchServiceData()
     {
+        $titlePage = tenant('name');
         $serviceUnparsed = WebsiteContent::select("service")->latest()->first();
         $service = json_decode($serviceUnparsed->service);
 
-        return Inertia::render("dashboard/tenant_page/website_content_page/Service", compact('service'));
+        return Inertia::render("dashboard/tenant_page/website_content_page/Service", compact('service', 'titlePage'));
     }
 
     public function updateServiceData(Request $req)

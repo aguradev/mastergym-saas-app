@@ -16,10 +16,11 @@ class TestimonyController extends Controller
 
     public function fetchTestimonyData()
     {
+        $titlePage = tenant('name');
         $unparsedTestimony = WebsiteContent::select("testimony")->latest()->first();
         $testi = json_decode($unparsedTestimony->testimony);
 
-        return Inertia::render('dashboard/tenant_page/website_content_page/Testimony', compact('testi'));
+        return Inertia::render('dashboard/tenant_page/website_content_page/Testimony', compact('testi', 'titlePage'));
     }
 
     public function updateTestimonyData(Request $req)

@@ -16,10 +16,11 @@ class CtaController extends Controller
 
     public function fetchCtaData()
     {
+        $titlePage = tenant('name');
         $ctaUnparsed = WebsiteContent::select("cta")->latest()->first();
         $cta = json_decode($ctaUnparsed->cta);
 
-        return Inertia::render("dashboard/tenant_page/website_content_page/CallToAction", compact("cta"));
+        return Inertia::render("dashboard/tenant_page/website_content_page/CallToAction", compact('cta', 'titlePage'));
     }
 
     public function updateCtaData(Request $req)

@@ -17,10 +17,11 @@ class HeroController extends Controller
 
     public function fetchHeroData()
     {
+        $titlePage = tenant('name');
         $heroUnparsed = WebsiteContent::select("hero")->latest()->first();
         $hero = json_decode($heroUnparsed->hero);
 
-        return Inertia::render("dashboard/tenant_page/website_content_page/Hero", compact('hero'));
+        return Inertia::render("dashboard/tenant_page/website_content_page/Hero", compact('hero', 'titlePage'));
     }
 
     public function updateHeroData(Request $req)

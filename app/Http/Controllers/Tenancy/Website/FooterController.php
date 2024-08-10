@@ -16,10 +16,11 @@ class FooterController extends Controller
 
     public function fetchFooterData()
     {
+        $titlePage = tenant('name');
         $unparsedFooter = WebsiteContent::select("footer")->latest()->first();
         $footer = json_decode($unparsedFooter->footer);
 
-        return Inertia::render("dashboard/tenant_page/website_content_page/Footer", compact('footer'));
+        return Inertia::render("dashboard/tenant_page/website_content_page/Footer", compact('footer', 'titlePage'));
     }
 
     public function updateFooterData(Request $req)
