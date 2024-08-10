@@ -9,21 +9,17 @@
 <template>
     <Head title="CTA Content" />
     <TenantContentLayout>
-        <div class="grid grid-cols-2 grid-rows-12 px-8 pt-6">
-            <div id="form">
+        <div class="grid grid-cols-5 grid-rows-1 px-8 pt-6">
+            <div
+                id="form"
+                class="col-span-4"
+            >
                 <CtaForm />
             </div>
             <div
                 id="preview"
-                class="text-center"
-            >
-                <p class="pb-6 text-xl font-medium">Preview Call to Action Section</p>
-                <img
-                    src="/public/assets/images/preview/cta-prev.png"
-                    alt=""
-                    srcset=""
-                />
-            </div>
+                class="text-center col-span-1"
+            ></div>
         </div>
     </TenantContentLayout>
 </template>
