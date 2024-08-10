@@ -20,8 +20,9 @@ class CreateTenantsTable extends Migration
             $table->string("name")->unique();
             $table->string("address");
             $table->string("email")->unique();
+            $table->string("virtual_account_number")->nullable();
             $table->json('data')->nullable();
-            $table->enum("status", ["ACTIVE", "DEACTIVATED", "SUSPENDED"])->default("ACTIVE");
+            $table->enum("status", ["ACTIVE", "INACTIVE", "SUSPENDED"])->default("ACTIVE");
             $table->timestamps();
         });
     }

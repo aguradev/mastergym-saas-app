@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
+import { Head, Link, router, usePage } from "@inertiajs/vue3";
 import { route } from "ziggy-js";
 import { useNavMainPlatform } from "@stores/navigation_menu_item";
 import Badge from "primevue/badge";

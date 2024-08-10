@@ -24,6 +24,7 @@ class NavigationController extends Controller
     {
         $TenantLatest = Tenant::rightJoin("domains", "tenants.id", "=", "domains.tenant_id")->where("status", "ACTIVE")->limit(5)->get()->select(["name", "domain"]);
         $tenantPlansCount = TenantSubscriptionPlan::count();
+        $userLogin = Auth::guard("central-web")->user();
 
         $transactionLatest = TenantTransaction::latest()->limit(3)->get();
 
@@ -35,6 +36,7 @@ class NavigationController extends Controller
 
         Debugbar::debug("tenantLatest : {$TenantLatest}");
         return Inertia::render("dashboard/central_page/Overview", [
+            "userLogin" => $userLogin,
             "tenantLatest" => $TenantLatest,
             "tenantCount" => $TenantCount,
             "transactionLatest" => $transactionLatest,

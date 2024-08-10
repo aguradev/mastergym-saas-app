@@ -19,6 +19,23 @@ const closeModalHandler = () => {
         replace: true,
     });
 };
+
+const deleteActionHandler = (id) => {
+    const confirmDelete = confirm("Are you sure delete this role ?");
+
+    if (confirmDelete) {
+        router.visit(
+            route("tenant-dashboard.user-management.delete-role", {
+                id: id,
+            }),
+            {
+                only: ["rolesDatas", "flash"],
+                method: "delete",
+                replace: true,
+            },
+        );
+    }
+};
 </script>
 
 <style scoped>
@@ -98,6 +115,12 @@ const closeModalHandler = () => {
                                 <Link
                                     as="button"
                                     class="!py-[10px] action_link"
+                                    @click="
+                                        () =>
+                                            deleteActionHandler(
+                                                slotProps.data.id,
+                                            )
+                                    "
                                 >
                                     <i class="pi pi-trash"></i>
                                 </Link>

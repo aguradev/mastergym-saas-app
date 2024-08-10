@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tenant_subscription_plan', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->string("name");
-            $table->enum("status", ["ACTIVE", "ARCHIVE", "DEACTIVED"])->nullable();
+            $table->enum("status", ["ACTIVE", "ARCHIVE", "INACTIVE"])->nullable();
             $table->timestamps();
         });
     }

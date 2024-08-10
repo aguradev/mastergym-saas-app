@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CentralModel\TenantSubscription;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class SubscriptionController extends Controller
@@ -14,6 +15,7 @@ class SubscriptionController extends Controller
     {
         $subscriptionId = $request->query("subscription_id");
         $tenantSubscriptionModel = TenantSubscription::with(["Tenant.Domains"]);
+        $userLogin = Auth::guard("central-web")->user();
 
         $tenantSubscriptionsLists = $tenantSubscriptionModel->get();
         $visibleModalDetail = Inertia::lazy(fn () => true);
@@ -22,7 +24,8 @@ class SubscriptionController extends Controller
         return Inertia::render('dashboard/central_page/subscription_tenant_page/Index', compact(
             'tenantSubscriptionsLists',
             'visibleModalDetail',
-            'getSubscriptionDataDetail'
+            'getSubscriptionDataDetail',
+            'userLogin'
         ));
     }
 }

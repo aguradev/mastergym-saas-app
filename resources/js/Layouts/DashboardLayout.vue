@@ -1,18 +1,21 @@
 <script setup>
-import MenuDropdown from "@components/elements/dropdownToggle/index.vue";
+import DropdownWrapper from "@components/ui/dropdown/dropdown-wrapper.vue";
 import DashboardSidebar from "@components/ui/sidebar/DashboardSidebar.vue";
-import { useMenuUser } from "@stores/menu_dropdown_user";
-import { router, Head } from "@inertiajs/vue3";
+import { router, Head, usePage } from "@inertiajs/vue3";
 import { provide, ref, toRefs } from "vue";
+import { route } from "ziggy-js";
 
-const storeMenuUser = useMenuUser();
-const { menuItem } = storeMenuUser;
+const page = usePage();
 
-const logoutEvent = () => {
-    router.visit(menuItem[0]?.items[0]?.link, {
+const dropdownUserContent = [
+    {
+        label: "Logout",
+        url: route(page.props.logoutUrl ?? "central-dashboard.logout"),
         method: "post",
-    });
-};
+    },
+];
+
+const dropdownVisible = ref(false);
 
 const props = defineProps({
     menuItemActive: {
@@ -32,13 +35,11 @@ const props = defineProps({
         type: Array,
         default: [
             {
-                label: "Label here",
+                label: "Options",
                 items: [
                     {
-                        label: "item 1",
-                    },
-                    {
-                        label: "item 2",
+                        label: "label 1",
+                        link: "",
                     },
                 ],
             },
@@ -88,26 +89,28 @@ provide("mainSection", mainSection);
                     <h3 class="text-2xl font-bold">{{ props.titleNav }}</h3>
                 </div>
 
-                <MenuDropdown :dropdownLists="menuItem">
-                    <template #button_content>
-                        <div class="user__account">
-                            <div class="overflow-hidden rounded-full w-9 h-9">
-                                <img
-                                    src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
-                                    class="object-cover w-full h-full"
-                                    alt="image"
-                                />
-                            </div>
-                            <span class="text-base">Admin</span>
+                <div class="relative">
+                    <div
+                        class="user__account"
+                        @click="() => (dropdownVisible = !dropdownVisible)"
+                    >
+                        <div class="overflow-hidden rounded-full w-9 h-9">
+                            <img
+                                :src="page.props?.userLogin?.user.profile_image"
+                                class="object-cover w-full h-full"
+                                alt="image"
+                            />
                         </div>
-                    </template>
+                        <span class="text-base">{{
+                            page.props?.userLogin?.username
+                        }}</span>
+                    </div>
 
-                    <template #item_template>
-                        <button type="button" @click="logoutEvent">
-                            Logout
-                        </button>
-                    </template>
-                </MenuDropdown>
+                    <DropdownWrapper
+                        :items="dropdownUserContent"
+                        :visible="dropdownVisible"
+                    />
+                </div>
             </nav>
 
             <div>

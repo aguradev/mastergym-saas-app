@@ -8,6 +8,7 @@ use App\Http\Requests\CentralRequest\CreateTenantPlanRequest;
 use App\Models\CentralModel\TenantSubscriptionPlan;
 use App\Models\Gym\Tenant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class TenantPlanController extends Controller
@@ -22,8 +23,9 @@ class TenantPlanController extends Controller
     public function PlanTablePage()
     {
         $getTenantPlanData = $this->subscriptionPlanService->GetAllSubscriptionPlans();
+        $userLogin = Auth::guard("central-web")->user();
 
-        return Inertia::render('dashboard/central_page/subscription_page/tenant_plan_page/Index', compact('getTenantPlanData'));
+        return Inertia::render('dashboard/central_page/subscription_page/tenant_plan_page/Index', compact('userLogin', 'getTenantPlanData'));
     }
 
     public function CreatePlanTenant(CreateTenantPlanRequest $request)

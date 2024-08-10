@@ -1,6 +1,6 @@
 <script setup>
 import InputText from "primevue/inputtext";
-import { toRefs } from "vue";
+import { isReadonly, toRefs } from "vue";
 const emit = defineEmits(["update:inputValue", "inputRef"]);
 
 const props = defineProps({
@@ -12,6 +12,10 @@ const props = defineProps({
     inputId: String,
     inputPlaceholder: String,
     inputName: String,
+    isReadonly: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const { inputValue, inputId, inputType, inputPlaceholder, inputName, invalid } =
@@ -19,8 +23,15 @@ const { inputValue, inputId, inputType, inputPlaceholder, inputName, invalid } =
 </script>
 
 <template>
-    <InputText :value="inputValue" :id="inputId" :type="inputType" :placeholder="inputPlaceholder" :name="inputName"
-        @input="(event) => emit('update:inputValue', event.target.value)" :pt="{
+    <InputText
+        :value="inputValue"
+        :id="inputId"
+        :type="inputType"
+        :placeholder="inputPlaceholder"
+        :name="inputName"
+        :readonly="props.isReadonly"
+        @input="(event) => emit('update:inputValue', event.target.value)"
+        :pt="{
             root: ({ props, context, parent }) => {
                 return {
                     class: [
@@ -36,5 +47,7 @@ const { inputValue, inputId, inputType, inputPlaceholder, inputName, invalid } =
                     ],
                 };
             },
-        }" :invalid="invalid" />
+        }"
+        :invalid="invalid"
+    />
 </template>

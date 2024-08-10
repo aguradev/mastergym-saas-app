@@ -9,6 +9,10 @@ import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 
 const props = defineProps({
     id: String,
+    route: {
+        type: String,
+        default: "central-dashboard.transaction.json.detail",
+    },
 });
 
 const transactionDetail = ref(null);
@@ -16,7 +20,7 @@ const transactionDetail = ref(null);
 const fetchTransactionDetail = async () => {
     try {
         const res = await axiosHttp(
-            route("central-dashboard.transaction.json.detail", {
+            route(props.route, {
                 transaction: props.id,
             }),
         );

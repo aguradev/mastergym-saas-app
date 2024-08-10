@@ -10,6 +10,7 @@ use App\Models\TenancyModel\User;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Database\Seeders\tenants\CredentialSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -23,6 +24,8 @@ class UsersController extends Controller
         $title = tenant("name") . " - " . "users";
         $titleNav = "User Management";
         $indexMenuActive = 1;
+        $logoutUrl = "tenant-dashboard.logout";
+        $userLogin = Auth::guard("tenant-web")->user();
 
         $usersData = User::with(['TenantCredential', 'roles'])->paginate(5);
         $rolesLists = Inertia::lazy(fn () => Role::where("guard_name", "tenant-web")->get());
@@ -38,7 +41,7 @@ class UsersController extends Controller
 
         return Inertia::render(
             'dashboard/tenant_page/user_management/users/Index',
-            compact('titlePage', 'title', 'indexMenuActive', 'titleNav', 'usersData', 'modalUserCreate', 'rolesLists', 'getUserDetail', 'modalUserEdit')
+            compact('titlePage', 'title', 'indexMenuActive', 'titleNav', 'usersData', 'modalUserCreate', 'rolesLists', 'getUserDetail', 'modalUserEdit', 'logoutUrl', 'userLogin')
         );
     }
 
@@ -47,6 +50,7 @@ class UsersController extends Controller
         $title = tenant("name") . " - " . "roles";
         $titleNav = "Roles Management";
         $indexMenuActive = 1;
+        $logoutUrl = "tenant-dashboard.logout";
 
         $rolesDatas = Role::where('guard_name', 'tenant-web')->paginate(5);
         $modalCreate = Inertia::lazy(fn () => true);
@@ -60,7 +64,7 @@ class UsersController extends Controller
 
         return Inertia::render(
             'dashboard/tenant_page/user_management/roles/Index',
-            compact('title', 'indexMenuActive', 'titleNav', 'rolesDatas', 'superAdminCount', 'staffCount', 'modalCreate')
+            compact('title', 'indexMenuActive', 'titleNav', 'rolesDatas', 'superAdminCount', 'staffCount', 'modalCreate', 'logoutUrl')
         );
     }
 
@@ -133,5 +137,17 @@ class UsersController extends Controller
         }
 
         return redirect()->back()->with("message_success", "Success create new role");
+    }
+
+    public function DeleteRole($id)
+    {
+        try {
+            Role::where("id", $id)->where("guard_name", "tenant-web")->delete();
+        } catch (\Throwable $err) {
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "Failed delete role");
+        }
+
+        return redirect()->back()->with("message_success", "Success delete role");
     }
 }

@@ -11,6 +11,7 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -25,8 +26,9 @@ class FeaturePlanController extends Controller
     public function FeaturePlanTable()
     {
         $planFeaturesQuery = TenantPlanFeature::orderBy("created_at", "desc")->orderBy("name", "asc")->paginate(8);
+        $userLogin = Auth::guard("central-web")->user();
 
-        return Inertia::render('dashboard/central_page/subscription_page/features_plan_page/Index', compact('planFeaturesQuery'));
+        return Inertia::render('dashboard/central_page/subscription_page/features_plan_page/Index', compact('planFeaturesQuery', 'userLogin'));
     }
 
     public function AllFeaturePlan()
