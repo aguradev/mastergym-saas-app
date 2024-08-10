@@ -13,6 +13,7 @@ const page = usePage();
 const rolesData = toRef(() => page.props.rolesDatas);
 const superAdminCount = toRef(() => page.props.superAdminCount);
 const staffCount = toRef(() => page.props.staffCount);
+const memberCount = toRef(() => page.props.memberCount);
 
 const closeModalHandler = () => {
     router.visit(route("tenant-dashboard.user-management.roles"), {
@@ -100,9 +101,15 @@ const deleteActionHandler = (id) => {
                             </span>
                             <span
                                 class="text-nowrap"
-                                v-else-if="slotProps.data.name === 'Staff'"
+                                v-else-if="slotProps.data.name === 'Admin'"
                             >
                                 {{ staffCount }}
+                            </span>
+                            <span
+                                class="text-nowrap"
+                                v-else-if="slotProps.data.name === 'Member'"
+                            >
+                                {{ memberCount }}
                             </span>
                             <span v-else>0</span>
                         </div>

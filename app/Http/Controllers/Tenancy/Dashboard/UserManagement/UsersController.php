@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
 class UsersController extends Controller
@@ -28,10 +30,10 @@ class UsersController extends Controller
         $userLogin = Auth::guard("tenant-web")->user();
 
         $usersData = User::with(['TenantCredential', 'roles'])->paginate(5);
-        $rolesLists = Inertia::lazy(fn () => Role::where("guard_name", "tenant-web")->get());
+        $rolesLists = Inertia::lazy(fn() => Role::where("guard_name", "tenant-web")->get());
 
-        $modalUserCreate = Inertia::lazy(fn () => true);
-        $modalUserEdit = Inertia::lazy(fn () => true);
+        $modalUserCreate = Inertia::lazy(fn() => true);
+        $modalUserEdit = Inertia::lazy(fn() => true);
         $getUserDetail = Inertia::lazy(function () use ($request) {
             $queryId = $request->query("id");
             return User::with(['TenantCredential', 'roles'])->whereId($queryId)->first();
@@ -53,18 +55,24 @@ class UsersController extends Controller
         $logoutUrl = "tenant-dashboard.logout";
 
         $rolesDatas = Role::where('guard_name', 'tenant-web')->paginate(5);
-        $modalCreate = Inertia::lazy(fn () => true);
-        $superAdminCount = User::with('roles')->get()->filter(
-            fn ($user) => $user->roles->where('name', 'Super admin')->toArray()
+        $modalCreate = Inertia::lazy(fn() => true);
+        $getRoles = User::with('roles')->get();
+
+        $superAdminCount = $getRoles->filter(
+            fn($user) => $user->roles->where('name', 'Super admin')->toArray()
         )->count();
 
-        $staffCount = User::with('roles')->get()->filter(
-            fn ($user) => $user->roles->where('name', 'Staff')->toArray()
+        $staffCount = $getRoles->filter(
+            fn($user) => $user->roles->where('name', 'Admin')->toArray()
+        )->count();
+
+        $memberCount = $getRoles->filter(
+            fn($user) => $user->roles->where('name', 'Member')->toArray()
         )->count();
 
         return Inertia::render(
             'dashboard/tenant_page/user_management/roles/Index',
-            compact('title', 'indexMenuActive', 'titleNav', 'rolesDatas', 'superAdminCount', 'staffCount', 'modalCreate', 'logoutUrl')
+            compact('title', 'indexMenuActive', 'titleNav', 'rolesDatas', 'superAdminCount', 'staffCount', 'memberCount', 'modalCreate', 'logoutUrl')
         );
     }
 
@@ -118,6 +126,81 @@ class UsersController extends Controller
         }
 
         return redirect()->back()->with("message_success", "Success create new user");
+    }
+
+    public function UpdateUser(Request $request, User $user)
+    {
+        $user->load("TenantCredential");
+
+        $validated = $request->validate([
+            "profileImg" => ["max:1024"],
+            "username" => ["required", "unique:tenant_credentials,username," . $user->TenantCredential->id],
+            "role" => ["required"],
+            "first_name" => "required",
+            "last_name" => "required",
+            "email" => "required|unique:tenant_credentials,email," . $user->TenantCredential->id,
+            "phone_number" => "required|numeric",
+            "password" => "confirmed"
+        ]);
+
+        $userCredentialData = [
+            "username" => $validated["username"],
+            "role" => $validated["role"],
+            "first_name" => $validated["first_name"],
+            "last_name" => $validated["last_name"],
+            "password" => $validated["password"] ? Hash::make($validated["password"]) : $user->TenantCredential->password,
+            "email" => $validated["email"],
+            "phone_number" => $validated["phone_number"]
+        ];
+
+        if ($request->hasFile("profileImg")) {
+            $profileImg = $validated['profileImg'];
+            $profile_image_path = "tenant-" . tenant("id") . "/assets/images/profile/";
+
+            $imageFormat = $profileImg->extension();
+
+            $image_name = time() . "-" . str()->slug($validated['username']) . "." . $imageFormat;
+
+            if ($user->profile_url != "profile.png") {
+                $findImageExists = Storage::disk('public')->exists($profile_image_path . $user->profile_url);
+
+                if ($findImageExists) {
+                    Storage::disk('public')->delete($profile_image_path . $user->profile_url);
+                }
+            }
+            $profileImg->storeAs("public/" . $profile_image_path, $image_name);
+
+            $userCredentialData['profile_url'] = $image_name;
+        } else {
+            $userCredentialData['profile_url'] = $user->profile_url;
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $user->update([
+                "first_name" => $userCredentialData["first_name"],
+                "last_name" => $userCredentialData["last_name"],
+                "phone_number" => $userCredentialData["phone_number"],
+                "profile_url" => $userCredentialData['profile_url']
+            ]);
+
+            $user->TenantCredential()->update([
+                "username" => $userCredentialData["username"],
+                "email" => $userCredentialData["email"],
+                "password" => $userCredentialData['password'],
+            ]);
+
+            $user->assignRole($userCredentialData['role']);
+
+            DB::commit();
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "Failed update user profile");
+        }
+
+        return redirect()->back()->with("message_success", "Success update user profile");
     }
 
     public function CreateRole(Request $request)
