@@ -58,8 +58,6 @@ class UsersController extends Controller
             'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
         ];
 
-        Debugbar::debug($usersData);
-
         return Inertia::render(
             'dashboard/tenant_page/user_management/users/Index',
             compact('titlePage', 'title', 'indexMenuActive', 'titleNav', 'usersData', 'modalUserCreate', 'rolesLists', 'getUserDetail', 'modalUserEdit', 'logoutUrl', 'userLogin', 'permissions')

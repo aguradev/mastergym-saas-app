@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Tenancy\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\CentralModel\TenantTransaction;
+use App\Models\TenancyModel\MembershipPlan;
+use App\Models\TenancyModel\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,9 +26,20 @@ class DashboardController extends Controller
             'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
         ];
 
+        $staffRoleAssign = $userLogin->User->hasRole(['Admin', 'Super admin']);
+        $memberRoleAssign = $userLogin->User->hasRole('Member');
+
+        if ($staffRoleAssign) {
+            $totalStaff = User::withWhereHas("roles", function ($query) {
+                return $query->whereIn("name", ["Super admin", "Admin"]);
+            })->count();
+            $totalMembershipPlan = MembershipPlan::count();
+        }
+
+
         return Inertia::render(
             'dashboard/tenant_page/MainMenu',
-            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions')
+            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan')
         );
     }
 

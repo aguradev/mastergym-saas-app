@@ -41,4 +41,9 @@ class User extends Model
     {
         return $this->belongsTo(TenantCredential::class, "credential_id", "id");
     }
+
+    public function MemberTrainees()
+    {
+        return $this->hasMany(MemberTrainee::class, "user_id", "id");
+    }
 }
