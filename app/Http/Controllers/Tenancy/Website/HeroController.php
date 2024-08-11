@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenancy\Website;
 use App\Http\Controllers\Controller;
 use App\Models\TenancyModel\WebsiteContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -18,10 +19,14 @@ class HeroController extends Controller
     public function fetchHeroData()
     {
         $titlePage = tenant('name');
+        $userLogin = Auth::guard("tenant-web")->user();
         $heroUnparsed = WebsiteContent::select("hero")->latest()->first();
         $hero = json_decode($heroUnparsed->hero);
 
-        return Inertia::render("dashboard/tenant_page/website_content_page/Hero", compact('hero', 'titlePage'));
+        return Inertia::render(
+            "dashboard/tenant_page/website_content_page/Hero",
+            compact('hero', 'titlePage', 'userLogin')
+        );
     }
 
     public function updateHeroData(Request $req)

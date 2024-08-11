@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenancy\Website;
 use App\Http\Controllers\Controller;
 use App\Models\TenancyModel\WebsiteContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class FooterController extends Controller
@@ -17,10 +18,14 @@ class FooterController extends Controller
     public function fetchFooterData()
     {
         $titlePage = tenant('name');
+        $userLogin = Auth::guard("tenant-web")->user();
         $unparsedFooter = WebsiteContent::select("footer")->latest()->first();
         $footer = json_decode($unparsedFooter->footer);
 
-        return Inertia::render("dashboard/tenant_page/website_content_page/Footer", compact('footer', 'titlePage'));
+        return Inertia::render(
+            "dashboard/tenant_page/website_content_page/Footer",
+            compact('footer', 'titlePage', 'userLogin')
+        );
     }
 
     public function updateFooterData(Request $req)

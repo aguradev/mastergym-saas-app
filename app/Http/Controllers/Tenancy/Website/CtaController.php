@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenancy\Website;
 use App\Http\Controllers\Controller;
 use App\Models\TenancyModel\WebsiteContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CtaController extends Controller
@@ -17,10 +18,14 @@ class CtaController extends Controller
     public function fetchCtaData()
     {
         $titlePage = tenant('name');
+        $userLogin = Auth::guard("tenant-web")->user();
         $ctaUnparsed = WebsiteContent::select("cta")->latest()->first();
         $cta = json_decode($ctaUnparsed->cta);
 
-        return Inertia::render("dashboard/tenant_page/website_content_page/CallToAction", compact('cta', 'titlePage'));
+        return Inertia::render(
+            "dashboard/tenant_page/website_content_page/CallToAction",
+            compact('cta', 'titlePage', 'userLogin')
+        );
     }
 
     public function updateCtaData(Request $req)

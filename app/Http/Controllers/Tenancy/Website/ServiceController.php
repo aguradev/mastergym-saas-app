@@ -7,6 +7,7 @@ use App\Models\TenancyModel\WebsiteContent;
 use Faker\Core\File;
 use App\Rules\ServiceUploadImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ServiceController extends Controller
@@ -19,10 +20,14 @@ class ServiceController extends Controller
     public function fetchServiceData()
     {
         $titlePage = tenant('name');
+        $userLogin = Auth::guard("tenant-web")->user();
         $serviceUnparsed = WebsiteContent::select("service")->latest()->first();
         $service = json_decode($serviceUnparsed->service);
 
-        return Inertia::render("dashboard/tenant_page/website_content_page/Service", compact('service', 'titlePage'));
+        return Inertia::render(
+            "dashboard/tenant_page/website_content_page/Service",
+            compact('service', 'titlePage', 'userLogin')
+        );
     }
 
     public function updateServiceData(Request $req)
