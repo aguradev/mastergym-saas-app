@@ -30,8 +30,21 @@ class UsersController extends Controller
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
 
-        $usersData = User::with(['TenantCredential', 'roles'])->paginate(5);
-        $rolesLists = Inertia::lazy(fn() => Role::where("guard_name", "tenant-web")->get());
+        $usersData = User::with(['TenantCredential'])->withWhereHas('roles', function ($query) use ($userLogin) {
+            if ($userLogin->User->hasRole('Admin')) {
+                return $query->where("name", "Member");
+            }
+        })->paginate(5);
+
+        $rolesLists = Inertia::lazy(function () use ($userLogin) {
+            $roleTenantWeb = Role::where("guard_name", "tenant-web");
+
+            if ($userLogin->User->hasRole('Admin')) {
+                return $roleTenantWeb->where("name", "Member")->get();
+            }
+
+            return $roleTenantWeb->get();
+        });
 
         $modalUserCreate = Inertia::lazy(fn() => true);
         $modalUserEdit = Inertia::lazy(fn() => true);
