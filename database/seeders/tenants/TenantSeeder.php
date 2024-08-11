@@ -14,6 +14,7 @@ class TenantSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
+            AddPermissionSeeder::class,
             CredentialSeeder::class,
             AddSuperAdminRole::class,
             TenantWebsiteSeeder::class,

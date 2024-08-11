@@ -27,6 +27,11 @@ class MembershipPlanController extends Controller
         $modalCreate = Inertia::lazy(fn() => true);
         $modalEdit = Inertia::lazy(fn() => true);
 
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+        ];
+
         $membershipPlans = MembershipPlan::with(['MembershipFeatures'])->paginate(5);
         $getMembershipFeaturesActive = Inertia::lazy(function () {
             return MembershipFeature::where("status", "ACTIVE")->get();
@@ -41,6 +46,7 @@ class MembershipPlanController extends Controller
             "dashboard/tenant_page/membership_page/plan/Index",
             compact(
                 "titlePage",
+                "permissions",
                 "userLogin",
                 'logoutUrl',
                 "title",

@@ -9,5 +9,6 @@ Route::prefix('management')->controller(UsersController::class)->group(function 
     Route::post('/user/{user}', 'UpdateUser')->name('tenant-dashboard.user-management.update-user');
     Route::get("/roles", "RolesManagementPage")->name('tenant-dashboard.user-management.roles');
     Route::post("/role", "CreateRole")->name('tenant-dashboard.user-management.create-role');
+    Route::post("/role/{id}/add-permissions", "AssignPermissions")->name('tenant-dashboard.user-management.assign-permission');
     Route::delete("/role/{id}", "DeleteRole")->name('tenant-dashboard.user-management.delete-role');
 });

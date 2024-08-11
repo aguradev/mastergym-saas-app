@@ -5,6 +5,7 @@ import { route } from "ziggy-js";
 import UserManagementLayout from "@pages/dashboard/tenant_page/user_management/Index.vue";
 import Modal from "@components/ui/modal/Index.vue";
 import RoleForm from "./RoleForm.vue";
+import PermissionForm from "./PermissionForm.vue";
 
 import Column from "primevue/column";
 import DataTable from "primevue/datatable";
@@ -36,6 +37,18 @@ const deleteActionHandler = (id) => {
             },
         );
     }
+};
+
+const addPermissionAction = (id) => {
+    router.visit(
+        route("tenant-dashboard.user-management.roles", {
+            id: id,
+        }),
+        {
+            method: "get",
+            only: ["modalAddPermission", "permissionLists", "rolesDetail"],
+        },
+    );
 };
 </script>
 
@@ -115,6 +128,11 @@ const deleteActionHandler = (id) => {
                         </div>
                     </template>
                 </Column>
+                <Column header="Assigned Permissions">
+                    <template #body="slotProps">
+                        <div>{{ slotProps.data.permissions_count }}</div>
+                    </template>
+                </Column>
                 <Column header="Actions">
                     <template #body="slotProps">
                         <ul class="action_lists">
@@ -132,6 +150,20 @@ const deleteActionHandler = (id) => {
                                     <i class="pi pi-trash"></i>
                                 </Link>
                             </li>
+                            <li class="action_item">
+                                <Link
+                                    as="button"
+                                    class="!py-[10px] action_link"
+                                    @click="
+                                        () =>
+                                            addPermissionAction(
+                                                slotProps.data.id,
+                                            )
+                                    "
+                                >
+                                    <i class="pi pi-pencil"></i>
+                                </Link>
+                            </li>
                         </ul>
                     </template>
                 </Column>
@@ -144,6 +176,14 @@ const deleteActionHandler = (id) => {
             @closeModal="closeModalHandler"
         >
             <RoleForm />
+        </Modal>
+
+        <Modal
+            title="Add permission"
+            :modal-visible="page.props.modalAddPermission"
+            @close-modal="closeModalHandler"
+        >
+            <PermissionForm />
         </Modal>
     </UserManagementLayout>
 </template>

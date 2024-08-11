@@ -19,9 +19,14 @@ class DashboardController extends Controller
         $userLogin = Auth::guard("tenant-web")->user();
         $titleNav = "Welcome, " . $userLogin->username;
 
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+        ];
+
         return Inertia::render(
             'dashboard/tenant_page/MainMenu',
-            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin')
+            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions')
         );
     }
 

@@ -31,11 +31,14 @@ Route::middleware([
 
     Route::prefix("/dashboard")->middleware(['auth.tenant'])->group(function () {
         require __DIR__ . "/dashboard_tenant/navigation_route.php";
-        require __DIR__ . "/dashboard_tenant/content_website_route.php";
-        require __DIR__ . "/dashboard_tenant/user_management_route.php";
-        require __DIR__ . "/dashboard_tenant/membership_route.php";
 
-        Route::controller(TenantConfiguration::class)->prefix("tenant-configuration")->group(function () {
+        Route::middleware(['role:Super admin|Admin,tenant-web', 'permission:access_dashboard_menu_tenant,tenant-web'])->group(function () {
+            require __DIR__ . "/dashboard_tenant/content_website_route.php";
+            require __DIR__ . "/dashboard_tenant/user_management_route.php";
+            require __DIR__ . "/dashboard_tenant/membership_route.php";
+        });
+
+        Route::controller(TenantConfiguration::class)->middleware(['role:Super admin,tenant-web'])->prefix("tenant-configuration")->group(function () {
             Route::put("/update/{tenant}", "UpdateTenantSubmmited")->name("tenant-configuration.update");
         });
         Route::post("/logout", [AuthenticationController::class, "LogoutDashboard"])->name("tenant-dashboard.logout");

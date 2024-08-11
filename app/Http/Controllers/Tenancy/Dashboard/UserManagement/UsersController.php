@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenancy\Dashboard\UserManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TenantRequest\UserCredentialRequest;
 use App\Models\Auth\TenantCredential;
+use App\Models\Authorization\Permission;
 use App\Models\Authorization\Role;
 use App\Models\TenancyModel\User;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -39,22 +40,28 @@ class UsersController extends Controller
             return User::with(['TenantCredential', 'roles'])->whereId($queryId)->first();
         });
 
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+        ];
+
         Debugbar::debug($usersData);
 
         return Inertia::render(
             'dashboard/tenant_page/user_management/users/Index',
-            compact('titlePage', 'title', 'indexMenuActive', 'titleNav', 'usersData', 'modalUserCreate', 'rolesLists', 'getUserDetail', 'modalUserEdit', 'logoutUrl', 'userLogin')
+            compact('titlePage', 'title', 'indexMenuActive', 'titleNav', 'usersData', 'modalUserCreate', 'rolesLists', 'getUserDetail', 'modalUserEdit', 'logoutUrl', 'userLogin', 'permissions')
         );
     }
 
-    public function RolesManagementPage()
+    public function RolesManagementPage(Request $request)
     {
         $title = tenant("name") . " - " . "roles";
         $titleNav = "Roles Management";
         $indexMenuActive = 1;
         $logoutUrl = "tenant-dashboard.logout";
+        $userLogin = Auth::guard("tenant-web")->user();
 
-        $rolesDatas = Role::where('guard_name', 'tenant-web')->paginate(5);
+        $rolesDatas = Role::where('guard_name', 'tenant-web')->withCount('permissions')->paginate(5);
         $modalCreate = Inertia::lazy(fn() => true);
         $getRoles = User::with('roles')->get();
 
@@ -70,9 +77,40 @@ class UsersController extends Controller
             fn($user) => $user->roles->where('name', 'Member')->toArray()
         )->count();
 
+        $modalAddPermission = Inertia::lazy(fn() => true);
+        $rolesDetail = Inertia::lazy(function () use ($request) {
+            $getIdParams = $request->query("id");
+
+            return Role::with('permissions')->where("id", $getIdParams)->where("guard_name", "tenant-web")->first();
+        });
+
+        $permissionLists = Inertia::lazy(function () {
+            return Permission::where("guard_name", "tenant-web")->get();
+        });
+
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+        ];
+
         return Inertia::render(
             'dashboard/tenant_page/user_management/roles/Index',
-            compact('title', 'indexMenuActive', 'titleNav', 'rolesDatas', 'superAdminCount', 'staffCount', 'memberCount', 'modalCreate', 'logoutUrl')
+            compact(
+                'title',
+                'userLogin',
+                'permissions',
+                'indexMenuActive',
+                'titleNav',
+                'rolesDatas',
+                'superAdminCount',
+                'staffCount',
+                'memberCount',
+                'modalCreate',
+                'logoutUrl',
+                'modalAddPermission',
+                'rolesDetail',
+                'permissionLists',
+            )
         );
     }
 
@@ -191,6 +229,7 @@ class UsersController extends Controller
                 "password" => $userCredentialData['password'],
             ]);
 
+            $user->removeRole($user->roles()->first()->name);
             $user->assignRole($userCredentialData['role']);
 
             DB::commit();
@@ -225,12 +264,31 @@ class UsersController extends Controller
     public function DeleteRole($id)
     {
         try {
-            Role::where("id", $id)->where("guard_name", "tenant-web")->delete();
+            $findRole = Role::where("id", $id)->where("guard_name", "tenant-web");
+            $findRole->delete();
         } catch (\Throwable $err) {
             Log::error($err->getMessage());
             return redirect()->back()->with("message_error", "Failed delete role");
         }
 
         return redirect()->back()->with("message_success", "Success delete role");
+    }
+
+    public function AssignPermissions(Request $request, $id)
+    {
+        $validated = $request->validate([
+            "permissions" => "required"
+        ]);
+
+
+        try {
+            $findRoles = Role::where("id", $id)->where("guard_name", "tenant-web")->first();
+            $findRoles->syncPermissions($validated['permissions']);
+
+            return redirect()->back()->with("message_success", "Success assigned permissions");
+        } catch (\Throwable $err) {
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "Failed assigned permissions");
+        }
     }
 }
