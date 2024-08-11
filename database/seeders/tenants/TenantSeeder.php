@@ -13,8 +13,8 @@ class TenantSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RoleSeeder::class,
             AddPermissionSeeder::class,
+            RoleSeeder::class,
             CredentialSeeder::class,
             AddSuperAdminRole::class,
             TenantWebsiteSeeder::class,

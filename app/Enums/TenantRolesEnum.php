@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Enums;
+
 enum TenantRolesEnum: string
 {
     case SUPERADMIN = "Super admin";

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tenancy\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Authorization\Role;
 use App\Models\CentralModel\TenantTransaction;
 use App\Models\TenancyModel\MembershipPlan;
 use App\Models\TenancyModel\User;
@@ -20,6 +21,8 @@ class DashboardController extends Controller
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
         $titleNav = "Welcome, " . $userLogin->username;
+        $totalStaff = null;
+        $totalMembershipPlan = null;
 
         $permissions = [
             'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),

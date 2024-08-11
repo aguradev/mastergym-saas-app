@@ -2,13 +2,12 @@
 
 namespace Database\Seeders\Tenants;
 
-use App\Enums\CentralRolesEnum;
+use App\Enums\TenantRolesEnum;
 use App\Models\Authorization\Role;
 use App\Models\Gym\Tenant;
 use Error;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use TenantRolesEnum;
 
 class RoleSeeder extends Seeder
 {
@@ -23,20 +22,17 @@ class RoleSeeder extends Seeder
             TenantRolesEnum::MEMBER->value
         ];
 
-        $tenantId = tenant('id');
-        $findTenants = Tenant::whereId($tenantId)->first();
+        foreach ($rolesLists as $role) {
+            $createRole = Role::create([
+                "name" => $role,
+                "guard_name" => "tenant-web"
+            ]);
 
-        if (!$findTenants) {
-            throw new Error("tenant not found");
-        }
-
-        $findTenants->run(function () use ($rolesLists) {
-            foreach ($rolesLists as $role) {
-                Role::create([
-                    "name" => $role,
-                    "guard_name" => "tenant-web"
-                ]);
+            if ($role == "Super admin" || $role == "Admin") {
+                $createRole->givePermissionTo("access_dashboard_menu_tenant");
+            } else {
+                $createRole->givePermissionTo("access_dashboard_menu_member");
             }
-        });
+        }
     }
 }
