@@ -39,6 +39,9 @@ class PermissionMiddleware
             : explode('|', $permission);
 
         if (!$user->hasAnyPermission($permissions)) {
+            if ($guard == "tenant-web") {
+                return to_route('tenant.abort.unauthorization');
+            }
             throw UnauthorizedException::forPermissions($permissions);
         }
 
