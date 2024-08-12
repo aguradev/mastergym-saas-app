@@ -6,7 +6,7 @@ import InputPassword from "@components/elements/input/InputPassword.vue";
 import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import PreviewImageFile from "../../../../../Lib/preview-img";
-import { onMounted, ref, toRef, watchEffect } from "vue";
+import { computed, onMounted, ref, toRef, watch } from "vue";
 import { route } from "ziggy-js";
 
 const previewImg = ref(null);
@@ -54,7 +54,18 @@ onMounted(() => {
 
 const userSubmitHandler = () => {
     switch (props.mode) {
-        case "create":
+        case "edit":
+            requestForm.post(
+                route("tenant-dashboard.user-management.update-user", {
+                    user: page.props.getUserDetail?.id,
+                }),
+                {
+                    _method: "put",
+                    only: ["errors", "flash"],
+                },
+            );
+            break;
+        default:
             requestForm.post(
                 route("tenant-dashboard.user-management.create-user"),
                 {
@@ -65,11 +76,6 @@ const userSubmitHandler = () => {
                     },
                 },
             );
-
-            break;
-        case "edit":
-            break;
-        default:
             break;
     }
 };

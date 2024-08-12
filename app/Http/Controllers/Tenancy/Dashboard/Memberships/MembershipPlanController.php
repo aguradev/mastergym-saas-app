@@ -27,6 +27,11 @@ class MembershipPlanController extends Controller
         $modalCreate = Inertia::lazy(fn() => true);
         $modalEdit = Inertia::lazy(fn() => true);
 
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+        ];
+
         $membershipPlans = MembershipPlan::with(['MembershipFeatures'])->paginate(5);
         $getMembershipFeaturesActive = Inertia::lazy(function () {
             return MembershipFeature::where("status", "ACTIVE")->get();
@@ -41,6 +46,7 @@ class MembershipPlanController extends Controller
             "dashboard/tenant_page/membership_page/plan/Index",
             compact(
                 "titlePage",
+                "permissions",
                 "userLogin",
                 'logoutUrl',
                 "title",
@@ -64,6 +70,13 @@ class MembershipPlanController extends Controller
         $titleNav = "Membership management";
         $indexMenuActive = 2;
         $userLogin = Auth::guard("tenant-web")->user();
+        $logoutUrl = "tenant-dashboard.logout";
+
+
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+        ];
 
         return Inertia::render(
             "dashboard/tenant_page/membership_page/plan/MembershipPlanDetail",
@@ -73,7 +86,9 @@ class MembershipPlanController extends Controller
                 'title',
                 'titleNav',
                 'indexMenuActive',
-                'membershipPlan'
+                'membershipPlan',
+                'permissions',
+                'logoutUrl'
             )
         );
     }
@@ -103,6 +118,24 @@ class MembershipPlanController extends Controller
             return redirect()->back()->with("message_error", "Failed create new membership plan");
         }
         return redirect()->back()->with("message_success", "Success create new membership plan");
+    }
+
+    public function DeleteMembershipPlan(MembershipPlan $membershipPlan)
+    {
+        $membershipPlan->load("MembershipFeatures");
+
+        DB::beginTransaction();
+        try {
+            $membershipPlan->MembershipFeatures()->detach();
+            $membershipPlan->delete();
+
+            DB::commit();
+            return redirect()->back()->with("message_success", "Success delete membership");
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "failed delete membership");
+        }
     }
 
     public function UpdateMembershipPlan(MembershipPlanRequest $request, MembershipPlan $membershipPlan)

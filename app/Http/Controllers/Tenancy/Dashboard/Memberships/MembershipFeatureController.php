@@ -16,12 +16,17 @@ class MembershipFeatureController extends Controller
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Membership features";
         $titleNav = "Membership management";
-        $indexMenuActive = 3;
+        $indexMenuActive = 2;
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
 
-        $modalCreate = Inertia::lazy(fn () => true);
-        $modalEdit = Inertia::lazy(fn () => true);
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+        ];
+
+        $modalCreate = Inertia::lazy(fn() => true);
+        $modalEdit = Inertia::lazy(fn() => true);
         $membershipFeatures = MembershipFeature::withCount(["membershipPlans"])->latest()->paginate(5);
 
         $getMembershipDetail = Inertia::lazy(function () use ($request) {
@@ -33,6 +38,7 @@ class MembershipFeatureController extends Controller
             "dashboard/tenant_page/membership_page/feature/Index",
             compact(
                 "titlePage",
+                "permissions",
                 "userLogin",
                 "title",
                 "logoutUrl",

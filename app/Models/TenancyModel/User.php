@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Model
@@ -39,5 +40,10 @@ class User extends Model
     public function TenantCredential()
     {
         return $this->belongsTo(TenantCredential::class, "credential_id", "id");
+    }
+
+    public function MemberTrainees()
+    {
+        return $this->hasMany(MemberTrainee::class, "user_id", "id");
     }
 }

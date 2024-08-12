@@ -33,6 +33,7 @@ const membershipPlanSubmit = () => {
                     only: ["flash", "errors"],
                 },
             );
+            break;
         default:
             requestForm.post(route("tenant-dashboard.membership.create"), {
                 only: ["flash", "errors"],

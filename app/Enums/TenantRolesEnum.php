@@ -2,16 +2,18 @@
 
 namespace App\Enums;
 
-enum CentralRolesEnum: string
+enum TenantRolesEnum: string
 {
     case SUPERADMIN = "Super admin";
     case ADMIN = "Admin";
+    case MEMBER = "Member";
 
     public function label(): string
     {
         return match ($this) {
             static::SUPERADMIN => 'Super admin',
-            static::ADMIN => 'Admin',
+            static::ADMIN => "Admin",
+            static::MEMBER => "Member",
         };
     }
 }

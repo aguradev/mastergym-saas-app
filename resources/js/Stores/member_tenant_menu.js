@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, reactive, ref } from "vue";
 
-export const useNavTenantPlatform = defineStore("tenant_dashboard_nav", () => {
+export const useNavMemberDashboard = defineStore("member_tenant_nav", () => {
     const navigationMenuItem = reactive([
         {
             separator: true,
@@ -15,29 +15,14 @@ export const useNavTenantPlatform = defineStore("tenant_dashboard_nav", () => {
                     link: route("tenant-dashboard.overview-page"),
                 },
                 {
-                    icon: "pi pi-users",
-                    label: "Users",
-                    link: route("tenant-dashboard.user-management.users"),
+                    icon: "pi pi-book",
+                    label: "Subscription",
+                    link: route("tenant-dashboard.overview-page"),
                 },
                 {
-                    icon: "pi pi-money-bill",
-                    label: "Membership",
-                    link: route("tenant-dashboard.membership.plan-page"),
-                },
-                {
-                    icon: "pi pi-users",
-                    label: "Trainees",
-                    link: route("website.overview"),
-                },
-                {
-                    icon: "pi pi-window-maximize",
-                    label: "Content Website",
-                    link: route("website.hero"),
-                },
-                {
-                    icon: "pi pi-cog",
-                    label: "Setting",
-                    link: route("tenant-dashboard.setting-page"),
+                    icon: "pi pi-user",
+                    label: "Profile",
+                    link: route("tenant-dashboard.overview-page"),
                 },
             ],
         },

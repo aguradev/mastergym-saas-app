@@ -5,6 +5,7 @@ import { route } from "ziggy-js";
 import UserManagementLayout from "@pages/dashboard/tenant_page/user_management/Index.vue";
 import Modal from "@components/ui/modal/Index.vue";
 import RoleForm from "./RoleForm.vue";
+import PermissionForm from "./PermissionForm.vue";
 
 import Column from "primevue/column";
 import DataTable from "primevue/datatable";
@@ -13,6 +14,7 @@ const page = usePage();
 const rolesData = toRef(() => page.props.rolesDatas);
 const superAdminCount = toRef(() => page.props.superAdminCount);
 const staffCount = toRef(() => page.props.staffCount);
+const memberCount = toRef(() => page.props.memberCount);
 
 const closeModalHandler = () => {
     router.visit(route("tenant-dashboard.user-management.roles"), {
@@ -35,6 +37,18 @@ const deleteActionHandler = (id) => {
             },
         );
     }
+};
+
+const addPermissionAction = (id) => {
+    router.visit(
+        route("tenant-dashboard.user-management.roles", {
+            id: id,
+        }),
+        {
+            method: "get",
+            only: ["modalAddPermission", "permissionLists", "rolesDetail"],
+        },
+    );
 };
 </script>
 
@@ -100,12 +114,23 @@ const deleteActionHandler = (id) => {
                             </span>
                             <span
                                 class="text-nowrap"
-                                v-else-if="slotProps.data.name === 'Staff'"
+                                v-else-if="slotProps.data.name === 'Admin'"
                             >
                                 {{ staffCount }}
                             </span>
+                            <span
+                                class="text-nowrap"
+                                v-else-if="slotProps.data.name === 'Member'"
+                            >
+                                {{ memberCount }}
+                            </span>
                             <span v-else>0</span>
                         </div>
+                    </template>
+                </Column>
+                <Column header="Assigned Permissions">
+                    <template #body="slotProps">
+                        <div>{{ slotProps.data.permissions_count }}</div>
                     </template>
                 </Column>
                 <Column header="Actions">
@@ -125,6 +150,20 @@ const deleteActionHandler = (id) => {
                                     <i class="pi pi-trash"></i>
                                 </Link>
                             </li>
+                            <li class="action_item">
+                                <Link
+                                    as="button"
+                                    class="!py-[10px] action_link"
+                                    @click="
+                                        () =>
+                                            addPermissionAction(
+                                                slotProps.data.id,
+                                            )
+                                    "
+                                >
+                                    <i class="pi pi-pencil"></i>
+                                </Link>
+                            </li>
                         </ul>
                     </template>
                 </Column>
@@ -137,6 +176,14 @@ const deleteActionHandler = (id) => {
             @closeModal="closeModalHandler"
         >
             <RoleForm />
+        </Modal>
+
+        <Modal
+            title="Add permission"
+            :modal-visible="page.props.modalAddPermission"
+            @close-modal="closeModalHandler"
+        >
+            <PermissionForm />
         </Modal>
     </UserManagementLayout>
 </template>

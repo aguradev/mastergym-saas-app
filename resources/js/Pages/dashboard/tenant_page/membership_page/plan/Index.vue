@@ -32,6 +32,23 @@ const membershipDetailAction = (id) => {
     );
 };
 
+const membershipDeleteAction = (id) => {
+    const isConfirm = confirm("are you sure to delete this membership plan ?");
+
+    if (isConfirm) {
+        router.visit(
+            route("tenant-dashboard.membership.delete", {
+                membershipPlan: id,
+            }),
+            {
+                method: "delete",
+                only: ["flash"],
+                replace: true,
+            },
+        );
+    }
+};
+
 const editActionHandler = (id) => {
     router.visit(
         route("tenant-dashboard.membership.plan-page", {
@@ -125,6 +142,9 @@ const editActionHandler = (id) => {
                 <Column header="Action">
                     <template #body="slotProps">
                         <ActionLists
+                            @deleteEvent="
+                                () => membershipDeleteAction(slotProps.data.id)
+                            "
                             @detailEvent="
                                 () => membershipDetailAction(slotProps.data.id)
                             "

@@ -25,4 +25,9 @@ class MembershipPlan extends Model
     {
         return $this->belongsToMany(MembershipFeature::class, "memberships_has_features", "membership_id", "feature_id");
     }
+
+    public function MemberTrainees()
+    {
+        return $this->hasMany(MemberTrainee::class, "membership_id", "id");
+    }
 }

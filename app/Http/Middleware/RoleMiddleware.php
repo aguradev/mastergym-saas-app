@@ -33,6 +33,9 @@ class RoleMiddleware
             : explode('|', $role);
 
         if (!$user->hasAnyRole($roles)) {
+            if ($guard == "tenant-web") {
+                return to_route('tenant.abort.unauthorization');
+            }
             throw UnauthorizedException::forRoles($roles);
         }
 
