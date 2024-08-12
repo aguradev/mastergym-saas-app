@@ -13,6 +13,7 @@ class TenantSubscription extends Model
     use HasFactory, HasUuids;
     protected $table = "tenants_subscription_lists";
     protected $with = ["Tenant", "Transaction"];
+    protected $connection = "pgsql";
 
     protected $fillable = [
         "tenant_id",
