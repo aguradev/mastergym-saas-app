@@ -39,7 +39,6 @@ class DashboardController extends Controller
             $totalMembershipPlan = MembershipPlan::count();
         }
 
-
         return Inertia::render(
             'dashboard/tenant_page/MainMenu',
             compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan')
@@ -58,9 +57,13 @@ class DashboardController extends Controller
         $currentTenant = tenant()->with(['TenantSubscription', 'domains'])->first();
         $modalEditTenantActive = Inertia::lazy(fn() => true);
 
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+        ];
+
         return Inertia::render(
             'dashboard/tenant_page/setting_page/TenantInformation',
-            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'currentTenant', 'modalEditTenantActive')
+            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'currentTenant', 'modalEditTenantActive', 'permissions')
         );
     }
 
@@ -75,9 +78,13 @@ class DashboardController extends Controller
 
         $tenantTransactions = tenant()->with(['TenantTransaction'])->first();
 
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+        ];
+
         return Inertia::render(
             'dashboard/tenant_page/setting_page/InvoiceTransaction',
-            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'tenantTransactions')
+            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'tenantTransactions', 'permissions')
         );
     }
 }

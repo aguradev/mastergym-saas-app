@@ -70,6 +70,13 @@ class MembershipPlanController extends Controller
         $titleNav = "Membership management";
         $indexMenuActive = 2;
         $userLogin = Auth::guard("tenant-web")->user();
+        $logoutUrl = "tenant-dashboard.logout";
+
+
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+        ];
 
         return Inertia::render(
             "dashboard/tenant_page/membership_page/plan/MembershipPlanDetail",
@@ -79,7 +86,9 @@ class MembershipPlanController extends Controller
                 'title',
                 'titleNav',
                 'indexMenuActive',
-                'membershipPlan'
+                'membershipPlan',
+                'permissions',
+                'logoutUrl'
             )
         );
     }

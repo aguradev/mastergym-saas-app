@@ -10,6 +10,7 @@ use App\Http\Controllers\Tenancy\Website\ServiceController;
 use App\Http\Controllers\Tenancy\Website\PricingController;
 use App\Http\Controllers\Tenancy\Website\TestimonyController;
 use App\Http\Controllers\Tenancy\Website\FooterController;
+use App\Models\TenancyModel\MembershipPlan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -25,6 +26,7 @@ class TenantLandingPageController extends Controller
         $testimonyController = new TestimonyController();
         $footerController = new FooterController();
 
+        $membershipPricings = MembershipPlan::with(["MembershipFeatures"])->where("status", "ACTIVE")->get()->groupBy('period_type');
 
         return Inertia::render('landing_page/tenant_page/TenantHome', [
             'nav' => $navController->showNav()->nav,
@@ -34,6 +36,7 @@ class TenantLandingPageController extends Controller
             'pricing' => $pricingController->showPricing()->membership,
             'testimony' => $testimonyController->showTestimony()->testimony,
             'footer' => $footerController->showFooter()->footer,
+            'membershipPricings' => $membershipPricings
         ]);
     }
 }
