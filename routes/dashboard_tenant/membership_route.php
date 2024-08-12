@@ -9,6 +9,7 @@ Route::prefix("membership")->group(function () {
         Route::get("/plans", "Page")->name("tenant-dashboard.membership.plan-page");
         Route::get("/plan/{membershipPlan}", "DetailPage")->name("tenant-dashboard.membership.detail");
         Route::post("/plan", "CreateMembershipPlan")->name("tenant-dashboard.membership.create");
+        Route::delete("/plan/{membershipPlan}", "DeleteMembershipPlan")->name("tenant-dashboard.membership.delete");
         Route::put("/plan/{membershipPlan}", "UpdateMembershipPlan")->name("tenant-dashboard.membership.update");
     });
 

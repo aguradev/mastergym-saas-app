@@ -111,6 +111,24 @@ class MembershipPlanController extends Controller
         return redirect()->back()->with("message_success", "Success create new membership plan");
     }
 
+    public function DeleteMembershipPlan(MembershipPlan $membershipPlan)
+    {
+        $membershipPlan->load("MembershipFeatures");
+
+        DB::beginTransaction();
+        try {
+            $membershipPlan->MembershipFeatures()->detach();
+            $membershipPlan->delete();
+
+            DB::commit();
+            return redirect()->back()->with("message_success", "Success delete membership");
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "failed delete membership");
+        }
+    }
+
     public function UpdateMembershipPlan(MembershipPlanRequest $request, MembershipPlan $membershipPlan)
     {
         DB::beginTransaction();

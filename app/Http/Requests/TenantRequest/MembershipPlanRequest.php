@@ -22,17 +22,11 @@ class MembershipPlanRequest extends FormRequest
     public function rules(): array
     {
         $validationRules = [
-            "title" => "required|unique:membership_plans,title",
+            "title" => "required",
             "period_type" => "required",
             "amount" => "numeric",
             "features" => "required"
         ];
-
-        $paramData = $this->route()->parameter("membershipPlan");
-
-        if (!is_null($paramData)) {
-            $validationRules['title'] = 'required|unique:membership_plans,title,' . $paramData->id;
-        }
 
         return $validationRules;
     }
