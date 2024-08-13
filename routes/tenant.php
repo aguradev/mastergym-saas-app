@@ -7,6 +7,7 @@ use App\Http\Controllers\Tenancy\Dashboard\Auth\AuthenticationController;
 use App\Http\Controllers\Tenancy\Dashboard\TenantConfiguration;
 use App\Http\Controllers\Tenancy\Website\TenantLandingPageController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 /*
@@ -27,6 +28,9 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     Route::get("/", [TenantLandingPageController::class, 'showAllWebsiteContent'])->name('tenant.landingPage');
+
+    //temp_register_route
+    Route::get("/register", fn() => Inertia::render("auth/tenant_page/Register"))->name('tenant.register');
 
     Route::prefix("abort")->controller(AbortPageController::class)->group(function () {
         Route::get("/unauthorization", 'UnauthorizationPage')->name("tenant.abort.unauthorization");

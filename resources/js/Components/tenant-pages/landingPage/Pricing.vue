@@ -1,51 +1,45 @@
 <script setup>
-import { computed, ref, toRefs } from "vue";
-import { Link, usePage } from "@inertiajs/vue3";
+    import { computed, ref, toRefs } from 'vue';
+    import { usePage, router } from '@inertiajs/vue3';
 
-import PricingCard from "@components/ui/pricing-card/IndexTenant.vue";
-import FormatCurrency from "../../../Lib/Currency";
+    import PricingCard from '@components/ui/pricing-card/IndexTenant.vue';
+    import FormatCurrency from '../../../Lib/Currency';
+    import { route } from '../../../../../vendor/tightenco/ziggy/src/js';
 
-const isToggle = ref(false);
-const link = "/signup";
+    const isToggle = ref(false);
 
-const fetchDataPricing = ref({
-    title: "Choose Your Member Type!",
-    text: "Here is lists of our membership prices depending on what you need, either monthly or yearly",
-});
+    const page = usePage();
+    const { pricing } = toRefs(page.props);
+    const membershipPricings = computed(() => page.props.membershipPricings);
 
-const page = usePage();
-const { pricing } = toRefs(page.props);
-const membershipPricings = computed(() => page.props.membershipPricings);
+    const parsedPricing = computed(() => {
+        try {
+            return JSON.parse(pricing.value);
+        } catch (e) {
+            console.error('Error parsing pricing JSON:', e);
+            return null;
+        }
+    });
 
-const parsedPricing = computed(() => {
-    try {
-        return JSON.parse(pricing.value);
-    } catch (e) {
-        console.error("Error parsing pricing JSON:", e);
-        return null;
+    const tabLists = ['Monthly', 'Half Yearly', 'Yearly'];
+    const tabActive = ref(tabLists[0]);
+
+    function visitRegister() {
+        router.get(route('tenant.register'));
     }
-});
-
-const tabLists = ["Monthly", "Half Yearly", "Yearly"];
-const tabActive = ref(tabLists[0]);
-
-const togglePricing = () => {
-    isToggle.value = !isToggle.value;
-};
 </script>
 
 <template>
     <section class="py-10 bg-slate-700 sm:py-16 lg:py-24">
-        <div id="pricing" class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div
+            id="pricing"
+            class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"
+        >
             <div class="max-w-2xl mx-auto text-center">
-                <h2
-                    class="text-5xl font-bold leading-tight text-orange-400 sm:text-2xl lg:text-5xl"
-                >
+                <h2 class="text-5xl font-bold leading-tight text-orange-400 sm:text-2xl lg:text-5xl">
                     {{ parsedPricing.title }}
                 </h2>
-                <p
-                    class="max-w-md mx-auto mt-4 text-base leading-relaxed text-white"
-                >
+                <p class="max-w-md mx-auto mt-4 text-base leading-relaxed text-white">
                     {{ parsedPricing.text }}
                 </p>
             </div>
@@ -80,6 +74,7 @@ const togglePricing = () => {
                         :price="FormatCurrency(card.amount)"
                         :features="card.membership_features"
                         :period="card.period_type"
+                        @checkout-event="visitRegister"
                     />
                 </div>
             </div>
@@ -98,6 +93,7 @@ const togglePricing = () => {
                         :price="FormatCurrency(card.amount)"
                         :features="card.membership_features"
                         :period="card.period_type"
+                        @checkout-event="visitRegister"
                     />
                 </div>
             </div>
@@ -116,6 +112,7 @@ const togglePricing = () => {
                         :price="FormatCurrency(card.amount)"
                         :features="card.membership_features"
                         :period="card.period_type"
+                        @checkout-event="visitRegister"
                     />
                 </div>
             </div>
