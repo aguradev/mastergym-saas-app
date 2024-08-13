@@ -22,7 +22,7 @@ export const useNavMemberDashboard = defineStore("member_tenant_nav", () => {
                 {
                     icon: "pi pi-user",
                     label: "Profile",
-                    link: route("tenant-dashboard.overview-page"),
+                    link: route("tenant-dashboard.profile"),
                 },
             ],
         },

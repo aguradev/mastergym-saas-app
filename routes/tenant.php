@@ -47,6 +47,8 @@ Route::middleware([
             require __DIR__ . "/dashboard_tenant/membership_route.php";
         });
 
+        require __DIR__ . "/dashboard_tenant/profile_route.php";
+
         Route::controller(TenantConfiguration::class)->middleware(['role:Super admin,tenant-web'])->prefix("tenant-configuration")->group(function () {
             Route::put("/update/{tenant}", "UpdateTenantSubmmited")->name("tenant-configuration.update");
         });

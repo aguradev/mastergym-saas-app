@@ -8,7 +8,7 @@ import CardRadio from "@components/elements/input/CardRadio.vue";
 import { onMounted, ref, watch, watchEffect } from "vue";
 import { useCentralCheckout } from "@stores/central_checkout_state";
 import { storeToRefs } from "pinia";
-import { route, useRoute } from "ziggy-js";
+import { route } from "ziggy-js";
 import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
 import axiosHttp from "../../../Lib/axios";
@@ -32,91 +32,49 @@ const submitBtnLabel = ref("Confirm Order");
 const manualTransferSelected = ref(false);
 const paymentGatewaySelected = ref(false);
 
-const selectRadioPaymentHandler = (radio) => {
-    switch (radio.id) {
-        case "manual_transfer":
-            manualTransferSelected.value = true;
-            paymentGatewaySelected.value = false;
-            checkoutOrderRequest.value.select_payment = radio.value;
-            break;
-        case "payment_gateway":
-            paymentGatewaySelected.value = true;
-            manualTransferSelected.value = false;
-            checkoutOrderRequest.value.select_payment = radio.value;
-            break;
-        default:
-            paymentGatewaySelected.value = false;
-            manualTransferSelected.value = false;
-            break;
-    }
-};
-
 const confirmOrderActionHandler = () => {
     submitBtnLabel.value = "Loading...";
     isFormSubmmited.value = true;
 
-    switch (checkoutOrderRequest.value.select_payment) {
-        case "payment_gateway":
-            const paymentProcessing = async () => {
-                try {
-                    const res = await axiosHttp(
-                        route("transaction.payment-gateway"),
-                        {
-                            method: "POST",
-                            data: checkoutOrderRequest.value,
-                        },
-                    );
+    const paymentProcessing = async () => {
+        try {
+            const res = await axiosHttp(route("transaction.payment-gateway"), {
+                method: "POST",
+                data: checkoutOrderRequest.value,
+            });
 
-                    if (res.status === 200) {
-                        const data = res.data;
-                        window.snap.pay(data.token, {
-                            onSuccess: function (res) {
-                                checkoutOrderRequest.value.reset();
-                                router.visit(
-                                    route("transaction.confirm.midtrans"),
-                                    {
-                                        method: "post",
-                                        data: res,
-                                    },
-                                );
-                            },
-                            onClose: function () {
-                                router.visit(route("central.landingPage"));
-                            },
+            if (res.status === 200) {
+                const data = res.data;
+                window.snap.pay(data.token, {
+                    onSuccess: function (res) {
+                        checkoutOrderRequest.value.reset();
+                        router.visit(route("transaction.confirm.midtrans"), {
+                            method: "post",
+                            data: res,
                         });
-                    }
-                } catch (err) {
-                    const responseError = err.response;
-                    if (responseError.status === 422) {
-                        checkoutOrderMessageValidation.value =
-                            responseError.data.errors;
-                    } else {
-                        console.log(responseError);
-                    }
-                } finally {
-                    submitBtnLabel.value = "Confirm Order";
-                    isFormSubmmited.value = true;
-                    paymentGatewaySelected.value = false;
-                    manualTransferSelected.value = false;
-                }
-            };
-
-            paymentProcessing();
-            break;
-        case "manual_transfer":
-            checkoutOrderRequest.value.post(
-                route("transaction.manual-transfer"),
-                {
-                    onFinish: () => {
-                        submitBtnLabel.value = "Confirm Order";
-                        isFormSubmmited.value = false;
                     },
-                },
-            );
-            break;
-        default:
-            break;
-    }
+                    onClose: function () {
+                        router.visit(route("central.landingPage"));
+                    },
+                });
+            }
+        } catch (err) {
+            const responseError = err.response;
+            if (responseError.status === 422) {
+                checkoutOrderMessageValidation.value =
+                    responseError.data.errors;
+            } else {
+                console.log(responseError);
+            }
+        } finally {
+            submitBtnLabel.value = "Confirm Order";
+            isFormSubmmited.value = true;
+            paymentGatewaySelected.value = false;
+            manualTransferSelected.value = false;
+        }
+    };
+
+    paymentProcessing();
 };
 
 watch(
@@ -164,7 +122,7 @@ onMounted(() => {
     <Head title="Checkout" />
     <div class="min-h-screen">
         <Toast />
-        <div class="grid lg:grid-cols-2 gap-4">
+        <div class="grid lg:grid-cols-2 items-center gap-4">
             <!-- user form -->
             <div class="py-10 px-12">
                 <form
@@ -177,28 +135,8 @@ onMounted(() => {
                         </h2>
                         <CheckoutForm />
                     </div>
-                    <div class="mb-8">
-                        <h2 class="text-xl font-semibold mb-8">
-                            Select Payment
-                        </h2>
-                        <CardRadio
-                            radio-name="select_payment"
-                            radio-id="payment_gateway"
-                            label="Payment Gateway"
-                            @checked-radio-handler="selectRadioPaymentHandler"
-                            :payment-select="paymentGatewaySelected"
-                        />
-                        <CardRadio
-                            radio-name="select_payment"
-                            radio-id="manual_transfer"
-                            label="Manual Transfer"
-                            @checked-radio-handler="selectRadioPaymentHandler"
-                            :payment-select="manualTransferSelected"
-                        />
-                    </div>
                     <PrimaryButton
                         :label="submitBtnLabel"
-                        :disabled="isFormSubmmited"
                         class="w-full"
                         type="submit"
                     />
