@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Tenancy\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Auth\TenantCredential;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProfileController extends Controller
@@ -21,7 +26,78 @@ class ProfileController extends Controller
 
         return Inertia::render(
             "dashboard/tenant_page/profile_page/Index",
-            compact('titlePage', 'title', 'titleNav', 'indexMenuActive', 'userLogin')
+            compact('titlePage', 'title', 'titleNav', 'indexMenuActive', 'userLogin', 'logoutUrl')
         );
+    }
+
+    public function ProfileUpdate(Request $request, TenantCredential $tenantCredential)
+    {
+        $tenantCredential->load("User");
+
+        $validated = $request->validate([
+            "profile" => ["max:1024"],
+            "username" => ["required", "unique:tenant_credentials,username," . $tenantCredential->id],
+            "first_name" => "required",
+            "last_name" => "required",
+            "email" => "required|unique:tenant_credentials,email," . $tenantCredential->id,
+            "phone_number" => "required|numeric",
+            "password" => "confirmed"
+        ]);
+
+        $userCredentialData = [
+            "username" => $validated["username"],
+            "first_name" => $validated["first_name"],
+            "last_name" => $validated["last_name"],
+            "password" => $validated["password"] ? Hash::make($validated["password"]) : $tenantCredential->password,
+            "email" => $validated["email"],
+            "phone_number" => $validated["phone_number"]
+        ];
+
+        if ($request->hasFile("profile")) {
+            $profileImg = $validated['profile'];
+            $profile_image_path = "tenant-" . tenant("id") . "/assets/images/profile/";
+
+            $imageFormat = $profileImg->extension();
+
+            $image_name = time() . "-" . str()->slug($validated['username']) . "." . $imageFormat;
+
+            if ($tenantCredential->User->profile_url != "profile.png") {
+                $findImageExists = Storage::disk('public')->exists($profile_image_path . $tenantCredential->User->profile_url);
+
+                if ($findImageExists) {
+                    Storage::disk('public')->delete($profile_image_path . $tenantCredential->User->profile_url);
+                }
+            }
+            $profileImg->storeAs("public/" . $profile_image_path, $image_name);
+
+            $userCredentialData['profile_url'] = $image_name;
+        } else {
+            $userCredentialData['profile_url'] = $tenantCredential->User->profile_url;
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $tenantCredential->update([
+                "username" => $userCredentialData["username"],
+                "email" => $userCredentialData["email"],
+                "password" => $userCredentialData['password'],
+            ]);
+
+            $tenantCredential->User()->update([
+                "first_name" => $userCredentialData["first_name"],
+                "last_name" => $userCredentialData["last_name"],
+                "phone_number" => $userCredentialData["phone_number"],
+                "profile_url" => $userCredentialData['profile_url']
+            ]);
+
+            DB::commit();
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "Failed update user profile");
+        }
+
+        return redirect()->back()->with("message_success", "Success update user profile");
     }
 }
