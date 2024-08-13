@@ -8,6 +8,7 @@ import { useForm, usePage } from "@inertiajs/vue3";
 import { computed, onMounted, ref } from "vue";
 import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import PreviewImageFile from "../../../../Lib/preview-img";
+import InputPassword from "@components/elements/input/InputPassword.vue";
 
 const previewImg = ref(null);
 
@@ -22,6 +23,8 @@ const formRequest = useForm({
     first_name: "",
     last_name: "",
     phone_number: "",
+    password: "",
+    password_confirmation: "",
 });
 
 const page = usePage();
@@ -111,6 +114,41 @@ onMounted(() => {
                             v-model:inputValue="formRequest.phone_number"
                         />
                         <ValidationMessage />
+                    </InputGroup>
+                </div>
+                <div class="grid lg:grid-cols-1 gap-5 mb-5 max-w-[1200px]">
+                    <InputGroup
+                        label="Password"
+                        label-for="password-input"
+                        class="!mb-0"
+                    >
+                        <InputPassword
+                            input-id="password-input"
+                            :toggle-mask="true"
+                            v-model:inputValue="formRequest.password"
+                        />
+                        <ValidationMessage
+                            v-if="formRequest.errors.password"
+                            :caption="formRequest.errors.password"
+                        />
+                    </InputGroup>
+
+                    <InputGroup
+                        label="Confirm password"
+                        label-for="confirm-password-input"
+                        class="!mb-0"
+                    >
+                        <InputPassword
+                            input-id="confirm-password-input"
+                            :toggle-mask="true"
+                            v-model:inputValue="
+                                formRequest.password_confirmation
+                            "
+                        />
+                        <ValidationMessage
+                            v-if="formRequest.errors.password_confirmation"
+                            :caption="formRequest.errors.password_confirmation"
+                        />
                     </InputGroup>
                 </div>
 
