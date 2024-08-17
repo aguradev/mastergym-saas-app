@@ -56,9 +56,11 @@ class DashboardController extends Controller
                 return $detail;
             });
 
+            $vaNumber = tenant('virtual_account_number');
+
             return Inertia::render(
                 'dashboard/tenant_page/MainMenu',
-                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'membershipPricings', 'getMembershipDataSelected')
+                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'membershipPricings', 'getMembershipDataSelected', 'vaNumber')
             );
         }
     }

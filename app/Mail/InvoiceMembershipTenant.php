@@ -13,19 +13,19 @@ class InvoiceMembershipTenant extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $full_name, $transaction_date, $membershipPlan, $tax, $total, $status;
+    private $invoice_id, $full_name, $transaction_date, $membership_plan, $tax, $total, $status;
 
     /**
      * Create a new message instance.
      */
     public function __construct($datas)
     {
+        $this->invoice_id = $datas['invoice_id'];
         $this->full_name = $datas['full_name'];
         $this->transaction_date = $datas['transaction_date'];
-        $this->membershipPlan = $datas['membership_plan'];
+        $this->membership_plan = $datas['membership_plan'];
         $this->tax = $datas['tax'];
         $this->total = $datas['total'];
-        $this->status = $datas['status'];
     }
 
     /**
@@ -44,7 +44,17 @@ class InvoiceMembershipTenant extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.invoice-membership-subscription',
+            with: [
+                "invoice_id" => $this->invoice_id,
+                "title" => tenant("name"),
+                "domain" => tenant()->domains->first()->domain,
+                "full_name" => $this->full_name,
+                "transaction_date" => $this->transaction_date,
+                "membership_plan" => $this->membership_plan,
+                "tax" => $this->tax,
+                "total" => $this->total
+            ]
         );
     }
 

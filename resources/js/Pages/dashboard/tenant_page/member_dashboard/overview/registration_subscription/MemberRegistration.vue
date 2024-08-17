@@ -13,6 +13,7 @@ const page = usePage();
 
 const modalCaution = ref(false);
 
+const vaNumber = page.props.vaNumber;
 const membershipCheckout = toRef(() => page.props.getMembershipDataSelected);
 const membershipRegistrationStores = useMembershipRegisterStore();
 const { formRequestRegistration } = storeToRefs(membershipRegistrationStores);
@@ -96,9 +97,12 @@ const subscriptionMembershipSubmitHandler = () => {
     <hr class="border-primary-500 my-8" />
     <section>
         <h2 class="text-2xl mb-8 font-semibold">Payment</h2>
-        <p>
-            You can complete your payment through the following virtual account.
-        </p>
+        <DynamicDetailContent
+            label="Virtual account number"
+            :caption="vaNumber"
+            classLabel="text-xl"
+            classCaption="!text-xl"
+        />
     </section>
     <hr class="border-primary-500 my-8" />
     <section>
