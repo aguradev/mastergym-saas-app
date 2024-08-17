@@ -126,11 +126,6 @@ const closeModalHandler = () => {
                                 <i class="pi pi-pencil"></i>
                             </Link>
                         </li>
-                        <li class="action_item">
-                            <Link as="button" class="!py-[10px] action_link">
-                                <i class="pi pi-trash"></i>
-                            </Link>
-                        </li>
                     </ul>
                 </template>
             </Column>

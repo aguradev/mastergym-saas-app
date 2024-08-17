@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Tenancy\Member;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeMemberTenantMail;
 use App\Models\Auth\TenantCredential;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password as FacadesPassword;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
@@ -59,6 +61,9 @@ class MemberRegistrationController extends Controller
             $createCredential->User->assignRole("Member");
 
             DB::commit();
+
+            Mail::to($createCredential['email'])->queue(new WelcomeMemberTenantMail($validated['username'], $validated['email']));
+
             Auth::guard("tenant-web")->login($createCredential);
 
             return to_route("tenant-dashboard.overview-page");
