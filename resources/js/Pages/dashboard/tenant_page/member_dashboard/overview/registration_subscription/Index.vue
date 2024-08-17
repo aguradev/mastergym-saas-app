@@ -41,8 +41,8 @@ const nextStepHandler = (position) => {
 onMounted(() => {
     const userTrainessLatest = latestMembershipData.value;
     if (
-        userTrainessLatest.transaction_status === "PENDING" &&
-        userTrainessLatest.membership_status === null
+        userTrainessLatest?.transaction_status === "PENDING" &&
+        userTrainessLatest?.membership_status === null
     ) {
         stepActive.value = 3;
     }
