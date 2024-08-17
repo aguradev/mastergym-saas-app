@@ -43,6 +43,11 @@ class DashboardController extends Controller
         }
 
         if ($memberRoleAssign) {
+            $user = Auth::guard("tenant-web")->user();
+            $user->load("User.MemberTrainessLatest");
+
+            $getLatestTrainess = $user->User->MemberTrainessLatest;
+
             $membershipPricings = MembershipPlan::with(["MembershipFeatures"])->where("status", "ACTIVE")->get()->groupBy('period_type');
             $getMembershipDataSelected = Inertia::lazy(function () use ($request) {
                 $membershipId = $request->query("membership_id");
@@ -60,7 +65,7 @@ class DashboardController extends Controller
 
             return Inertia::render(
                 'dashboard/tenant_page/MainMenu',
-                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'membershipPricings', 'getMembershipDataSelected', 'vaNumber')
+                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'membershipPricings', 'getMembershipDataSelected', 'vaNumber', 'getLatestTrainess')
             );
         }
     }

@@ -1,10 +1,13 @@
 <script setup>
-import { ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import GetStartedContent from "./GetStartedContent.vue";
 import PricingPlanContent from "./PricingPlanContent.vue";
 import MemberRegistration from "./MemberRegistration.vue";
 import { useMembershipRegisterStore } from "@stores/tenant_membership_register_store";
 import FinishContent from "./FinishContent.vue";
+import { usePage } from "@inertiajs/vue3";
+
+const page = usePage();
 
 const registrationStepMember = [
     "Get Started",
@@ -12,8 +15,6 @@ const registrationStepMember = [
     "Checkout",
     "Finish",
 ];
-
-const membershipRegistrationStores = useMembershipRegisterStore();
 
 const stepComponent = ref([
     {
@@ -30,11 +31,22 @@ const stepComponent = ref([
     },
 ]);
 
+const latestMembershipData = computed(() => page.props.getLatestTrainess);
 const stepActive = ref(0);
 
 const nextStepHandler = (position) => {
     stepActive.value = position;
 };
+
+onMounted(() => {
+    const userTrainessLatest = latestMembershipData.value;
+    if (
+        userTrainessLatest.transaction_status === "PENDING" &&
+        userTrainessLatest.membership_status === null
+    ) {
+        stepActive.value = 3;
+    }
+});
 </script>
 
 <template>
