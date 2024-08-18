@@ -40,7 +40,7 @@ class MemberSubcribeMembershipController extends Controller
                 "tax" => $getTaxTransaction,
                 "total" => $getTotalTransaction,
                 "transaction_status" => "PENDING",
-                "status" => "INACTIVE",
+                "membership_status" => "INACTIVE",
                 "created_at" => now(),
             ];
 

@@ -4,6 +4,7 @@ import { toRefs, onMounted, onUnmounted, watch } from "vue";
 const props = defineProps({
     title: String,
     modalVisible: Boolean,
+    classBox: String,
 });
 
 const { title, modalVisible } = toRefs(props);
@@ -30,7 +31,7 @@ watch(
 
     <transition name="scaleIn">
         <div
-            class="p-8 border rounded-lg bg-primary-800 border-surface-500 z-[99] min-w-[400px] sm:min-w-[600px] md:min-w-[800px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            :class="`p-8 border rounded-lg bg-primary-800 border-surface-500 z-[99] min-w-[400px] sm:min-w-[600px] md:min-w-[800px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${classBox ? classBox : ''}`"
             v-if="modalVisible"
         >
             <div class="flex items-center justify-between mb-5" v-if="title">

@@ -49,6 +49,7 @@ Route::middleware([
             require __DIR__ . "/dashboard_tenant/content_website_route.php";
             require __DIR__ . "/dashboard_tenant/user_management_route.php";
             require __DIR__ . "/dashboard_tenant/membership_route.php";
+            require __DIR__ . "/dashboard_tenant/trainess_route.php";
         });
 
         require __DIR__ . "/dashboard_tenant/member_role_route.php";
