@@ -42,7 +42,7 @@ onMounted(() => {
     const userTrainessLatest = latestMembershipData.value;
     if (
         userTrainessLatest?.transaction_status === "PENDING" &&
-        userTrainessLatest?.membership_status === null
+        userTrainessLatest?.membership_status === "INACTIVE"
     ) {
         stepActive.value = 3;
     }
