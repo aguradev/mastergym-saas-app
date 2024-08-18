@@ -63,7 +63,7 @@ class MembershipPlanController extends Controller
 
     public function DetailPage(MembershipPlan $membershipPlan)
     {
-        $membershipPlan->load("MembershipFeatures");
+        $membershipPlan->load("MembershipFeatures", "MemberTrainees", "MemberTrainees.User");
 
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Membership plan";
