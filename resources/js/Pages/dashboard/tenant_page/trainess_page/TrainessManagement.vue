@@ -1,6 +1,7 @@
 <script setup>
 import TrainessLayout from "./Index.vue";
 import TrainessDetail from "./TrainessDetail.vue";
+import TrainessEdit from "./TrainessEdit.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { usePage, Link, router } from "@inertiajs/vue3";
@@ -11,7 +12,8 @@ import Modal from "@components/ui/modal/Index.vue";
 
 const page = usePage();
 const userTrainess = toRef(() => page.props.userTrainess);
-const memberTrainessDetail = toRef(() => page.props.memberTrainessDetail);
+const modalTrainessDetail = toRef(() => page.props.modalTrainessDetail);
+const modalTrainessEdit = toRef(() => page.props.modalTrainessEdit);
 const closeModalHandler = () => {
     router.visit(route("tenant-dashboard.trainess"), {
         method: "get",
@@ -93,14 +95,30 @@ console.log(userTrainess.value);
                                             id: slotProps.data.id,
                                         })
                                     "
-                                    :only="['memberTrainessDetail']"
+                                    :only="[
+                                        'memberTrainessDetail',
+                                        'modalTrainessDetail',
+                                    ]"
                                     :preserve-state="true"
                                 >
                                     <i class="pi pi-eye"></i>
                                 </Link>
                             </li>
                             <li class="action_item">
-                                <Link as="button" class="action_link">
+                                <Link
+                                    as="button"
+                                    class="action_link"
+                                    :href="
+                                        route('tenant-dashboard.trainess', {
+                                            id: slotProps.data.id,
+                                        })
+                                    "
+                                    :only="[
+                                        'memberTrainessDetail',
+                                        'modalTrainessEdit',
+                                    ]"
+                                    :preserve-state="true"
+                                >
                                     <i class="pi pi-pencil"></i>
                                 </Link>
                             </li>
@@ -111,11 +129,19 @@ console.log(userTrainess.value);
 
             <Modal
                 title="Trainess detail"
-                :modal-visible="memberTrainessDetail"
+                :modal-visible="modalTrainessDetail"
                 @close-modal="closeModalHandler"
                 class-box="md:min-w-[1200px]"
             >
                 <TrainessDetail />
+            </Modal>
+
+            <Modal
+                title="Trainess Edit"
+                :modal-visible="modalTrainessEdit"
+                @close-modal="closeModalHandler"
+            >
+                <TrainessEdit />
             </Modal>
         </section>
     </TrainessLayout>

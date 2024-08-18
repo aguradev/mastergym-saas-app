@@ -8,7 +8,7 @@ const totalMembershipPlan = toRef(() => page.props?.totalMembershipPlan);
 </script>
 
 <template>
-    <div class="grid grid-cols-4 gap-6">
+    <div class="grid grid-cols-3 gap-6 mb-8">
         <figure class="bg-primary-800 border border-surface-500 p-5 rounded-lg">
             <figcaption>
                 <h4 class="font-semibold text-xl mb-4">Total Staff</h4>
@@ -29,11 +29,8 @@ const totalMembershipPlan = toRef(() => page.props?.totalMembershipPlan);
                 </h2>
             </figcaption>
         </figure>
-        <figure class="bg-primary-800 border border-surface-500 p-5 rounded-lg">
-            <figcaption>
-                <h4 class="font-semibold text-xl mb-4">Total Income</h4>
-                <h2 class="font-semibold text-3xl">0</h2>
-            </figcaption>
-        </figure>
+    </div>
+    <div class="bg-primary-800 border border-surface-500 p-5 rounded-lg">
+        <h4 class="font-semibold text-xl mb-4">Income</h4>
     </div>
 </template>
