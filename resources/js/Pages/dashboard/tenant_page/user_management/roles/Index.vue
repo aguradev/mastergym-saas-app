@@ -68,7 +68,7 @@ const addPermissionAction = (id) => {
 
 <template>
     <UserManagementLayout>
-        <header class="px-6 py-6 w-full">
+        <!-- <header class="px-6 py-6 w-full">
             <Link
                 :to="route('tenant-dashboard.user-management.users')"
                 preserve-state
@@ -79,7 +79,7 @@ const addPermissionAction = (id) => {
                 <i class="pi pi-plus"></i>
                 <span>Create Roles</span>
             </Link>
-        </header>
+        </header> -->
         <div v-if="rolesData.data.length > 0">
             <DataTable
                 :value="rolesData.data"

@@ -17,7 +17,7 @@ export const useNavMemberDashboard = defineStore("member_tenant_nav", () => {
                 {
                     icon: "pi pi-book",
                     label: "Subscription",
-                    link: route("tenant-dashboard.overview-page"),
+                    link: route("tenant-dashboard.member.member-subscription"),
                 },
                 {
                     icon: "pi pi-user",

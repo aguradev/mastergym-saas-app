@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\AbortPageController;
 use App\Http\Controllers\Tenancy\Dashboard\Auth\AuthenticationController;
 use App\Http\Controllers\Tenancy\Dashboard\TenantConfiguration;
+use App\Http\Controllers\Tenancy\Member\MemberRegistrationController;
 use App\Http\Controllers\Tenancy\Website\TenantLandingPageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,7 +31,10 @@ Route::middleware([
     Route::get("/", [TenantLandingPageController::class, 'showAllWebsiteContent'])->name('tenant.landingPage');
 
     //temp_register_route
-    Route::get("/register", fn() => Inertia::render("auth/tenant_page/Register"))->name('tenant.register');
+    Route::controller(MemberRegistrationController::class)->group(function () {
+        Route::get("/register", "MemberRegistrationPage")->name('tenant.registration');
+        Route::post("/register", "RegistrationSubmit")->name("tenant.registration.submit");
+    });
 
     Route::prefix("abort")->controller(AbortPageController::class)->group(function () {
         Route::get("/unauthorization", 'UnauthorizationPage')->name("tenant.abort.unauthorization");
@@ -45,8 +49,10 @@ Route::middleware([
             require __DIR__ . "/dashboard_tenant/content_website_route.php";
             require __DIR__ . "/dashboard_tenant/user_management_route.php";
             require __DIR__ . "/dashboard_tenant/membership_route.php";
+            require __DIR__ . "/dashboard_tenant/trainess_route.php";
         });
 
+        require __DIR__ . "/dashboard_tenant/member_role_route.php";
         require __DIR__ . "/dashboard_tenant/profile_route.php";
 
         Route::controller(TenantConfiguration::class)->middleware(['role:Super admin,tenant-web'])->prefix("tenant-configuration")->group(function () {

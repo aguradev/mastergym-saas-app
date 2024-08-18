@@ -25,6 +25,16 @@ class AuthenticationController extends Controller
             "password" => "required"
         ]);
 
+        $checkUserIsInactive = TenantCredential::where("email", $request->email)->first();
+
+        if (is_null($checkUserIsInactive)) {
+            return redirect()->back()->with('message_error', 'Credential is incorrect');
+        }
+
+        if ($checkUserIsInactive->status != "ACTIVE") {
+            return redirect()->back()->with('message_error', 'Credential is incorrect');
+        }
+
         $attemptAuthentication = Auth::guard('tenant-web')->attempt([
             "email" => $request->email,
             "password" => $request->password

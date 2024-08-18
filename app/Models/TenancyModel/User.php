@@ -46,4 +46,9 @@ class User extends Model
     {
         return $this->hasMany(MemberTrainee::class, "user_id", "id");
     }
+
+    public function MemberTrainessLatest()
+    {
+        return $this->hasOne(MemberTrainee::class, "user_id", "id")->latest();
+    }
 }

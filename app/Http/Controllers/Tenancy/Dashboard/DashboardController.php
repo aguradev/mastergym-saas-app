@@ -14,15 +14,13 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function Overview()
+    public function Overview(Request $request)
     {
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Dashboard";
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
         $titleNav = "Welcome, " . $userLogin->username;
-        $totalStaff = null;
-        $totalMembershipPlan = null;
 
         $permissions = [
             'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
@@ -37,12 +35,40 @@ class DashboardController extends Controller
                 return $query->whereIn("name", ["Super admin", "Admin"]);
             })->count();
             $totalMembershipPlan = MembershipPlan::count();
+
+            return Inertia::render(
+                'dashboard/tenant_page/MainMenu',
+                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan')
+            );
         }
 
-        return Inertia::render(
-            'dashboard/tenant_page/MainMenu',
-            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan')
-        );
+        if ($memberRoleAssign) {
+            $user = Auth::guard("tenant-web")->user();
+            $user->load("User.MemberTrainessLatest", "User.MemberTrainees");
+
+            $getLatestTrainess = $user->User->MemberTrainessLatest;
+            $findTraineeActive = $user->User->MemberTrainees->where("membership_status", "ACTIVE")->first();
+
+            $membershipPricings = MembershipPlan::with(["MembershipFeatures"])->where("status", "ACTIVE")->get()->groupBy('period_type');
+            $getMembershipDataSelected = Inertia::lazy(function () use ($request) {
+                $membershipId = $request->query("membership_id");
+                $detail = MembershipPlan::with(["MembershipFeatures"])->where('status', "ACTIVE")->where('id', $membershipId)->first();
+
+                if ($detail) {
+                    $detail->tax = "20%";
+                    $detail->total = (20 / 100 * $detail->amount) + $detail->amount;
+                }
+
+                return $detail;
+            });
+
+            $vaNumber = tenant('virtual_account_number');
+
+            return Inertia::render(
+                'dashboard/tenant_page/MainMenu',
+                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'membershipPricings', 'getMembershipDataSelected', 'vaNumber', 'getLatestTrainess', 'findTraineeActive')
+            );
+        }
     }
 
     public function Setting()

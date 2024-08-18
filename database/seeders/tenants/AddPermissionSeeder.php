@@ -15,24 +15,16 @@ class AddPermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $tenantId = tenant('id');
-        $findTenants = Tenant::whereId($tenantId)->first();
         $permissionLists = [
             "access_dashboard_menu_tenant",
             "access_dashboard_menu_member"
         ];
 
-        if (!$findTenants) {
-            throw new Error("tenant not found");
+        foreach ($permissionLists as $permission) {
+            Permission::create([
+                "name" => $permission,
+                "guard_name" => "tenant-web"
+            ]);
         }
-
-        $findTenants->run(function () use ($permissionLists) {
-            foreach ($permissionLists as $permission) {
-                Permission::create([
-                    "name" => $permission,
-                    "guard_name" => "tenant-web"
-                ]);
-            }
-        });
     }
 }

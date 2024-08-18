@@ -19,6 +19,8 @@ return new class extends Migration
             $table->timestamp("membership_start_date")->nullable();
             $table->timestamp("membership_expired_date")->nullable();
             $table->text("fitness_goal")->nullable();
+            $table->decimal("total", 10, 2);
+            $table->decimal("tax", 10, 2);
             $table->string("file_invoice_upload")->nullable();
             $table->enum("membership_status", ["ACTIVE", "INACTIVE"])->nullable();
             $table->enum("transaction_status", ["PAID", "NEED CONFIRM", "CANCEL", "PENDING"])->default("PENDING");

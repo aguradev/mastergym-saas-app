@@ -24,7 +24,7 @@ class UsersController extends Controller
     public function UsersManagementPage(Request $request)
     {
         $titlePage = tenant('name');
-        $title = tenant("name") . " - " . "users";
+        $title = tenant("name") . " - " . "Users";
         $titleNav = "User Management";
         $indexMenuActive = 1;
         $logoutUrl = "tenant-dashboard.logout";
