@@ -1,32 +1,35 @@
 <script setup>
-import TrainessLayout from "./Index.vue";
-import TrainessDetail from "./TrainessDetail.vue";
-import TrainessEdit from "./TrainessEdit.vue";
+import DashboardTenantLayout from "@layouts/DashboardTenantLayout.vue";
+import NotFound from "@components/ui/cta/NotFound.vue";
+import Badge from "primevue/badge";
+import Toast from "primevue/toast";
+import Modal from "@components/ui/modal/Index.vue";
+import TrainessDetail from "@pages/dashboard/tenant_page/trainess_page/TrainessDetail.vue";
+
+import { useToast } from "primevue/usetoast";
+import { router, usePage, Link } from "@inertiajs/vue3";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { usePage, Link, router } from "@inertiajs/vue3";
-import { toRef } from "vue";
+import { computed, toRef } from "vue";
 import { route } from "ziggy-js";
-import Badge from "primevue/badge";
-import Modal from "@components/ui/modal/Index.vue";
 
+const toast = useToast();
 const page = usePage();
-const userTrainess = toRef(() => page.props.userTrainess);
-const modalTrainessDetail = toRef(() => page.props.modalTrainessDetail);
-const modalTrainessEdit = toRef(() => page.props.modalTrainessEdit);
+
+const membershipSubs = computed(() => page.props.membershipSubs);
 const closeModalHandler = () => {
-    router.visit(route("tenant-dashboard.trainess"), {
-        method: "get",
+    router.visit(route("tenant-dashboard.member.member-subscription"), {
         replace: true,
     });
 };
 </script>
 
 <template>
-    <TrainessLayout>
-        <section v-if="userTrainess.data.length > 0">
+    <DashboardTenantLayout>
+        <Toast />
+        <section v-if="membershipSubs.member_trainees.length > 0">
             <DataTable
-                :value="userTrainess.data"
+                :value="membershipSubs.member_trainees"
                 :pt="{
                     bodyrow:
                         'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',
@@ -38,15 +41,9 @@ const closeModalHandler = () => {
                     },
                 }"
             >
-                <Column header="User">
+                <Column header="Invoice id">
                     <template #body="slotProps">
-                        <div class="flex items-center gap-x-4">
-                            <img
-                                :src="slotProps.data.user.profile_image"
-                                class="rounded-full size-14"
-                            />
-                            <span>{{ slotProps.data.user.full_name }}</span>
-                        </div>
+                        <span>#{{ slotProps.data.invoice_id }}</span>
                     </template>
                 </Column>
                 <Column header="Membership plan">
@@ -89,35 +86,20 @@ const closeModalHandler = () => {
                                     as="button"
                                     class="action_link"
                                     :href="
-                                        route('tenant-dashboard.trainess', {
-                                            id: slotProps.data.id,
-                                        })
+                                        route(
+                                            'tenant-dashboard.member.member-subscription',
+                                            {
+                                                id: slotProps.data.id,
+                                            },
+                                        )
                                     "
                                     :only="[
                                         'memberTrainessDetail',
-                                        'modalTrainessDetail',
+                                        'modalTraineeDetail',
                                     ]"
                                     :preserve-state="true"
                                 >
                                     <i class="pi pi-eye"></i>
-                                </Link>
-                            </li>
-                            <li class="action_item">
-                                <Link
-                                    as="button"
-                                    class="action_link"
-                                    :href="
-                                        route('tenant-dashboard.trainess', {
-                                            id: slotProps.data.id,
-                                        })
-                                    "
-                                    :only="[
-                                        'memberTrainessDetail',
-                                        'modalTrainessEdit',
-                                    ]"
-                                    :preserve-state="true"
-                                >
-                                    <i class="pi pi-pencil"></i>
                                 </Link>
                             </li>
                         </ul>
@@ -127,20 +109,15 @@ const closeModalHandler = () => {
 
             <Modal
                 title="Trainess detail"
-                :modal-visible="modalTrainessDetail"
+                :modal-visible="page.props.modalTraineeDetail"
                 @close-modal="closeModalHandler"
                 class-box="md:min-w-[1200px]"
             >
                 <TrainessDetail />
             </Modal>
-
-            <Modal
-                title="Trainess Edit"
-                :modal-visible="modalTrainessEdit"
-                @close-modal="closeModalHandler"
-            >
-                <TrainessEdit />
-            </Modal>
         </section>
-    </TrainessLayout>
+        <section v-else>
+            <NotFound caption="Subscription is empty" />
+        </section>
+    </DashboardTenantLayout>
 </template>

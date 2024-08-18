@@ -18,7 +18,7 @@ class UserTrainessController extends Controller
     public function TrainessListPage(Request $request)
     {
         $titlePage = tenant('name');
-        $title = tenant("name") . " - " . "users";
+        $title = tenant("name") . " - " . "Trainees";
         $titleNav = "Trainess Management";
         $indexMenuActive = 3;
         $logoutUrl = "tenant-dashboard.logout";
