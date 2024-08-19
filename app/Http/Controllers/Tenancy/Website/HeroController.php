@@ -31,6 +31,7 @@ class HeroController extends Controller
 
     public function updateHeroData(Request $req)
     {
+        // dd($req);
         if ($req->file("image") != null) {
 
             $req->validate([
@@ -40,9 +41,11 @@ class HeroController extends Controller
                 'image' => 'mimes:jpeg,png,jpg|max:2048',
             ]);
 
-            $prefix = "tenant-" . tenant('id') . '/assets/website/images';
+            $prefix = "public/tenant-" . tenant('id') . '/assets/website/images';
 
-            $image_name = $req->file('image')->store($prefix);
+            $image_name_unchanged = $req->file('image')->store($prefix);
+
+            $image_name = str_replace("public", "/storage", $image_name_unchanged);
 
             $value = [
                 'image' => $image_name,

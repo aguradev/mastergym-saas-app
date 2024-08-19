@@ -35,13 +35,7 @@
 
     const { iconUrl, gymTitle, briefText, menus1, menus2, menus3, menus4, menus5, twitter, facebook, instagram } = toRefs(form);
 
-    let imgUrl = ref(`/public/storage/${iconUrl.value}?t=${Date.now()}`);
-
-    if (iconUrl.value.includes('tenant')) {
-        imgUrl = `/public/storage/${iconUrl.value}?t=${Date.now()}`;
-    } else {
-        imgUrl = `${iconUrl.value}?t=${Date.now()}`;
-    }
+    let imgUrl = ref(iconUrl.value);
 
     function updateImageKey() {
         imgComponentKey.value++;
@@ -74,11 +68,7 @@
                 (footer.facebook = newVal.footer.facebook),
                 (footer.instagram = newVal.footer.instagram);
 
-            if (newVal.footer.gymIcon.includes('tenant')) {
-                imgUrl = `/public/storage/${newVal.footer.gymIcon}?t=${Date.now()}`;
-            } else {
-                imgUrl = `${newVal.footer.gymIcon}?t=${Date.now()}`;
-            }
+            imgUrl = newVal.footer.gymIcon;
 
             updateImageKey();
         }

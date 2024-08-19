@@ -27,20 +27,11 @@
 
     const { title, text, cards } = toRefs(form);
 
-    let imgUrl = toRefs([
-        `/public/storage/${cards.value[0].image}?t=git s${Date.now()}`,
-        `/public/storage/${cards.value[1].image}?t=${Date.now()}`,
-        `/public/storage/${cards.value[2].image}?t=${Date.now()}`,
-        `/public/storage/${cards.value[3].image}?t=${Date.now()}`,
-    ]);
+    let imgUrl = toRefs([`${cards.value[0].image}`, `${cards.value[1].image}`, `${cards.value[2].image}`, `${cards.value[3].image}`]);
 
     const index = ref(0);
     imgUrl.forEach((item) => {
-        if (item.value.includes('tenant')) {
-            imgUrl[index.value].value = `/public/storage/${cards.value[index.value].image}?t=${Date.now()}`;
-        } else {
-            imgUrl[index.value].value = `${cards.value[index.value].image}?t=${Date.now()}`;
-        }
+        imgUrl[index.value].value = cards.value[index.value].image;
         index.value++;
     });
 
@@ -70,7 +61,7 @@
 
             const imgIndex = ref(0);
             imgUrl.forEach((indexes) => {
-                imgUrl[imgIndex.value].value = newVal.service.cards[imgIndex.value].image.includes('tenant') ? `/public/storage/${newVal.service.cards[imgIndex.value].image}?t=${Date.now()}` : newVal.service.cards[imgIndex.value].image;
+                imgUrl[imgIndex.value].value = newVal.service.cards[imgIndex.value].image;
                 imgIndex.value++;
             });
 

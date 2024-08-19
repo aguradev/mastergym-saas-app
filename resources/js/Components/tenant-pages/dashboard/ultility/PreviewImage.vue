@@ -1,16 +1,19 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+    import { computed, onMounted, ref } from 'vue';
+    import PreviewImageFile from '../../../../Lib/preview-img';
 
-const prop = defineProps({
-    img: String,
-})
+    const prop = defineProps({
+        img: String,
+    });
 
-let bg = computed(() => {
-    return new URL(`${prop.img}`, import.meta.url).href
-})
+    let image_url = ref(prop.img);
 </script>
 <template>
     <div>
-        <img :src="bg" alt="" class="w-[200px] mt-2 pb-10">
+        <img
+            :src="image_url"
+            alt=""
+            class="w-[200px] mt-2 pb-10"
+        />
     </div>
 </template>

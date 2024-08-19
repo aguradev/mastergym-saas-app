@@ -28,13 +28,7 @@
     });
     const { header, text, button, imageURL } = toRefs(form);
 
-    let imgUrl = ref(`/public/storage/${imageURL.value}?t=${Date.now()}`);
-
-    if (imageURL.value.includes('tenant')) {
-        imgUrl = `/public/storage/${imageURL.value}?t=${Date.now()}`;
-    } else {
-        imgUrl = `${imageURL.value}?t=${Date.now()}`;
-    }
+    let imgUrl = ref(imageURL.value);
 
     function updateImageKey() {
         imgComponentKey.value++;
@@ -64,11 +58,7 @@
             cta.button = newVal.cta.button;
             cta.imageURL = newVal.cta.image;
 
-            if (newVal.cta.image.includes('tenant')) {
-                imgUrl = `/public/storage/${newVal.cta.image}?t=${Date.now()}`;
-            } else {
-                imgUrl = `${newVal.cta.image}?t=${Date.now()}`;
-            }
+            imgUrl = `${newVal.cta.image}`;
 
             updateImageKey();
         }

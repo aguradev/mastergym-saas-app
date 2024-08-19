@@ -40,17 +40,21 @@ class ServiceController extends Controller
                 'title' => 'required|max:20',
                 'text' => 'required|max:500',
                 'cards.*.name' => 'required|max:20',
-                'cardImage.*' => 'mimes:jpg,png|max:2048'
+                'cardImage.*' => 'nullable|mimes:jpg,png|max:2048'
             ]);
 
-            dd($req->file('cardImage'));
+            $prefix = "public/tenant-" . tenant('id') . '/assets/website/images';
 
-            $prefix = "tenant-" . tenant('id') . '/assets/website/images';
+            $image_name1_old = array_key_exists(0, $req->file('cardImage')) ? $req->file('cardImage')[0]->store($prefix) : $req->cards[0]['image'];
+            $image_name2_old = array_key_exists(1, $req->file('cardImage')) ? $req->file('cardImage')[1]->store($prefix) : $req->cards[1]['image'];
+            $image_name3_old = array_key_exists(2, $req->file('cardImage')) ? $req->file('cardImage')[2]->store($prefix) : $req->cards[2]['image'];
+            $image_name4_old = array_key_exists(3, $req->file('cardImage')) ? $req->file('cardImage')[3]->store($prefix) : $req->cards[3]['image'];
 
-            $image_name1 = array_key_exists(0, $req->file('cardImage')) ? $req->file('cardImage')[0]->store($prefix) : $req->cards[0]['image'];
-            $image_name2 = array_key_exists(1, $req->file('cardImage')) ? $req->file('cardImage')[1]->store($prefix) : $req->cards[1]['image'];
-            $image_name3 = array_key_exists(2, $req->file('cardImage')) ? $req->file('cardImage')[2]->store($prefix) : $req->cards[2]['image'];
-            $image_name4 = array_key_exists(3, $req->file('cardImage')) ? $req->file('cardImage')[3]->store($prefix) : $req->cards[3]['image'];
+
+            $image_name1 = str_replace("public", "/storage", $image_name1_old);
+            $image_name2 = str_replace("public", "/storage", $image_name2_old);
+            $image_name3 = str_replace("public", "/storage", $image_name3_old);
+            $image_name4 = str_replace("public", "/storage", $image_name4_old);
 
             $value = [
                 'title' => $req->title,

@@ -30,7 +30,6 @@ class FooterController extends Controller
 
     public function updateFooterData(Request $req)
     {
-        // dd($req);
 
         $req->validate([
             'gymIcon' => 'mimes:jpg,png|max:2048',
@@ -46,8 +45,6 @@ class FooterController extends Controller
             'instagram' => 'required|max:100',
         ]);
 
-        dd('tetot');
-
         $menu_items = [
             $req->menus1,
             $req->menus2,
@@ -58,9 +55,11 @@ class FooterController extends Controller
 
         if ($req->file('gymIcon') != null) {
 
-            $prefix = "tenant-" . tenant('id') . '/assets/website/images';
+            $prefix = "public/tenant-" . tenant('id') . '/assets/website/images';
 
-            $image_name = $req->file('gymIcon')->store($prefix);
+            $image_name_old = $req->file('gymIcon')->store($prefix);
+
+            $image_name = str_replace("public", "/storage", $image_name_old);
 
             $value = [
                 'gymIcon' => $image_name,

@@ -39,12 +39,14 @@ class CtaController extends Controller
                 'button' => 'required|max:15'
             ]);
 
-            $prefix = "tenant-" . tenant('id') . 'assets/website/images';
+            $prefix = "public/tenant-" . tenant('id') . 'assets/website/images';
 
-            $img_name = $req->file('image')->store($prefix);
+            $image_name_unchanged = $req->file('image')->store($prefix);
+
+            $image_name = str_replace("public", "/storage", $image_name_unchanged);
 
             $value = [
-                'image' => $img_name,
+                'image' => $image_name,
                 'header' => $req->header,
                 'text' => $req->text,
                 'button' => $req->button

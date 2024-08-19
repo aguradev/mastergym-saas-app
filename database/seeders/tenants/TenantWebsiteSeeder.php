@@ -28,7 +28,7 @@ class TenantWebsiteSeeder extends Seeder
         ];
 
         $hero = [
-            'image' => '/public/assets/images/icon/hero.png',
+            'image' => '/assets/images/icon/hero.png',
             'title' => "Get In Shape With Our Service!",
             'btnLeft' => "get started!",
             'btnRight' => "learn more ->",
@@ -36,7 +36,7 @@ class TenantWebsiteSeeder extends Seeder
 
         // 'image' => 'https://shorturl.at/fYk7V',
         $cta = [
-            'image' => '/public/assets/images/icon/cta.webp',
+            'image' => '/assets/images/icon/cta.webp',
             'header' => "Become A member Now!",
             'text' => "Unlock your full potential with our exclusive fitness programs at [Gym Name].Join today and take the first step towards a healthier, stronger you! Our expert trainers, state- of - the - art facilities, and personalized workout plans are designed to help you achieve your fitness goals. Don't wait—transform your life and become part of our vibrant community now! Sign up and start your journey with us.",
             'button' => "JOIN US!",
@@ -49,22 +49,22 @@ class TenantWebsiteSeeder extends Seeder
                 [
                     'id' => 1,
                     'name' => 'personal trainer',
-                    'image' => '/public/assets/images/icon/coach.png'
+                    'image' => '/assets/images/icon/coach.png'
                 ],
                 [
                     'id' => 2,
                     'name' => 'gym equipment',
-                    'image' => '/public/assets/images/icon/barbell.png'
+                    'image' => '/assets/images/icon/barbell.png'
                 ],
                 [
                     'id' => 3,
                     'name' => 'membership',
-                    'image' => '/public/assets/images/icon/member-card.png'
+                    'image' => '/assets/images/icon/member-card.png'
                 ],
                 [
                     'id' => 4,
                     'name' => 'gym classes',
-                    'image' => '/public/assets/images/icon/timetable.png'
+                    'image' => '/assets/images/icon/timetable.png'
                 ]
             ]
         ];
@@ -187,7 +187,7 @@ class TenantWebsiteSeeder extends Seeder
         ];
 
         $footer = [
-            'gymIcon' => '/public/assets/images/icon/gym.png',
+            'gymIcon' => '/assets/images/icon/gym.png',
             'gymTitle' => "Gym Tenant",
             'briefText' => "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.",
             'menus' => [
