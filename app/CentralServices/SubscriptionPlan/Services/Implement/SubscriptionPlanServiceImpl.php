@@ -40,6 +40,7 @@ class SubscriptionPlanServiceImpl implements SubscriptionPlanInterface
                 "price_per_month" => (int) $request["price_per_month"],
                 "price_per_year" => (int) $request["price_per_year"],
                 "version" => "1",
+                "status" => "ACTIVE"
             ], $createPlanTenant);
 
             if (!$createPlanTenantFirstVersion) {

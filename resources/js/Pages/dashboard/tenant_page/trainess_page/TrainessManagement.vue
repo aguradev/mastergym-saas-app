@@ -43,7 +43,7 @@ const closeModalHandler = () => {
                         <div class="flex items-center gap-x-4">
                             <img
                                 :src="slotProps.data.user.profile_image"
-                                class="rounded-full size-14"
+                                class="rounded-full size-14 object-cover"
                             />
                             <span>{{ slotProps.data.user.full_name }}</span>
                         </div>

@@ -4,6 +4,7 @@ import { usePage } from "@inertiajs/vue3";
 
 const page = usePage();
 const totalStaff = toRef(() => page.props?.totalStaff);
+const totalTrainee = toRef(() => page.props?.totalTrainee);
 const totalMembershipPlan = toRef(() => page.props?.totalMembershipPlan);
 </script>
 
@@ -18,7 +19,7 @@ const totalMembershipPlan = toRef(() => page.props?.totalMembershipPlan);
         <figure class="bg-primary-800 border border-surface-500 p-5 rounded-lg">
             <figcaption>
                 <h4 class="font-semibold text-xl mb-4">Total Trainees</h4>
-                <h2 class="font-semibold text-3xl">0</h2>
+                <h2 class="font-semibold text-3xl">{{ totalTrainee }}</h2>
             </figcaption>
         </figure>
         <figure class="bg-primary-800 border border-surface-500 p-5 rounded-lg">

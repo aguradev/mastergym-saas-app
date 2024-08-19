@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Authorization\Role;
 use App\Models\CentralModel\TenantTransaction;
 use App\Models\TenancyModel\MembershipPlan;
+use App\Models\TenancyModel\MemberTrainee;
 use App\Models\TenancyModel\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,10 +36,11 @@ class DashboardController extends Controller
                 return $query->whereIn("name", ["Super admin", "Admin"]);
             })->count();
             $totalMembershipPlan = MembershipPlan::count();
+            $totalTrainee = MemberTrainee::where("membership_status", "ACTIVE")->count();
 
             return Inertia::render(
                 'dashboard/tenant_page/MainMenu',
-                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan')
+                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan', 'totalTrainee')
             );
         }
 

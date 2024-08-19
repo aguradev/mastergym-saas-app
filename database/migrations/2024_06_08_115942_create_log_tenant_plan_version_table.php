@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal("price_per_year", 10, 2);
             $table->decimal("price_per_month", 10, 2);
             $table->string("version")->nullable();
+            $table->enum("status", ["ACTIVE", "INACTIVE"])->default("INACTIVE");
             $table->timestamps();
         });
     }
