@@ -15,7 +15,8 @@ class TenantPlanVersion extends Model
         "tenant_subscription_plan_id",
         "price_per_month",
         "price_per_year",
-        "version"
+        "version",
+        "status"
     ];
 
     protected $with = ["TenantSubscriptionPlan"];

@@ -104,7 +104,7 @@ const memberTrainessDetail = toRef(() => page.props.memberTrainessDetail);
             <Badge
                 :severity="`${memberTrainessDetail.transaction_status === 'PENDING' ? 'info' : memberTrainessDetail.transaction_status === 'PAID' ? 'success' : 'info'}`"
                 :value="memberTrainessDetail.transaction_status"
-                class="w-[20%]"
+                class="w-[40%]"
             />
         </div>
         <div class="mb-0">
@@ -114,7 +114,7 @@ const memberTrainessDetail = toRef(() => page.props.memberTrainessDetail);
             <Badge
                 :severity="`${memberTrainessDetail.membership_status === 'INACTIVE' ? 'danger' : memberTrainessDetail.membership_status === 'ACTIVE' ? 'success' : 'info'}`"
                 :value="memberTrainessDetail.membership_status"
-                class="w-[20%]"
+                class="w-[40%]"
             />
         </div>
         <div class="mb-0">
