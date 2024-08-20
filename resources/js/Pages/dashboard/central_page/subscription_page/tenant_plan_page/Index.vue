@@ -35,6 +35,7 @@ const dataSubscriptions = toRef(() => props.getTenantPlanData);
 const createModalVisible = ref(false);
 const detailModalVisible = ref(false);
 const tenantPlanId = ref(null);
+const tenantVersionPlanId = ref(null);
 const refreshDetailTenantSuspense = ref(false);
 const newVersionFormActive = ref(false);
 
@@ -46,6 +47,11 @@ const openDetailPlan = (id) => {
 const changeDetailToFormSuspense = () => {
     refreshDetailTenantSuspense.value = true;
     newVersionFormActive.value = true;
+};
+
+const changeVersionHandler = (id) => {
+    refreshDetailTenantSuspense.value = true;
+    tenantVersionPlanId.value = id;
 };
 
 watch(
@@ -164,10 +170,12 @@ watch(
                 <div v-if="!newVersionFormActive">
                     <LazyPlanDetail
                         :id="tenantPlanId"
+                        :versionPlanId="tenantVersionPlanId"
                         @new-version-event="changeDetailToFormSuspense"
+                        @selectVersionEvent="changeVersionHandler"
                     />
                 </div>
-                <div v-else>
+                <div v-else-if="newVersionFormActive">
                     <LazyNewVersionPlan :id="tenantPlanId" />
                 </div>
             </template>

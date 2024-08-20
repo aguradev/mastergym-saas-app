@@ -8,18 +8,20 @@ import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 
 const props = defineProps({
     id: String,
+    versionPlanId: String,
 });
 
 const planDetails = ref(null);
 const tenantVersionsLists = ref(null);
 
-const emits = defineEmits(["newVersionEvent"]);
+const emits = defineEmits(["newVersionEvent", "selectVersionEvent"]);
 
 const fetchDetailPlan = async () => {
     try {
         const res = await axiosHttp(
             route("plan_tenant.json.detail", {
                 planTenant: props.id,
+                planVersionId: props?.versionPlanId,
             }),
         );
 
@@ -49,6 +51,10 @@ const fetchTenantPlanVersions = async () => {
 
 await fetchDetailPlan();
 await fetchTenantPlanVersions();
+
+const selecteVersionHandler = (value) => {
+    emits("selectVersionEvent", value);
+};
 </script>
 
 <template>
@@ -58,6 +64,7 @@ await fetchTenantPlanVersions();
             id="tenant_version"
             class="px-4 py-3 rounded-lg bg-primary-700 border border-surface-500"
             v-model="planDetails.tenant_version_latest.id"
+            @change="(e) => selecteVersionHandler(e.target.value)"
         >
             <option value="" disabled selected>
                 -- Select tenant version --

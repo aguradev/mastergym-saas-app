@@ -80,8 +80,17 @@ class TenantPlanController extends Controller
         return redirect()->back()->with("message_success", "Successfully create plan");
     }
 
-    public function GetPlanDetail(TenantSubscriptionPlan $planTenant)
+    public function GetPlanDetail(Request $request, TenantSubscriptionPlan $planTenant)
     {
+        $planVersionId = $request->query("planVersionId");
+
+        if (!is_null($planVersionId)) {
+            $planTenant->load("TenantLogVersions");
+
+            $planTenant->tenant_version_latest = $planTenant->TenantLogVersions()->with(['PlanFeatures'])->where("id", $planVersionId)->first();
+
+            return response()->json($planTenant)->setStatusCode(200);
+        }
         $planTenant->load("TenantVersionLatest", "TenantVersionLatest.PlanFeatures");
         return response()->json($planTenant)->setStatusCode(200);
     }
@@ -89,6 +98,7 @@ class TenantPlanController extends Controller
     public function GetPlanVersions(TenantSubscriptionPlan $planTenant)
     {
         $planTenant->load("TenantLogVersions");
+
         return response()->json($planTenant)->setStatusCode(200);
     }
 }
