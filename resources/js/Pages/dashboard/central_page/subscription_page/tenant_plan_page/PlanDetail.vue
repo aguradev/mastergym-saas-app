@@ -10,20 +10,9 @@ const props = defineProps({
     id: String,
 });
 
-const features = [
-    "Booking personal trainer",
-    "Manage personal trainer",
-    "Manage staff",
-    "30 staff account",
-    "100 staff account",
-    "Unlimited staff account",
-    "50 membership user",
-    "100 membership user",
-    "500 membership user",
-    "Unlimited membership user",
-];
-
 const planDetails = ref(null);
+const tenantVersionsLists = ref(null);
+
 const emits = defineEmits(["newVersionEvent"]);
 
 const fetchDetailPlan = async () => {
@@ -42,52 +31,90 @@ const fetchDetailPlan = async () => {
     }
 };
 
+const fetchTenantPlanVersions = async () => {
+    try {
+        const res = await axiosHttp(
+            route("plan_tenant.json.versions", {
+                planTenant: props.id,
+            }),
+        );
+
+        if (res.status == 200) {
+            tenantVersionsLists.value = await res.data.tenant_log_versions;
+        }
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 await fetchDetailPlan();
+await fetchTenantPlanVersions();
 </script>
 
 <template>
-    <div class="grid my-8">
-        <DynamicSectionContent label="title" :caption="planDetails.name" />
-        <div class="flex items-center gap-x-14">
-            <DynamicSectionContent
-                label="Price per month"
-                :caption="
-                    FormatCurrency(
-                        planDetails.tenant_version_latest.price_per_month,
-                    )
-                "
-            />
-            <DynamicSectionContent
-                label="Price per yearly"
-                :caption="
-                    FormatCurrency(
-                        planDetails.tenant_version_latest.price_per_year,
-                    )
-                "
-            />
-        </div>
-        <DynamicSectionContent
-            label="Latest version"
-            :caption="`v.${planDetails.tenant_version_latest.version}`"
-        />
-        <div class="mb-8">
-            <h4 class="mb-4 text-base font-semibold capitalize">Features</h4>
-            <ul
-                class="flex flex-col gap-x-14 gap-y-4 justify-between max-w-[400px]"
+    <section id="plan_detail">
+        <select
+            name="tenant_version_select"
+            id="tenant_version"
+            class="px-4 py-3 rounded-lg bg-primary-700 border border-surface-500"
+            v-model="planDetails.tenant_version_latest.id"
+        >
+            <option value="" disabled selected>
+                -- Select tenant version --
+            </option>
+            <option
+                v-for="content in tenantVersionsLists"
+                :key="content.id"
+                :value="content.id"
             >
-                <li
-                    v-for="(feature, i) in planDetails.tenant_version_latest
-                        .plan_features"
-                    :key="feature.id"
-                    class="text-base"
+                {{ content.version }}
+            </option>
+        </select>
+        <div class="grid my-8">
+            <DynamicSectionContent label="title" :caption="planDetails.name" />
+            <div class="flex items-center gap-x-14">
+                <DynamicSectionContent
+                    label="Price per month"
+                    :caption="
+                        FormatCurrency(
+                            planDetails.tenant_version_latest.price_per_month,
+                        )
+                    "
+                />
+                <DynamicSectionContent
+                    label="Price per yearly"
+                    :caption="
+                        FormatCurrency(
+                            planDetails.tenant_version_latest.price_per_year,
+                        )
+                    "
+                />
+            </div>
+            <DynamicSectionContent
+                label="Latest version"
+                :caption="`v.${planDetails.tenant_version_latest.version}`"
+            />
+            <div class="mb-8">
+                <h4 class="mb-4 text-base font-semibold capitalize">
+                    Features
+                </h4>
+                <ul
+                    class="flex flex-col gap-x-14 gap-y-4 justify-between max-w-[400px]"
                 >
-                    {{ feature.name }}
-                </li>
-            </ul>
+                    <li
+                        v-for="(feature, i) in planDetails.tenant_version_latest
+                            .plan_features"
+                        :key="feature.id"
+                        class="text-base"
+                    >
+                        {{ feature.name }}
+                    </li>
+                </ul>
+            </div>
+            <PrimaryButton
+                label="Add new version"
+                @click-event="$emit('newVersionEvent')"
+            />
         </div>
-        <PrimaryButton
-            label="Add new version"
-            @click-event="$emit('newVersionEvent')"
-        />
-    </div>
+    </section>
 </template>
