@@ -77,17 +77,20 @@ watchEffect(() => {
                     },
                 }"
             >
-                <Column header="Owner">
-                    <template #body="slotProps">
-                        <p class="text-nowrap">
-                            {{ slotProps.data.transaction.full_name }}
-                        </p>
-                    </template>
-                </Column>
                 <Column header="Tenant name">
                     <template #body="slotProps">
                         <p class="text-nowrap">
                             {{ slotProps.data.tenant.name }}
+                        </p>
+                    </template>
+                </Column>
+                <Column header="Plan Purchase">
+                    <template #body="slotProps">
+                        <p class="text-nowrap">
+                            {{
+                                slotProps.data.transaction.plan_purchase
+                                    .tenant_subscription_plan.name
+                            }}
                         </p>
                     </template>
                 </Column>
@@ -98,10 +101,10 @@ watchEffect(() => {
                         </p>
                     </template>
                 </Column>
-                <Column header="Address">
+                <Column header="Period type">
                     <template #body="slotProps">
                         <p class="text-nowrap">
-                            {{ slotProps.data.tenant.address }}
+                            {{ slotProps.data.transaction.period_type }}
                         </p>
                     </template>
                 </Column>
