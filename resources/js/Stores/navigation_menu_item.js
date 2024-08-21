@@ -29,10 +29,6 @@ export const useNavMainPlatform = defineStore("dashboard_nav", () => {
                     label: "Transactions",
                     link: route("central-dashboard.transactions.lists"),
                 },
-                {
-                    icon: "pi pi-cog",
-                    label: "Setting",
-                },
             ],
         },
         {

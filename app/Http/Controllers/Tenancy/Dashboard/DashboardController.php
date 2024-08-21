@@ -82,7 +82,9 @@ class DashboardController extends Controller
         $titleNav = "Settings";
         $indexMenuActive = 5;
 
-        $currentTenant = tenant()->with(['TenantSubscription', 'domains'])->first();
+        $tenantId = tenant('id');
+        $currentTenant = tenant()->with(['TenantSubscription', 'domains'])->where("id", $tenantId)->first();
+
         $modalEditTenantActive = Inertia::lazy(fn() => true);
 
         $permissions = [
@@ -104,7 +106,8 @@ class DashboardController extends Controller
         $titleNav = "Settings";
         $indexMenuActive = 5;
 
-        $tenantTransactions = tenant()->with(['TenantTransaction'])->first();
+        $tenantId = tenant('id');
+        $tenantTransactions = tenant()->with(['TenantTransaction'])->whereId($tenantId)->first();
 
         $permissions = [
             'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),

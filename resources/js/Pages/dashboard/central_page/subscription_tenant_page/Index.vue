@@ -101,6 +101,13 @@ watchEffect(() => {
                         </p>
                     </template>
                 </Column>
+                <Column header="Period type">
+                    <template #body="slotProps">
+                        <p class="text-nowrap">
+                            {{ slotProps.data.transaction.period_type }}
+                        </p>
+                    </template>
+                </Column>
                 <Column header="Tenant Email">
                     <template #body="slotProps">
                         <p class="text-nowrap">
