@@ -14,12 +14,17 @@ class SubscriptionController extends Controller
     public function TenantSubscriptionsPage(Request $request)
     {
         $subscriptionId = $request->query("subscription_id");
-        $tenantSubscriptionModel = TenantSubscription::with(["Tenant.Domains"]);
+        $tenantSubscriptionModel = TenantSubscription::with([
+            "Tenant.Domains",
+            "Transaction.PlanPurchase",
+            "Transaction.PlanPurchase.PlanFeatures",
+            "Transaction.PlanPurchase.TenantSubscriptionPlan"
+        ]);
         $userLogin = Auth::guard("central-web")->user();
 
         $tenantSubscriptionsLists = $tenantSubscriptionModel->get();
-        $visibleModalDetail = Inertia::lazy(fn () => true);
-        $getSubscriptionDataDetail = Inertia::lazy(fn () => $tenantSubscriptionModel->whereId($subscriptionId)->first());
+        $visibleModalDetail = Inertia::lazy(fn() => true);
+        $getSubscriptionDataDetail = Inertia::lazy(fn() => $tenantSubscriptionModel->whereId($subscriptionId)->first());
 
         return Inertia::render('dashboard/central_page/subscription_tenant_page/Index', compact(
             'tenantSubscriptionsLists',
