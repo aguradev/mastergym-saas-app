@@ -77,6 +77,19 @@ class UserTrainessController extends Controller
                 "updated_at" => now()
             ];
 
+            if ($requestValidatedForm['membership_status'] == "ACTIVE") {
+                $checkMembershipTrainessActive = MemberTrainee::where("user_id", $memberTrainee->User->id)
+                    ->where("transaction_status", "PAID")
+                    ->where("membership_status", "ACTIVE")
+                    ->first();
+
+                if ($checkMembershipTrainessActive) {
+                    $checkMembershipTrainessActive->update([
+                        "membership_status" => "INACTIVE"
+                    ]);
+                }
+            }
+
             if (is_null($memberTrainee->updated_at)) {
                 if (is_null($memberTrainee->membership_start_date) && is_null($memberTrainee->membership_expired_date)) {
                     $dateNow = now();
