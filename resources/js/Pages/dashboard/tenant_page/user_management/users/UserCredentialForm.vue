@@ -89,7 +89,6 @@ const userSubmitHandler = () => {
                 :src="previewImg"
                 class="size-24 rounded-sm mb-4 object-cover"
             />
-            <p>{{ previewImg }}</p>
             <input
                 type="file"
                 name="profile"

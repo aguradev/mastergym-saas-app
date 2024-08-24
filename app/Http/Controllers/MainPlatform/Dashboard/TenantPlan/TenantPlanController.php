@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\CentralModel\TenantSubscriptionPlan;
 use App\Http\Requests\CentralRequest\CreateTenantPlanRequest;
 use App\CentralServices\SubscriptionPlan\Services\Interfaces\SubscriptionPlanInterface;
+use App\Models\CentralModel\TenantPlanFeature;
+use App\Models\CentralModel\TenantPlanVersion;
 
 class TenantPlanController extends Controller
 {
@@ -22,13 +24,31 @@ class TenantPlanController extends Controller
         $this->subscriptionPlanService = $planInterface;
     }
 
-    public function PlanTablePage()
+    public function PlanTablePage(Request $request)
     {
         $getTenantPlanData = $this->subscriptionPlanService->GetAllSubscriptionPlans();
         $userLogin = Auth::guard("central-web")->user();
 
+        $openModalEdit = Inertia::lazy(fn() => true);
 
-        return Inertia::render('dashboard/central_page/subscription_page/tenant_plan_page/Index', compact('userLogin', 'getTenantPlanData'));
+        $getTenantDetail = Inertia::lazy(function () use ($request) {
+            $tenantPlanId = $request->query("id");
+
+            return TenantSubscriptionPlan::where("id", $tenantPlanId)->with(['TenantVersionLatest', 'TenantVersionLatest.planFeatures'])->first();
+        });
+
+        $getPlanVersions = Inertia::lazy(function () use ($request) {
+            $tenantPlanId = $request->query("id");
+
+            return TenantPlanVersion::where("tenant_subscription_plan_id", $tenantPlanId)->get();
+        });
+
+        $getPlanFeatures = Inertia::lazy(function () use ($request) {
+            return TenantPlanFeature::all();
+        });
+
+
+        return Inertia::render('dashboard/central_page/subscription_page/tenant_plan_page/Index', compact('userLogin', 'getTenantPlanData', 'openModalEdit', 'getTenantDetail', 'getPlanFeatures', 'getPlanFeatures', 'getPlanVersions'));
     }
 
     public function AddNewVersionPlanTenant(Request $request, TenantSubscriptionPlan $planTenant)
