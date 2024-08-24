@@ -93,7 +93,7 @@ class MemberSubcribeMembershipController extends Controller
             // get membership data and user
             $membershipData = MembershipPlan::where("id", $validated['membershipPlanId'])->first();
 
-            $user = Auth::guard("tenant-web")->user();
+            $user = Auth::guard("tenant-web")->user()->load("MemberTrainees");
             $getTaxTransaction = 20 / 100 * $membershipData->amount;
             $getTotalTransaction = $getTaxTransaction + $membershipData->amount;
 
