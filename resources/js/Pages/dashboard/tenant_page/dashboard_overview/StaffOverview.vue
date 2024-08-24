@@ -15,7 +15,7 @@ const incomeData = ref(() =>
     membershipDatasets.value.map((item) => item.total_income),
 );
 const dateDatasets = ref(() =>
-    membershipDatasets.value.map((item) => item.date),
+    membershipDatasets.value.map((item) => item.months),
 );
 
 onMounted(() => {
@@ -56,7 +56,7 @@ onMounted(() => {
             labels: dateDatasets.value(),
             datasets: [
                 {
-                    label: "Daily Income",
+                    label: "Membership Income",
                     data: incomeData.value(),
                     borderColor: mainColor,
                     fill: true,
@@ -93,9 +93,9 @@ onMounted(() => {
         </figure>
     </div>
     <div class="bg-primary-800 border border-surface-500 p-5 rounded-lg">
-        <h4 class="font-semibold text-xl mb-4">Daily Income</h4>
+        <h4 class="font-semibold text-xl mb-4">Income</h4>
         <Chart
-            type="line"
+            type="bar"
             :data="chartData()"
             :options="chartOptions()"
             :height="100"

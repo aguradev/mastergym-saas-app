@@ -8,6 +8,7 @@ use App\Models\CentralModel\TenantTransaction;
 use App\Models\TenancyModel\MembershipPlan;
 use App\Models\TenancyModel\MemberTrainee;
 use App\Models\TenancyModel\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,8 +41,16 @@ class DashboardController extends Controller
 
             $membershipDatasets = MemberTrainee::select(
                 DB::raw('SUM(total) as total_income'),
-                DB::raw("TO_CHAR(created_at, 'DD-MM-YYYY') as date")
-            )->groupBy(DB::raw("TO_CHAR(created_at, 'DD-MM-YYYY')"))->get();
+                DB::raw("TO_CHAR(created_at, 'Mon-YYYY') as months"),
+                DB::raw("TO_CHAR(created_at, 'MM-YYYY') as code_months"),
+            )->where("transaction_status", "PAID")
+                ->whereRaw("EXTRACT(YEAR FROM created_at) = ?", [date("Y")])
+                ->groupBy(
+                    DB::raw("TO_CHAR(created_at, 'Mon-YYYY')"),
+                    DB::raw("TO_CHAR(created_at, 'MM-YYYY')")
+                )
+                ->orderBy(DB::raw("TO_CHAR(created_at, 'MM-YYYY')"))
+                ->get();
 
             return Inertia::render(
                 'dashboard/tenant_page/MainMenu',
