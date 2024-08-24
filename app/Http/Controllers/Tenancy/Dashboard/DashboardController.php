@@ -38,9 +38,14 @@ class DashboardController extends Controller
             $totalMembershipPlan = MembershipPlan::count();
             $totalTrainee = MemberTrainee::where("membership_status", "ACTIVE")->count();
 
+            $membershipDatasets = MemberTrainee::select(
+                DB::raw('SUM(total) as total_income'),
+                DB::raw("TO_CHAR(created_at, 'DD-MM-YYYY') as date")
+            )->groupBy(DB::raw("TO_CHAR(created_at, 'DD-MM-YYYY')"))->get();
+
             return Inertia::render(
                 'dashboard/tenant_page/MainMenu',
-                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan', 'totalTrainee')
+                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan', 'totalTrainee', 'membershipDatasets')
             );
         }
 

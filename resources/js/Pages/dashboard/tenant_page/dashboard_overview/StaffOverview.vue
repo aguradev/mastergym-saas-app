@@ -7,14 +7,19 @@ const page = usePage();
 const totalStaff = toRef(() => page.props?.totalStaff);
 const totalTrainee = toRef(() => page.props?.totalTrainee);
 const totalMembershipPlan = toRef(() => page.props?.totalMembershipPlan);
+const membershipDatasets = toRef(() => page.props?.membershipDatasets);
 
 const chartData = ref(() => {});
 const chartOptions = ref(() => {});
+const incomeData = ref(() =>
+    membershipDatasets.value.map((item) => item.total_income),
+);
+const dateDatasets = ref(() =>
+    membershipDatasets.value.map((item) => item.date),
+);
 
 onMounted(() => {
     chartOptions.value = () => {
-        const documentStyle = getComputedStyle(document.documentElement);
-
         return {
             plugins: {
                 legend: {
@@ -45,25 +50,18 @@ onMounted(() => {
         };
     };
     chartData.value = () => {
+        const mainColor = "rgb(01 183 65)";
+        const subColor = "rgb(47 82 34)";
         return {
-            labels: ["Q1", "Q2", "Q3", "Q4"],
+            labels: dateDatasets.value(),
             datasets: [
                 {
-                    label: "Sales",
-                    data: [540, 325, 702, 620],
-                    backgroundColor: [
-                        "rgba(249, 115, 22, 0.2)",
-                        "rgba(6, 182, 212, 0.2)",
-                        "rgb(107, 114, 128, 0.2)",
-                        "rgba(139, 92, 246 0.2)",
-                    ],
-                    borderColor: [
-                        "rgb(249, 115, 22)",
-                        "rgb(6, 182, 212)",
-                        "rgb(107, 114, 128)",
-                        "rgb(139, 92, 246)",
-                    ],
-                    borderWidth: 1,
+                    label: "Daily Income",
+                    data: incomeData.value(),
+                    borderColor: mainColor,
+                    fill: true,
+                    tension: 0.4,
+                    backgroundColor: subColor,
                 },
             ],
         };
@@ -95,9 +93,9 @@ onMounted(() => {
         </figure>
     </div>
     <div class="bg-primary-800 border border-surface-500 p-5 rounded-lg">
-        <h4 class="font-semibold text-xl mb-4">Income</h4>
+        <h4 class="font-semibold text-xl mb-4">Daily Income</h4>
         <Chart
-            type="bar"
+            type="line"
             :data="chartData()"
             :options="chartOptions()"
             :height="100"
