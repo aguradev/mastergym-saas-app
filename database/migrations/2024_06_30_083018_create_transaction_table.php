@@ -24,7 +24,6 @@ return new class extends Migration
             $table->enum("period_type", ["Monthly", "Yearly"]);
             $table->enum("payment_type", ["manual_transfer", "payment_gateway"]);
             $table->text("payment_gateway_url")->nullable();
-            $table->string("file_transfer_confirmation")->nullable();
             $table->text("transaction_token_access")->nullable();
             $table->enum("status", ["REGISTERED", "PENDING", "PAID", "NEED CONFIRM", "EXPIRED"]);
             $table->timestampTz("transaction_expired_at")->nullable();

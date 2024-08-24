@@ -45,6 +45,40 @@ class MemberSubcribeMembershipController extends Controller
         return Inertia::render('dashboard/tenant_page/member_dashboard/member_subscription_page/Index', compact('titlePage', 'title', 'titleNav', 'indexMenuActive', 'logoutUrl', 'userLogin', 'permissions', 'membershipSubs', 'modalTraineeDetail', 'memberTrainessDetail'));
     }
 
+    public function UpgradePlanPage(Request $request)
+    {
+        $titlePage = tenant('name');
+        $title = tenant("name") . " - " . "Upgrade Membership";
+        $titleNav = "Upgrade Subscription";
+        $indexMenuActive = 0;
+        $logoutUrl = "tenant-dashboard.logout";
+        $userLogin = Auth::guard("tenant-web")->user();
+
+        $membershipPricings = MembershipPlan::with(["MembershipFeatures"])->where("status", "ACTIVE")->get()->groupBy('period_type');
+
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->hasPermissionTo('access_dashboard_menu_member')
+        ];
+
+        $getMembershipDataSelected = Inertia::lazy(function () use ($request) {
+            $membershipId = $request->query("membership_id");
+            $detail = MembershipPlan::with(["MembershipFeatures"])->where('status', "ACTIVE")->where('id', $membershipId)->first();
+
+            if ($detail) {
+                $detail->tax = "20%";
+                $detail->total = (20 / 100 * $detail->amount) + $detail->amount;
+            }
+
+            return $detail;
+        });
+
+        $tenantVaNumber = tenant("virtual_account_number");
+
+
+        return Inertia::render('dashboard/tenant_page/member_dashboard/upgrade_membership_page/Index', compact('titlePage', 'title', 'titleNav', 'indexMenuActive', 'logoutUrl', 'userLogin', 'permissions', 'membershipPricings', 'getMembershipDataSelected', 'tenantVaNumber'));
+    }
+
     public function MemberCheckoutSubmmited(Request $request)
     {
         $validated = $request->validate([
@@ -59,7 +93,7 @@ class MemberSubcribeMembershipController extends Controller
             // get membership data and user
             $membershipData = MembershipPlan::where("id", $validated['membershipPlanId'])->first();
 
-            $user = Auth::guard("tenant-web")->user();
+            $user = Auth::guard("tenant-web")->user()->load("MemberTrainees");
             $getTaxTransaction = 20 / 100 * $membershipData->amount;
             $getTotalTransaction = $getTaxTransaction + $membershipData->amount;
 

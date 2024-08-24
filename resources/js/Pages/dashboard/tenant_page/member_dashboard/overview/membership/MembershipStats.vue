@@ -1,14 +1,20 @@
 <script setup>
-import { usePage } from "@inertiajs/vue3";
+import { usePage, router } from "@inertiajs/vue3";
+import { route } from "ziggy-js";
 import { computed } from "vue";
 import DynamicDetailContent from "@components/ui/dynamicDetailContent/Index.vue";
 import Badge from "primevue/badge";
+import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 
 const page = usePage();
 const membershipActive = computed(() => page.props.findTraineeActive);
 const historyTransaction = computed(
     () => page.props.getHistoryTransactionTrainee,
 );
+
+const upgradeMembershipHandler = () => {
+    router.visit(route("tenant-dashboard.member.upgrade.select-plan"));
+};
 
 console.log(membershipActive.value);
 </script>
@@ -86,6 +92,13 @@ console.log(membershipActive.value);
                     :severity="`${membershipActive.membership_status === 'INACTIVE' ? 'danger' : membershipActive.membership_status === 'ACTIVE' ? 'success' : 'info'}`"
                     :value="membershipActive.membership_status"
                     class="w-[10%]"
+                />
+            </div>
+            <div class="mt-8">
+                <PrimaryButton
+                    label="Upgrade Membership"
+                    class="mb-0"
+                    @clickEvent="upgradeMembershipHandler"
                 />
             </div>
         </section>
