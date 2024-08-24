@@ -21,10 +21,12 @@ class AddPermissionSeeder extends Seeder
         ];
 
         foreach ($permissionLists as $permission) {
-            Permission::create([
-                "name" => $permission,
-                "guard_name" => "tenant-web"
-            ]);
+            if (!Permission::where('name', $permission)->where('guard_name', 'tenant-web')->exists()) {
+                Permission::create([
+                    "name" => $permission,
+                    "guard_name" => "tenant-web"
+                ]);
+            }
         }
     }
 }

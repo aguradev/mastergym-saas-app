@@ -27,9 +27,9 @@ const closeModalHandler = () => {
 <template>
     <DashboardTenantLayout>
         <Toast />
-        <section v-if="membershipSubs.member_trainees.length > 0">
+        <section v-if="membershipSubs.length > 0">
             <DataTable
-                :value="membershipSubs.member_trainees"
+                :value="membershipSubs"
                 :pt="{
                     bodyrow:
                         'bg-transparent last:border-none border-b border-primary-700 odd:bg-primary-800',

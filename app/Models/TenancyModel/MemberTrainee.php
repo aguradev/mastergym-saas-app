@@ -34,22 +34,27 @@ class MemberTrainee extends Model
     //Accessors
     public function getInvoicePhotoUrlAttribute()
     {
-        $path_photo_invoice = "tenant-" . tenant("id") . "/assets/images/member-invoice/";
-        return Storage::url($path_photo_invoice . $this->attributes['file_invoice_upload']);
+        if (array_key_exists('file_invoice_upload', $this->attributes)) {
+            $path_photo_invoice = "tenant-" . tenant("id") . "/assets/images/member-invoice/";
+            return Storage::url($path_photo_invoice . $this->attributes['file_invoice_upload']);
+        }
     }
 
     public function getCreatedAtDateFormatAttribute()
     {
-        return $this->attributes['created_at'] ? Carbon::parse($this->attributes["created_at"])->format("d M Y, H:i") : "-";
+        if (array_key_exists('created_at', $this->attributes))
+            return $this->attributes['created_at'] ? Carbon::parse($this->attributes["created_at"])->format("d M Y, H:i") : "-";
     }
 
     public function getExpiredDateFormatAttribute()
     {
-        return $this->attributes['membership_expired_date'] ? Carbon::parse($this->attributes["membership_expired_date"])->format("d M Y, H:i") : "-";
+        if (array_key_exists('membership_expired_date', $this->attributes))
+            return $this->attributes['membership_expired_date'] ? Carbon::parse($this->attributes["membership_expired_date"])->format("d M Y, H:i") : "-";
     }
     public function getStartDateFormatAttribute()
     {
-        return $this->attributes['membership_start_date'] ? Carbon::parse($this->attributes["membership_start_date"])->format("d M Y, H:i") : "-";
+        if (array_key_exists('membership_start_date', $this->attributes))
+            return $this->attributes['membership_start_date'] ? Carbon::parse($this->attributes["membership_start_date"])->format("d M Y, H:i") : "-";
     }
 
     // Relations

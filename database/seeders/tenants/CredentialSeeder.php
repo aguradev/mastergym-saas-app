@@ -2,7 +2,6 @@
 
 namespace Database\Seeders\tenants;
 
-use App\Models\Auth\TenantCredential;
 use App\Models\TenancyModel\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,17 +15,17 @@ class CredentialSeeder extends Seeder
      */
     public function run(): void
     {
-        TenantCredential::truncate();
         User::truncate();
-
 
         try {
             DB::beginTransaction();
 
-            TenantCredential::factory(1)->has(User::factory(), "User")->create([
+            User::create([
+                "first_name" => "super",
+                "last_name" => "admin",
                 "username" => "super admin",
                 "email" => "superadmin@gym.com",
-                "password" => Hash::make("superadmin123")
+                "password" => Hash::make("superadmin123"),
             ]);
 
             DB::commit();

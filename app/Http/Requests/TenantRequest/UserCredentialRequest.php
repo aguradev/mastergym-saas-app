@@ -24,11 +24,11 @@ class UserCredentialRequest extends FormRequest
     {
         return [
             "profileImg" => ["image", "max:1024"],
-            "username" => ["required", "unique:tenant_credentials,username"],
+            "username" => ["required", "unique:tenant_users,username"],
             "role" => ["required"],
             "first_name" => "required",
             "last_name" => "required",
-            "email" => "required|unique:tenant_credentials,email",
+            "email" => "required|unique:tenant_users,email",
             "phone_number" => "required|numeric",
             "password" => ["required", "confirmed", Password::min(8)],
             "password_confirmation" => "required"

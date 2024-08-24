@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Tenancy\Dashboard\Trainess;
 
 use App\Http\Controllers\Controller;
-use App\Mail\InvoiceMembershipTenant;
 use App\Mail\MailMembershipNotification;
 use App\Models\TenancyModel\MemberTrainee;
 use Illuminate\Http\Request;
@@ -25,17 +24,17 @@ class UserTrainessController extends Controller
         $userLogin = Auth::guard("tenant-web")->user();
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
-            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->hasPermissionTo('access_dashboard_menu_member')
         ];
 
-        $userTrainess = MemberTrainee::with(["User", "MembershipPlan", "User.TenantCredential"])->paginate(5);
+        $userTrainess = MemberTrainee::with(["User", "MembershipPlan"])->paginate(5);
         $modalTrainessDetail = Inertia::lazy(fn() => true);
         $modalTrainessEdit = Inertia::lazy(fn() => true);
         $memberTrainessDetail = Inertia::lazy(function () use ($request) {
             $trainessId = $request->query("id");
 
-            return MemberTrainee::with(["User", "MembershipPlan", "User.TenantCredential"])->where("id", $trainessId)->first();
+            return MemberTrainee::with(["User", "MembershipPlan"])->where("id", $trainessId)->first();
         });
 
         return Inertia::render('dashboard/tenant_page/trainess_page/TrainessManagement', compact(
@@ -55,7 +54,7 @@ class UserTrainessController extends Controller
 
     public function UpdateMembershipTrainessStatus(Request $request, MemberTrainee $memberTrainee)
     {
-        $memberTrainee->load("User", "User.TenantCredential", "MembershipPlan");
+        $memberTrainee->load("User", "MembershipPlan");
 
         $validated = $request->validate([
             "transaction_status" => "required",
@@ -103,12 +102,12 @@ class UserTrainessController extends Controller
             if ($updateMemberTrainee) {
                 if ($transactionStatusBefore == "PENDING" && $memberTrainee->transaction_status == "PAID") {
                     // send email to user a membership is activated
-                    Mail::to($memberTrainee->User->TenantCredential->email)->queue(new MailMembershipNotification($memberTrainee->User->full_name, "MEMBERSHIP_ACTIVE"));
+                    Mail::to($memberTrainee->User->email)->queue(new MailMembershipNotification($memberTrainee->User->full_name, "MEMBERSHIP_ACTIVE"));
                 }
 
                 if ($membershipStatusBefore == "ACTIVE" && $memberTrainee->membership_status == "INACTIVE") {
                     // send email to user a membership is deactivated
-                    Mail::to($memberTrainee->User->TenantCredential->email)->queue(new MailMembershipNotification($memberTrainee->User->full_name, "MEMBERSHIP_INACTIVE"));
+                    Mail::to($memberTrainee->User->email)->queue(new MailMembershipNotification($memberTrainee->User->full_name, "MEMBERSHIP_INACTIVE"));
                 }
 
                 DB::commit();

@@ -96,7 +96,7 @@ provide("mainSection", mainSection);
                     >
                         <div class="overflow-hidden rounded-full w-9 h-9">
                             <img
-                                :src="page.props?.userLogin?.user.profile_image"
+                                :src="page.props?.userLogin?.profile_image"
                                 class="object-cover w-full h-full"
                                 alt="image"
                             />

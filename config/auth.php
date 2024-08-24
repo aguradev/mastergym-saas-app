@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'central-web',
-        'passwords' => 'central_crendentials',
+        'passwords' => 'users',
     ],
 
     /*
@@ -66,11 +66,11 @@ return [
     'providers' => [
         'CentralUsers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Auth\CentralCredential::class,
+            'model' => App\Models\CentralModel\User::class,
         ],
         'TenantUsers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Auth\TenantCredential::class,
+            'model' => App\Models\TenancyModel\User::class
         ]
         // 'users' => [
         //     'driver' => 'database',
@@ -98,8 +98,8 @@ return [
     */
 
     'passwords' => [
-        'central_credentials' => [
-            'provider' => 'central_credentials',
+        'users' => [
+            'provider' => 'central_users',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

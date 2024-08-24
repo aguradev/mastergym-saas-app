@@ -3,6 +3,7 @@
 namespace Database\Seeders\Centrals;
 
 use App\Models\Auth\CentralCredential;
+use App\Models\CentralModel\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,10 +14,10 @@ class AddUserRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $getUser = CentralCredential::whereEmail("admin@localhost.com")->first();
+        $getUser = User::whereEmail("admin@localhost.com")->first();
 
         if ($getUser) {
-            $getUser->User->assignRole("Super admin");
+            $getUser->assignRole("Super admin");
         }
     }
 }

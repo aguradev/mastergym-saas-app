@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Tenancy\Dashboard\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Auth\TenantCredential;
 use App\Models\TenancyModel\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +24,7 @@ class AuthenticationController extends Controller
             "password" => "required"
         ]);
 
-        $checkUserIsInactive = TenantCredential::where("email", $request->email)->first();
+        $checkUserIsInactive = User::where("email", $request->email)->first();
 
         if (is_null($checkUserIsInactive)) {
             return redirect()->back()->with('message_error', 'Credential is incorrect');

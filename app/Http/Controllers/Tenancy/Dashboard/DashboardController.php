@@ -8,6 +8,7 @@ use App\Models\CentralModel\TenantTransaction;
 use App\Models\TenancyModel\MembershipPlan;
 use App\Models\TenancyModel\MemberTrainee;
 use App\Models\TenancyModel\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,12 +25,12 @@ class DashboardController extends Controller
         $titleNav = "Welcome, " . $userLogin->username;
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
-            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->hasPermissionTo('access_dashboard_menu_member')
         ];
 
-        $staffRoleAssign = $userLogin->User->hasRole(['Admin', 'Super admin']);
-        $memberRoleAssign = $userLogin->User->hasRole('Member');
+        $staffRoleAssign = $userLogin->hasRole(['Admin', 'Super admin']);
+        $memberRoleAssign = $userLogin->hasRole('Member');
 
         if ($staffRoleAssign) {
             $totalStaff = User::withWhereHas("roles", function ($query) {
@@ -38,18 +39,32 @@ class DashboardController extends Controller
             $totalMembershipPlan = MembershipPlan::count();
             $totalTrainee = MemberTrainee::where("membership_status", "ACTIVE")->count();
 
+            $membershipDatasets = MemberTrainee::select(
+                DB::raw('SUM(total) as total_income'),
+                DB::raw("TO_CHAR(created_at, 'Mon-YYYY') as months"),
+                DB::raw("TO_CHAR(created_at, 'MM-YYYY') as code_months"),
+            )->where("transaction_status", "PAID")
+                ->whereRaw("EXTRACT(YEAR FROM created_at) = ?", [date("Y")])
+                ->groupBy(
+                    DB::raw("TO_CHAR(created_at, 'Mon-YYYY')"),
+                    DB::raw("TO_CHAR(created_at, 'MM-YYYY')")
+                )
+                ->orderBy(DB::raw("TO_CHAR(created_at, 'MM-YYYY')"))
+                ->get();
+
             return Inertia::render(
                 'dashboard/tenant_page/MainMenu',
-                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan', 'totalTrainee')
+                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'totalStaff', 'totalMembershipPlan', 'totalTrainee', 'membershipDatasets')
             );
         }
 
         if ($memberRoleAssign) {
             $user = Auth::guard("tenant-web")->user();
-            $user->load("User.MemberTrainessLatest", "User.MemberTrainees");
+            $user->load("MemberTrainessLatest", "MemberTrainees", "MemberTrainees.MembershipPlan", "MemberTrainees.MembershipPlan.MembershipFeatures");
 
-            $getLatestTrainess = $user->User->MemberTrainessLatest;
-            $findTraineeActive = $user->User->MemberTrainees->where("membership_status", "ACTIVE")->first();
+            $getLatestTrainess = $user->MemberTrainessLatest;
+            $findTraineeActive = $user->MemberTrainees->where("membership_status", "ACTIVE")->first();
+            $getHistoryTransactionTrainee = MemberTrainee::with("MembershipPlan")->where("user_id", $user->id)->orderBy("created_at", "desc")->limit(3)->get();
 
             $membershipPricings = MembershipPlan::with(["MembershipFeatures"])->where("status", "ACTIVE")->get()->groupBy('period_type');
             $getMembershipDataSelected = Inertia::lazy(function () use ($request) {
@@ -68,7 +83,7 @@ class DashboardController extends Controller
 
             return Inertia::render(
                 'dashboard/tenant_page/MainMenu',
-                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'membershipPricings', 'getMembershipDataSelected', 'vaNumber', 'getLatestTrainess', 'findTraineeActive')
+                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'membershipPricings', 'getMembershipDataSelected', 'vaNumber', 'getLatestTrainess', 'findTraineeActive', 'getHistoryTransactionTrainee')
             );
         }
     }
@@ -88,7 +103,7 @@ class DashboardController extends Controller
         $modalEditTenantActive = Inertia::lazy(fn() => true);
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
         ];
 
         return Inertia::render(
@@ -110,7 +125,7 @@ class DashboardController extends Controller
         $tenantTransactions = tenant()->with(['TenantTransaction'])->whereId($tenantId)->first();
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
         ];
 
         return Inertia::render(
