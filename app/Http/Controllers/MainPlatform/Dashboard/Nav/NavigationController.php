@@ -26,6 +26,7 @@ class NavigationController extends Controller
         $tenantPlansCount = TenantSubscriptionPlan::count();
         $userLogin = Auth::guard("central-web")->user();
 
+
         $transactionLatest = TenantTransaction::latest()->limit(3)->get();
 
         $TenantCount = Tenant::count();

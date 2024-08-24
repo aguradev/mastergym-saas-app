@@ -8,6 +8,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class CredentialSeeder extends Seeder
 {
@@ -16,22 +17,27 @@ class CredentialSeeder extends Seeder
      */
     public function run(): void
     {
-        CentralCredential::truncate();
         User::truncate();
 
         try {
             DB::beginTransaction();
 
-            CentralCredential::factory(1)->has(User::factory(), "User")->create([
-                "username" => "admin",
-                "email" => "admin@localhost.com",
-                "password" => Hash::make("adminganteng23")
-            ]);
+            User::create(
+                [
+                    "username" => "admin",
+                    "first_name" => "admin",
+                    "last_name" => "super",
+                    "email" => "admin@localhost.com",
+                    "bio" => fake()->paragraph(),
+                    "password" => Hash::make("adminganteng23")
+                ]
+            );
 
             DB::commit();
 
             echo "Create user successfully";
         } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             DB::rollBack();
             echo "Transaction failed";
         }
