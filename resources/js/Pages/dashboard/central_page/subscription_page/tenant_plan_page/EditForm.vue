@@ -3,9 +3,10 @@ import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import InputText from "@components/elements/input/InputText.vue";
 import ValidationMessage from "@components/ui/cta/ValidationMessage.vue";
 import InputGroup from "@components/ui/group/InputGroup.vue";
-import { useForm, usePage } from "@inertiajs/vue3";
+import { router, useForm, usePage } from "@inertiajs/vue3";
 import MultiSelect from "primevue/multiselect";
 import { onMounted, toRef } from "vue";
+import { route } from "ziggy-js";
 
 const page = usePage();
 const tenantPlanDetail = toRef(() => page.props.getTenantDetail);
@@ -23,17 +24,49 @@ const form = useForm({
 
 onMounted(() => {
     form.title = tenantPlanDetail.value.name;
-    form.version = tenantPlanDetail.value.tenant_version_latest.version;
-    form.version_id = tenantPlanDetail.value.tenant_version_latest.id;
-    form.status = tenantPlanDetail.value.tenant_version_latest.status;
-    form.price_per_month =
-        tenantPlanDetail.value.tenant_version_latest.price_per_month;
-    form.price_per_year =
-        tenantPlanDetail.value.tenant_version_latest.price_per_year;
-    tenantPlanDetail.value.tenant_version_latest.plan_features.map((item) => {
-        form.features.push(item.id);
-    });
+    if (tenantPlanDetail.value.hasOwnProperty("tenant_version_latest")) {
+        form.version = tenantPlanDetail.value.tenant_version_latest.version;
+        form.version_id = tenantPlanDetail.value.tenant_version_latest.id;
+        form.status = tenantPlanDetail.value.tenant_version_latest.status;
+        form.price_per_month =
+            tenantPlanDetail.value.tenant_version_latest.price_per_month;
+        form.price_per_year =
+            tenantPlanDetail.value.tenant_version_latest.price_per_year;
+        tenantPlanDetail.value.tenant_version_latest.plan_features.map(
+            (item) => {
+                form.features.push(item.id);
+            },
+        );
+    }
+
+    if (tenantPlanDetail.value.hasOwnProperty("tenant_select_version")) {
+        form.version = tenantPlanDetail.value.tenant_select_version.version;
+        form.version_id = tenantPlanDetail.value.tenant_select_version.id;
+        form.status = tenantPlanDetail.value.tenant_select_version.status;
+        form.price_per_month =
+            tenantPlanDetail.value.tenant_select_version.price_per_month;
+        form.price_per_year =
+            tenantPlanDetail.value.tenant_select_version.price_per_year;
+        tenantPlanDetail.value.tenant_select_version.plan_features.map(
+            (item) => {
+                form.features.push(item.id);
+            },
+        );
+    }
 });
+
+const selectVersionHandler = (id) => {
+    router.visit(
+        route("plan_tenant.table", {
+            id: tenantPlanDetail.value.id,
+            versionId: id,
+        }),
+        {
+            method: "get",
+            only: ["getTenantDetail"],
+        },
+    );
+};
 </script>
 
 <template>
@@ -43,7 +76,7 @@ onMounted(() => {
             id="tenant_version"
             class="px-4 py-3 rounded-lg bg-primary-700 border border-surface-500"
             v-model="form.version_id"
-            @change="(e) => selecteVersionHandler(e.target.value)"
+            @change="(e) => selectVersionHandler(e.target.value)"
         >
             <option value="" disabled selected>
                 -- Select tenant version --

@@ -33,6 +33,13 @@ class TenantPlanController extends Controller
 
         $getTenantDetail = Inertia::lazy(function () use ($request) {
             $tenantPlanId = $request->query("id");
+            $versionId = $request->query("versionId");
+
+            if ($versionId) {
+                return TenantSubscriptionPlan::where("id", $tenantPlanId)->with(['TenantSelectVersion' => function ($query) use ($versionId) {
+                    return $query->where("id", $versionId);
+                }, 'TenantSelectVersion.planFeatures'])->first();
+            }
 
             return TenantSubscriptionPlan::where("id", $tenantPlanId)->with(['TenantVersionLatest', 'TenantVersionLatest.planFeatures'])->first();
         });
