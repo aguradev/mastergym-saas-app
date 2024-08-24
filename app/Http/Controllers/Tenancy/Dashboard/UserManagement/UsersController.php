@@ -28,6 +28,7 @@ class UsersController extends Controller
         $indexMenuActive = 1;
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
+        $isSuperAdmin = $userLogin->hasRole("Super admin");
 
         $usersData = User::withWhereHas('roles', function ($query) use ($userLogin) {
             if ($userLogin->hasRole('Admin')) {
@@ -60,7 +61,7 @@ class UsersController extends Controller
 
         return Inertia::render(
             'dashboard/tenant_page/user_management/users/Index',
-            compact('titlePage', 'title', 'indexMenuActive', 'titleNav', 'usersData', 'modalUserCreate', 'rolesLists', 'getUserDetail', 'modalUserEdit', 'logoutUrl', 'userLogin', 'permissions')
+            compact('titlePage', 'title', 'indexMenuActive', 'titleNav', 'usersData', 'modalUserCreate', 'rolesLists', 'getUserDetail', 'modalUserEdit', 'logoutUrl', 'userLogin', 'permissions', 'isSuperAdmin')
         );
     }
 

@@ -56,7 +56,7 @@ onMounted(() => {
             labels: dateDatasets.value(),
             datasets: [
                 {
-                    label: "Membership Income",
+                    label: "Total Income",
                     data: incomeData.value(),
                     borderColor: mainColor,
                     fill: true,

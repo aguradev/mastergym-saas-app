@@ -45,8 +45,11 @@ Route::middleware([
     Route::prefix("/dashboard")->middleware(['auth.tenant'])->group(function () {
         require __DIR__ . "/dashboard_tenant/navigation_route.php";
 
-        Route::middleware(['role:Super admin|Admin,tenant-web', 'permission:access_dashboard_menu_tenant,tenant-web'])->group(function () {
+        Route::middleware(['role:Super admin,tenant-web'])->group(function () {
             require __DIR__ . "/dashboard_tenant/content_website_route.php";
+        });
+
+        Route::middleware(['role:Super admin|Admin,tenant-web', 'permission:access_dashboard_menu_tenant,tenant-web'])->group(function () {
             require __DIR__ . "/dashboard_tenant/user_management_route.php";
             require __DIR__ . "/dashboard_tenant/membership_route.php";
             require __DIR__ . "/dashboard_tenant/trainess_route.php";

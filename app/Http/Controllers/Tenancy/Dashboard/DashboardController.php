@@ -60,7 +60,7 @@ class DashboardController extends Controller
 
         if ($memberRoleAssign) {
             $user = Auth::guard("tenant-web")->user();
-            $user->load("MemberTrainessLatest", "MemberTrainees");
+            $user->load("MemberTrainessLatest", "MemberTrainees", "MemberTrainees.MembershipPlan", "MemberTrainees.MembershipPlan.MembershipFeatures");
 
             $getLatestTrainess = $user->MemberTrainessLatest;
             $findTraineeActive = $user->MemberTrainees->where("membership_status", "ACTIVE")->first();

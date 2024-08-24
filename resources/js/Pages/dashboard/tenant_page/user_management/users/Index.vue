@@ -37,7 +37,7 @@ const closeModalHandler = () => {
 
 <template>
     <UserManagementLayout>
-        <header class="px-6 py-6 w-full">
+        <header class="px-6 py-6 w-full" v-if="page.props.isSuperAdmin">
             <Link
                 :href="route('tenant-dashboard.user-management.users')"
                 preserve-state
@@ -134,6 +134,7 @@ const closeModalHandler = () => {
         :modal-visible="modalUserCreate"
         title="Create User"
         @close-modal="closeModalHandler"
+        v-if="page.props.isSuperAdmin"
     >
         <UserCredentialForm />
     </ModalSidebar>
