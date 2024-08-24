@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Tenancy\Member;
 
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeMemberTenantMail;
-use App\Models\Auth\TenantCredential;
+use App\Models\TenancyModel\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password as FacadesPassword;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
@@ -29,7 +28,7 @@ class MemberRegistrationController extends Controller
             "last_name" => "required",
             "username" => "required",
             "phone_number" => "required",
-            "email" => "required|email|unique:tenant_credentials,email",
+            "email" => "required|email|unique:tenant_users,email",
             "password" => ["required", "confirmed", Password::min(8)],
             "password_confirmation" => "required"
         ]);
@@ -46,19 +45,16 @@ class MemberRegistrationController extends Controller
         DB::beginTransaction();
 
         try {
-            $createCredential = TenantCredential::create([
+            $createCredential = User::create([
+                "first_name" => $userCredentialData["first_name"],
+                "last_name" => $userCredentialData["last_name"],
+                "phone_number" => $userCredentialData["phone_number"],
                 "username" => $userCredentialData["username"],
                 "email" => $userCredentialData["email"],
                 "password" => $userCredentialData['password'],
             ]);
 
-            $createCredential->User()->create([
-                "first_name" => $userCredentialData["first_name"],
-                "last_name" => $userCredentialData["last_name"],
-                "phone_number" => $userCredentialData["phone_number"],
-            ]);
-
-            $createCredential->User->assignRole("Member");
+            $createCredential->assignRole("Member");
 
             DB::commit();
 

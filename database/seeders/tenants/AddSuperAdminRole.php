@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\tenants;
 
-use App\Models\Auth\TenantCredential;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TenancyModel\User;
 use Illuminate\Database\Seeder;
 
 class AddSuperAdminRole extends Seeder
@@ -13,10 +12,10 @@ class AddSuperAdminRole extends Seeder
      */
     public function run(): void
     {
-        $getUser = TenantCredential::whereEmail("superadmin@gym.com")->first();
+        $getUser = User::whereEmail("superadmin@gym.com")->first();
 
         if ($getUser) {
-            $getUser->User->assignRole("Super admin");
+            $getUser->assignRole("Super admin");
         }
     }
 }

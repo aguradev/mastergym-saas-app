@@ -141,9 +141,6 @@ const subscriptionMembershipSubmitHandler = () => {
 
         <Modal :modalVisible="modalCaution">
             <div class="text-center">
-                <i
-                    class="pi pi-exclamation-triangle text-9xl mb-8 text-yellow-500"
-                ></i>
                 <p class="leading-8">
                     Please double-check your payment invoice before submitting
                     the checkout form. <br />

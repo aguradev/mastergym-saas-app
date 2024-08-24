@@ -2,10 +2,9 @@
 
 namespace App\TenancyServices\User\Repositories\Implements;
 
-use App\Models\Auth\TenantCredential;
 use App\Models\Gym\Tenant;
+use App\Models\TenancyModel\User;
 use App\TenancyServices\User\Repositories\Interfaces\TenantUserRepoInterface;
-use ErrorException;;
 
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -33,10 +32,13 @@ class TenantUserRepoImpl implements TenantUserRepoInterface
             $findTenant->run(function () use ($request) {
                 DB::beginTransaction();
 
-                $createCredential = TenantCredential::create([
+                $createCredential = User::create([
                     "username" => strtolower($request["first_name"] . "_" . $request["last_name"]),
                     "email" => $request["email"],
                     "password" => $request["password"],
+                    "first_name" => $request["first_name"],
+                    "last_name" => $request["last_name"],
+                    "bio" => "this is bio..."
                 ]);
 
                 if (!$createCredential) {
@@ -44,18 +46,8 @@ class TenantUserRepoImpl implements TenantUserRepoInterface
                     throw new Exception("failed create credential tenant user");
                 }
 
-                $createUser = $createCredential->User()->create([
-                    "first_name" => $request["first_name"],
-                    "last_name" => $request["last_name"],
-                    "bio" => "this is bio..."
-                ]);
 
-                if (!$createUser) {
-                    DB::rollBack();
-                    throw new Exception("failed create profile tenant user");
-                }
-
-                $createUser->assignRole("Super admin");
+                $createCredential->assignRole("Super admin");
 
                 DB::commit();
             });

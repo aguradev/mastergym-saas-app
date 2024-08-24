@@ -77,9 +77,7 @@ const closeModalHandler = () => {
             </Column>
             <Column header="Email">
                 <template #body="slotProps">
-                    <span class="text-nowrap">{{
-                        slotProps.data.tenant_credential.email
-                    }}</span>
+                    <span class="text-nowrap">{{ slotProps.data.email }}</span>
                 </template>
             </Column>
             <Column header="Phone number">

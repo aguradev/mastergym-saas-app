@@ -70,7 +70,7 @@ return [
         ],
         'TenantUsers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Auth\TenantCredential::class,
+            'model' => App\Models\TenancyModel\User::class
         ]
         // 'users' => [
         //     'driver' => 'database',

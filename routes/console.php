@@ -2,7 +2,6 @@
 
 use App\Mail\InvoicePaidMail;
 use App\Mail\TestMail;
-use App\Models\Auth\TenantCredential;
 use App\Models\CentralModel\User;
 use App\Models\Gym\Tenant;
 use Illuminate\Foundation\Inspiring;

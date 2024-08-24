@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Tenancy\Dashboard\UserManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TenantRequest\UserCredentialRequest;
-use App\Models\Auth\TenantCredential;
 use App\Models\Authorization\Permission;
 use App\Models\Authorization\Role;
 use App\Models\TenancyModel\User;
@@ -30,8 +29,8 @@ class UsersController extends Controller
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
 
-        $usersData = User::with(['TenantCredential'])->withWhereHas('roles', function ($query) use ($userLogin) {
-            if ($userLogin->User->hasRole('Admin')) {
+        $usersData = User::withWhereHas('roles', function ($query) use ($userLogin) {
+            if ($userLogin->hasRole('Admin')) {
                 return $query->where("name", "Member");
             }
         })->paginate(5);
@@ -39,7 +38,7 @@ class UsersController extends Controller
         $rolesLists = Inertia::lazy(function () use ($userLogin) {
             $roleTenantWeb = Role::where("guard_name", "tenant-web");
 
-            if ($userLogin->User->hasRole('Admin')) {
+            if ($userLogin->hasRole('Admin')) {
                 return $roleTenantWeb->where("name", "Member")->get();
             }
 
@@ -50,12 +49,12 @@ class UsersController extends Controller
         $modalUserEdit = Inertia::lazy(fn() => true);
         $getUserDetail = Inertia::lazy(function () use ($request) {
             $queryId = $request->query("id");
-            return User::with(['TenantCredential', 'roles'])->whereId($queryId)->first();
+            return User::with(['roles'])->whereId($queryId)->first();
         });
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
-            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->hasPermissionTo('access_dashboard_menu_member')
         ];
 
 
@@ -101,8 +100,8 @@ class UsersController extends Controller
         });
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
-            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->hasPermissionTo('access_dashboard_menu_member')
         ];
 
         return Inertia::render(
@@ -153,20 +152,17 @@ class UsersController extends Controller
                 $profileImg->storeAs($path_image_profile, $image_name);
             }
 
-            $credential = TenantCredential::create([
+            $credential = User::create([
+                "first_name" => $userCredentialData["first_name"],
+                "last_name" => $userCredentialData["last_name"],
+                "phone_number" => $userCredentialData["phone_number"],
+                "profile_url" => $image_name,
                 "username" => $userCredentialData["username"],
                 "email" => $userCredentialData["email"],
                 "password" => Hash::make($userCredentialData["password"]),
             ]);
 
-            $credential->User()->create([
-                "first_name" => $userCredentialData["first_name"],
-                "last_name" => $userCredentialData["last_name"],
-                "phone_number" => $userCredentialData["phone_number"],
-                "profile_url" => $image_name
-            ]);
-
-            $credential->user->assignRole($userCredentialData['role']);
+            $credential->assignRole($userCredentialData['role']);
 
             DB::commit();
         } catch (\Throwable $err) {
@@ -180,15 +176,13 @@ class UsersController extends Controller
 
     public function UpdateUser(Request $request, User $user)
     {
-        $user->load("TenantCredential");
-
         $validated = $request->validate([
             "profileImg" => ["max:1024"],
-            "username" => ["required", "unique:tenant_credentials,username," . $user->TenantCredential->id],
+            "username" => ["required", "unique:tenant_users,username," . $user->id],
             "role" => ["required"],
             "first_name" => "required",
             "last_name" => "required",
-            "email" => "required|unique:tenant_credentials,email," . $user->TenantCredential->id,
+            "email" => "required|unique:tenant_users,email," . $user->id,
             "phone_number" => "required|numeric",
             "password" => "confirmed"
         ]);
@@ -198,7 +192,7 @@ class UsersController extends Controller
             "role" => $validated["role"],
             "first_name" => $validated["first_name"],
             "last_name" => $validated["last_name"],
-            "password" => $validated["password"] ? Hash::make($validated["password"]) : $user->TenantCredential->password,
+            "password" => $validated["password"] ? Hash::make($validated["password"]) : $user->password,
             "email" => $validated["email"],
             "phone_number" => $validated["phone_number"]
         ];
@@ -232,10 +226,7 @@ class UsersController extends Controller
                 "first_name" => $userCredentialData["first_name"],
                 "last_name" => $userCredentialData["last_name"],
                 "phone_number" => $userCredentialData["phone_number"],
-                "profile_url" => $userCredentialData['profile_url']
-            ]);
-
-            $user->TenantCredential()->update([
+                "profile_url" => $userCredentialData['profile_url'],
                 "username" => $userCredentialData["username"],
                 "email" => $userCredentialData["email"],
                 "password" => $userCredentialData['password'],

@@ -41,11 +41,11 @@ onMounted(() => {
     if (props.mode === "edit") {
         const userData = page.props.getUserDetail;
 
-        requestForm.username = userData.tenant_credential.username;
+        requestForm.username = userData.username;
         requestForm.role = userData.roles[0].name;
         requestForm.first_name = userData.first_name;
         requestForm.last_name = userData.last_name;
-        requestForm.email = userData.tenant_credential.email;
+        requestForm.email = userData.email;
         requestForm.phone_number = userData.phone_number;
 
         previewImg.value = userData.profile_image;

@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('tenant_users', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignUuid("credential_id")->unique()->references("id")->on("tenant_credentials");
+            $table->string("username")->unique();
+            $table->string('email')->unique();
+            $table->string('password');
             $table->string("first_name");
             $table->string("last_name");
             $table->string("phone_number")->nullable();
             $table->string("profile_url")->default("profile.png");
+            $table->timestamp('email_verified_at')->nullable();
+            $table->enum("status", ["ACTIVE", "INACTIVE"])->default("ACTIVE");
+            $table->rememberToken();
             $table->timestamps();
         });
     }

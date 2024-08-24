@@ -25,20 +25,21 @@ class MemberSubcribeMembershipController extends Controller
         $logoutUrl = "tenant-dashboard.logout";
         $userLogin = Auth::guard("tenant-web")->user();
 
-        $userLogin->load("User", "User.MemberTrainees", "User.MemberTrainees.MembershipPlan");
+        $userLogin->load("MemberTrainees", "MemberTrainees.MembershipPlan");
 
-        $membershipSubs = $userLogin->User;
+        $membershipSubs = $userLogin->MemberTrainees;
+
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
-            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->hasPermissionTo('access_dashboard_menu_member')
         ];
 
         $modalTraineeDetail = Inertia::lazy(fn() => true);
         $memberTrainessDetail = Inertia::lazy(function () use ($request) {
             $trainessId = $request->query("id");
 
-            return MemberTrainee::with(["User", "MembershipPlan", "User.TenantCredential"])->where("id", $trainessId)->first();
+            return MemberTrainee::with(["User", "MembershipPlan"])->where("id", $trainessId)->first();
         });
 
         return Inertia::render('dashboard/tenant_page/member_dashboard/member_subscription_page/Index', compact('titlePage', 'title', 'titleNav', 'indexMenuActive', 'logoutUrl', 'userLogin', 'permissions', 'membershipSubs', 'modalTraineeDetail', 'memberTrainessDetail'));
@@ -74,7 +75,7 @@ class MemberSubcribeMembershipController extends Controller
                 "created_at" => now(),
             ];
 
-            $full_name =  $user->User->first_name . " " . $user->User->last_name;
+            $full_name =  $user->first_name . " " . $user->last_name;
 
             // upload invoice
             $path_image_profile = "public/tenant-" . tenant("id") . "/assets/images/member-invoice";
@@ -85,7 +86,7 @@ class MemberSubcribeMembershipController extends Controller
 
             $requestDataTransactions['file_invoice_upload'] = $invoiceFileName;
             // create data for table fitness trainess
-            $user->User->MemberTrainees()->create($requestDataTransactions);
+            $user->MemberTrainees()->create($requestDataTransactions);
 
             // send email to member
             Mail::to($user->email)->queue(new InvoiceMembershipTenant([

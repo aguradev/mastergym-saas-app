@@ -27,7 +27,7 @@ const memberTrainessDetail = toRef(() => page.props.memberTrainessDetail);
         />
         <DynamicDetailContent
             label="Email"
-            :caption="memberTrainessDetail.user.tenant_credential.email"
+            :caption="memberTrainessDetail.user.email"
             class="!mb-0"
             classLabel="!text-xl"
             classCaption="!text-lg"

@@ -24,12 +24,12 @@ class DashboardController extends Controller
         $titleNav = "Welcome, " . $userLogin->username;
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
-            'access_dashboard_menu_member' => $userLogin->User->hasPermissionTo('access_dashboard_menu_member')
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->hasPermissionTo('access_dashboard_menu_member')
         ];
 
-        $staffRoleAssign = $userLogin->User->hasRole(['Admin', 'Super admin']);
-        $memberRoleAssign = $userLogin->User->hasRole('Member');
+        $staffRoleAssign = $userLogin->hasRole(['Admin', 'Super admin']);
+        $memberRoleAssign = $userLogin->hasRole('Member');
 
         if ($staffRoleAssign) {
             $totalStaff = User::withWhereHas("roles", function ($query) {
@@ -46,10 +46,10 @@ class DashboardController extends Controller
 
         if ($memberRoleAssign) {
             $user = Auth::guard("tenant-web")->user();
-            $user->load("User.MemberTrainessLatest", "User.MemberTrainees");
+            $user->load("MemberTrainessLatest", "MemberTrainees");
 
-            $getLatestTrainess = $user->User->MemberTrainessLatest;
-            $findTraineeActive = $user->User->MemberTrainees->where("membership_status", "ACTIVE")->first();
+            $getLatestTrainess = $user->MemberTrainessLatest;
+            $findTraineeActive = $user->MemberTrainees->where("membership_status", "ACTIVE")->first();
 
             $membershipPricings = MembershipPlan::with(["MembershipFeatures"])->where("status", "ACTIVE")->get()->groupBy('period_type');
             $getMembershipDataSelected = Inertia::lazy(function () use ($request) {
@@ -88,7 +88,7 @@ class DashboardController extends Controller
         $modalEditTenantActive = Inertia::lazy(fn() => true);
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
         ];
 
         return Inertia::render(
@@ -110,7 +110,7 @@ class DashboardController extends Controller
         $tenantTransactions = tenant()->with(['TenantTransaction'])->whereId($tenantId)->first();
 
         $permissions = [
-            'access_dashboard_menu_tenant' => $userLogin->User->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
         ];
 
         return Inertia::render(

@@ -37,7 +37,7 @@ const userProfile = computed(() => page.props.userLogin);
 const submitUpdateHandler = (e) => {
     formRequest.post(
         route("tenant-dashboard.profile.update", {
-            tenantCredential: userProfile.value?.id,
+            user: userProfile.value?.id,
         }),
         {
             _method: "put",
@@ -49,11 +49,11 @@ const submitUpdateHandler = (e) => {
 onMounted(() => {
     formRequest.username = userProfile.value.username;
     formRequest.email = userProfile.value.email;
-    formRequest.first_name = userProfile.value.user.first_name;
-    formRequest.last_name = userProfile.value.user.last_name;
-    formRequest.phone_number = userProfile.value.user.phone_number;
+    formRequest.first_name = userProfile.value.first_name;
+    formRequest.last_name = userProfile.value.last_name;
+    formRequest.phone_number = userProfile.value.phone_number;
 
-    previewImg.value = userProfile.value.user.profile_image;
+    previewImg.value = userProfile.value.profile_image;
 });
 
 watchEffect(() => {
