@@ -6,7 +6,7 @@ import InputPassword from "@components/elements/input/InputPassword.vue";
 import PrimaryButton from "@components/elements/button/PrimaryButton.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import PreviewImageFile from "../../../../../Lib/preview-img";
-import { computed, onMounted, ref, toRef, watch } from "vue";
+import { onMounted, ref, toRef } from "vue";
 import { route } from "ziggy-js";
 
 const previewImg = ref(null);

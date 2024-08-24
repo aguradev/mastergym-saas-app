@@ -45,6 +45,26 @@ class MemberSubcribeMembershipController extends Controller
         return Inertia::render('dashboard/tenant_page/member_dashboard/member_subscription_page/Index', compact('titlePage', 'title', 'titleNav', 'indexMenuActive', 'logoutUrl', 'userLogin', 'permissions', 'membershipSubs', 'modalTraineeDetail', 'memberTrainessDetail'));
     }
 
+    public function UpgradePlanPage()
+    {
+        $titlePage = tenant('name');
+        $title = tenant("name") . " - " . "Upgrade Membership";
+        $titleNav = "Upgrade Membership";
+        $indexMenuActive = 0;
+        $logoutUrl = "tenant-dashboard.logout";
+        $userLogin = Auth::guard("tenant-web")->user();
+
+        $membershipPricings = MembershipPlan::with(["MembershipFeatures"])->where("status", "ACTIVE")->get()->groupBy('period_type');
+
+        $permissions = [
+            'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
+            'access_dashboard_menu_member' => $userLogin->hasPermissionTo('access_dashboard_menu_member')
+        ];
+
+
+        return Inertia::render('dashboard/tenant_page/member_dashboard/member_subscription_page/UpgradePlanPage', compact('titlePage', 'title', 'titleNav', 'indexMenuActive', 'logoutUrl', 'userLogin', 'permissions', 'membershipPricings'));
+    }
+
     public function MemberCheckoutSubmmited(Request $request)
     {
         $validated = $request->validate([
