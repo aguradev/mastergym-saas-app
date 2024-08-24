@@ -6,6 +6,9 @@ import Badge from "primevue/badge";
 
 const page = usePage();
 const membershipActive = computed(() => page.props.findTraineeActive);
+const historyTransaction = computed(
+    () => page.props.getHistoryTransactionTrainee,
+);
 
 console.log(membershipActive.value);
 </script>
@@ -91,6 +94,25 @@ console.log(membershipActive.value);
         >
             <header class="mb-8">
                 <h1 class="text-lg font-semibold mb-6">History Transaction</h1>
+                <div
+                    v-for="content in historyTransaction"
+                    class="bg-primary-900 p-4 rounded-lg mb-4"
+                    :key="content.id"
+                >
+                    <header class="mb-4">
+                        <h4 class="mb-2">
+                            {{ content.membership_plan.title }}
+                        </h4>
+                        <p class="text-sm">
+                            {{ content.created_at }}
+                        </p>
+                    </header>
+                    <Badge
+                        :severity="`${content.transaction_status === 'PAID' ? 'success' : content.transaction_status === 'PENDING' ? 'info' : 'danger'}`"
+                        :value="content.transaction_status"
+                        class="w-[20%]"
+                    />
+                </div>
             </header>
         </section>
     </div>

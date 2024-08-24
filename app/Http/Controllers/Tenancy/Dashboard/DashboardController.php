@@ -64,6 +64,7 @@ class DashboardController extends Controller
 
             $getLatestTrainess = $user->MemberTrainessLatest;
             $findTraineeActive = $user->MemberTrainees->where("membership_status", "ACTIVE")->first();
+            $getHistoryTransactionTrainee = MemberTrainee::with("MembershipPlan")->where("user_id", $user->id)->orderBy("created_at", "desc")->limit(3)->get();
 
             $membershipPricings = MembershipPlan::with(["MembershipFeatures"])->where("status", "ACTIVE")->get()->groupBy('period_type');
             $getMembershipDataSelected = Inertia::lazy(function () use ($request) {
@@ -82,7 +83,7 @@ class DashboardController extends Controller
 
             return Inertia::render(
                 'dashboard/tenant_page/MainMenu',
-                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'membershipPricings', 'getMembershipDataSelected', 'vaNumber', 'getLatestTrainess', 'findTraineeActive')
+                compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'permissions', 'staffRoleAssign', 'memberRoleAssign', 'membershipPricings', 'getMembershipDataSelected', 'vaNumber', 'getLatestTrainess', 'findTraineeActive', 'getHistoryTransactionTrainee')
             );
         }
     }
