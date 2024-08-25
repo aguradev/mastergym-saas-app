@@ -1,14 +1,35 @@
 <script setup>
-import { usePage } from "@inertiajs/vue3";
+import { router, usePage } from "@inertiajs/vue3";
 import SettingPage from "./SettingPage.vue";
 import { computed } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import FormatCurrency from "../../../../Lib/Currency";
+import { route } from "ziggy-js";
+import Modal from "@components/ui/modal/Index.vue";
+import InvoiceDetail from "./InvoiceDetail.vue";
 
 import Badge from "primevue/badge";
 const page = usePage();
 const tenantTransactions = computed(() => page.props.tenantTransactions);
+const tenantInvoiceDetail = computed(() => page.props.tenantInvoiceDetail);
+const detailEventHandler = (id) => {
+    router.visit(
+        route("tenant-dashboard.invoice-transaction", {
+            id: id,
+        }),
+        {
+            preserveState: true,
+            only: ["tenantInvoiceDetail"],
+        },
+    );
+};
+const closeModalHandler = () => {
+    router.visit(route("tenant-dashboard.invoice-transaction"), {
+        preserveState: true,
+        replace: true,
+    });
+};
 </script>
 
 <style scoped>
@@ -107,5 +128,13 @@ const tenantTransactions = computed(() => page.props.tenantTransactions);
                 </template>
             </Column>
         </DataTable>
+
+        <Modal
+            title="Invoice detail"
+            :modal-visible="tenantInvoiceDetail"
+            @close-modal="closeModalHandler"
+        >
+            <InvoiceDetail />
+        </Modal>
     </SettingPage>
 </template>

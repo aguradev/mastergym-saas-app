@@ -13,5 +13,6 @@ Route::controller(DashboardController::class)->group(function () {
     Route::middleware(['role:Super admin,tenant-web', 'permission:access_dashboard_menu_tenant,tenant-web'])->group(function () {
         Route::get("/setting/tenant-subscription", "Setting")->name('tenant-dashboard.setting-page');
         Route::get("/setting/tenant-invoice-transaction", "TenantInvoiceTransaction")->name('tenant-dashboard.invoice-transaction');
+        Route::get("/tenant/{id}/invoice-transaction-pdf", "PrintTransactionPDF")->name('tenant-dashboard.transactions.invoice-pdf');
     });
 });
