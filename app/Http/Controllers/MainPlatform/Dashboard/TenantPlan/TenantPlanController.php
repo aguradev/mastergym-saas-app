@@ -128,4 +128,59 @@ class TenantPlanController extends Controller
 
         return response()->json($planTenant)->setStatusCode(200);
     }
+
+    public function UpdatePlanAndPlanVersion(Request $request, TenantSubscriptionPlan $planTenant)
+    {
+        $validated = $request->validate([
+            "title" => ["required", "unique:tenant_subscription_plan,name," . $planTenant->id],
+            "price_per_month" => ["required", "numeric"],
+            "price_per_year" => ["required", "numeric"],
+            "features" => ['required'],
+            "version_id" => ["required"],
+            "version_status" => "required"
+        ]);
+
+        $planTenant->load("TenantSelectVersion", "TenantVersionLatest");
+
+        DB::beginTransaction();
+
+        try {
+            $findPlanTenantSelector = $planTenant->TenantSelectVersion()->with("PlanFeatures")->where("id", $validated['version_id'])->first();
+
+            if ($findPlanTenantSelector->id != $planTenant->TenantVersionLatest->id) {
+                if ($validated['version_status'] == "ACTIVE") {
+                    // disabled current version active
+                    $planTenant->TenantVersionLatest()->update([
+                        "status" => "INACTIVE"
+                    ]);
+                    // enabled selector version
+                    $findPlanTenantSelector->update([
+                        "status" => $validated['version_status']
+                    ]);
+                }
+            }
+
+            $planTenant->update([
+                "name" => $validated['title']
+            ]);
+
+            $findPlanTenantSelector->update([
+                "price_per_month" => $validated['price_per_month'],
+                "price_per_year" => $validated['price_per_year']
+            ]);
+            $findPlanTenantSelector->PlanFeatures()->detach();
+
+            foreach ($validated['features'] as $feature) {
+                $findPlanTenantSelector->PlanFeatures()->syncWithPivotValues($feature, ["id" => Str::uuid()], false);
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with("message_success", "Success update subscription plan");
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            Log::error($err->getMessage());
+            return redirect()->back()->with("message_error", "Failed update subscription plan");
+        }
+    }
 }

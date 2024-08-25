@@ -27,7 +27,8 @@ onMounted(() => {
     if (tenantPlanDetail.value.hasOwnProperty("tenant_version_latest")) {
         form.version = tenantPlanDetail.value.tenant_version_latest.version;
         form.version_id = tenantPlanDetail.value.tenant_version_latest.id;
-        form.status = tenantPlanDetail.value.tenant_version_latest.status;
+        form.version_status =
+            tenantPlanDetail.value.tenant_version_latest.status;
         form.price_per_month =
             tenantPlanDetail.value.tenant_version_latest.price_per_month;
         form.price_per_year =
@@ -42,7 +43,8 @@ onMounted(() => {
     if (tenantPlanDetail.value.hasOwnProperty("tenant_select_version")) {
         form.version = tenantPlanDetail.value.tenant_select_version.version;
         form.version_id = tenantPlanDetail.value.tenant_select_version.id;
-        form.status = tenantPlanDetail.value.tenant_select_version.status;
+        form.version_status =
+            tenantPlanDetail.value.tenant_select_version.status;
         form.price_per_month =
             tenantPlanDetail.value.tenant_select_version.price_per_month;
         form.price_per_year =
@@ -64,6 +66,17 @@ const selectVersionHandler = (id) => {
         {
             method: "get",
             only: ["getTenantDetail"],
+        },
+    );
+};
+
+const formSubmitUpdateHandler = () => {
+    form.put(
+        route("plan_tenant.update", {
+            planTenant: tenantPlanDetail.value.id,
+        }),
+        {
+            only: ["errors", "flash"],
         },
     );
 };
@@ -90,7 +103,7 @@ const selectVersionHandler = (id) => {
             </option>
         </select>
     </InputGroup>
-    <form autocomplete="off">
+    <form autocomplete="off" @submit.prevent="formSubmitUpdateHandler">
         <div class="inline-flex flex-col w-full mb-5 gap-y-3">
             <label for="title" class="block">Title</label>
             <InputText inputId="title" v-model:input-value="form.title" />
@@ -147,21 +160,27 @@ const selectVersionHandler = (id) => {
                 />
             </div>
         </div>
-        <InputGroup label="Status">
+        <InputGroup label="Version Status">
             <select
                 class="px-4 py-3 rounded-lg bg-primary-700"
-                v-model="form.status"
+                v-model="form.version_status"
             >
                 <option value="" selected disabled>-- Select status --</option>
-                <option value="ACTIVE" :selected="form.status === 'ACTIVE'">
+                <option
+                    value="ACTIVE"
+                    :selected="form.version_status === 'ACTIVE'"
+                >
                     ACTIVE
                 </option>
-                <option value="INACTIVE" :selected="form.status === 'INACTIVE'">
+                <option
+                    value="INACTIVE"
+                    :selected="form.version_status === 'INACTIVE'"
+                >
                     INACTIVE
                 </option>
             </select>
         </InputGroup>
 
-        <PrimaryButton label="Update tenant" class="ml-auto" />
+        <PrimaryButton type="submit" label="Submit" class="ml-auto" />
     </form>
 </template>
