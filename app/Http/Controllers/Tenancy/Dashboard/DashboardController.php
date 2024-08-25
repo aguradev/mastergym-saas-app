@@ -8,6 +8,7 @@ use App\Models\CentralModel\TenantTransaction;
 use App\Models\TenancyModel\MembershipPlan;
 use App\Models\TenancyModel\MemberTrainee;
 use App\Models\TenancyModel\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,7 +113,16 @@ class DashboardController extends Controller
         );
     }
 
-    public function TenantInvoiceTransaction()
+    public function PrintTransactionPDF($id)
+    {
+        $transaction = TenantTransaction::where("id", $id)->first();
+
+        $loadInvoicePDF = Pdf::loadView('pdf.transaction-invoice', compact('transaction'));
+
+        return $loadInvoicePDF->stream();
+    }
+
+    public function TenantInvoiceTransaction(Request $request)
     {
         $titlePage = tenant('name');
         $title = tenant("name") . " - " . "Setting";
@@ -123,6 +133,10 @@ class DashboardController extends Controller
 
         $tenantId = tenant('id');
         $tenantTransactions = tenant()->with(['TenantTransaction'])->whereId($tenantId)->first();
+        $tenantInvoiceDetail = Inertia::lazy(function () use ($request) {
+            $id = $request->query("id");
+            return DB::connection('pgsql')->table("tenant_transactions")->where("id", $id)->first();
+        });
 
         $permissions = [
             'access_dashboard_menu_tenant' => $userLogin->hasPermissionTo('access_dashboard_menu_tenant'),
@@ -130,7 +144,7 @@ class DashboardController extends Controller
 
         return Inertia::render(
             'dashboard/tenant_page/setting_page/InvoiceTransaction',
-            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'tenantTransactions', 'permissions')
+            compact('title', 'titleNav', 'titlePage', 'logoutUrl', 'userLogin', 'indexMenuActive', 'tenantTransactions', 'permissions', 'tenantInvoiceDetail')
         );
     }
 }

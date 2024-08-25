@@ -18,6 +18,7 @@ class TenantTransaction extends Model
     protected $table = "tenant_transactions";
     protected $keyType = "string";
     protected $with = ["PlanPurchase"];
+    protected $connection = "pgsql";
 
     protected $fillable = [
         "tenant_plan_id",
