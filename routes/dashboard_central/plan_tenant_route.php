@@ -11,6 +11,7 @@ Route::prefix("plan")->group(function () {
         Route::get("/", 'PlanTablePage')->name('plan_tenant.table');
         Route::post("/{planTenant}/new-version", "AddNewVersionPlanTenant")->name("plan_tenant.create-new-version");
         Route::post("/", 'CreatePlanTenant')->name('plan_tenant.create');
+        Route::put("/{planTenant}/plan-update", "UpdatePlanAndPlanVersion")->name('plan_tenant.update');
         Route::middleware("redirect_json_access")->group(function () {
             Route::get("api/{planTenant}", "GetPlanDetail")->name('plan_tenant.json.detail');
             Route::get("api/{planTenant}/plan-versions", "GetPlanVersions")->name('plan_tenant.json.versions');

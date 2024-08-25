@@ -137,18 +137,6 @@ watch(
                     @input="(e) => (searchValueInput = e.target.value)"
                 />
             </div>
-            <div class="text-right">
-                <Link
-                    as="button"
-                    type="button"
-                    class="bg-primary-700 hover:bg-primary-600 px-4 py-3 rounded-lg"
-                >
-                    <div class="flex items-center gap-3">
-                        <i class="pi pi-download"></i>
-                        <span> Export CSV </span>
-                    </div>
-                </Link>
-            </div>
         </div>
         <div class="px-8 mt-3 flex items-center gap-5" v-if="searchValueInput">
             <p>Result: {{ searchValueInput }}</p>
