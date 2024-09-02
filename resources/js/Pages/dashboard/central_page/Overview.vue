@@ -10,8 +10,13 @@ import DashboardLayout from "@layouts/DashboardLayout.vue";
 import TenantLatestSection from "@dashboardCentralPageComponents/mainMenu/tenantLatest_section.vue";
 import LatestTransactionSubscriptionSection from "@dashboardCentralPageComponents/mainMenu/LatestTransactionSubscription_section.vue";
 
-const props = defineProps(["tenantLatest", "tenantCount", "planCount"]);
-const { tenantLatest, planCount } = props;
+const props = defineProps([
+    "tenantLatest",
+    "tenantCount",
+    "planCount",
+    "tenantTransactionCount",
+]);
+const { tenantLatest, planCount, tenantTransactionCount } = props;
 const tenantLatests = ref([...tenantLatest]);
 
 const getNavMainPlatform = useNavMainPlatform();
@@ -100,13 +105,13 @@ figure {
                                 class="inline-flex items-center gap-x-6 border-surface-900"
                             >
                                 <div class="icon">
-                                    <i class="pi pi-building"></i>
+                                    <i class="pi pi-money-bill"></i>
                                 </div>
                                 <div class="content__caption">
-                                    <h4 class="title__content">
-                                        Subscriptions
-                                    </h4>
-                                    <p class="subtitle__content">3</p>
+                                    <h4 class="title__content">Transactions</h4>
+                                    <p class="subtitle__content">
+                                        {{ tenantTransactionCount }}
+                                    </p>
                                 </div>
                             </figure>
                         </div>

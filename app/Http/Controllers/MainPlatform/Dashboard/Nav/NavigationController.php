@@ -26,14 +26,9 @@ class NavigationController extends Controller
         $tenantPlansCount = TenantSubscriptionPlan::count();
         $userLogin = Auth::guard("central-web")->user();
 
-
         $transactionLatest = TenantTransaction::latest()->limit(3)->get();
-
         $TenantCount = Tenant::count();
-
-        Debugbar::debug($TenantCount);
-        Debugbar::debug($transactionLatest);
-        Debugbar::debug($this->credentialService->getUserAuth());
+        $transactionCount = TenantTransaction::count();
 
         Debugbar::debug("tenantLatest : {$TenantLatest}");
         return Inertia::render("dashboard/central_page/Overview", [
@@ -41,7 +36,8 @@ class NavigationController extends Controller
             "tenantLatest" => $TenantLatest,
             "tenantCount" => $TenantCount,
             "transactionLatest" => $transactionLatest,
-            "planCount" => $tenantPlansCount
+            "planCount" => $tenantPlansCount,
+            "tenantTransactionCount" => $transactionCount
         ]);
     }
 
