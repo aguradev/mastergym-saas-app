@@ -18,6 +18,7 @@ class TenantSeeder extends Seeder
             CredentialSeeder::class,
             AddSuperAdminRole::class,
             TenantWebsiteSeeder::class,
+            MemberPlanFeatureSeeder::class,
         ]);
     }
 }
