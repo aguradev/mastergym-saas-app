@@ -10,6 +10,7 @@ import Column from "primevue/column";
 import FormatCurrency from "../../../../../Lib/Currency";
 import Badge from "primevue/badge";
 import ActionLists from "@components/elements/ulLists/ActionLists.vue";
+import TablePagination from "@components/elements/pagination/TablePagination.vue";
 
 const page = usePage();
 const membershipPlans = computed(() => page.props.membershipPlans);
@@ -61,6 +62,19 @@ const editActionHandler = (id) => {
                 "membershipPlanEditData",
             ],
             replace: true,
+        },
+    );
+};
+
+const handlerPaginationFeature = (page) => {
+    router.get(
+        route("tenant-dashboard.membership.plan-page"),
+        {
+            page: page,
+        },
+        {
+            preserveScroll: true,
+            preserveState: true,
         },
     );
 };
@@ -155,6 +169,14 @@ const editActionHandler = (id) => {
                     </template>
                 </Column>
             </DataTable>
+
+            <div class="mt-5">
+                <TablePagination
+                    v-if="!!membershipPlans.data.length"
+                    :pagination="membershipPlans"
+                    @load-page="handlerPaginationFeature"
+                />
+            </div>
         </div>
 
         <Modal
