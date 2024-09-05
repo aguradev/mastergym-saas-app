@@ -149,7 +149,7 @@ const handlerPaginationFeature = (page) => {
                                     ? 'success'
                                     : 'danger'
                             "
-                            class="w-[60%]"
+                            class="w-fit px-4"
                         />
                     </template>
                 </Column>
