@@ -8,6 +8,7 @@ import DataTable from "primevue/datatable";
 
 import { toRef, watch, watchEffect } from "vue";
 import ModalSidebar from "@components/ui/sidebar/ModalSidebar.vue";
+import TablePagination from "@components/elements/pagination/TablePagination.vue";
 
 const page = usePage();
 const modalUserCreate = toRef(() => page.props.modalUserCreate);
@@ -18,6 +19,21 @@ const closeModalHandler = () => {
     router.visit(route("tenant-dashboard.user-management.users"), {
         replace: true,
     });
+};
+
+const handlerPaginationFeature = (page) => {
+    router.get(
+        route("tenant-dashboard.user-management.users", {
+            page: page,
+        }),
+        {
+            page: page,
+        },
+        {
+            preserveScroll: true,
+            preserveState: true,
+        },
+    );
 };
 </script>
 
@@ -128,6 +144,14 @@ const closeModalHandler = () => {
                 </template>
             </Column>
         </DataTable>
+
+        <div class="mt-5">
+            <TablePagination
+                v-if="!!usersData.data.length"
+                :pagination="usersData"
+                @load-page="handlerPaginationFeature"
+            />
+        </div>
     </UserManagementLayout>
 
     <ModalSidebar
